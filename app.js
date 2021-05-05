@@ -21,6 +21,8 @@ const mainRoute = require('./routes/main');
 */
 const app = express();
 
+app.use('/', mainRoute);
+
 // Handlebars Middleware
 /*
 * 1. Handlebars is a front-end web templating engine that helps to create dynamic web pages using variables
