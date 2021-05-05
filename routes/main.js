@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-
+//Home page
 router.get('/', (req, res) => {
-	const title = 'Video Jotter';
-	res.render('index', {title: title}) // renders views/index.handlebars
+	const title = "FooDecent Home"
+	res.render('index', {title: title})
 });
 
-// Logout User
-router.get('/logout', (req, res) => {
-	req.logout();
-	res.redirect('/');
+//Booking page
+router.get('/', (req, res) => {
+	const title = "FooDecent Booking"
+	res.render('index', {title: title})
 });
+
+
 
 module.exports = router;

@@ -1593,3 +1593,8 @@ section {
 #footer .credits {
   font-size: 13px;
 }
+
+.resTab{
+  background-color: #ffb03b;
+  color: #35322d;
+}
