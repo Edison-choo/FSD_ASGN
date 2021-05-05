@@ -9,4 +9,12 @@ router.get('/foodCart', (req, res) => {
 	res.render('book/foodCart');
 });
 
+router.get('/receipt', (req, res) => {
+	res.render('book/receipt');
+});
+
+router.get('/payment', (req, res) => {
+	res.render('book/payment');
+});
+
 module.exports = router;
