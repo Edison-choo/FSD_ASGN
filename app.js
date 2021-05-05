@@ -14,6 +14,8 @@ const bodyParser = require('body-parser');
 * will be called based on the HTTP request and URL.
 */
 const mainRoute = require('./routes/main');
+const bookRoute = require('./routes/book');
+const menuRoute = require('./routes/menu');
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -22,6 +24,8 @@ const mainRoute = require('./routes/main');
 const app = express();
 
 app.use('/', mainRoute);
+app.use('/book', bookRoute);
+app.use('/menu', menuRoute);
 
 // Handlebars Middleware
 /*
