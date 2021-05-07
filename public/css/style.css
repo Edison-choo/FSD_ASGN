@@ -575,7 +575,7 @@ section {
 
 @media (max-width: 992px) {
   .breadcrumbs {
-    margin-top: 70px;
+    margin-top: 120px;
   }
 }
 
@@ -1597,4 +1597,85 @@ section {
 .resTab{
   background-color: #ffb03b;
   color: #35322d;
+}
+
+/* Edison */
+.menuTitle {
+  text-align: center;
+  padding-bottom: 3px;
+  border-bottom: #35322d solid 2px;
+}
+
+.menuType {
+  border: #ffb03b 5px solid;
+  margin-top: 50px;
+  padding-bottom: 40px;
+}
+
+.menuSubTitle {
+  text-align: center;
+  background-color: #ffb03b;
+  color:white;
+  padding: 10px;
+}
+
+.menuCat {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.menuItem {
+  /* flex-shrink: 0; */
+  width: 380px;
+  height: 175px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  margin-top: 30px;
+}
+
+.menuImage {
+  float: left;
+  margin: 17px;
+  height: 140px;
+  width: 140px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.menuContent {
+  height: 140px;
+  width: 172px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 17px;
+  float: left;
+}
+
+.menuContent button {
+  font-size: 0.8em;
+  /* flex-shrink: 0; */
+  /* width: 100px; */
+  height: 35px;
+  margin-right: 17px;
+  /* align-self:flex-end; */
+  background-color: rgba(26, 24, 22, 0.85);
+}
+
+.cart {
+  border: rgba(26, 24, 22, 0.85) 5px solid;
+}
+
+.cartTitle {
+  text-align: center;
+  background-color: rgba(26, 24, 22, 0.85);
+  color:white;
+  padding: 10px;
+}
+
+.bookButton {
+  font-size: 0.9em;
+  height: 40px;
+  margin-right: 17px;
+  background-color: rgba(26, 24, 22, 0.85);
+  margin-top: 20px;
 }
