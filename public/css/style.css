@@ -1661,9 +1661,39 @@ section {
   background-color: rgba(26, 24, 22, 0.85);
 }
 
-.cart, .bookInfo, .checkout {
+.cartButton {
+  float: right;
+  font-size: 1.0em;
+  height:45px;
+  margin-right: 17px;
+  background-color: #ffb03b;
+  border: none;
+  margin: 30px 0;
+  color: #fff;
+}
+
+.subNav {
+  height: 50px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  margin-top: 30px;
+}
+
+.subNavItem {
+  width: 90px;
+  height: 50px;
+  text-align: center;
+  float: left;
+  padding-top: 15px;
+}
+
+.subNavItem:first-child {
+  margin-left: 10px;
+  border-bottom: #ffb03b solid 4px;
+}
+
+.cart, .bookInfo, .checkout, .receipt {
   margin-top: 20px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   padding: 10px 20px;
 
 }
@@ -1683,6 +1713,23 @@ section {
   margin: 10px auto;
 }
 
+.bookTable1 td:first-child {
+  font-weight: bold;
+}
+
+.bookTable2 thead th {
+  height: 50px;
+  vertical-align: top;
+}
+
+.bookTable2 tbody td {
+  height: 40px;
+}
+
+.cart {
+  padding-bottom: 20px;
+}
+
 .checkout div {
   float: right;
   margin: 25px 20px;
@@ -1695,4 +1742,40 @@ section {
 
 .bookTable1 tr td:nth-child(2) {
   text-align: right;
+}
+
+.receipt {
+  padding: 30px 30px 50px;
+}
+
+.receipt img {
+  height: 150px;
+  width: 150px;
+  margin: 10px auto 40px;
+  display: block;
+}
+
+.receiptTitle {
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.receiptSubTitle {
+  text-align: center;
+  padding-bottom: 3px;
+  border-bottom: #35322d solid 2px;
+  font-weight: 600;
+  margin: 30px auto 20px;
+}
+
+.homeButton {
+  height:50px;
+  margin-right: 17px;
+  margin: 40px auto;
+  display: block;
+  background-color: #ffb03b;
+  border: none;
+  color:#fff;
 }
