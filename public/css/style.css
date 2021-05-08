@@ -1779,3 +1779,9 @@ section {
   border: none;
   color:#fff;
 }
+.action_btn {
+  width: 40%;
+  margin: 0 auto;
+  display: inline;
+  margin-left: 10px;
+}
