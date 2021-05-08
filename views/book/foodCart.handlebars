@@ -1,29 +1,41 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
+        <h1 class="menuTitle">Food Cart</h1>
+        <div class="bookInfo">
+            <table class="bookTable bookTable1">
+                <tr>
+                    <td>Restaurant:</td>
+                    <td>Restaurant 1</td>
+                </tr>
+                <tr>
+                    <td>Booking Date:</td>
+                    <td>01/01/2021</td>
+                </tr>
+                <tr>
+                    <td>Booking Time:</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>Pax:</td>
+                    <td>4</td>
+                </tr>
+            </table>
+        </div> 
         <div class="cart">
-            <h1 class="cartTitle">Food Cart</h1>
 
-            <table class="table">
+            <table class="bookTable bookTable2">
             <thead>
                 <tr>
-                    <th scope="col"></th>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Food</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
                 <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                        </label>
-                        </div>
-                    </th>
                 <th scope="row">1</th>
                 <td>Mark</td>
                 <td>Otto</td>
@@ -31,13 +43,6 @@
                 <td>delete</td>
                 </tr>
                 <tr>
-                    <th>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                        </label>
-                        </div>
-                    </th>
                 <th scope="row">2</th>
                 <td>Jacob</td>
                 <td>Thornton</td>
@@ -45,13 +50,6 @@
                 <td>delete</td>
                 </tr>
                 <tr>
-                    <th>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                        </label>
-                        </div>
-                    </th>
                 <th scope="row">3</th>
                 <td>Larry</td>
                 <td>the Bird</td>
@@ -61,8 +59,13 @@
             </tbody>
             </table>
         </div>
-        
-        <button type="button" name="" id="" class="btn btn-dark btn-block bookButton">Proceed To Payment</button>
+        <div class="checkout">
+            <button type="button" name="" id="" class="btn btn-dark btn-block bookButton">Checkout</button>
+            <div>
+                Total: $12.00
+            </div>
+        </div>
+        <div class="clear"></div>
     </div>
     <div class="col-md-2">
     </div>

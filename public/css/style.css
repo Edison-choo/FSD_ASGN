@@ -1661,21 +1661,38 @@ section {
   background-color: rgba(26, 24, 22, 0.85);
 }
 
-.cart {
-  border: rgba(26, 24, 22, 0.85) 5px solid;
-}
+.cart, .bookInfo, .checkout {
+  margin-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 10px 20px;
 
-.cartTitle {
-  text-align: center;
-  background-color: rgba(26, 24, 22, 0.85);
-  color:white;
-  padding: 10px;
 }
 
 .bookButton {
-  font-size: 0.9em;
-  height: 40px;
+  float: right;
+  font-size: 0.8em;
+  height:35px;
   margin-right: 17px;
   background-color: rgba(26, 24, 22, 0.85);
-  margin-top: 20px;
+  margin: 20px 0;
+}
+
+.bookTable {
+  border-collapse:collapse important;
+  width: 95%;
+  margin: 10px auto;
+}
+
+.checkout div {
+  float: right;
+  margin: 25px 20px;
+}
+
+.checkout {
+  height: 80px;
+  padding: 1px 20px;
+}
+
+.bookTable1 tr td:nth-child(2) {
+  text-align: right;
 }
