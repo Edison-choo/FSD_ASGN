@@ -309,7 +309,7 @@ outline: none; }
 
 .buttonAdd {
     background-color: #ffb03b;
-    margin: 30px 30px 0px;
+    margin: 30px 30px 0px 0px;
     color: #fff;
     border: none;
     height: 40px;
@@ -318,3 +318,58 @@ outline: none; }
     font-size: 0.8em;
 }
 
+.menuTableHeader {
+    height: 60px;
+    width: 100%;
+    background-color: #35322d;
+    color: #fff;
+    text-align: center;
+    padding: 17px;
+    font-size: 1.2em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.menuTable {
+    width: 100%;;
+}
+
+.menuTable th {
+    height: 70px;
+    border-top: rgba(54, 54, 54, 0.479) solid 2px;
+    border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.menuTable td {
+    height: 50px;
+    border-top: rgba(177, 177, 177, 0.8) solid 1px;
+    border-bottom: rgba(177, 177, 177, 0.8) solid 1px;
+    font-weight: 300;
+    font-size: 0.9em;
+}
+
+.menuTable .buttonIcon {
+    padding-top: 8px;
+}
+
+.popUpDelete button {
+    margin: 20px 10px;
+}
+
+.menuNav {
+    margin-bottom: 50px;
+}
+
+.menuNav button:first-child {
+    width: 49%;
+    border-radius: 10px 0px 0px 10px;
+    background-color: #35322d;
+}
+
+.menuNav button:last-child {
+    width: 49%;
+    border-radius: 0 10px 10px 0;
+    float: right;
+    background-color: #35322d;
+}
