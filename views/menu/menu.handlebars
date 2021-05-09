@@ -1,0 +1,157 @@
+<script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="menuEdit">
+            <h1 class="menuTitle">MENU
+                <button class="buttonIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+            </button></h1>
+            
+        </div>
+        <div class="subNav">
+          <div class="subNavItem"><a href="">Appetizer</a></div>
+          <div class="subNavItem"><a href="">Meal</a></div>
+          <div class="subNavItem"><a href="">Dessert</a></div>
+          <div class="subNavItem"><a href="">Drinks</a></div>
+        </div>
+
+        <div class="menuSubTitle" style="margin-top: 40px;">
+            <form action=" "  style="display: flex; width: 100%;">
+                <label for="" style="width: 190px; padding-top:7px;">New Type: </label>
+                <input class="form-control num" type="number" placeholder="Order" aria-label="default input example">
+                <input class="form-control" type="text" placeholder="Type Name" aria-label="default input example">
+                <button style="background-color: #ffb03b;" class="buttonIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg></button>
+            </form>
+        </div>
+    
+        <div class="menuType">
+            <div class="menuSubTitle"><h2>Appetizer</h2></div>
+          <div class="menuCat">
+              <div class="menuItem">
+                  <div class="menuImage"></div>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                  <div class="menuContent">
+                    <div>food 1</div>
+                    <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#staticBackdrop1">ADD</button>
+                  
+                      
+                  </div>
+              </div>
+              <div class="menuItem">
+
+              </div>
+              <div class="menuItem">
+
+              </div>
+          </div>
+          <button class="buttonAdd"  data-bs-toggle="modal" data-bs-target="#addMenu1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Add An Item
+            </button> 
+        </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Food 1</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+            <div class="menuImage"></div>
+            <div class="popUpContent">
+                <div class="popUpText">food 1</div>
+                <form action="">
+                  <div class="quantity buttons_added">
+                    <label for="">Quantity:</label>
+                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                  </div>  
+                  <div>
+                    <label for="">Spicy: </label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                      <option selected>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="">Spicy: </label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                      <option selected>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="">Spicy: </label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                      <option selected>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addMenu1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+            <div class="menuImage"></div>
+            <div class="popUpContent">
+                <form action="">
+                    <div>
+                        <label for="">Food ID: </label>
+                        <input class="form-control" type="text" placeholder="Food ID" aria-label="default input example">
+                    </div>
+                    <div>
+                        <label for="">Food Name: </label>
+                        <input class="form-control" type="text" placeholder="Food Name" aria-label="default input example">
+                    </div>
+                    <div>
+                        <label for="">Food Price: </label>
+                        <input class="form-control" type="text" placeholder="Food Price" aria-label="default input example">
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
