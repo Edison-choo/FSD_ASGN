@@ -1,0 +1,9 @@
+/* Cruz */
+.reginput{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.reginput input{
+    outline: none;
+}
