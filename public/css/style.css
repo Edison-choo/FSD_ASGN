@@ -1595,12 +1595,15 @@ section {
 }
 
 .resTab{
-  background-color: #ffb03b;
-  color: #35322d;
+  background-color: #35322d;
+  max-height: 200px;
+}
+.resTab:hover{
+  background-color: #ffffff7e;
 }
 
 .action_btn {
-  width: 40%;
+  width: 20%;
   margin: 0 auto;
   display: inline;
   margin-left: 10px;
