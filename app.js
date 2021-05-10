@@ -35,7 +35,7 @@ app.use('/restaurant', resRoute);
 app.use('/reviews', reviewsRoute);
 app.use('/createReviews', createReviewsRoute);
 app.use('/user', userRoute);
-app.use('/restaurant', resRoute)
+app.use('/staffRestaurant', staffResRoute)
 
 
 // Handlebars Middleware
