@@ -18,7 +18,7 @@ const bookRoute = require('./routes/book');
 const menuRoute = require('./routes/menu');
 const resRoute = require('./routes/restaurant');
 const reviewsRoute = require('./routes/reviews');
-const createReveiwsRoute = require('./routes/createRevies');
+const createReviewsRoute = require('./routes/createReviews');
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
