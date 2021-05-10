@@ -56,10 +56,14 @@ height: auto;
 width: auto;
 }
 
-.popUpContent label {
-    font-size: 0.8em;
-    padding-top: 10px;
-    margin-bottom: 10px;
+.popUpContentTitle {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.popUpContent .form-outline {
+    margin-bottom: 15px;
 }
 
 .popUpContent select {
@@ -70,8 +74,17 @@ width: auto;
     padding-bottom: 20px;
 }
 
-.popUpText {
-    margin-bottom: 20px;
+.popUpContent2 label {
+    margin-top: 15px;
+}
+
+.popUpContent .specification {
+    margin-left: 5px;
+    margin-bottom: 4px;
+}
+
+.popUpContent .specification label {
+    margin-top: 3px;
 }
 
 .menuContent button {
@@ -92,6 +105,7 @@ margin-right: 17px;
 background-color: rgba(26, 24, 22, 0.85);
 border: none;
 margin: 30px 0;
+width: 120px !important;
 }
 
 .subNav {
@@ -147,12 +161,25 @@ height:35px;
 margin-right: 17px;
 background-color: rgba(26, 24, 22, 0.85);
 margin: 20px 0;
+width: 120px !important;
 }
 
 .bookTable {
-border-collapse:collapse important;
+border-collapse:collapse !important;
 width: 95%;
 margin: 10px auto;
+}
+
+.bookTable th {
+    border-top: rgba(54, 54, 54, 0.479) solid 2px;
+    border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
+}
+
+.bookTable2 td {
+    border-top: rgba(177, 177, 177, 0.8) solid 1px;
+    border-bottom: rgba(177, 177, 177, 0.8) solid 1px;
+    font-weight: 300;
+    font-size: 0.9em;
 }
 
 .bookTable1 td:first-child {
@@ -160,8 +187,8 @@ font-weight: bold;
 }
 
 .bookTable2 thead th {
-height: 50px;
-vertical-align: top;
+height: 40px;
+vertical-align: center;
 }
 
 .bookTable2 tbody td {
@@ -363,13 +390,17 @@ outline: none; }
 
 .menuNav button:first-child {
     width: 49%;
-    border-radius: 10px 0px 0px 10px;
-    background-color: #35322d;
+    /* border-radius: 10px 0px 0px 10px; */
+    background-color: #fff;
+    border: #35322d solid 2px;
+    color: #35322d;
 }
 
 .menuNav button:last-child {
     width: 49%;
-    border-radius: 0 10px 10px 0;
+    /* border-radius: 0 10px 10px 0; */
     float: right;
-    background-color: #35322d;
+    background-color: #fff;
+    border: #35322d solid 2px;
+    color: #35322d;
 }
