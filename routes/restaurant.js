@@ -5,6 +5,9 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.render('restaurant/restaurants')
 });
+router.get('/restaurant_1', (req, res) =>{
+    res.render('restaurant/restaurant_1')
+})
 
 
 module.exports = router;
