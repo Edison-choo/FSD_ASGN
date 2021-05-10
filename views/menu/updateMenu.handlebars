@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <div class="menuNav">
           <button class="btn btn-dark" disabled>Table View (Edit)</button>
           <button class="btn btn-dark" onclick="window.location.href='/menu'">User View</button>
@@ -74,7 +74,7 @@
                 Add An Item
             </button>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
 </div>
 
 <div class="modal fade" id="addMenu1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
@@ -89,27 +89,36 @@
             <div class="menuImage"></div>
             <div class="popUpContent">
                 <form action="">
-                    <div>
-                        <label for="">Food ID: </label>
-                        <input class="form-control" type="text" placeholder="Food ID" aria-label="default input example">
+                  <div class="popUpContentTitle">Food Details</div>
+                    <div class="form-outline">
+                      <input type="text" id="foodId" class="form-control" />
+                      <label class="form-label" for="foodId">Food ID</label>
                     </div>
-                    <div>
-                        <label for="">Food Name: </label>
-                        <input class="form-control" type="text" placeholder="Food Name" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="text" id="foodName" class="form-control" />
+                      <label class="form-label" for="foodName">Food Name</label>
                     </div>
-                    <div>
-                        <label for="">Food Type: </label>
-                        <a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="By specifying a type will create a section in the menu for eg. appetizer, meal or drinks" data-bs-html="true">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                          </svg>
-                        </a>
-                        <input class="form-control" type="text" placeholder="Food Type" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="text" id="foodType" class="form-control" />
+                      <label class="form-label" for="foodType">Food Type</label>
                     </div>
-                    <div>
-                        <label for="">Food Price: </label>
-                        <input class="form-control" type="text" placeholder="Food Price" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="number" id="foodPrice" class="form-control"/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
+                    </div>
+                    
+                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"/>
+                      <label class="form-check-label" for="flexCheckDefault1">Size</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"/>
+                      <label class="form-check-label" for="flexCheckDefault2">Ice</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"/>
+                      <label class="form-check-label" for="flexCheckDefault3">Spice</label>
                     </div>
                 </form>
             </div>
@@ -134,21 +143,37 @@
             <div class="menuImage"></div>
             <div class="popUpContent">
                 <form action="">
-                    <div>
-                        <label for="">Food ID: </label>
-                        <input class="form-control" type="text" value="A01" aria-label="default input example">
+                    <div class="popUpContentTitle">Food Details</div>
+
+                  <div class="form-outline">
+                      <input type="text" id="foodId" value="A01" class="form-control" />
+                      <label class="form-label" for="foodId">Food ID</label>
                     </div>
-                    <div>
-                        <label for="">Food Name: </label>
-                        <input class="form-control" type="text" value="Food 1" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="text" id="foodName" value="Food 1" class="form-control" />
+                      <label class="form-label" for="foodName">Food Name</label>
                     </div>
-                    <div>
-                        <label for="">Food Type: </label>
-                        <input class="form-control" type="text" value="Appetizer" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="text" id="foodType" value="Appetizer" class="form-control" />
+                      <label class="form-label" for="foodType">Food Type</label>
                     </div>
-                    <div>
-                        <label for="">Food Price: </label>
-                        <input class="form-control" type="text" value="$3.00" aria-label="default input example">
+                    <div class="form-outline">
+                      <input type="number" id="foodPrice" value="3.00" class="form-control"/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
+                    </div>
+
+                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"/>
+                      <label class="form-check-label" for="flexCheckDefault1">Size</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"/>
+                      <label class="form-check-label" for="flexCheckDefault2">Ice</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"/>
+                      <label class="form-check-label" for="flexCheckDefault3">Spice</label>
                     </div>
                 </form>
             </div>
