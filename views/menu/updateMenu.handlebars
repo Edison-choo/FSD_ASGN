@@ -88,45 +88,46 @@
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent">
-                <form action="">
+                <form action="/menu/updateMenu" method="POST">
                   <div class="popUpContentTitle">Food Details</div>
                     <div class="form-outline">
-                      <input type="text" id="foodId" class="form-control" />
+                      <input type="text" id="foodId" name='foodId' class="form-control" />
                       <label class="form-label" for="foodId">Food ID</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodName" class="form-control" />
+                      <input type="text" id="foodName" name='foodName' class="form-control" />
                       <label class="form-label" for="foodName">Food Name</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodType" class="form-control" />
+                      <input type="text" id="foodType" name='foodType' class="form-control" />
                       <label class="form-label" for="foodType">Food Type</label>
                     </div>
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" class="form-control"/>
+                      <input type="number" id="foodPrice" name='foodPrice' class="form-control"/>
                       <label class="form-label" for="foodPrice">Food Price</label>
                     </div>
                     
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"/>
-                      <label class="form-check-label" for="flexCheckDefault1">Size</label>
+                      <input class="form-check-input" name="spiceLevel" type="checkbox" value="" id="flexCheckDefault1"/>
+                      <label class="form-check-label" for="flexCheckDefault1">portion</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"/>
+                      <input class="form-check-input" name='temparture' type="checkbox" value="" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Ice</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"/>
+                      <input class="form-check-input" name="portion" type="checkbox" value="" id="flexCheckDefault3"/>
                       <label class="form-check-label" for="flexCheckDefault3">Spice</label>
                     </div>
-                </form>
+                <button class="btn btn-dark">Done</button>
             </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-dark">Done</button>
+        <button class="btn btn-dark">Done</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -142,24 +143,24 @@
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent">
-                <form action="">
+                <form action="" method="POST">
                     <div class="popUpContentTitle">Food Details</div>
 
                   <div class="form-outline">
-                      <input type="text" id="foodId" value="A01" class="form-control" />
-                      <label class="form-label" for="foodId">Food ID</label>
+                      <input type="text" id="foodNo" value="A01" class="form-control" />
+                      <label class="form-label" for="foodId" name='foodId'>Food ID</label>
                     </div>
                     <div class="form-outline">
                       <input type="text" id="foodName" value="Food 1" class="form-control" />
-                      <label class="form-label" for="foodName">Food Name</label>
+                      <label class="form-label" for="foodName" name='foodName'>Food Name</label>
                     </div>
                     <div class="form-outline">
                       <input type="text" id="foodType" value="Appetizer" class="form-control" />
-                      <label class="form-label" for="foodType">Food Type</label>
+                      <label class="form-label" for="foodType" name='foodType'>Food Type</label>
                     </div>
                     <div class="form-outline">
                       <input type="number" id="foodPrice" value="3.00" class="form-control"/>
-                      <label class="form-label" for="foodPrice">Food Price</label>
+                      <label class="form-label" for="foodPrice" name='foodPrice'>Food Price</label>
                     </div>
 
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
