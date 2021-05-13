@@ -18,4 +18,5 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
     idle: 10000,
   },
 });
+
 module.exports = sequelize;
