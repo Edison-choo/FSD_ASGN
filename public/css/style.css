@@ -1608,3 +1608,21 @@ section {
   display: inline;
   margin-left: 10px;
 }
+.collapse_btn{
+  width:100%;
+  background-color: #35322d;
+  border:none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #ffb03b;
+}
+.collapse_btn:hover{
+  width:100%;
+  background-color: #ffb03b;
+  border:none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #35322d;
+}
+.boxText{
+  font-weight: bold;
+  font-size:x-large;
+}

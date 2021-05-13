@@ -1,56 +1,97 @@
+<h1>Tell us about your restaurant:</h1>
+<hr>
+<br>
 <form>
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-    <div class="row mb-4">
-        <div class="col">
-            <div class="form-outline">
-                <input type="text" id="form6Example1" class="form-control" />
-                <label class="form-label" for="form6Example1">First name</label>
-            </div>
+    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#companyDetails"
+        aria-expanded="false" aria-controls="collapseExample">
+        <div class="card-body">
+            <div class="boxText">1: Enter Company Details <i class="fas fa-building"></i></div>
         </div>
-        <div class="col">
-            <div class="form-outline">
-                <input type="text" id="form6Example2" class="form-control" />
-                <label class="form-label" for="form6Example2">Last name</label>
-            </div>
+    </button>
+
+    <!-- Collapsed content -->
+    <div class="collapse mt-3" id="companyDetails">
+
+        <!-- Company name -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Company name</label>
+        </div>
+
+        <!-- Address -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example4" class="form-control" />
+            <label class="form-label" for="form6Example4">Address</label>
+        </div>
+
+        <!-- Email -->
+        <div class="form-outline mb-4">
+            <input type="email" id="form6Example5" class="form-control" />
+            <label class="form-label" for="form6Example5">Email</label>
+        </div>
+
+        <!-- Phone number -->
+        <div class="form-outline mb-4">
+            <input type="number" id="form6Example6" class="form-control" />
+            <label class="form-label" for="form6Example6">Phone</label>
+        </div>
+
+        <!-- UEN -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Unique Entity Number</label>
         </div>
     </div>
-
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-        <input type="text" id="form6Example3" class="form-control" />
-        <label class="form-label" for="form6Example3">Company name</label>
+    <br>
+    <br>
+    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#restaurantDetails"
+        aria-expanded="false" aria-controls="collapseExample">
+        <div class="card-body">
+            <div class="boxText">2: Enter Restaurant Details <i class="fas fa-utensils"></i></div>
+        </div>
+    </button>
+    <!-- Collapsed content -->
+    <div class="collapse mt-3" id="restaurantDetails">
+        <!-- Restaurant name -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Restaurant name</label>
+        </div>
+        <!-- Cuisine -->
+        <select class="form-select">
+            <option selected>Cuisine</option>
+            <option value="1">Western</option>
+            <option value="2">Mexican</option>
+            <option value="3">Thai</option>
+            <option value="4">Indian</option>
+            <option value="5">Japanese</option>
+            <option value="6">French</option>
+            <option value="7">Chinese</option>
+            <option value="8">Italian</option>
+            <option value="8">Seafood</option>
+            <option value="8">Local</option>
+        </select>
+        <br>
+        <!-- Opening and Closing Hours -->
+        <div>Select Opening and Closing hours:</div>
+        <div style="border: 1px solid lightgrey; border-radius:10px; padding: 10px;">
+            <label for="open">Opening:</label>
+            <input type="time" id="open" name="open" class="input-group mb-3">
+            <label for="close">Closing:</label>
+            <input type="time" id="close" name="close" class="input-group mb-3">
+        </div>
+        <br>
+        <!-- Halal -->
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="halal">
+            <label class="form-check-label" for="halal">
+                Halal
+            </label>
+        </div>
     </div>
-
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-        <input type="text" id="form6Example4" class="form-control" />
-        <label class="form-label" for="form6Example4">Address</label>
-    </div>
-
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-        <input type="email" id="form6Example5" class="form-control" />
-        <label class="form-label" for="form6Example5">Email</label>
-    </div>
-
-    <!-- Number input -->
-    <div class="form-outline mb-4">
-        <input type="number" id="form6Example6" class="form-control" />
-        <label class="form-label" for="form6Example6">Phone</label>
-    </div>
-
-    <!-- Message input -->
-    <div class="form-outline mb-4">
-        <textarea class="form-control" id="form6Example7" rows="4"></textarea>
-        <label class="form-label" for="form6Example7">Additional information</label>
-    </div>
-
-    <!-- Checkbox -->
-    <div class="form-check d-flex justify-content-center mb-4">
-        <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
-        <label class="form-check-label" for="form6Example8"> Create an account? </label>
-    </div>
-
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4">Place order</button>
+    <div style="margin-top: 50px;">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit details <i class="fas fa-paper-plane"></i></button>
+    </div>
+    
 </form>
