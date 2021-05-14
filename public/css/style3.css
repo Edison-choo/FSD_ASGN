@@ -1,5 +1,5 @@
 /* Cruz */
-#loginForm, #registerForm{
+#loginForm, #registerForm, #fpForm{
     border: 1px solid grey;
 }
 
@@ -10,10 +10,22 @@
     border-bottom: 1px solid grey;
 }
 
-#loginForm form, #registerForm form{
+#loginForm form, #registerForm form, #fpForm form{
     padding: 4%;
 }
 
-.loginBtn, .registerBtn{
+.loginBtn, .registerBtn, .cpBtn{
     margin: 0 auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+#registerForm input[type=number]::-webkit-outer-spin-button,
+#registerForm input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+#registerForm input[type=number] {
+  -moz-appearance: textfield;
 }
