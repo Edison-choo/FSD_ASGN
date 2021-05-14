@@ -57,7 +57,7 @@ app.set('view engine', 'handlebars');
 
 // Body parser middleware to parse HTTP body in order to read HTTP data
 app.use(bodyParser.urlencoded({
-	extended: true
+	extended: false
 }));
 app.use(bodyParser.json());
 
