@@ -18,15 +18,15 @@ router.get('/updateMenu', (req, res) => {
 router.post('/updateMenu', (req, res) => {
 	let errors = [];
 	console.log(req.body);
-	let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
+	// let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
 
-	console.log(foodId);
-	console.log(foodName);
-	console.log(foodType);
-	console.log(foodPrice);
-	console.log(spiceLevel);
-	console.log(temperature);
-	console.log(portion);
+	// console.log(foodId);
+	// console.log(foodName);
+	// console.log(foodType);
+	// console.log(foodPrice);
+	// console.log(spiceLevel);
+	// console.log(temperature);
+	// console.log(portion);
 
 });
 
