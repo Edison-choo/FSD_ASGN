@@ -1,9 +1,26 @@
 <h2>Create a Promotion</h2>
 
     <form>
-        <div><label for="">Start Date: &nbsp;</label></div>
-        <div><label for="">End Date: &nbsp;</label></div>
-        <div><label for="">Discount:</label></div>
-        <div><label for="">Details:</label></div>
+        <table>
+            <tr>
+                <td><label for="">Start Date: </label></td>
+                <td><input type="date"></td>
+                <td><label for="">End Date:</label></td>
+                <td><input type="date"></td>
+            </tr>
+            <tr>
+                <td><label for="">Discount: </label></td>
+                <td><input type="numbers"> %</td>
+            </tr>
+            <tr>
+                <td><label for="">Details: </label></td>
+                <td><textarea name="" id="" cols="30" rows="2"></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="">Banner Photo: </label></td>
+                <td><input type="file" accept="image/png, image/jpeg, image/jpg"></td>
+            </tr>
+        </table>
         <input class="btn btn-primary" type="submit" value="Submit"/>
     </form>
+
