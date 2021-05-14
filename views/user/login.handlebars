@@ -1,19 +1,30 @@
-<div class="row">
-	<div class="col-md-6 mx-auto">
-		<div class="card card-body">
-			<img class="logo" src="/img/logo.png">
-			<h3 class="text-center">Account Login</h3>
-			<form method="post" action=""> 
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" name="email" class="form-control" required>
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" name="password" class="form-control" required>
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		</div>
-	</div>
-</div>
+<form>
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+    <input type="email" id="form2Example1" class="form-control" />
+    <label class="form-label" for="form2Example1">Email address</label>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" />
+    <label class="form-label" for="form2Example2">Password</label>
+  </div>
+
+  <!-- 2 column grid layout for inline styling -->
+  <div class="row mb-4">
+
+    <div class="col" style="text-align: center;">
+      <!-- Simple link -->
+      <a href="#!">Forgot password?</a>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+  <!-- Register buttons -->
+  <div class="text-center">
+    <p>Not a member? <a href="/user/register">Register</a></p>
+  </div>
+</form>
