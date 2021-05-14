@@ -1,4 +1,19 @@
 /* Cruz */
-input{
-    border:1px solid black;
+#loginForm, #registerForm{
+    border: 1px solid grey;
+}
+
+.userTitle{
+    font-weight: bold;
+    background-color: lightgray;
+    padding: 0.5%;
+    border-bottom: 1px solid grey;
+}
+
+#loginForm form, #registerForm form{
+    padding: 4%;
+}
+
+.loginBtn, .registerBtn{
+    margin: 0 auto;
 }
