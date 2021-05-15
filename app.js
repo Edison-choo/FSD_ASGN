@@ -107,5 +107,7 @@ app.listen(port, () => {
 	console.log(`Server started on http://localhost:${port}`);
 });
 
-const EDB = require('./config/EDBConnection');
-EDB.setUpEDB(false);
+// Bring in database connection
+const DB = require('./config/DBConnection');
+// Connects to MySQL database
+DB.setUpDB(false);

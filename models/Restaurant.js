@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const db = require("../config/EDBConfig");
+const db = require("../config/DBConfig");
 
 const Restaurant = db.define("restaurant", {
   name: {

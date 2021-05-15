@@ -24,17 +24,12 @@
             <label class="form-label" for="form6Example4">Address</label>
         </div>
 
-        <!-- Email -->
+        <!-- Company Email -->
         <div class="form-outline mb-4">
             <input type="email" id="form6Example5" class="form-control" />
-            <label class="form-label" for="form6Example5">Email</label>
+            <label class="form-label" for="form6Example5">Company Email</label>
         </div>
 
-        <!-- Phone number -->
-        <div class="form-outline mb-4">
-            <input type="number" id="form6Example6" class="form-control" />
-            <label class="form-label" for="form6Example6">Phone</label>
-        </div>
 
         <!-- UEN -->
         <div class="form-outline mb-4">
@@ -50,6 +45,8 @@
             <div class="boxText">2: Enter Restaurant Details <i class="fas fa-utensils"></i></div>
         </div>
     </button>
+    <br>
+    <br>
     <!-- Collapsed content -->
     <div class="collapse mt-3" id="restaurantDetails">
         <!-- Restaurant name -->
@@ -88,10 +85,33 @@
                 Halal
             </label>
         </div>
+        <br>
+    </div>
+    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#socialMedia"
+        aria-expanded="false" aria-controls="collapseExample">
+        <div class="card-body">
+            <div class="boxText">3: Enter links for Socials <i class="fas fa-user-friends"></i></div>
+        </div>
+    </button>
+    <div class="collapse mt-3" id="socialMedia">
+        <!-- Facebook Link -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Facebook account url</label>
+        </div>
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Twitter account url</label>
+        </div>
+        <div class="form-outline mb-4">
+            <input type="text" id="form6Example3" class="form-control" />
+            <label class="form-label" for="form6Example3">Instagram account url</label>
+        </div>
     </div>
     <!-- Submit button -->
     <div style="margin-top: 50px;">
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit details <i class="fas fa-paper-plane"></i></button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit details <i
+                class="fas fa-paper-plane"></i></button>
     </div>
-    
+
 </form>

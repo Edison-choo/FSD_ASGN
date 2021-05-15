@@ -1,10 +1,10 @@
-const mySQLDB = require("./EDBConfig");
+const mySQLDB = require("./DBConfig");
 const menu = require("../models/Menu");
 const restaurant = require("../models/Restaurant");
+const restaurants = require("../models/restaurants")
 // If drop is true, all existing tables are dropped and recreated
-const setUpEDB = (drop) => {
-  mySQLDB
-    .authenticate()
+const setUpDB = (drop) => {
+  mySQLDB.authenticate()
     .then(() => {
       console.log("foodecent database connected");
     })
@@ -15,8 +15,7 @@ In this case the primary key from user will be a foreign key
 in video.
 */
       restaurant.hasMany(menu);
-      mySQLDB
-        .sync({
+      mySQLDB.sync({
           // Creates table if none exists
           force: drop,
         })
@@ -27,4 +26,4 @@ in video.
     })
     .catch((err) => console.log("Error: " + err));
 };
-module.exports = { setUpEDB };
+module.exports = { setUpDB };
