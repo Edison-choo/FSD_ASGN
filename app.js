@@ -24,6 +24,7 @@ const createReviewsRoute = require('./routes/createReviews');
 const userRoute = require('./routes/User');
 const staffResRoute = require('./routes/staffRestaurant');
 const createPromotions = require('./routes/createPromotions');
+const bookingInterfaceRoute = require('./routes/bookingInterface');
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -40,6 +41,7 @@ app.use('/createReviews', createReviewsRoute);
 app.use('/user', userRoute);
 app.use('/staffRestaurant', staffResRoute);
 app.use('/createPromotions', createPromotions);
+app.use('/bookingInterface', bookingInterfaceRoute);
 
 
 // Handlebars Middleware

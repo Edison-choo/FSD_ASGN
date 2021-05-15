@@ -1,0 +1,70 @@
+<style>
+.bookingForm {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type=email]{
+    width: 400px;
+}
+input[type=time]{
+    width: 400px;
+}
+input[type=number]{
+    width: 400px;
+}
+input[type=date]{
+    width: 400px;
+}
+input[type=text]{
+    width: 400px;
+}
+</style>
+
+<div class="container base restab">
+    <h1>Complete your booking:</h1>
+</div>
+<br>
+<div class="bookingForm">
+    <form method="POST" action="">
+        <div class="container base restab">
+            <h3 class="title">Restaurant Booking:</h3>
+            <hr>
+            <h5 style="padding-left: 3px;">Select Date:</h5>
+            <input type="date" name="bookingDate">
+            <br>
+            <br>
+            <h5 style="padding-left: 3px;">Select Time:</h5>
+            <input type="time" name="bookingTime">
+            <br>
+            <br>
+
+            <h5 style="padding-left: 3px;">Name:</h5>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="bookingFName" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="bookingLName" placeholder="Last name">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h5 style="padding-left: 3px;">Email:</h5>
+            <input type="email" name="bookingEmail" placeholder="example@example.com">
+            <br>
+            <br>
+            <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
+            <input type="number" name="bookingPax" min="1" max="10">
+            <br>
+            <br>
+            <button type="submit" style="background-color:#894242; border-color:#894242" class="btn btn-primary btn-lg btn-block">Book!</button>
+        </div>
+    </form>
+</div>
+<br>
