@@ -1,7 +1,10 @@
 const mySQLDB = require("./DBConfig");
 const menu = require("../models/Menu");
 const restaurantMenu = require("../models/RestaurantMenu");
-const restaurants = require("../models/restaurants")
+const restaurants = require("../models/restaurants");
+const reviews = require("../models/reviews");
+const promotions = require("../models/promotions");
+
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
   mySQLDB.authenticate()
