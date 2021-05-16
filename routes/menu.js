@@ -60,7 +60,7 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 		.then(menu => {
 			if (menu) {
 				res.render('menu/updateMenu', {
-					error: menu.foodName + ' already existed',
+					error: menu.foodName + ' already exists',
 					foodId,
 					foodName,
 					foodType,

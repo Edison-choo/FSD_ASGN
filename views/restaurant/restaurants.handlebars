@@ -8,84 +8,15 @@
         margin: 15px;
     }
 </style>
-        <ul class="nav nav-pills mb-3" id="ex1" role="tablist" style="">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab"
-                    aria-controls="ex1-pills-1" aria-selected="true">None</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab"
-                    aria-controls="ex1-pills-2" aria-selected="false">Alphabetical</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab"
-                    aria-controls="ex1-pills-3" aria-selected="false">Status</a>
-            </li>
-        </ul>
-<!-- Pills content -->
-<div class="tab-content" id="ex1-content">
-    <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
-        Tab 1 content
-    </div>
-    <div class="tab-pane fade" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-        Tab 2 content
-    </div>
-    <div class="tab-pane fade" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-        Tab 3 content
-    </div>
-</div>
-<!-- Pills content -->
+<!-- Cards -->
+{{#each restaurant}}
 <div class="card" style="width: 18rem;">
     <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
         alt="..." class="img-fluid center" />
     <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
+        <h5 class="card-title">{{this.res_name}}</h5>
+        <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
         <a href="restaurant/restaurant_1" class="btn btn-primary">View Restaurant</a>
     </div>
 </div>
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
-        <a href="restaurant/restaurant_1" class="btn btn-primary">View Restaurant</a>
-    </div>
-</div>
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
-        <a href="#" class="btn btn-primary">View Restaurant</a>
-    </div>
-</div>
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
-        <a href="#" class="btn btn-primary">View Restaurant</a>
-    </div>
-</div>
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
-        <a href="#" class="btn btn-primary">View Restaurant</a>
-    </div>
-</div>
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">McDonald's</h5>
-        <p class="card-text">30 Sembawang Dr, #01 - 16 / 17 Sun Plaza · In Sun Plaza · 6754 2644</p>
-        <a href="#" class="btn btn-primary">View Restaurant</a>
-    </div>
-</div>
+{{/each}}
