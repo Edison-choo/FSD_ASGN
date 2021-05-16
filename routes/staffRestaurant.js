@@ -1,9 +1,11 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const router = express.Router();
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Restaurant = require("../models/restaurants");
+const emailValidator = require("email-validator");
+const urlValidator = require("valid-url");
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -20,7 +22,32 @@ router.get('/createRestaurant', (req, res) => {
 //Post for Create Restaurant Page
 router.post('/createRestaurant', urlencodedParser, (req, res) => {
     let errors = [];
+
+    // Retrieves fields from register page from request body
     let {comp_name, address, comp_email, uen, res_name, cuisine, open_time, close_time, halal, facebook, twitter, instagram} = req.body;
+    
+    //Email validation
+    if (!emailValidator.validate(comp_email)){
+        errors.push({text: "Email is invalid!"})
+    }
+
+    //Facebook url validation
+    if (!urlValidator.isUri(facebook) && facebook !== ""){
+        errors.push({text: "Facebook url is formatted incorrectly!"});
+    }
+
+    //Twitter url validation
+    if (!urlValidator.isUri(twitter) && twitter !== ""){
+        errors.push({text: "Twitter url is formatted incorrectly!"});
+    }
+
+
+    //Instagram url validation
+    if (!urlValidator.isUri(instagram) && instagram !== ""){
+        errors.push({text: "Instagram url is formatted incorrectly!"});
+    }
+
+
     if (errors.length > 0) {
         res.render('staffRestaurant/createRestaurant')
     }
