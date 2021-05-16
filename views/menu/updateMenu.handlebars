@@ -1,10 +1,6 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="/menu/updateMenu" method="post">
-          <input type="text" name="test">
-          <button>Submit</button>
-        </form>
         <div class="menuNav">
           <button class="btn btn-dark" disabled>Table View (Edit)</button>
           <button class="btn btn-dark" onclick="window.location.href='/menu'">User View</button>
@@ -26,13 +22,20 @@
                 </tr>
             </thead>
             <tbody>
+              {{#if menus }}
+              {{#each menus}}
                 <tr>
-                    <td>1</td>
-                    <td>A01</td>
-                    <td>Food 1</td>
-                    <td>Appetizer</td>
-                    <td>$3.00</td>
-                    <td>Spice</td>
+                    <td>{{this.id}}</td>
+                    <td>{{this.foodNo}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.price}}</td>
+                    <td>
+                    {{#each this.specifications}}
+                    {{this}},
+                    {{/each}}
+                    
+                    </td>
                     <td><button class="buttonIcon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -40,7 +43,24 @@
                     </td>
                     <td><button type="button" class="btn-close" aria-label="Close"></button></td>
                 </tr>
+              {{/each}}
+              {{else}}
                 <tr>
+                    <td>1</td>
+                    <td>E01</td>
+                    <td>Example 1</td>
+                    <td>Example Type</td>
+                    <td>$3.00</td>
+                    <td>example1, example2</td>
+                    <td><button class="buttonIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </td>
+                    <td><button type="button" class="btn-close" aria-label="Close"></button></td>
+                </tr>
+              {{/if}}
+                {{!-- <tr>
                     <td>2</td>
                     <td>M01</td>
                     <td>Food 2</td>
@@ -67,7 +87,7 @@
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </td>
                     <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete1"></button></td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
         <button class="buttonAdd"  data-bs-toggle="modal" data-bs-target="#addMenu1">
@@ -95,36 +115,35 @@
                 <form action="/menu/updateMenu" method="POST">
                   <div class="popUpContentTitle">Food Details</div>
                     <div class="form-outline">
-                      <input type="text" id="foodId" name='foodId' class="form-control" />
+                      <input type="text" id="foodId" name='foodId' class="form-control" required/>
                       <label class="form-label" for="foodId">Food ID</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodName" name='foodName' class="form-control" />
+                      <input type="text" id="foodName" name='foodName' class="form-control" required/>
                       <label class="form-label" for="foodName">Food Name</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodType" name='foodType' class="form-control" />
-                      <label class="form-label" for="foodType">Food Type</label>
+                      <input type="text" id="foodType" name='foodType' class="form-control" required/>
+                      <label class="form-label" for="foodType">Food Type <i class="far fa-question-circle"></i></label>
                     </div>
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" name='foodPrice' class="form-control"/>
+                      <input type="number" id="foodPrice" name='foodPrice' class="form-control" required/>
                       <label class="form-label" for="foodPrice">Food Price</label>
                     </div>
                     
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name="spiceLevel" type="checkbox" value="" id="flexCheckDefault1"/>
+                      <input class="form-check-input" name="spiceLevel" type="checkbox" value="true" id="flexCheckDefault1"/>
                       <label class="form-check-label" for="flexCheckDefault1">portion</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name='temparture' type="checkbox" value="" id="flexCheckDefault2"/>
+                      <input class="form-check-input" name='temperature' type="checkbox" value="true" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Ice</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name="portion" type="checkbox" value="" id="flexCheckDefault3"/>
+                      <input class="form-check-input" name="portion" type="checkbox" value="true" id="flexCheckDefault3"/>
                       <label class="form-check-label" for="flexCheckDefault3">Spice</label>
                     </div>
-                <button class="btn btn-dark">Done</button>
             </div>
         </div>
       </div>
@@ -151,19 +170,19 @@
                     <div class="popUpContentTitle">Food Details</div>
 
                   <div class="form-outline">
-                      <input type="text" id="foodNo" value="A01" class="form-control" />
+                      <input type="text" id="foodNo" value="A01" class="form-control" required/>
                       <label class="form-label" for="foodId" name='foodId'>Food ID</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodName" value="Food 1" class="form-control" />
+                      <input type="text" id="foodName" value="Food 1" class="form-control" required/>
                       <label class="form-label" for="foodName" name='foodName'>Food Name</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodType" value="Appetizer" class="form-control" />
-                      <label class="form-label" for="foodType" name='foodType'>Food Type</label>
+                      <input type="text" id="foodType" value="Appetizer" class="form-control" required/>
+                      <label class="form-label" for="foodType" name='foodType'>Food Type </label>
                     </div>
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" value="3.00" class="form-control"/>
+                      <input type="number" id="foodPrice" value="3.00" class="form-control" required/>
                       <label class="form-label" for="foodPrice" name='foodPrice'>Food Price</label>
                     </div>
 

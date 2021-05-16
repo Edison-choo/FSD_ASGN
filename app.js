@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');
+const Handlebars = require("handlebars");
 /*
 * Loads routes file main.js in routes directory. The main.js determines which function
 * will be called based on the HTTP request and URL.
@@ -85,6 +86,14 @@ app.use(session({
 app.use(flash());
 app.use(FlashMessenger.middleware);
 
+app.use(function(req, res, next){
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+	});
+
 // Place to define global variables - not used in practical 1
 app.use(function (req, res, next) {
 	next();
@@ -113,3 +122,7 @@ app.listen(port, () => {
 const DB = require('./config/DBConnection');
 // Connects to MySQL database
 DB.setUpDB(false);
+
+Handlebars.registerHelper('ifEquals', function(arg1, arg2) {
+    return (arg1 == arg2) ? true : false;
+});

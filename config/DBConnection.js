@@ -1,6 +1,6 @@
 const mySQLDB = require("./DBConfig");
 const menu = require("../models/Menu");
-const restaurant = require("../models/Restaurant");
+const restaurantMenu = require("../models/RestaurantMenu");
 const restaurants = require("../models/restaurants")
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
@@ -14,7 +14,7 @@ Defines the relationship where a user has many videos.
 In this case the primary key from user will be a foreign key
 in video.
 */
-      restaurant.hasMany(menu);
+      restaurantMenu.hasMany(menu);
       mySQLDB.sync({
           // Creates table if none exists
           force: drop,

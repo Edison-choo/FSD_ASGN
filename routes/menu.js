@@ -1,10 +1,30 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const router = express.Router();
-const User = require('../models/menu');
+var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
+const Menu = require('../models/menu');
+
+var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 router.get('/', (req, res) => {
-	res.render('menu/menu');
+	var types = [];
+	Menu.findAll({
+		attributes: { exclude: ['restaurantMenuId']}
+	})
+	.then(menus => {
+		if (menus) {
+			// menus.specifications = JSON.parse(menus.specifications);
+			menus.forEach((menu) => {
+				menu.specifications = JSON.parse(menu.specifications);
+				if (types.includes(menu.type) === false) {
+					types.push(menu.type);
+				}
+			});
+			types.sort();
+			res.render('menu/menu', {menus, types});
+		}
+	}).catch(err => console.log(err));
 });
 
 router.get('/addMenu', (req, res) => {
@@ -12,22 +32,62 @@ router.get('/addMenu', (req, res) => {
 });
 
 router.get('/updateMenu', (req, res) => {
-	res.render('menu/updateMenu');
+	Menu.findAll({
+		attributes: { exclude: ['restaurantMenuId']}
+	})
+	.then(menus => {
+		if (menus) {
+			// menus.specifications = JSON.parse(menus.specifications);
+			menus.forEach((menu) => {
+				menu.specifications = JSON.parse(menu.specifications);
+			});
+			console.log(menus[0].specifications);
+			res.render('menu/updateMenu', {menus});
+		}
+	});
 });
 
-router.post('/updateMenu', (req, res) => {
+router.post('/updateMenu', urlencodedParser,(req, res) => {
 	let errors = [];
-	console.log(req.body);
-	// let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
+	let specifications = [];
+	let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
 
-	// console.log(foodId);
-	// console.log(foodName);
-	// console.log(foodType);
-	// console.log(foodPrice);
-	// console.log(spiceLevel);
-	// console.log(temperature);
-	// console.log(portion);
+	foodId = foodId.toString();
 
+	// res.render('menu/updateMenu')
+
+	Menu.findOne({ where: {foodNo: foodId} })
+		.then(menu => {
+			if (menu) {
+				res.render('menu/updateMenu', {
+					error: menu.foodName + ' already existed',
+					foodId,
+					foodName,
+					foodType,
+					foodPrice,
+					spiceLevel,
+					temperature,
+					portion
+				});
+			} else {
+				if (spiceLevel) {
+					specifications.push('spiceLevel');
+				}
+				if (temperature) {
+					specifications.push('temperature');
+				}
+				if (portion) {
+					specifications.push('portion');
+				}
+				specifications = JSON.stringify(specifications)
+				Menu.create({foodNo:foodId, name:foodName, price:foodPrice, type:foodType, specifications:specifications, restaurantMenuId:1})
+				.then(menu => {
+					res.redirect('/menu/updateMenu');
+				})
+				.catch(err => console.log(err));
+			}
+		})
+		.catch(err => console.log(err))
 });
 
 module.exports = router;

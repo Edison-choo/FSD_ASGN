@@ -116,6 +116,10 @@ overflow: hidden;
 background-color: #fff;
 }
 
+.subNavItem a {
+    color: #35322d;
+}
+
 .sticky {
 position: fixed;
 top: 31px;

@@ -1,5 +1,5 @@
 var specifications = {
-    "spice level": ["Very spicy", "spicy", "no spice"],
+    "spiceLevel": ["Very spicy", "spicy", "no spice"],
     "temperature": ["Cold", "Hot"],
     "portion": ["Large", "Medium", "Small"],
 };

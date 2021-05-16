@@ -19,17 +19,23 @@
           <div class="subNavItem"><a href="">Dessert</a></div>
           <div class="subNavItem"><a href="">Drinks</a></div>
         </div>
-    
+        {{#if types}}
+        
+        {{#each types}}
         <div class="menuType">
-            <div class="menuSubTitle"><h2>Appetizer</h2></div>
+            <div class="menuSubTitle"><h2>{{this}}</h2></div>
           <div class="menuCat">
-              <div class="menuItem">
-                  <div class="menuImage"></div>
-                  <div class="menuContent">
-                    <div>food 1</div>
-                    <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#staticBackdrop1">ADD</button>
-                  </div>
-              </div>
+              {{#each menus}}
+              {{#ifEquals (this.type) (../this)}}
+                <div class="menuItem">
+                    <div class="menuImage"></div>
+                    <div class="menuContent">
+                      <div>{{this.name}}</div>
+                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#staticBackdrop1">ADD</button>
+                    </div>
+                </div>
+              {{/ifEquals}}
+              {{/each}}
               <div class="menuItem">
 
               </div>
@@ -39,6 +45,10 @@
           </div>
 
         </div>
+        {{/each}}
+        {{else}}
+        <div style="margin-top: 60px; text-align:center;"><h2>Menu empty...</h2></div>
+        {{/if}}
     </div>
     <div class="col-md-2">
     </div>
