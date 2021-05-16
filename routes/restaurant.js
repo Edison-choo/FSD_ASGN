@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Restaurant = require("../models/restaurants");
 
+var sessionData
+
 //Restaurants Page
 router.get('/', (req, res) => {
     Restaurant.findAll({
@@ -12,7 +14,11 @@ router.get('/', (req, res) => {
     })
 });
 router.get('/restaurant_1', (req, res) =>{
-    res.render('restaurant/restaurant_1')
+    id = localStorage.getItem("id")
+    Restaurant.findOne({ where: {id: id}})
+    .then(restaurant => {
+        res.render('restaurant/restaurant_1', {restaurant});
+    })
 })
 
 

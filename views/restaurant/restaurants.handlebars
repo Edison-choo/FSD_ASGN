@@ -10,13 +10,24 @@
 </style>
 <!-- Cards -->
 {{#each restaurant}}
-<div class="card" style="width: 18rem;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-        alt="..." class="img-fluid center" />
-    <div class="card-body">
-        <h5 class="card-title">{{this.res_name}}</h5>
-        <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
-        <a href="restaurant/restaurant_1" class="btn btn-primary">View Restaurant</a>
+<button onclick="gotoRestaurant()">
+    <div class="card" style="width: 18rem;">
+        <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
+            alt="..." class="img-fluid center" />
+        <div class="card-body" id="restId" data-id={{this.id}}>
+            <h5 class="card-title">{{this.res_name}}</h5>
+            <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
+        </div>
     </div>
-</div>
+</button>
+
 {{/each}}
+
+
+<script>
+    function gotoRestaurant() {
+        var id = document.getElementById("restId").data - id
+        localStorage.setItem("id", id)
+        location.replace("restaurant/restaurant_1")
+    }
+</script>
