@@ -27,7 +27,7 @@ const Restaurants = db.define('restaurants', {
         type: Sequelize.STRING
     },
     halal:{
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false
     },
     facebook:{
         type: Sequelize.STRING
