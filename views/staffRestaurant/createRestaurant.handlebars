@@ -14,27 +14,27 @@
 
         <!-- Company name -->
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Company name</label>
+            <input type="text" id="comp_name" name="comp_name" class="form-control" />
+            <label class="form-label" for="comp_name">Company name</label>
         </div>
 
         <!-- Address -->
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example4" class="form-control" />
-            <label class="form-label" for="form6Example4">Address</label>
+            <input type="text" id="address" name="address" class="form-control" />
+            <label class="form-label" for="address">Address</label>
         </div>
 
         <!-- Company Email -->
         <div class="form-outline mb-4">
-            <input type="email" id="form6Example5" class="form-control" />
-            <label class="form-label" for="form6Example5">Company Email</label>
+            <input type="email" id="comp_email" name="comp_email" class="form-control" />
+            <label class="form-label" for="comp_email">Company Email</label>
         </div>
 
 
         <!-- UEN -->
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Unique Entity Number</label>
+            <input type="text" id="uen" name="uen" class="form-control" />
+            <label class="form-label" for="uen">Unique Entity Number</label>
         </div>
     </div>
     <br>
@@ -51,11 +51,11 @@
     <div class="collapse mt-3" id="restaurantDetails">
         <!-- Restaurant name -->
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Restaurant name</label>
+            <input type="text" id="res_name" name="res_name" class="form-control" />
+            <label class="form-label" for="res_name">Restaurant name</label>
         </div>
         <!-- Cuisine -->
-        <select class="form-select">
+        <select class="form-select" id="cuisine" name="cuisine">
             <option selected>Cuisine</option>
             <option value="1">Western</option>
             <option value="2">Mexican</option>
@@ -72,15 +72,15 @@
         <!-- Opening and Closing Hours -->
         <div>Select Opening and Closing hours:</div>
         <div style="border: 1px solid lightgrey; border-radius:10px; padding: 10px;">
-            <label for="open">Opening:</label>
-            <input type="time" id="open" name="open" class="input-group mb-3">
-            <label for="close">Closing:</label>
-            <input type="time" id="close" name="close" class="input-group mb-3">
+            <label for="open_time">Opening:</label>
+            <input type="time" id="open_time" name="open_time" class="input-group mb-3">
+            <label for="close_time">Closing:</label>
+            <input type="time" id="close_time" name="close_time" class="input-group mb-3">
         </div>
         <br>
         <!-- Halal -->
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="halal">
+            <input class="form-check-input" type="checkbox" value= 1 id="halal" name="halal">
             <label class="form-check-label" for="halal">
                 Halal
             </label>
@@ -96,16 +96,16 @@
     <div class="collapse mt-3" id="socialMedia">
         <!-- Facebook Link -->
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Facebook account url</label>
+            <input type="text" id="facebook" name="facebook" class="form-control" />
+            <label class="form-label" for="facebook">Facebook account url</label>
         </div>
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Twitter account url</label>
+            <input type="text" id="twitter" name="twitter" class="form-control" />
+            <label class="form-label" for="twitter">Twitter account url</label>
         </div>
         <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" class="form-control" />
-            <label class="form-label" for="form6Example3">Instagram account url</label>
+            <input type="text" id="instagram" name="instagram" class="form-control" />
+            <label class="form-label" for="instagram">Instagram account url</label>
         </div>
     </div>
     <!-- Submit button -->
