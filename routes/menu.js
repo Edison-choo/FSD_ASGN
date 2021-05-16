@@ -41,7 +41,6 @@ router.get('/updateMenu', (req, res) => {
 			menus.forEach((menu) => {
 				menu.specifications = JSON.parse(menu.specifications);
 			});
-			console.log(menus[0].specifications);
 			res.render('menu/updateMenu', {menus});
 		}
 	});
@@ -88,6 +87,19 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 			}
 		})
 		.catch(err => console.log(err))
+});
+
+router.get('/delete/:id', (req, res) => {
+	let id = req.params.id;
+	Menu.destroy({ where: {id:id}})
+		.then(n => {
+			if (n) {
+				console.log(`${n} number of rows have been deleted...`)
+			} else {
+				console.log('Unsuccessful deletion of data...')
+			}
+			res.render('menu/updateMenu')
+		}).catch(err => console.log(err));
 });
 
 module.exports = router;
