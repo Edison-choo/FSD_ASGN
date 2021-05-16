@@ -1,28 +1,33 @@
 <style>
-.bookingForm {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-input[type=email]{
-    width: 400px;
-}
-input[type=time]{
-    width: 400px;
-}
-input[type=number]{
-    width: 400px;
-}
-input[type=date]{
-    width: 400px;
-}
-input[type=text]{
-    width: 400px;
-}
+    .bookingForm {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=email] {
+        width: 400px;
+    }
+
+    input[type=time] {
+        width: 400px;
+    }
+
+    input[type=number] {
+        width: 400px;
+    }
+
+    input[type=date] {
+        width: 400px;
+    }
+
+    input[type=text] {
+        width: 400px;
+    }
 </style>
 
 <div class="container base restab">
@@ -30,16 +35,48 @@ input[type=text]{
 </div>
 <br>
 <div class="bookingForm">
-    <form method="POST" action="">
+    <form method="POST" action="/bookingInterface/bookForm">
         <div class="container base restab">
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
             <h5 style="padding-left: 3px;">Select Date:</h5>
-            <input type="date" name="bookingDate">
+            <input type="date" name="bookingDate" id="datefield" min="" max="" required>
+            <script>
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+
+                today = yyyy + '-' + mm + '-' + dd;
+                document.getElementById("datefield").setAttribute("min", today);
+
+                var today = new Date();
+                var dd = today.getDate() + 14;
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+
+                twoWeeks = yyyy + '-' + mm + '-' + dd;
+                document.getElementById("datefield").setAttribute("max", twoWeeks);
+
+                document.querySelector("#datefield").valueAsDate = new Date();
+            </script>
             <br>
             <br>
             <h5 style="padding-left: 3px;">Select Time:</h5>
-            <input type="time" name="bookingTime">
+            <input type="time" min="9:00" max="22:00" name="bookingTime" required>
+
             <br>
             <br>
 
@@ -47,23 +84,25 @@ input[type=text]{
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="bookingFName" placeholder="First name">
+                        <input type="text" name="bookingFName" placeholder="First name" required>
                     </div>
                     <div class="col">
-                        <input type="text" name="bookingLName" placeholder="Last name">
+                        <input type="text" name="bookingLName" placeholder="Last name" required>
                     </div>
                 </div>
             </div>
             <br>
             <h5 style="padding-left: 3px;">Email:</h5>
-            <input type="email" name="bookingEmail" placeholder="example@example.com">
+            <input type="email" name="bookingEmail" placeholder="example@example.com" required>
             <br>
             <br>
             <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
-            <input type="number" name="bookingPax" min="1" max="10">
+            <input type="number" name="bookingPax" min="1" max="10" placeholder="Number of People"
+                oninvalid="PLease enter pax" required>
             <br>
             <br>
-            <button type="submit" style="background-color:#894242; border-color:#894242" class="btn btn-primary btn-lg btn-block">Book!</button>
+            <button type="submit" style="background-color:#894242; border-color:#894242"
+                class="btn btn-primary btn-lg btn-block">Book!</button>
         </div>
     </form>
 </div>
