@@ -8,7 +8,8 @@ const router = express.Router();
 const Booking = require("../models/booking")
 const emailValidator = require("email-validator");
 
-router.get('/bookForm', (req, res) => {
+router.get('/bookForm/:res_name', (req, res) => {
+	let res_name = req.params.res_name;
 	res.render('bookingInterface/bookForm');
 });
 
