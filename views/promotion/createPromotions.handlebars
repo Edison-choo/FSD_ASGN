@@ -1,7 +1,11 @@
 <h2>Create a Promotion</h2>
 
-    <form>
+    <form method="POST" action="/createPromotions/promotion/createPromotions">
         <table>
+            <tr>
+                <td><label for="">Enter Promotion Name: </label></td>
+                <td><input type="text" name="name"></td>
+            </tr>
             <tr>
                 <td><label for="">Start Date: </label></td>
                 <td><input type="date" name="startdate"></td>
