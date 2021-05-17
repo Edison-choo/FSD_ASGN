@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');
 const Handlebars = require("handlebars");
+const queryString = require('querystring');
 /*
 * Loads routes file main.js in routes directory. The main.js determines which function
 * will be called based on the HTTP request and URL.

@@ -2,32 +2,42 @@
     .checked {
         color: orange;
     }
-
     .card {
-        display: inline-block;
         margin: 15px;
+        background-color: #35322d;
+        border-radius: 25px;
+        height: 450px;
+        width: 18rem;
+        display: inline-table;
+    }
+    .card:hover{
+        background-color: #ffb03b;
+    }
+    a{
+        color: #ffb03b;
+    }
+    a:hover{
+        color: #35322d;
+    }
+    .w-100{
+        border-radius: 25px;
+    }
+    h4{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
     }
 </style>
 <!-- Cards -->
 {{#each restaurant}}
-<button onclick="gotoRestaurant()">
-    <div class="card" style="width: 18rem;">
+<a href="restaurant/restaurant_1/{{this.id}}">
+    <div class="card">
         <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-            alt="..." class="img-fluid center" />
-        <div class="card-body" id="restId" data-id={{this.id}}>
-            <h5 class="card-title">{{this.res_name}}</h5>
+            alt="..." class="img-fluid center w-100 hover-shadow" />
+        <div class="card-body">
+            <h4 class="card-title">{{this.res_name}}</h4>
             <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
         </div>
     </div>
-</button>
+</a>
 
 {{/each}}
-
-
-<script>
-    function gotoRestaurant() {
-        var id = document.getElementById("restId").data - id
-        localStorage.setItem("id", id)
-        location.replace("restaurant/restaurant_1")
-    }
-</script>
