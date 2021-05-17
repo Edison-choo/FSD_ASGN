@@ -6,12 +6,19 @@ const moment = require('moment');
 const validator = require("email-validator")
 const router = express.Router();
 const Booking = require("../models/booking")
-const Restaurants = require("../models/restaurants")
 const emailValidator = require("email-validator");
 const alertMessage = require('../helpers/messenger');
 
+var res_name
+var firstName
+var lastName
+var timing
+var pax
+var email
+var date
+
 router.get('/bookForm/:res_name', (req, res) => {
-	let res_name = req.params.res_name;
+	res_name = req.params.res_name
 	res.render('bookingInterface/bookForm');
 });
 
@@ -20,8 +27,13 @@ router.get('/updateForm', (req, res) => {
 });
 
 router.get('/bookingDetails', (req, res) => {
-	Booking.findAll({where: {}})
-
+	firstName = firstName
+	lastName = lastName
+	timing = timing
+	pax = pax
+	email = email
+	date = date
+	res_name = res_name
 	res.render('bookingInterface/bookingDetails');
 });
 
@@ -41,7 +53,7 @@ let errors = [];
 		errors.push({text: "Email is invalid!"})
 	}
 
-	Booking.create({res_name, firstName:firstName, lastName:lastName, email:email, timing:timing, date:date, pax:pax
+	Booking.create({res_name:res_name, firstName:firstName, lastName:lastName, email:email, timing:timing, date:date, pax:pax
 	}).then(booking => {
 		res.redirect('/bookingInterface/bookingDetails');
 	})

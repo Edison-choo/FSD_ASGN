@@ -2,6 +2,9 @@ const Sequelize = require('sequelize');
 const db = require("../config/DBConfig");
 
 const Booking = db.define('booking', {
+    res_name:{
+        type: Sequelize.STRING
+    },
     firstName: {
         type: Sequelize.STRING
     },
