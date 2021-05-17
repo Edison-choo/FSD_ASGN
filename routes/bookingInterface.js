@@ -23,22 +23,23 @@ router.get('/bookingDetails', (req, res) => {
 router.post('/bookForm', urlencodedParser, (req, res) => {
 let errors = []
 
-	let {firstName:bookingFName, lastName:bookingLName, email:bookingEmail, timing:bookingTime, date:bookingDate, pax:bookingPax} = req.body;
+	let firstName = req.body.bookingFName
+	let lastName = req.body.bookingLName
+	let email = req.body.bookingEmail
+	let timing = req.body.bookingTime
+	let date = req.body.bookingDate
+	let pax = req.body.bookingPax
 
-	if (!emailValidator.validate(bookingEmail)){
+	if (!emailValidator.validate(email)){
 		errors.push({text: "Email is invalid!"})
 	}
 
-	if (errors.length > 0){
-		res.render('/bookingInterface/bookForm')
-	}
-	else{
-		Booking.create({firstName:bookingFName, lastName:bookingLName, email:bookingEmail, timing:bookingTime, date:bookingDate, pax:bookingPax
-		}).then(booking => {
-			res.redirect('/bookingInterface/bookingDetails');
-		})
-		.catch(err => console.log(err));
-	}		
+	Booking.create({firstName, lastName, email, timing, date, pax
+	}).then(booking => {
+		res.redirect('/bookingInterface/bookingDetails');
+	})
+	.catch(err => console.log(err));
+	
 		
 });
 
