@@ -1,9 +1,11 @@
 {
     "cSpell.words": [
         "SQLDB",
+        "borderless",
         "exphbs",
         "foodecent",
         "resave",
+        "table",
         "templating"
     ]
 }

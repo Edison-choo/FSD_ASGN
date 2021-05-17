@@ -40,7 +40,7 @@
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
             <h5 style="padding-left: 3px;">Select Date:</h5>
-            <input type="date" name="bookingDate" id="datefield" min="" max="" required>
+            <input type="date" name="date" id="datefield" min="" max="" required>
             <script>
                 var today = new Date();
                 var dd = today.getDate();
@@ -75,7 +75,7 @@
             <br>
             <br>
             <h5 style="padding-left: 3px;">Select Time:</h5>
-            <input type="time" min="9:00" max="22:00" name="bookingTime" required>
+            <input type="time" step="3600" name="timing" required>
 
             <br>
             <br>
@@ -84,20 +84,20 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="bookingFName" placeholder="First name" required>
+                        <input type="text" name="firstName" placeholder="First name" required>
                     </div>
                     <div class="col">
-                        <input type="text" name="bookingLName" placeholder="Last name" required>
+                        <input type="text" name="lastName" placeholder="Last name" required>
                     </div>
                 </div>
             </div>
             <br>
             <h5 style="padding-left: 3px;">Email:</h5>
-            <input type="email" name="bookingEmail" placeholder="example@example.com" required>
+            <input type="email" name="email" placeholder="example@example.com" required>
             <br>
             <br>
             <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
-            <input type="number" name="bookingPax" min="1" max="10" placeholder="Number of People"
+            <input type="number" name="pax" min="1" max="10" placeholder="Number of People"
                 oninvalid="PLease enter pax" required>
             <br>
             <br>

@@ -3,13 +3,50 @@
     .checked {
         color: orange;
     }
+
+    .seat {
+        height: 50px;
+        width: 50px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .square {
+        height: 100%;
+        width: 100%;
+        background-color: #bbb;
+        display: inline-block;
+    }
+
+    .seatStatus {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+    }
+
+    .seatStatus tr td {
+        height: 50px;
+        width: 50px;
+        padding: 0;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .red{
+        background-color: red;
+    }
 </style>
-<div class="media row" style="padding: 10px; background-color:#f2f1ef">
+<script type="text/javascript" src="../../routes/restaurant.js">
+</script>
+<div class="media row" style="padding: 10px; background-color:#f2f1ef;">
     <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
         class="align-self-start mr-3 col-md-4" alt="..." style="max-height: 400px; max-width: 400px;">
     <div class="media-body col-md-8">
         <div class="media-body col-md-8">
-            <h1 class="mt-0">McDonald's</h1>
+            <h1 class="mt-0">{{restaurant.res_name}}</h1>
             <div>
                 5.0
                 <span class="fa fa-star checked"></span>
@@ -19,35 +56,547 @@
                 <span class="fa fa-star checked"></span>
                 | 12 Ratings
                 <!-- Facebook -->
-                <a style="color: #3b5998;" href="#!" role="button"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a style="color: #3b5998;" href="{{restaurant.facebook}}" role="button"><i
+                        class="fab fa-facebook-f fa-lg"></i></a>
                 <!-- Twitter -->
-                <a style="color: #55acee;" href="#!" role="button"><i class="fab fa-twitter fa-lg"></i></a>
+                <a style="color: #55acee;" href="{{restaurant.twitter}}" role="button"><i
+                        class="fab fa-twitter fa-lg"></i></a>
                 <!-- Instagram -->
-                <a style="color: #ac2bac;" href="#!" role="button"><i class="fab fa-instagram fa-lg"></i></a>
+                <a style="color: #ac2bac;" href="{{restaurant.instagram}}" role="button"><i
+                        class="fab fa-instagram fa-lg"></i></a>
             </div>
             <hr>
             <table class="table table-borderless">
                 <tr>
                     <td>Location:</td>
-                    <td>30 Sembawang Dr, #01 - 16 / 17 Sun Plaza </td>
+                    <td>{{restaurant.address}}</td>
                 </tr>
                 <tr>
                     <td>Opening Hours:</td>
-                    <td>08:00am - 10:00pm</td>
+                    <td>{{restaurant.open_time}} - {{restaurant.close_time}}</td>
                 </tr>
                 <tr>
                     <td>Cuisine:</td>
-                    <td>Western</td>
+                    <td>{{restaurant.cuisine}}</td>
                 </tr>
                 <tr>
                     <td>Phone:</td>
-                    <td>6754 2644</td>
+                    <td>6754 2644</td> <!-- Get from Cruz later on -->
                 </tr>
             </table>
-            <a href="" class="btn btn-primary btn-block">Book a table</a>
+            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn btn-primary btn-block">Book a
+                table</a>
         </div>
     </div>
     <br>
-    <div class="" style="padding: 10px; background-color:#f2f1ef">
-
-    </div>
+</div>
+<br>
+<div style="background-color: #f2f1ef; margin: auto;">
+    <div>Subway</div>
+    <table class="seatStatus">
+        <tr>
+            <td>
+                <div class="square" id="a1"></div>
+            </td>
+            <td>
+                <div class="square" id="a2"></div>
+            </td>
+            <td>
+                <div class="square" id="a3"></div>
+            </td>
+            <td>
+                <div class="square" id="a4"></div>
+            </td>
+            <td>
+                <div class="square" id="a5"></div>
+            </td>
+            <td>
+                <div class="square" id="a6"></div>
+            </td>
+            <td>
+                <div class="square" id="a7"></div>
+            </td>
+            <td>
+                <div class="square" id="a8"></div>
+            </td>
+            <td>
+                <div class="square" id="a9"></div>
+            </td>
+            <td>
+                <div class="square" id="a10"></div>
+            </td>
+            <td>
+                <div class="square" id="a11"></div>
+            </td>
+            <td>
+                <div class="square" id="a12"></div>
+            </td>
+            <td>
+                <div class="square" id="a13"></div>
+            </td>
+            <td>
+                <div class="square" id="a14"></div>
+            </td>
+            <td>
+                <div class="square" id="a15"></div>
+            </td>
+            <td>
+                <div class="square" id="a16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="b1"></div>
+            </td>
+            <td>
+                <div class="square" id="b2"></div>
+            </td>
+            <td>
+                <div class="square" id="b3"></div>
+            </td>
+            <td>
+                <div class="square" id="b4"></div>
+            </td>
+            <td>
+                <div class="square" id="b5"></div>
+            </td>
+            <td>
+                <div class="square" id="b6"></div>
+            </td>
+            <td>
+                <div class="square" id="b7"></div>
+            </td>
+            <td>
+                <div class="square" id="b8"></div>
+            </td>
+            <td>
+                <div class="square" id="b9"></div>
+            </td>
+            <td>
+                <div class="square" id="b10"></div>
+            </td>
+            <td>
+                <div class="square" id="b11"></div>
+            </td>
+            <td>
+                <div class="square" id="b12"></div>
+            </td>
+            <td>
+                <div class="square" id="b13"></div>
+            </td>
+            <td>
+                <div class="square" id="b14"></div>
+            </td>
+            <td>
+                <div class="square" id="b15"></div>
+            </td>
+            <td>
+                <div class="square" id="b16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="c1"></div>
+            </td>
+            <td>
+                <div class="square" id="c2"></div>
+            </td>
+            <td>
+                <div class="square" id="c3"></div>
+            </td>
+            <td>
+                <div class="square" id="c4"></div>
+            </td>
+            <td>
+                <div class="square" id="c5"></div>
+            </td>
+            <td>
+                <div class="square" id="c6"></div>
+            </td>
+            <td>
+                <div class="square" id="c7"></div>
+            </td>
+            <td>
+                <div class="square" id="c8"></div>
+            </td>
+            <td>
+                <div class="square" id="c9"></div>
+            </td>
+            <td>
+                <div class="square" id="c10"></div>
+            </td>
+            <td>
+                <div class="square" id="c11"></div>
+            </td>
+            <td>
+                <div class="square" id="c12"></div>
+            </td>
+            <td>
+                <div class="square" id="c13"></div>
+            </td>
+            <td>
+                <div class="square" id="c14"></div>
+            </td>
+            <td>
+                <div class="square" id="c15"></div>
+            </td>
+            <td>
+                <div class="square" id="c16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="d1"></div>
+            </td>
+            <td>
+                <div class="square" id="d2"></div>
+            </td>
+            <td>
+                <div class="square" id="d3"></div>
+            </td>
+            <td>
+                <div class="square" id="d4"></div>
+            </td>
+            <td>
+                <div class="square" id="d5"></div>
+            </td>
+            <td>
+                <div class="square" id="d6"></div>
+            </td>
+            <td>
+                <div class="square" id="d7"></div>
+            </td>
+            <td>
+                <div class="square" id="d8"></div>
+            </td>
+            <td>
+                <div class="square" id="d9"></div>
+            </td>
+            <td>
+                <div class="square" id="d10"></div>
+            </td>
+            <td>
+                <div class="square" id="d11"></div>
+            </td>
+            <td>
+                <div class="square" id="d12"></div>
+            </td>
+            <td>
+                <div class="square" id="d13"></div>
+            </td>
+            <td>
+                <div class="square" id="d14"></div>
+            </td>
+            <td>
+                <div class="square" id="d15"></div>
+            </td>
+            <td>
+                <div class="square" id="d16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="e1"></div>
+            </td>
+            <td>
+                <div class="square" id="e2"></div>
+            </td>
+            <td>
+                <div class="square" id="e3"></div>
+            </td>
+            <td>
+                <div class="square" id="e4"></div>
+            </td>
+            <td>
+                <div class="square" id="e5"></div>
+            </td>
+            <td>
+                <div class="square" id="e6"></div>
+            </td>
+            <td>
+                <div class="square" id="e7"></div>
+            </td>
+            <td>
+                <div class="square" id="e8"></div>
+            </td>
+            <td>
+                <div class="square" id="e9"></div>
+            </td>
+            <td>
+                <div class="square" id="e10"></div>
+            </td>
+            <td>
+                <div class="square" id="e11"></div>
+            </td>
+            <td>
+                <div class="square" id="e12"></div>
+            </td>
+            <td>
+                <div class="square" id="e13"></div>
+            </td>
+            <td>
+                <div class="square" id="e14"></div>
+            </td>
+            <td>
+                <div class="square" id="e15"></div>
+            </td>
+            <td>
+                <div class="square" id="e16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="f1"></div>
+            </td>
+            <td>
+                <div class="square" id="f2"></div>
+            </td>
+            <td>
+                <div class="square" id="f3"></div>
+            </td>
+            <td>
+                <div class="square" id="f4"></div>
+            </td>
+            <td>
+                <div class="square" id="f5"></div>
+            </td>
+            <td>
+                <div class="square" id="f6"></div>
+            </td>
+            <td>
+                <div class="square" id="f7"></div>
+            </td>
+            <td>
+                <div class="square" id="f8"></div>
+            </td>
+            <td>
+                <div class="square" id="f9"></div>
+            </td>
+            <td>
+                <div class="square" id="f10"></div>
+            </td>
+            <td>
+                <div class="square" id="f11"></div>
+            </td>
+            <td>
+                <div class="square" id="f12"></div>
+            </td>
+            <td>
+                <div class="square" id="f13"></div>
+            </td>
+            <td>
+                <div class="square" id="f14"></div>
+            </td>
+            <td>
+                <div class="square" id="f15"></div>
+            </td>
+            <td>
+                <div class="square" id="f16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="g1"></div>
+            </td>
+            <td>
+                <div class="square" id="g2"></div>
+            </td>
+            <td>
+                <div class="square" id="g3"></div>
+            </td>
+            <td>
+                <div class="square" id="g4"></div>
+            </td>
+            <td>
+                <div class="square" id="g5"></div>
+            </td>
+            <td>
+                <div class="square" id="g6"></div>
+            </td>
+            <td>
+                <div class="square" id="g7"></div>
+            </td>
+            <td>
+                <div class="square" id="g8"></div>
+            </td>
+            <td>
+                <div class="square" id="g9"></div>
+            </td>
+            <td>
+                <div class="square" id="g10"></div>
+            </td>
+            <td>
+                <div class="square" id="g11"></div>
+            </td>
+            <td>
+                <div class="square" id="g12"></div>
+            </td>
+            <td>
+                <div class="square" id="g13"></div>
+            </td>
+            <td>
+                <div class="square" id="g14"></div>
+            </td>
+            <td>
+                <div class="square" id="g15"></div>
+            </td>
+            <td>
+                <div class="square" id="g16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="h1"></div>
+            </td>
+            <td>
+                <div class="square" id="h2"></div>
+            </td>
+            <td>
+                <div class="square" id="h3"></div>
+            </td>
+            <td>
+                <div class="square" id="h4"></div>
+            </td>
+            <td>
+                <div class="square" id="h5"></div>
+            </td>
+            <td>
+                <div class="square" id="h6"></div>
+            </td>
+            <td>
+                <div class="square" id="h7"></div>
+            </td>
+            <td>
+                <div class="square" id="h8"></div>
+            </td>
+            <td>
+                <div class="square" id="h9"></div>
+            </td>
+            <td>
+                <div class="square" id="h10"></div>
+            </td>
+            <td>
+                <div class="square" id="h11"></div>
+            </td>
+            <td>
+                <div class="square" id="h12"></div>
+            </td>
+            <td>
+                <div class="square" id="h13"></div>
+            </td>
+            <td>
+                <div class="square" id="h14"></div>
+            </td>
+            <td>
+                <div class="square" id="h15"></div>
+            </td>
+            <td>
+                <div class="square" id="h16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="i1"></div>
+            </td>
+            <td>
+                <div class="square" id="i2"></div>
+            </td>
+            <td>
+                <div class="square" id="i3"></div>
+            </td>
+            <td>
+                <div class="square" id="i4"></div>
+            </td>
+            <td>
+                <div class="square" id="i5"></div>
+            </td>
+            <td>
+                <div class="square" id="i6"></div>
+            </td>
+            <td>
+                <div class="square" id="i7"></div>
+            </td>
+            <td>
+                <div class="square" id="i8"></div>
+            </td>
+            <td>
+                <div class="square" id="i9"></div>
+            </td>
+            <td>
+                <div class="square" id="i10"></div>
+            </td>
+            <td>
+                <div class="square" id="i11"></div>
+            </td>
+            <td>
+                <div class="square" id="i12"></div>
+            </td>
+            <td>
+                <div class="square" id="i13"></div>
+            </td>
+            <td>
+                <div class="square" id="i14"></div>
+            </td>
+            <td>
+                <div class="square" id="i15"></div>
+            </td>
+            <td>
+                <div class="square" id="i16"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="square" id="j1"></div>
+            </td>
+            <td>
+                <div class="square" id="j2"></div>
+            </td>
+            <td>
+                <div class="square" id="j3"></div>
+            </td>
+            <td>
+                <div class="square" id="j4"></div>
+            </td>
+            <td>
+                <div class="square" id="j5"></div>
+            </td>
+            <td>
+                <div class="square" id="j6"></div>
+            </td>
+            <td>
+                <div class="square" id="j7"></div>
+            </td>
+            <td>
+                <div class="square" id="j8"></div>
+            </td>
+            <td>
+                <div class="square" id="j9"></div>
+            </td>
+            <td>
+                <div class="square" id="j10"></div>
+            </td>
+            <td>
+                <div class="square" id="j11"></div>
+            </td>
+            <td>
+                <div class="square" id="j12"></div>
+            </td>
+            <td>
+                <div class="square" id="j13"></div>
+            </td>
+            <td>
+                <div class="square" id="j14"></div>
+            </td>
+            <td>
+                <div class="square" id="j15"></div>
+            </td>
+            <td>
+                <div class="square" id="j16"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+<button onclick="turnRed()">Turn Red</button>
+<script>function turnRed(){
+    document.getElementById("b6").classList.add("red");
+}</script>
