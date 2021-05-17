@@ -1,5 +1,4 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
 const router = express.Router();
 var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
@@ -59,7 +58,7 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 		.then(menu => {
 			if (menu) {
 				res.render('menu/updateMenu', {
-					error: menu.foodName + ' already exists',
+					error: menu.name + ' already exists',
 					foodId,
 					foodName,
 					foodType,
@@ -89,16 +88,46 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 		.catch(err => console.log(err))
 });
 
+
+router.post('/update/:id', urlencodedParser, (req, res) => {
+	let id = req.params.id;
+	let specifications = [];
+	let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
+	
+	if (spiceLevel) {
+		specifications.push('spiceLevel');
+	}
+	if (temperature) {
+		specifications.push('temperature');
+	}
+	if (portion) {
+		specifications.push('portion');
+	}
+	specifications = JSON.stringify(specifications);
+
+	console.log(foodId);
+
+	Menu.update({foodNo:foodId, name:foodName, price:foodPrice, type:foodType, specifications:specifications},{ where: {id:id}})
+		.then(n => {
+			if (n) {
+				console.log(`${n} has been updated`);
+			} else {
+				console.log(`Unsuccessful update of data...`);
+			}
+			res.redirect('/menu/updateMenu');
+		}).catch(err => console.log(err));
+});
+
 router.get('/delete/:id', (req, res) => {
 	let id = req.params.id;
 	Menu.destroy({ where: {id:id}})
 		.then(n => {
 			if (n) {
-				console.log(`${n} number of rows have been deleted...`)
+				console.log(`${n} number of rows have been deleted...`);
 			} else {
-				console.log('Unsuccessful deletion of data...')
+				console.log('Unsuccessful deletion of data...');
 			}
-			res.render('menu/updateMenu')
+			res.redirect('/menu/updateMenu');
 		}).catch(err => console.log(err));
 });
 
