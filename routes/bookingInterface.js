@@ -6,7 +6,9 @@ const moment = require('moment');
 const validator = require("email-validator")
 const router = express.Router();
 const Booking = require("../models/booking")
+const Restaurants = require("../models/restaurants")
 const emailValidator = require("email-validator");
+const alertMessage = require('../helpers/messenger');
 
 router.get('/bookForm', (req, res) => {
 	res.render('bookingInterface/bookForm');
@@ -17,30 +19,33 @@ router.get('/updateForm', (req, res) => {
 });
 
 router.get('/bookingDetails', (req, res) => {
+	Booking.findAll({where: {}})
+
 	res.render('bookingInterface/bookingDetails');
 });
 
 router.post('/bookForm', urlencodedParser, (req, res) => {
-let errors = []
+let errors = [];
 
-	let firstName = req.body.bookingFName
-	let lastName = req.body.bookingLName
-	let email = req.body.bookingEmail
-	let timing = req.body.bookingTime
-	let date = req.body.bookingDate
-	let pax = req.body.bookingPax
+	let {
+		date, 
+		timing,
+		firstName, 
+		lastName, 
+		email, 
+		pax
+	} = req.body;
 
 	if (!emailValidator.validate(email)){
 		errors.push({text: "Email is invalid!"})
 	}
 
-	Booking.create({firstName, lastName, email, timing, date, pax
+	Booking.create({res_name, firstName:firstName, lastName:lastName, email:email, timing:timing, date:date, pax:pax
 	}).then(booking => {
 		res.redirect('/bookingInterface/bookingDetails');
 	})
 	.catch(err => console.log(err));
 	
-		
 });
 
 module.exports = router;
