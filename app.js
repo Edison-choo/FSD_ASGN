@@ -162,3 +162,7 @@ Handlebars.registerHelper('checklength', function (v1, v2, options) {
 	}
 	return options.inverse(this);
 });
+
+Handlebars.registerHelper('distanceFixed', function(distance) {
+	return distance.toFixed(2);
+});

@@ -4,6 +4,10 @@ var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Menu = require('../models/menu');
 const menuSpecification = require('../models/menuSpecification');
+const User = require("../models/user");
+
+var userLog = false;
+var location = "";
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
