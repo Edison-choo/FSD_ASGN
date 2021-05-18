@@ -1,6 +1,10 @@
 /* Cruz */
-#loginForm, #registerForm, #fpForm{
+#loginForm, #registerForm, #fpForm, #profileForm, #creditCardForm{
     border: 1px solid grey;
+}
+
+#creditCardForm{
+  margin-top: 5%;
 }
 
 .userTitle{
@@ -10,18 +14,20 @@
     border-bottom: 1px solid grey;
 }
 
-#loginForm form, #registerForm form, #fpForm form{
+#loginForm form, #registerForm form, #fpForm form, #profileForm form, #creditCardForm form{
     padding: 4%;
 }
 
 /* Chrome, Safari, Edge, Opera */
 #registerForm input[type=number]::-webkit-outer-spin-button,
-#registerForm input[type=number]::-webkit-inner-spin-button {
+#registerForm input[type=number]::-webkit-inner-spin-button,
+#profileForm input[type=number]::-webkit-outer-spin-button,
+#profileForm input[type=number]::-webkit-inner-spin-button  {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-#registerForm input[type=number] {
+#registerForm input[type=number], #profileForm input[type=number] {
   -moz-appearance: textfield;
 }
