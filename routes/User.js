@@ -79,7 +79,7 @@ router.post('/loginUser', urlencodedParser, (req, res, next) => {
 	passport.authenticate('local', {
 	successRedirect: '/', // Route to / URL
 	failureRedirect: '/user/login', // Route to /login URL
-	failureFlash: true
+	failureFlash: true,
 	 /* Setting the failureFlash option to true instructs Passport to flash an error message using the
 	message given by the strategy's verify callback, if any. When a failure occur passport passes the message
 	object as error */
