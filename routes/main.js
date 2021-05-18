@@ -2,8 +2,6 @@ const express = require('express');
 const { session } = require('passport');
 const router = express.Router();
 const User = require("../models/user");
-// login
-var validator = require("validator");
 
 var userLog = false;
 var location = "";
