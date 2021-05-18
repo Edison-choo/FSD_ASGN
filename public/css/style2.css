@@ -392,19 +392,30 @@ outline: none; }
     margin-bottom: 50px;
 }
 
+.menuNav button {
+    border: 3px solid #ffb03b;
+    background-color: #35322d;
+    color: #ffb03b;
+}
+.menuNav button:hover {
+    border: 3px solid #35322d;
+    background-color: #ffb03b;
+    color: #35322d;
+}
+
 .menuNav button:first-child {
     width: 49%;
     /* border-radius: 10px 0px 0px 10px; */
-    background-color: #fff;
+    /* background-color: #fff;
     border: #35322d solid 2px;
-    color: #35322d;
+    color: #35322d; */
 }
 
 .menuNav button:last-child {
     width: 49%;
     /* border-radius: 0 10px 10px 0; */
     float: right;
-    background-color: #fff;
+    /* background-color: #fff;
     border: #35322d solid 2px;
-    color: #35322d;
+    color: #35322d; */
 }

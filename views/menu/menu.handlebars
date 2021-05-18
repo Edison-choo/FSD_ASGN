@@ -1,47 +1,43 @@
 <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+
 <div class="row">
     <div class="col-md-2">
     </div>
     <div class="col-md-8">
         <div class="menuNav">
           <button class="btn btn-dark" onclick="window.location.href='/menu/updateMenu'">Table View (Edit)</button>
-          <button class="btn btn-dark" disabled>User View</button>
+          <button class="btn btn-dark" style="cursor: not-allowed;">User View</button>
         </div>
         <div class="menuEdit">
             <h1 class="menuTitle">MENU
                 </h1>
             
         </div>
+        {{#if types}}
         <div class="subNav">
-          <div class="subNavItem"><a href="">Appetizer</a></div>
-          <div class="subNavItem"><a href="">Meal</a></div>
-          <div class="subNavItem"><a href="">Dessert</a></div>
-          <div class="subNavItem"><a href="">Drinks</a></div>
+          {{#each types}}
+          <div class="subNavItem"><a href="">{{this}}</a></div>
+          {{/each}}
         </div>
+        {{/if}}
         {{#if types}}
         
         {{#each types}}
         <div class="menuType">
             <div class="menuSubTitle"><h2>{{this}}</h2></div>
           <div class="menuCat">
-              {{#each menus}}
-              {{#ifEquals (this.type) (../this)}}
+              {{#each ../menus}}
+              {{#ifEquals this.type ../this}}
                 <div class="menuItem">
                     <div class="menuImage"></div>
                     <div class="menuContent">
-                      <div>{{this.name}}</div>
-                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#staticBackdrop1">ADD</button>
+                      <div>{{this.name}}<br>${{this.price}}</div>
+                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">Details</button>
                     </div>
                 </div>
               {{/ifEquals}}
               {{/each}}
-              <div class="menuItem">
-
-              </div>
-              <div class="menuItem">
-
-              </div>
           </div>
 
         </div>
@@ -55,50 +51,40 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+{{#each menus}}
+<div class="modal fade" id="food{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdrop1Label">Food 1</h5>
+        <h5 class="modal-title" id="staticBackdrop1Label">Food Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent popUpContent2">
-              <div class="popUpContentTitle">Food 1</div>
+              <div class="popUpContentTitle">{{this.name}}</div>
                 <form action="">
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">
                     <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-                  </div>  
+                  </div>
+                  
+                  {{#each ../menuSpecification}}
+                  {{#ifIn @key ../this.specifications}}
                   <div>
-                    <label for="">Spicy: </label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <label for="">{{@key}}:</label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">  
                       <option selected>Open this select menu</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      
+                      {{#each this}}
+                      <option value="{{this}}">{{this}}</option>
+                      {{/each}}
                     </select>
                   </div>
-                  <div>
-                    <label for="">Spicy: </label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                      <option selected>Open this select menu</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label for="">Spicy: </label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                      <option selected>Open this select menu</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
+                  {{/ifIn}}
+                  {{/each}}
+                  
                 </form>
             </div>
         </div>
@@ -109,3 +95,4 @@
     </div>
   </div>
 </div>
+{{/each}}

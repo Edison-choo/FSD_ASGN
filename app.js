@@ -143,8 +143,9 @@ DB.setUpDB(false);
 
 
 
-Handlebars.registerHelper('ifEquals', function(arg1, arg2) {
-    return (arg1 == arg2) ? true : false;
+Handlebars.registerHelper('ifEquals', function (a, b, options) {
+    if (a == b) { return options.fn(this); }
+    return options.inverse(this);
 });
 
 Handlebars.registerHelper('ifIn', function(elem, list, options) {
@@ -153,3 +154,11 @@ Handlebars.registerHelper('ifIn', function(elem, list, options) {
 	}
 	return options.inverse(this);
   });
+
+Handlebars.registerHelper('checklength', function (v1, v2, options) {
+'use strict';
+	if (v1.length>v2) {
+		return options.fn(this);
+	}
+	return options.inverse(this);
+});

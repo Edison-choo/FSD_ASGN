@@ -3,6 +3,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Menu = require('../models/menu');
+const menuSpecification = require('../models/menuSpecification');
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -21,7 +22,7 @@ router.get('/', (req, res) => {
 				}
 			});
 			types.sort();
-			res.render('menu/menu', {menus, types});
+			res.render('menu/menu', {menus, types, menuSpecification});
 		}
 	}).catch(err => console.log(err));
 });
@@ -104,8 +105,6 @@ router.post('/update/:id', urlencodedParser, (req, res) => {
 		specifications.push('portion');
 	}
 	specifications = JSON.stringify(specifications);
-
-	console.log(foodId);
 
 	Menu.update({foodNo:foodId, name:foodName, price:foodPrice, type:foodType, specifications:specifications},{ where: {id:id}})
 		.then(n => {

@@ -2,8 +2,8 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="menuNav">
-          <button class="btn btn-dark" disabled>Table View (Edit)</button>
-          <button class="btn btn-dark" onclick="window.location.href='/menu'">User View</button>
+          <button class="btn" style="cursor: not-allowed;">Table View (Edit)</button>
+          <button class="btn" onclick="window.location.href='/menu'">User View</button>
         </div>
         <div class="menuTableHeader">
             Menu
@@ -32,7 +32,11 @@
                     <td>{{this.price}}</td>
                     <td>
                     {{#each this.specifications}}
+                    {{#if @last}}
+                    {{this}}
+                    {{else}}
                     {{this}},
+                    {{/if}}
                     {{/each}}
                     
                     </td>
@@ -172,33 +176,33 @@
                     <div class="popUpContentTitle">Food Details</div>
 
                   <div class="form-outline">
-                      <input type="text" id="foodNo" value="{{this.foodNo}}" class="form-control" required/>
-                      <label class="form-label" for="foodId" name='foodId'>Food ID</label>
+                      <input type="text" id="foodNo" name='foodId' value="{{this.foodNo}}" class="form-control" required/>
+                      <label class="form-label" for="foodId">Food ID</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodName" value="{{this.name}}" class="form-control" required/>
-                      <label class="form-label" for="foodName" name='foodName'>Food Name</label>
+                      <input type="text" id="foodName" name='foodName' value="{{this.name}}" class="form-control" required/>
+                      <label class="form-label" for="foodName">Food Name</label>
                     </div>
                     <div class="form-outline">
-                      <input type="text" id="foodType" value="{{this.type}}" class="form-control" required/>
-                      <label class="form-label" for="foodType" name='foodType'>Food Type</label>
+                      <input type="text" id="foodType" name='foodType' value="{{this.type}}" class="form-control" required/>
+                      <label class="form-label" for="foodType">Food Type</label>
                     </div>
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" value="{{this.price}}" class="form-control" required/>
-                      <label class="form-label" for="foodPrice" name='foodPrice'>Food Price</label>
+                      <input type="number" id="foodPrice" name='foodPrice' value="{{this.price}}" class="form-control" required/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
                     </div>
 
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name="spiceLevel" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}} value="" id="flexCheckDefault1"/>
+                      <input class="form-check-input" name="spiceLevel" type="checkbox" {{#ifIn "spiceLevel" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault1"/>
                       <label class="form-check-label" for="flexCheckDefault1">Spice Level</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="" id="flexCheckDefault2"/>
+                      <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="true" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
                     </div>
                     <div class="form-check specification">
-                      <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "spiceLevel" this.specifications}}checked{{/ifIn}} value="" id="flexCheckDefault3"/>
+                      <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault3"/>
                       <label class="form-check-label" for="flexCheckDefault3">Portion</label>
                     </div>
                 
