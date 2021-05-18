@@ -12,9 +12,11 @@ router.get('/', (req, res) => {
 
 	location = "index";
 	
-	if(req.session.passport.user === undefined){
+	if(req.session.passport === undefined){
 		nocurrentUser(location, title, res);
-	}else{
+	} else if (req.session.passport.user === undefined) {
+		nocurrentUser(location, title, res);
+	} else{
 		checkCurrentUser(req.session.passport.user, location, title, res);
 	}
 	
