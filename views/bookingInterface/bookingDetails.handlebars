@@ -10,7 +10,7 @@
     }
 </style>
 
-<div class = "container base restab">
+<div class="container base restab">
     <h1>Order Confirmation:</h1>
 </div>
 
@@ -21,23 +21,27 @@
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
     <br>
     <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
-    <div>
-        Restaurant: <div>
+    <div style="">
+        <div style="display: inline-block;">Restaurant:</div>
+        <span style="display: inline-block; float: right;">
             {{booking.res_name}}
-        </div>
+        </span>
     </div>
-    <div>
-        Date: <div>
+    <div style="">
+        <div style="display: inline-block;">Date:</div>
+        <div style="display: inline-block; float: right;">
             {{booking.date}}
         </div>
     </div>
-    <div>
-        Time: <div>
+    <div style="">
+        <div style="display: inline-block;">Time:</div>
+        <div style="display: inline-block; float: right;">
             {{booking.timing}}
         </div>
     </div>
-    <div>
-        Pax: <div>
+    <div style="">
+        <div style="display: inline-block;">Pax:</div>
+        <div style="display: inline-block; float: right;">
             {{booking.pax}}
         </div>
     </div>
@@ -45,13 +49,15 @@
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
     <br>
     <h3 style="text-align: center; margin:auto;">Personal Details</h3>
-    <div>
-        Name: <div>
-            {{booking.firstName}} + {{booking.lastName}}
+    <div style="">
+        <div style="display: inline-block;">Name:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.firstName}} {{booking.lastName}}
         </div>
     </div>
-    <div>
-        Email: <div>
+    <div style="">
+        <div style="display: inline-block;">Email:</div>
+        <div style="display: inline-block; float: right;">
             {{booking.email}}
         </div>
     </div>
