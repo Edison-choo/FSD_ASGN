@@ -30,6 +30,7 @@
     "passport-local": "^1.0.0",
     "querystring": "^0.2.1",
     "sequelize": "^6.6.2",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "validator": "^13.6.0"
   }
 }
