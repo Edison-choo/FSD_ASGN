@@ -14,10 +14,6 @@
     padding: 4%;
 }
 
-.loginBtn, .registerBtn, .cpBtn{
-    margin: 0 auto;
-}
-
 /* Chrome, Safari, Edge, Opera */
 #registerForm input[type=number]::-webkit-outer-spin-button,
 #registerForm input[type=number]::-webkit-inner-spin-button {

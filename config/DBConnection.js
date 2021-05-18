@@ -4,6 +4,7 @@ const restaurantMenu = require("../models/RestaurantMenu");
 const restaurants = require("../models/restaurants");
 const reviews = require("../models/reviews");
 const promotions = require("../models/promotions");
+const users = require("../models/user");
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {

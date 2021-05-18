@@ -1,49 +1,49 @@
 <div id="registerForm">
   <p class="userTitle">Register</p>
-  <form>
+  <form method="POST" action="/user/registerUser">
     <!-- 2 column grid layout with text inputs for the first and last names -->
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="form3Example1" class="form-control" />
-          <label class="form-label" for="form3Example1">First name</label>
+          <input type="text" id="fname" class="form-control" name="fname" required />
+          <label class="form-label" for="fname">First name</label>
         </div>
       </div>
 
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="form3Example2" class="form-control" />
-          <label class="form-label" for="form3Example2">Last name</label>
+          <input type="text" id="lname" class="form-control" name="lname" required />
+          <label class="form-label" for="lname">Last name</label>
         </div>
       </div>
     </div>
 
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="email" id="form3Example3" class="form-control" />
-      <label class="form-label" for="form3Example3">Email address</label>
+      <input type="email" id="email" class="form-control" name="email" required />
+      <label class="form-label" for="email">Email address</label>
     </div>
 
     <!-- Phone number input -->
     <div class="form-outline mb-4">
-      <input type="number" id="form3Example3" class="form-control" />
-      <label class="form-label" for="form3Example3">Phone No.</label>
+      <input type="number" id="phone" class="form-control" name="phone" required />
+      <label class="form-label" for="phone">Phone No.</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="form3Example4" class="form-control" />
-      <label class="form-label" for="form3Example4">Password</label>
+      <input type="password" id="password" class="form-control" name="password" value="" required />
+      <label class="form-label" for="password">Password</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="form3Example4" class="form-control" />
-      <label class="form-label" for="form3Example4">Confirm Password</label>
+      <input type="password" id="cpassword" class="form-control" name="cpassword" value="" required />
+      <label class="form-label" for="cpassword">Confirm Password</label>
     </div>
 
     <!-- Submit button -->
-    <button type="submit" class="registerBtn btn btn-primary btn-block mb-4" style="width: 50%;">Sign up</button>
+    <button type="submit" class="registerBtn btn btn-primary btn-block mb-4">Sign up</button>
 
     <!-- Register buttons -->
     <div class="text-center">

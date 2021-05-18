@@ -13,6 +13,8 @@ const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');
 const Handlebars = require("handlebars");
 const queryString = require('querystring');
+const passport = require("passport");
+const cookieSession = require("cookie-session");
 /*
 * Loads routes file main.js in routes directory. The main.js determines which function
 * will be called based on the HTTP request and URL.
@@ -28,11 +30,36 @@ const staffResRoute = require('./routes/staffRestaurant');
 const createPromotions = require('./routes/createPromotions');
 const bookingInterfaceRoute = require('./routes/bookingInterface');
 
+
+
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
 * in Node JS.
 */
 const app = express();
+
+// Creates static folder for publicly accessible HTML, CSS and Javascript files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+	keys: ['key1', 'key2']
+  }));
+
+
+
+app.use( session({ secret: 'secret', resave: true, saveUninitialized: true }) );
+app.use(passport.initialize());
+app.use(flash());
+
+app.use(function(req, res, next){
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+});
+
+const authenticate = require('./config/passport');
+authenticate.localStrategy(passport);
 
 app.use('/', mainRoute);
 app.use('/book', bookRoute);
@@ -67,8 +94,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// Creates static folder for publicly accessible HTML, CSS and Javascript files
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Method override middleware to use other HTTP methods such as PUT and DELETE
 app.use(methodOverride('_method'));
@@ -84,16 +110,7 @@ app.use(session({
 	saveUninitialized: false,
 }));
 
-app.use(flash());
-app.use(FlashMessenger.middleware);
-
-app.use(function(req, res, next){
-	res.locals.success_msg = req.flash('success_msg');
-	res.locals.error_msg = req.flash('error_msg');
-	res.locals.error = req.flash('error');
-	res.locals.user = req.user || null;
-	next();
-	});
+app.use(express.json());
 
 // Place to define global variables - not used in practical 1
 app.use(function (req, res, next) {
@@ -123,6 +140,8 @@ app.listen(port, () => {
 const DB = require('./config/DBConnection');
 // Connects to MySQL database
 DB.setUpDB(false);
+
+
 
 Handlebars.registerHelper('ifEquals', function(arg1, arg2) {
     return (arg1 == arg2) ? true : false;
