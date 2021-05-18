@@ -14,14 +14,13 @@ router.get('/', (req, res) => {
 	
 	if(req.session.passport === undefined){
 		nocurrentUser(location, title, res);
-	} else if (req.session.passport.user === undefined) {
+	}else if(req.session.passport.user === undefined){
 		nocurrentUser(location, title, res);
-	} else{
+	}else if(req.session.passport.user === undefined) {
+		nocurrentUser(location, title, res);
+	}else{
 		checkCurrentUser(req.session.passport.user, location, title, res);
 	}
-	
-
-	
 	
 });
 
