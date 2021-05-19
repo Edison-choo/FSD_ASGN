@@ -1,4 +1,118 @@
-<h2>Create a Promotion</h2>
+{{!-- <div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create Promotion</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form method="POST" action="/createPromotions/promotion/createPromotions">
+        <table id="form-table">
+            <tr>
+                <td><label for="">Enter Promotion Name: </label></td>
+                <td><input type="text" name="name"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Start Date: </label></td>
+                <td><input type="date" name="startdate"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">End Date:</label></td>
+                <td><input type="date" name="enddate"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Discount: </label></td>
+                <td><input type="numbers" name="discount"> %</td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Details: </label></td>
+                <td><textarea name="details" id="" cols="30" rows="2"></textarea></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Banner Photo: </label></td>
+                <td><input type="file" name="banner" accept="image/png, image/jpeg, image/jpg"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div style="float: right;">
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> --}}
+
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-mdb-toggle="modal"
+  data-mdb-target="#exampleModal"
+>
+  Create A Promotion
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+<div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="/createPromotions/promotion/createPromotions">
+        <table id="form-table">
+            <tr>
+                <td align="right"><label for="">Title: </label></td>
+                <td><input type="text" name="name"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Start Date: </label></td>
+                <td><input type="date" name="startdate"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">End Date:</label></td>
+                <td><input type="date" name="enddate"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Discount: </label></td>
+                <td><input type="numbers" name="discount"> %</td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Details: </label></td>
+                <td><textarea name="details" id="" cols="30" rows="2"></textarea></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Banner Photo: </label></td>
+                <td><input type="file" name="banner" accept="image/png, image/jpeg, image/jpg"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div style="float: right;">
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+          Close
+        </button>
+        </div>
+  </div>
+</div>
+</div>
+
+{{!-- <h2>Create a Promotion</h2>
 
     <form method="POST" action="/createPromotions/promotion/createPromotions">
         <table>
@@ -26,29 +140,37 @@
             </tr>
         </table>
         <input class="btn btn-primary" type="submit" value="Submit"/>
-    </form>
-
-    <hr>
-
+    </form> --}}
+<div class="container">
     <h2>Promotions</h2>
+    <hr>
     <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 200px; border-radius:15px;">
-    <div class="row g-0">
-        <div class="col-md-2">
-            <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-                alt="..." class="img-fluid" style="max-height: 200px; " />
-        </div>
-        <div class="col-md-10">
-            <div class="card-body">
-                <h3 class="card-title" style="color: white;">McDonald's</h3>
-                <p class="card-text" style="color: white;">
-                    McDonald's is currently having a 15% discount for all breakfast items!
-                </p>
-                <button class="btn btn-primary" style="background-color:#22dd56 ; width: 200px; height: 100px; margin-left: 82.5%;">15%</button>
-                    
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
+                    alt="..." class="img-fluid" style="max-height: 200px; " />
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h3 class="card-title" style="color: white;">McDonald's</h3>
+                    <h4 class="card-title" style="color: white;">McDonald's Breakfast Promotion</h4>
+                    <p class="card-text" style="color: white;">Start Date:DD-MM-YYYY</p>
+                    <p class="card-text" style="color: white;">End Date:DD-MM-YYYY</p>
                 </div>
-                
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .modal-content {
+        padding: 5%;
+    }
+    #form-table {
+        border-collapse: separate;
+        border-spacing: 5px;
+    }
+    .container {
+        margin-top: 2%;
+    }
+</style>
