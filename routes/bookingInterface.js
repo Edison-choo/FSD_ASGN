@@ -24,15 +24,13 @@ router.get('/updateForm', (req, res) => {
     res.render('bookingInterface/updateForm');
 });
 
-router.get('/bookingDetailsEmailInsert/', (req, res) => {
-    res.render('bookingInterface/bookingDetailsEmailInsert', { email });
+router.get('/bookingDetailsEmailInsert', (req, res) => {
+    res.render('bookingInterface/bookingDetailsEmailInsert');
 });
 
 router.post('/bookingDetailsEmailInsert', urlencodedParser, (req, res) => {
     let errors = [];
-    let {
-        email
-    } = req.body;
+    email = req.body.email
 
     if (!emailValidator.validate(email)) {
         errors.push({ text: "Email is invalid!" })
@@ -48,19 +46,19 @@ router.post('/bookingDetailsEmailInsert', urlencodedParser, (req, res) => {
             .then((booking) => {
                 console.log(booking);
                 if (booking == null) {
-                    res.render('/bookingDetailsEmailInsert/:email', {
-                        error: "There are no bookings under " + booking.email,
+                    res.render('bookingInterface/bookingDetailsEmailInsert', {
+                        error: "There are no bookings under " + email,
                         email
                     })
                 } else {
-                    returnres.redirect('/bookingInterface/bookingDetailsList/' + email)
+                    return res.redirect('/bookingInterface/bookingDetailsList/' + email)
                 }
 
             })
             .catch((err) => console.log(err));
     }
 
-    res.render('bookingInterface/bookingDetailsEmailInsert');
+    // res.render('bookingInterface/bookingDetailsEmailInsert'); useless code
 });
 
 router.get('/bookingDetailsList/:email', (req, res) => {

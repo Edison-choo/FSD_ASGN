@@ -7,10 +7,12 @@
 
 <head>
 
-{{#each booking}}
+
 <body>
   <div class="container" style="">
     <h1 style="text-align: center;">Here are the bookings you've made currently</h1>
+    {{#each booking}}
+    <br>
     <div class="card">
       <div class="card-body">
         Your Booking at {{this.res_name}}
@@ -19,8 +21,9 @@
         </div>
       </div>
     </div>
+    {{/each}}
     <br>
   </div>
 </body>
-{{/each}}
+
 </head>
