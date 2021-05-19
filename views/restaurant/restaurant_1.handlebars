@@ -23,7 +23,7 @@
     <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
         class="align-self-start mr-3 col-md-4" alt="..." style="max-height: 400px; max-width: 400px;">
     <div class="media-body col-md-8">
-        <div class="media-body col-md-8">
+        <div class="media-body">
             <h1 class="mt-0">{{restaurant.res_name}}</h1>
             <div>
                 5.0
@@ -58,8 +58,21 @@
                     <td>{{restaurant.cuisine}}</td>
                 </tr>
                 <tr>
+                    <td>Halal <img src="https://img.icons8.com/ios/452/halal-sign.png" alt="" style="width: 25px; height: 25px;">:</td>
+                    {{#if restaurant.halal}}
+                    <td>Yes</td>
+                    {{/if}}
+                    {{#else}}
+                    <td>No</td>
+                    {{/else}}
+                </tr>
+                <tr>
                     <td>Phone:</td>
                     <td>6754 2644</td> <!-- Get from Cruz later on -->
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
             <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn btn-primary btn-block">Book a
