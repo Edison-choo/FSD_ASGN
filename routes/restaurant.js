@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const Restaurant = require("../models/restaurants");
+var sortSource = require("../public/js/res")
 
 
+console.log(sortSource.sortBy)
 
 //Restaurants Page
 router.get('/', (req, res) => {
     Restaurant.findAll({
         attributes: { exclude: ['comp_name, uen']},
-        order: [["res_name", "ASC"]]
+        order: [sortSource.sortBy]
     })
     .then(restaurant => {
         res.render('restaurant/restaurants', {restaurant});
