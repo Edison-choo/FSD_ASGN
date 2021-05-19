@@ -1,0 +1,64 @@
+<style>
+    .confirmList {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="container base restab">
+    <h1>Booking Information:</h1>
+</div>
+
+<br>
+<div class="confirmList">
+    <h2 style="text-align: center; margin:auto;">Here's your order summary</h2>
+    <br>
+    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+    <br>
+    <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
+    <div style="">
+        <div style="display: inline-block;">Restaurant:</div>
+        <span style="display: inline-block; float: right;">
+            {{booking.res_name}}
+        </span>
+    </div>
+    <div style="">
+        <div style="display: inline-block;">Date:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.date}}
+        </div>
+    </div>
+    <div style="">
+        <div style="display: inline-block;">Time:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.timing}}
+        </div>
+    </div>
+    <div style="">
+        <div style="display: inline-block;">Pax:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.pax}}
+        </div>
+    </div>
+    <br>
+    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+    <br>
+    <h3 style="text-align: center; margin:auto;">Personal Details</h3>
+    <div style="">
+        <div style="display: inline-block;">Name:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.firstName}} {{booking.lastName}}
+        </div>
+    </div>
+    <div style="">
+        <div style="display: inline-block;">Email:</div>
+        <div style="display: inline-block; float: right;">
+            {{booking.email}}
+        </div>
+    </div>
+</div>
