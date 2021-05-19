@@ -17,7 +17,7 @@
         {{#if types}}
         <div class="subNav">
           {{#each types}}
-          <div class="subNavItem"><a href="">{{this}}</a></div>
+          <div class="subNavItem" style="font-weight: 500;"><a href="#{{this}}">{{this}}</a></div>
           {{/each}}
         </div>
         {{/if}}
@@ -25,7 +25,7 @@
         
         {{#each types}}
         <div class="menuType">
-            <div class="menuSubTitle"><h2>{{this}}</h2></div>
+            <div class="menuSubTitle" id="{{this}}"><h2>{{this}}</h2></div>
           <div class="menuCat">
               {{#each ../menus}}
               {{#ifEquals this.type ../this}}
@@ -96,3 +96,47 @@
   </div>
 </div>
 {{/each}}
+
+<script src="">
+  // Basice Code keep it 
+$(document).ready(function () {
+  $(document).on("scroll", onScroll);
+
+  //smoothscroll
+  $('a[href^="#"]').on('click', function (e) {
+      e.preventDefault();
+      $(document).off("scroll");
+
+      $('a').each(function () {
+          $(this).removeClass('active');
+      })
+      $(this).addClass('active');
+
+      var target = this.hash,
+          menu = target;
+      $target = $(target);
+      $('html, body').stop().animate({
+          'scrollTop': $target.offset().top+2
+      }, 500, 'swing', function () {
+          window.location.hash = target;
+          $(document).on("scroll", onScroll);
+      });
+  });
+});
+
+function onScroll(event){
+  var scrollPos = $(document).scrollTop();
+  $('.subNav a').each(function () {
+      var currLink = $(this);
+      var refElement = $(currLink.attr("href"));
+      if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+          $('.subNav a').removeClass("active");
+          currLink.addClass("active");
+      }
+      else{
+          currLink.removeClass("active");
+      }
+  });
+}
+</script>
+

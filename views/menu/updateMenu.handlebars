@@ -14,12 +14,12 @@
             <thead>
                 <tr>
                   <th></th>
-                    <th onclick="sortTable(0)">#<i class="bi bi-filter"></i></th>
-                    <th onclick="sortTable(1)">ID<i class="bi bi-filter"></i></th>
-                    <th onclick="sortTable(2)">Name<i class="bi bi-filter"></i></th>
-                    <th onclick="sortTable(3)">Type<i class="bi bi-filter"></i></th>
-                    <th onclick="sortTable(4)">Price<i class="bi bi-filter"></i></th>
-                    <th onclick="sortTable(5)">Specification<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(1)">#<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(2)">ID<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(3)">Name<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(4)">Type<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(5)">Price<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(6)">Specification<i class="bi bi-filter"></i></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -64,7 +64,7 @@
                     <td>$3.00</td>
                     <td>eg1, eg2</td>
                     <td><button class="buttonIcon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </td>
@@ -108,10 +108,7 @@
                     </div>
                     <div class="form-outline">
                       <input type="text" id="foodType" name='foodType' value="{{#if foodType}}{{foodType}}{{/if}}" class="form-control" required/>
-                      <label class="form-label" for="foodType">Food Type <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                    </svg></a></label>
+                      <label class="form-label" for="foodType">Food Type </label>
                     </div>
                     {{!-- <a href="#" class="d-inline-block" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks" data-bs-placement="bottom" data-bs-original-title="Default tooltip">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
@@ -125,18 +122,29 @@
                     </div>
                     
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    {{#each menuSpecification}}
                     <div class="form-check specification">
-                      <input class="form-check-input" name="spiceLevel" type="checkbox" {{#if spiceLevel}}checked{{/if}} value="true" id="flexCheckDefault1"/>
-                      <label class="form-check-label" for="flexCheckDefault1">Spice Level</label>
+                      <input class="form-check-input" name="{{@key}}" type="checkbox" value="true" id="flexCheckDefault{{@index}}"/>
+                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}} <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="It will give user options {{this}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
                     </div>
-                    <div class="form-check specification">
+                    {{/each}}
+                    {{!-- <div class="form-check specification">
                       <input class="form-check-input" name='temperature' type="checkbox" {{#if temperature}}checked{{/if}} value="true" id="flexCheckDefault2"/>
-                      <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
+                      <label class="form-check-label" for="flexCheckDefault2">Temperature <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
                     </div>
                     <div class="form-check specification">
                       <input class="form-check-input" name="portion" type="checkbox" {{#if portion}}checked{{/if}} value="true" id="flexCheckDefault3"/>
-                      <label class="form-check-label" for="flexCheckDefault3">Portion</label>
-                    </div>
+                      <label class="form-check-label" for="flexCheckDefault3">Portion <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
+                    </div> --}}
             </div>
         </div>
       </div>
@@ -182,19 +190,20 @@
                     </div>
 
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    {{#each ../menuSpecification}}
                     <div class="form-check specification">
-                      <input class="form-check-input" name="spiceLevel" type="checkbox" {{#ifIn "spiceLevel" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault1"/>
-                      <label class="form-check-label" for="flexCheckDefault1">Spice Level</label>
+                      <input class="form-check-input" name="{{@key}}" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault{{@index}}"/>
+                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
                     </div>
-                    <div class="form-check specification">
+                    {{/each}}
+                    {{!-- <div class="form-check specification">
                       <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="true" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
                     </div>
                     <div class="form-check specification">
                       <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault3"/>
                       <label class="form-check-label" for="flexCheckDefault3">Portion</label>
-                    </div>
-                
+                    </div>--}}
             </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Menu = require('../models/menu');
 const menuSpecification = require('../models/menuSpecification');
@@ -44,7 +44,7 @@ router.get('/updateMenu', (req, res) => {
 			menus.forEach((menu) => {
 				menu.specifications = JSON.parse(menu.specifications);
 			});
-			res.render('menu/updateMenu', {menus});
+			res.render('menu/updateMenu', {menus, menuSpecification});
 		}
 	});
 });
@@ -57,8 +57,13 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 
 	foodId = foodId.toString();
 
+	if (foodPrice < 0) {
+		errors.push({'text': "Please do not enter negative value for price"});
+	}
+
 	// res.render('menu/updateMenu')
 
+	
 	Menu.findAll({
 		attributes: { exclude: ['restaurantMenuId']}
 	})
@@ -68,14 +73,9 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 				menu.specifications = JSON.parse(menu.specifications);
 			});
 			menuList = menus;
-		}
-	});
-
-	Menu.findOne({ where: {foodNo: foodId} })
-		.then(menu => {
-			if (menu) {
+			if (errors.length > 0) {
 				res.render('menu/updateMenu', {
-					error: menu.name + ' already exists',
+					errors,
 					menus:menuList,
 					foodId,
 					foodName,
@@ -83,27 +83,50 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 					foodPrice,
 					spiceLevel,
 					temperature,
-					portion
+					portion,
+					menuSpecification
 				});
 			} else {
-				if (spiceLevel) {
-					specifications.push('spiceLevel');
-				}
-				if (temperature) {
-					specifications.push('temperature');
-				}
-				if (portion) {
-					specifications.push('portion');
-				}
-				specifications = JSON.stringify(specifications)
-				Menu.create({foodNo:foodId, name:foodName, price:foodPrice, type:foodType, specifications:specifications, restaurantMenuId:1})
+		
+			Menu.findOne({ where: {foodNo: foodId} })
 				.then(menu => {
-					res.redirect('/menu/updateMenu');
+					if (menu) {
+						res.render('menu/updateMenu', {
+							error: menu.name + ' already exists',
+							menus:menuList,
+							foodId,
+							foodName,
+							foodType,
+							foodPrice,
+							spiceLevel,
+							temperature,
+							portion,
+							menuSpecification
+						});
+					} else {
+						if (spiceLevel) {
+							specifications.push('spiceLevel');
+						}
+						if (temperature) {
+							specifications.push('temperature');
+						}
+						if (portion) {
+							specifications.push('portion');
+						}
+						specifications = JSON.stringify(specifications)
+						Menu.create({foodNo:foodId, name:foodName, price:foodPrice, type:foodType, specifications:specifications, restaurantMenuId:1})
+						.then(menu => {
+							res.redirect('/menu/updateMenu');
+						})
+						.catch(err => console.log(err));
+					}
 				})
 				.catch(err => console.log(err));
 			}
-		})
-		.catch(err => console.log(err))
+		}
+	}).catch(err => console.log(err));
+	
+	
 });
 
 
