@@ -1,8 +1,8 @@
 const express = require('express');
 const { session } = require('passport');
 const router = express.Router();
+//Login - Copy Paste
 const User = require("../models/user");
-
 var userLog = false;
 var location = "";
 
@@ -10,16 +10,15 @@ var location = "";
 router.get('/', (req, res) => {
 	const title = "FooDecent Home";
 
-	location = "index";
+	//Login 
+	location = "index"; //Change Location to your res render
 	
 	if(req.session.passport === undefined){
-		nocurrentUser(location, title, res);
-	}else if(req.session.passport.user === undefined){
-		nocurrentUser(location, title, res);
+		nocurrentUser(location, title, res); //Add or Change anything inside the parameter
 	}else if(req.session.passport.user === undefined) {
-		nocurrentUser(location, title, res);
+		nocurrentUser(location, title, res); //Add or Change anything inside the parameter
 	}else{
-		checkCurrentUser(req.session.passport.user, location, title, res);
+		checkCurrentUser(req.session.passport.user, location, title, res); //Add or Change anything inside the parameter
 	}
 	
 });
@@ -32,7 +31,7 @@ router.get('/', (req, res) => {
 
 
 // Rendering of customers
-
+// Copy Paste
 function checkUser(user){
 	if(user > 0){
 		userLog = true;
@@ -41,11 +40,11 @@ function checkUser(user){
 	}
 	return userLog;
 }
-
-function nocurrentUser(location, title, res){
+//Change or add parameter 
+function nocurrentUser(location, title, res){ 
 	res.render(location, {title:title, userLog:false});
 }
-
+//Change or add parameter 
 function checkCurrentUser(user, location, title, res){
 	if(user != 0){
 		 User.findOne({ where: {id: user} })

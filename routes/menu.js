@@ -4,6 +4,10 @@ var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Menu = require('../models/menu');
 const menuSpecification = require('../models/menuSpecification');
+const User = require("../models/user");
+
+var userLog = false;
+var location = "";
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -37,7 +41,6 @@ router.get('/updateMenu', (req, res) => {
 	})
 	.then(menus => {
 		if (menus) {
-			// menus.specifications = JSON.parse(menus.specifications);
 			menus.forEach((menu) => {
 				menu.specifications = JSON.parse(menu.specifications);
 			});
@@ -50,16 +53,30 @@ router.post('/updateMenu', urlencodedParser,(req, res) => {
 	let errors = [];
 	let specifications = [];
 	let {foodId, foodName, foodType, foodPrice, spiceLevel, temperature, portion} = req.body;
+	var menuList;
 
 	foodId = foodId.toString();
 
 	// res.render('menu/updateMenu')
+
+	Menu.findAll({
+		attributes: { exclude: ['restaurantMenuId']}
+	})
+	.then(menus => {
+		if (menus) {
+			menus.forEach((menu) => {
+				menu.specifications = JSON.parse(menu.specifications);
+			});
+			menuList = menus;
+		}
+	});
 
 	Menu.findOne({ where: {foodNo: foodId} })
 		.then(menu => {
 			if (menu) {
 				res.render('menu/updateMenu', {
 					error: menu.name + ' already exists',
+					menus:menuList,
 					foodId,
 					foodName,
 					foodType,

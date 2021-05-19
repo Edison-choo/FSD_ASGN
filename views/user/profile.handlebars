@@ -1,0 +1,227 @@
+<div id="profileForm">
+  <p class="userTitle">My Profile</p>
+  <form method="POST" action="/user/updateUser">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="fname" class="form-control" name="fname" required />
+          <label class="form-label" for="fname">First name</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="lname" class="form-control" name="lname" required />
+          <label class="form-label" for="lname">Last name</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="email" id="email" class="form-control" name="email" required />
+      <label class="form-label" for="email">Email address</label>
+    </div>
+
+    <!-- Phone number input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="phone" class="form-control" name="phone" required />
+      <label class="form-label" for="phone">Phone No.</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input type="password" id="password" class="form-control" name="password" value="" required />
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input type="password" id="cpassword" class="form-control" name="cpassword" value="" required />
+      <label class="form-label" for="cpassword">Confirm Password</label>
+    </div>
+
+    <p style="color: red;">*Enter confirm password to update</p>
+
+    <!-- Submit button -->
+    <button type="submit" class="registerBtn btn btn-primary btn-block mb-4">Update</button>
+  </form>
+</div>
+
+<div class="creditCardForm">
+  <p class="userTitle">Credit Card</p>
+
+  <div id="addCreditCardForm">
+    <button type="button" class="btn btn-primary" onclick="closeForm()" style="background-color:thistle; margin-right: 5%; color: black; float:right">Close</button>
+    <form method="POST" action="/user/addCreditCard">
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="fname" class="form-control" name="fname" required />
+            <label class="form-label" for="fname">First name</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="lname" class="form-control" name="lname" required />
+            <label class="form-label" for="lname">Last name</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" id="email" class="form-control" name="email" required />
+        <label class="form-label" for="email">Email address</label>
+      </div>
+
+      <!-- Credit card number input -->
+      <div class="row g-3 form-outline mb-4">
+        <div class="col-sm-7">
+          <div class="form-outline">
+            <input type="number" id="ccno" class="form-control" />
+            <label class="form-label" for="ccno">Credit Card No.</label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-outline">
+            <input type="month" id="my" class="form-control" value= "" />
+            <label class="form-label" for="my"</label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-outline">
+            <input type="number" id="cvv" class="form-control" />
+            <label class="form-label" for="cvv">CVV</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing address input -->
+      <div class="form-outline mb-4" style="margin-top: -2.5%;">
+        <input type="text" id="address1" class="form-control" name="address1" value="" required />
+        <label class="form-label" for="address1">Billing Address 1</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input type="text" id="address2" class="form-control" name="address2" value="" required />
+        <label class="form-label" for="address2">Billing Address 2</label>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="registerBtn btn btn-primary btn-block mb-8">Add</button> 
+    </form>
+  </div>
+  
+  <div id="updateCreditCardForm">
+    <button type="button" class="btn btn-primary" onclick="closeForm()" style="background-color: thistle; margin-right: 5%; color: black; float:right">Close</button>
+    <form method="POST" action="/user/updateCreditCard">
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="fname" class="form-control" name="fname" required />
+            <label class="form-label" for="fname">First name</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="lname" class="form-control" name="lname" required />
+            <label class="form-label" for="lname">Last name</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" id="email" class="form-control" name="email" required />
+        <label class="form-label" for="email">Email address</label>
+      </div>
+
+      <!-- Credit card number input -->
+      <div class="row g-3 form-outline mb-4">
+        <div class="col-sm-7">
+          <div class="form-outline">
+            <input type="number" id="ccno" class="form-control" />
+            <label class="form-label" for="ccno">Credit Card No.</label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-outline">
+            <input type="month" id="my" class="form-control" value= "" />
+            <label class="form-label" for="my"</label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-outline">
+            <input type="number" id="cvv" class="form-control" />
+            <label class="form-label" for="cvv">CVV</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing address input -->
+      <div class="form-outline mb-4" style="margin-top: -2.5%;">
+        <input type="text" id="address1" class="form-control" name="address1" value="" required />
+        <label class="form-label" for="address1">Billing Address 1</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input type="text" id="address2" class="form-control" name="address2" value="" required />
+        <label class="form-label" for="address2">Billing Address 2</label>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="registerBtn btn btn-primary btn-block mb-8">Update</button> 
+    </form>
+  </div>
+
+  <div id="creditCardList"> 
+    <button type="button" class="accBtn btn btn-primary" onclick="displayAddCreditCard()">Add Credit Card</button>
+    <table width="70%" border="1" id="creditCardTable">
+      <thead>
+        <tr align="center">
+          <th>Name</th>
+          <th>Card No.</th>
+          <th>MM/YY</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr align="center">
+          <td>Cruz Chua</td>
+          <td>**** **** **** 9875</td>
+          <td>12/24</td>
+          <td><button type="button" class="btn btn-primary" onclick="displayUpdateCreditCard()">Update</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  var addCreditCardForm = document.getElementById("addCreditCardForm");
+  var updateCreditCard = document.getElementById("updateCreditCardForm");
+  addCreditCardForm.style.display = "none";
+  updateCreditCard.style.display = "none";
+
+  function displayAddCreditCard(){
+    addCreditCardForm.style.display = "block";
+    updateCreditCard.style.display = "none";
+  }
+
+  function closeForm(){
+    addCreditCardForm.style.display = "none";
+    updateCreditCard.style.display = "none";
+  }
+
+  function displayUpdateCreditCard(){
+    addCreditCardForm.style.display = "none";
+    updateCreditCard.style.display = "block";
+  }
+</script>
+

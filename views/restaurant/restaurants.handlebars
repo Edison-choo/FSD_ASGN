@@ -2,6 +2,7 @@
     .checked {
         color: orange;
     }
+
     .card {
         margin: 15px;
         background-color: #35322d;
@@ -10,23 +11,38 @@
         width: 18rem;
         display: inline-table;
     }
-    .card:hover{
+
+    .card:hover {
         background-color: #ffb03b;
     }
-    a{
+
+    a {
         color: #ffb03b;
     }
-    a:hover{
+
+    a:hover {
         color: #35322d;
     }
-    .w-100{
+
+    .w-100 {
         border-radius: 25px;
     }
-    h4{
+
+    h4 {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-weight: bold;
     }
 </style>
+<!-- Sort By Buttons -->
+<div id="red">
+    Sort By:
+</div>
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button onclick="sortByAZ()" type="button" class="btn btn-primary">Alphabetical<i class="bi bi-sort-up"></i></button>
+    <button onclick="sortByZA()" type="button" class="btn btn-primary">Alphabetical<i class="fas fa-sort-amount-down-alt"></i></button>
+    <button onclick="helloWorld()" type="button" class="btn btn-primary">Right</button>
+</div>
+<br>
 <!-- Cards -->
 {{#each restaurant}}
 <a href="restaurant/restaurant_1/{{this.id}}">
@@ -41,3 +57,11 @@
 </a>
 
 {{/each}}
+<script src="../../public/js/res.js">
+</script>
+
+<script>
+function helloWorld(){
+    window.location.reload();
+}
+</script>

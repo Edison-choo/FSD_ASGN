@@ -6,8 +6,8 @@
     </div>
     <div class="col-md-8">
         <div class="menuNav">
-          <button class="btn btn-dark" onclick="window.location.href='/menu/updateMenu'">Table View (Edit)</button>
-          <button class="btn btn-dark" style="cursor: not-allowed;">User View</button>
+          <button class="btn" onclick="window.location.href='/menu/updateMenu'">Table View (Edit)</button>
+          <button class="btn" style="cursor: not-allowed;">User View</button>
         </div>
         <div class="menuEdit">
             <h1 class="menuTitle">MENU
@@ -32,7 +32,7 @@
                 <div class="menuItem">
                     <div class="menuImage"></div>
                     <div class="menuContent">
-                      <div>{{this.name}}<br>${{this.price}}</div>
+                      <div>{{this.name}}<br><span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
                       <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">Details</button>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
 <!-- Modal -->
 {{#each menus}}
-<div class="modal fade" id="food{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+<div class="modal fade modalMenu" id="food{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,7 +63,7 @@
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent popUpContent2">
-              <div class="popUpContentTitle">{{this.name}}</div>
+              <div class="popUpContentTitle">{{this.name}}<br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
                 <form action="">
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">

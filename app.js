@@ -162,3 +162,14 @@ Handlebars.registerHelper('checklength', function (v1, v2, options) {
 	}
 	return options.inverse(this);
 });
+
+Handlebars.registerHelper('distanceFixed', function(distance) {
+	if (Number.isInteger(distance)) {
+		return distance.toFixed(2);
+	}
+});
+
+Handlebars.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});

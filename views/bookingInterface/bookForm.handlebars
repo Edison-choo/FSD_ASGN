@@ -35,7 +35,7 @@
 </div>
 <br>
 <div class="bookingForm">
-    <form method="POST" action="/bookingInterface/bookForm">
+    <form method="POST" action="/bookingInterface/bookForm/{{res_name}}">
         <div class="container base restab">
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
@@ -75,7 +75,7 @@
             <br>
             <br>
             <h5 style="padding-left: 3px;">Select Time:</h5>
-            <input type="time" step="3600" name="timing" required>
+            <input type="time" step="3600" name="timing" min="{{restaurant.open_time}}" max="{{restaurant.close_time}}" required>
 
             <br>
             <br>

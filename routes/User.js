@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 const User = require("../models/user");
 const bcrypt = require("bcryptjs")
 const passport = require("passport");
+const { response } = require('express');
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -97,4 +98,28 @@ router.get('/logout', (req, res) => {
 router.get('/forget_password', (req, res) => {
 	 res.render('user/forgetpassword');
 });
+
+router.get('/profile', (req,res) => {
+	location = "user/profile";
+	checkCurrentUser(req.session.passport.user, location, res);
+})
+
+function checkUser(user){
+	if(user > 0){
+		userLog = true;
+	}else{
+		userLog = false;
+	}
+	return userLog;
+}
+
+function checkCurrentUser(user, location, res){
+	if(user != 0){
+		 User.findOne({ where: {id: user} })
+		 			.then(users => {
+		 				res.render(location, {fname: users.fname, userLog:checkUser(user)});
+		 			});	
+	 }
+}
+
 module.exports = router;
