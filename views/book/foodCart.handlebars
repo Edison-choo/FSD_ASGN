@@ -36,27 +36,17 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each menus}}
                 <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td>{{inc @index}}</td>
+                <td>{{name}}</td>
+                <td>{{price}}</td>
+                {{#each session.cart}}
+                <td>{{#ifEquals this.id ../this.id}}{{this.quantity}}{{/ifEquals}}</td>
+                {{/each}}
                 <td>delete</td>
                 </tr>
-                <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>delete</td>
-                </tr>
-                <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>delete</td>
-                </tr>
+                {{/each}}
             </tbody>
             </table>
         </div>
