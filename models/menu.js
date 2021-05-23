@@ -17,6 +17,12 @@ const Menu = db.define('menu', {
     specifications: {
         type: Sequelize.STRING
     },
+    restaurantId: {
+        type: Sequelize.INTEGER
+    }
+    // image: {
+    //     type: Sequelize.STRING
+    // },
 });
 
 module.exports = Menu;

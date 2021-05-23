@@ -53,12 +53,13 @@
         <h5 class="modal-title" id="staticBackdrop1Label">Food Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form action="/book/add/{{this.id}}" method="post">
       <div class="modal-body">
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent popUpContent2">
               <div class="popUpContentTitle">{{this.name}}<br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
-                <form action="">
+                
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">
                     <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
@@ -68,8 +69,8 @@
                   {{#ifIn @key ../this.specifications}}
                   <div>
                     <label for="">{{@key}}:</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">  
-                      <option selected>Open this select menu</option>
+                    <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example">  
+                      <option value="" selected>Open this select menu</option>
                       
                       {{#each this}}
                       <option value="{{this}}">{{this}}</option>
@@ -79,13 +80,15 @@
                   {{/ifIn}}
                   {{/each}}
                   
-                </form>
+                
             </div>
         </div>
       </div>
+      
       <div class="modal-footer">
-        <button type="button" class="btn btn-dark">Add To Cart</button>
+        <button type="submit" class="btn btn-dark">Add To Cart</button>
       </div>
+      </form>
     </div>
   </div>
 </div>

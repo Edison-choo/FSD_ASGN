@@ -35,16 +35,7 @@
                     <td>{{this.name}}</td>
                     <td>{{this.type}}</td>
                     <td>${{#distanceFixed this.price}}{{/distanceFixed}}</td>
-                    <td>
-                    {{#each this.specifications}}
-                    {{#if @last}}
-                    {{this}}
-                    {{else}}
-                    {{this}},
-                    {{/if}}
-                    {{/each}}
-                    
-                    </td>
+                    <td>{{this.specifications}}</td>
                     <td><button class="buttonIcon" data-bs-toggle="modal" data-bs-target="#edit{{this.id}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -96,7 +87,7 @@
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent">
-                <form action="/menu/updateMenu" method="POST">
+                <form action="/menu/addMenu" method="POST">
                   <div class="popUpContentTitle">Food Details</div>
                     <div class="form-outline">
                       <input type="text" id="foodId" name='foodId' value="{{#if foodId}}{{foodId}}{{/if}}" class="form-control" required/>
@@ -124,7 +115,7 @@
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
                     {{#each menuSpecification}}
                     <div class="form-check specification">
-                      <input class="form-check-input" name="{{@key}}" type="checkbox" value="true" id="flexCheckDefault{{@index}}"/>
+                      <input class="form-check-input" name="specifications" type="checkbox" value="{{@key}}" id="flexCheckDefault{{@index}}"/>
                       <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}} <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="It will give user options {{this}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                       <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
@@ -192,7 +183,7 @@
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
                     {{#each ../menuSpecification}}
                     <div class="form-check specification">
-                      <input class="form-check-input" name="{{@key}}" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault{{@index}}"/>
+                      <input class="form-check-input" name="specifications" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="{{@key}}" id="flexCheckDefault{{@index}}"/>
                       <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
                     </div>
                     {{/each}}
