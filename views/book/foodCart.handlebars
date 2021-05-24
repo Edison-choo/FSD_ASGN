@@ -30,8 +30,8 @@
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Food</th>
-                <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
                 <th scope="col"></th>
                 </tr>
             </thead>
@@ -40,11 +40,11 @@
                 <tr>
                 <td>{{inc @index}}</td>
                 <td>{{name}}</td>
-                <td>{{price}}</td>
-                {{#each session.cart}}
-                <td>{{#ifEquals this.id ../this.id}}{{this.quantity}}{{/ifEquals}}</td>
+                {{#each ../session.cart}}
+                {{#ifEquals this.id ../this.id}}<td>{{this.quantity}}</td>{{/ifEquals}}
                 {{/each}}
-                <td>delete</td>
+                <td>{{price}}</td>
+                <td><a href="/book/delete/{{id}}">delete</a></td>
                 </tr>
                 {{/each}}
             </tbody>

@@ -196,13 +196,13 @@
 }
 
 .bookTable th {
-  border-top: rgba(54, 54, 54, 0.479) solid 2px;
+  /* border-top: rgba(54, 54, 54, 0.479) solid 2px; */
   border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
 }
 
 .bookTable2 td {
-  border-top: rgba(177, 177, 177, 0.8) solid 1px;
-  border-bottom: rgba(177, 177, 177, 0.8) solid 1px;
+  /* border-top: rgba(177, 177, 177, 0.8) solid 1px; */
+  /* border-bottom: rgba(177, 177, 177, 0.8) solid 1px; */
   font-weight: 300;
   font-size: 0.9em;
 }
