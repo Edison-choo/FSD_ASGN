@@ -21,7 +21,14 @@
                 <div class="menuItem">
                     <div class="menuImage"></div>
                     <div class="menuContent">
-                      <div>{{this.name}}<br><span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
+                      <div>{{this.name}}<br>
+                      <span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
+                      </div>
+                      {{#each ../../session.cart}}
+                      {{#ifEquals this.id ../this.id}}
+                      <div style="font-weight: 300;">Ordered x{{this.quantity}}</div>
+                      {{/ifEquals}}
+                      {{/each}}
                       <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">Order</button>
                     </div>
                 </div>
@@ -58,11 +65,22 @@
         <div class="">
             <div class="menuImage"></div>
             <div class="popUpContent popUpContent2">
-              <div class="popUpContentTitle">{{this.name}}<br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
+              <div class="popUpContentTitle">{{this.name}}
+                <br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
+                </div>
+                {{#each ../session.cart}}
+                {{#ifEquals this.id ../this.id}}
+                <div style="font-weight: 300;">Ordered x{{this.quantity}}</div>
+                {{/ifEquals}}
+                {{/each}}
                 
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">
-                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                    <input type="button" value="-" class="minus">
+                    <input type="number" step="1" min="1" max="" name="quantity" 
+                    value="{{#idIfIn this.id ../session.cart}}{{#each ../session.cart}}{{#ifEquals this.id ../this.id}}{{this.quantity}}{{/ifEquals}}{{/each}}{{else}}1{{/idIfIn}}" 
+                    title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+                    <input type="button" value="+" class="plus">
                   </div>
                   
                   {{#each ../menuSpecification}}
@@ -73,7 +91,19 @@
                       <option value="" selected>Open this select menu</option>
                       
                       {{#each this}}
+                      {{#idIfIn ../../this.id ../../../session.cart}}
+                      {{#each ../../../session.cart}}
+                      {{#ifEquals ../../../this.id this.id}}
+                      {{#ifIn ../this this.specifications}}
+                      <option value="{{../this}}" selected>{{../this}}</option>
+                      {{else}}
+                      <option value="{{../this}}">{{../this}}</option>
+                      {{/ifIn}}
+                      {{/ifEquals}}
+                      {{/each}}
+                      {{else}}
                       <option value="{{this}}">{{this}}</option>
+                      {{/idIfIn}}
                       {{/each}}
                     </select>
                   </div>

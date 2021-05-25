@@ -78,7 +78,8 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
     sess.cart = cart;
   }
   console.log(sess.cart);
-  res.redirect("/book/menuBook");
+  alertMessage(res, "success",'Food is added to the shopping cart', 'fas fa-sign-in-alt', true);
+  res.redirect("/book/menuBook"); 
 });
 
 //delete item from session

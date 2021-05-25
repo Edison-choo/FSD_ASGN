@@ -49,6 +49,7 @@ app.use(
 app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(flash());
+app.use(FlashMessenger.middleware);
 
 app.use(function (req, res, next) {
   res.locals.success_msg = req.flash("success_msg");
@@ -188,4 +189,14 @@ Handlebars.registerHelper("distanceFixed", function (distance) {
 
 Handlebars.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
+});
+
+Handlebars.registerHelper("idIfIn", function (elem, list, options) {
+  if (list) {
+    list = list.map((x) => x.id);
+    if (list.indexOf(elem.toString()) > -1) {
+      return options.fn(this);
+    }
+  }
+  return options.inverse(this);
 });
