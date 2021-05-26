@@ -21,7 +21,25 @@ router.get("/createRestaurant", (req, res) => {
 
 //View Restaurant Page
 router.get("/viewRestaurant", (req, res) => {
-  res.render("staffRestaurant/viewRestaurant");
+  let name = "Subway";
+  Restaurant.findOne({ where: { res_name: name } }).then((restaurant) => {
+    res.render("staffRestaurant/viewRestaurant", { restaurant });
+  });
+});
+
+//Edit Restaurant Page
+router.get("/editRestaurant/:id", (req, res) => {
+  Restaurant.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((restaurant) => {
+    checkOptions(restaurant);
+    res.render("staffRestaurant/editRestaurant", {
+      restaurant: restaurant,
+    });
+  })
+  .catch((err) => console.log(err));
 });
 
 //Post for Create Restaurant Page
@@ -123,4 +141,50 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
   }
 });
 
+function checkOptions(restaurant) {
+  restaurant.western =
+    restaurant.cuisine.search("Western") >= 0 ? "selected" : "";
+  restaurant.mexican =
+    restaurant.cuisine.search("Mexican") >= 0 ? "selected" : "";
+  restaurant.thai = restaurant.cuisine.search("Thai") >= 0 ? "selected" : "";
+  restaurant.indian =
+    restaurant.cuisine.search("Indian") >= 0 ? "selected" : "";
+  restaurant.Japanese =
+    restaurant.cuisine.search("Japanese") >= 0 ? "selected" : "";
+  restaurant.french =
+    restaurant.cuisine.search("French") >= 0 ? "selected" : "";
+  restaurant.chinese =
+    restaurant.cuisine.search("Chinese") >= 0 ? "selected" : "";
+  restaurant.italian =
+    restaurant.cuisine.search("Italian") >= 0 ? "selected" : "";
+  restaurant.seafood =
+    restaurant.cuisine.search("Seafood") >= 0 ? "selected" : "";
+  restaurant.local = restaurant.cuisine.search("Local") >= 0 ? "selected" : "";
+}
+
+//Put for edit restaurant
+router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
+  let {uen, comp_name, address, open_time, close_time, cuisine, halal, comp_email} = req.body;
+  Restaurant.update(
+    {
+      uen: uen,
+      comp_name: comp_name,
+      address: address,
+      open_time: open_time,
+      close_time: close_time,
+      cuisine: cuisine,
+      halal: halal,
+      comp_email: comp_email,
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then(() => {
+      res.redirect("/staffRestaurant/viewRestaurant");
+    })
+    .catch((err) => console.log(err));
+});
 module.exports = router;
