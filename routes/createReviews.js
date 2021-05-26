@@ -14,8 +14,9 @@ router.get('/', (req, res) => {
 router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
     let errors = [];
 
-    let{email, FoodOption, CustOption, EnvOption, comments} = req.body;
-
+    let{FoodOption, CustOption, EnvOption, email, comments} = req.body;
+    console.log(FoodOption);
+    console.log(CustOption);
     if(errors.length > 0){
         res.render('reviews/createReviews', {
             email,
@@ -38,11 +39,11 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
                 });
             } else{
                 Reviews.create({
-                    EmailAddress: email,
-                    FoodRatings: FoodOption,
-                    ServiceRatings: CustOption,
-                    EnvRatings: EnvOption,
-                    AddComments: comments
+                    food: FoodOption,
+                    service: CustOption,
+                    environment: EnvOption,
+                    email: email,
+                    comments: comments
                 }).then(reviews => {
                     res.redirect('/')
                 })

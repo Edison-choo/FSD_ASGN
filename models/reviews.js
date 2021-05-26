@@ -8,7 +8,7 @@ const Reviews = db.define('reviews', {
     service: {
         type: Sequelize.INTEGER
     },
-    environmnet: {
+    environment: {
         type: Sequelize.INTEGER
     },
     email: {
