@@ -20,7 +20,7 @@ router.get('/bookForm/:res_name', (req, res) => {
     res.render('bookingInterface/bookForm', { res_name });
 });
 
-router.get('/updateForm', (req, res) => {
+router.get('/updateForm/:email/:res_name', (req, res) => {
     res.render('bookingInterface/updateForm');
 });
 
