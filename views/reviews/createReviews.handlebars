@@ -1,60 +1,157 @@
+<style>
+  .rating {
+    float:left;
+}
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+/* end of Lea's code */
+
+/*
+ * Clearfix from html5 boilerplate
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* my stuff */
+#status, button {
+    margin: 20px 0;
+}
+
+</style>
 <h2>Leave a Review</h2>
 
 <hr>
 
-<form method="POST" action="/createReviews/reviews/createReviews">
+<form method="POST" action="/createReviews/reviews/createReviews" id="ratingForm">
   <div class="container" id='food' style="margin-bottom: 20px;">
     <h4>How would you rate the food?</h4>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio1" value="option1" />
+      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio1" value=1 />
       <label class="form-check-label" for="inlineRadio1">1</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio2" value="option2" />
+      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio2" value=2 />
       <label class="form-check-label" for="inlineRadio2">2</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio3" value="option3" />
+      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio3" value=3 />
       <label class="form-check-label" for="inlineRadio3">3</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio4" value="option4" />
+      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio4" value=4 />
       <label class="form-check-label" for="inlineRadio2">4</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio5" value="option5" />
+      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio5" value=5 />
       <label class="form-check-label" for="inlineRadio2">5</label>
     </div>
   </div>
+    {{!-- <fieldset class="rating">
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+    </fieldset>
+    </div> --}}
+
 
     <div class="container" id='service' style="margin-bottom: 20px;">
     <h4>How was the customer service?</h4>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio1" value="option1" />
+      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio1" value=1 />
       <label class="form-check-label" for="inlineRadio1">1</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio2" value="option2" />
+      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio2" value=2 />
       <label class="form-check-label" for="inlineRadio2">2</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio3" value="option3" />
+      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio3" value=3 />
       <label class="form-check-label" for="inlineRadio3">3</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio4" value="option4" />
+      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio4" value=4 />
       <label class="form-check-label" for="inlineRadio2">4</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio5" value="option5" />
+      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio5" value=5 />
       <label class="form-check-label" for="inlineRadio2">5</label>
     </div>
   </div>
@@ -62,27 +159,27 @@
     <div class="container" id='environment' style="margin-bottom: 20px;">
     <h4>Is the environment clean?</h4>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio1" value="option1" />
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio1" value=1 />
       <label class="form-check-label" for="inlineRadio1">1</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio2" value="option2" />
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio2" value=2 />
       <label class="form-check-label" for="inlineRadio2">2</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio3" value="option3" />
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio3" value=3 />
       <label class="form-check-label" for="inlineRadio3">3</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio4" value="option4" />
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio4" value=4 />
       <label class="form-check-label" for="inlineRadio2">4</label>
     </div>
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio5" value="option5" />
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio5" value=5 />
       <label class="form-check-label" for="inlineRadio2">5</label>
     </div>
   </div>
@@ -102,3 +199,19 @@
   <!-- Submit button -->
   <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
 </form>
+
+<script>
+  $(document).ready(function() {
+    $("form#ratingForm").submit(function(e) 
+    {
+        e.preventDefault(); // prevent the default click action from being performed
+        if ($("#ratingForm :radio:checked").length == 0) {
+            $('#status').html("nothing checked");
+            return false;
+        } else {
+            $('#status').html( 'You picked ' + $('input:radio[name=rating]:checked').val() );
+        }
+    });
+});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
