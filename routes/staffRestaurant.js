@@ -163,27 +163,18 @@ function checkOptions(restaurant) {
 }
 
 //Put for edit restaurant
-router.put("/saveEditedRestaurant/:id", (req, res) => {
-  let res_name = req.body.res_name;
-  let uen = req.body.uen;
-  let comp_name = req.body.comp_name;
-  let address = req.body.address;
-  let open_time = req.body.open_time;
-  let close_time = req.body.close_time;
-  let cuisine = req.body.cuisine;
-  let halal = req.body.halal;
-  let comp_email = req.body.comp_email;
+router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
+  let {uen, comp_name, address, open_time, close_time, cuisine, halal, comp_email} = req.body;
   Restaurant.update(
     {
-      res_name,
-      uen,
-      comp_name,
-      address,
-      open_time,
-      close_time,
-      cuisine,
-      halal,
-      comp_email,
+      uen: uen,
+      comp_name: comp_name,
+      address: address,
+      open_time: open_time,
+      close_time: close_time,
+      cuisine: cuisine,
+      halal: halal,
+      comp_email: comp_email,
     },
     {
       where: {
@@ -192,7 +183,7 @@ router.put("/saveEditedRestaurant/:id", (req, res) => {
     }
   )
     .then(() => {
-      res.redirect("/restaurant/viewRestaurant");
+      res.redirect("/staffRestaurant/viewRestaurant");
     })
     .catch((err) => console.log(err));
 });

@@ -44,8 +44,7 @@
 </style>
 
 <div class="backTheme">
-    <form action="/staffRestaurant/saveEditedRestaurant/{{restaurant.id}}?_method=PUT" method="post">
-        <input type="hidden" name="_method" value="PUT">
+    <form action="/staffRestaurant/editRestaurant/{{restaurant.id}}" method="post">
         <h1 style="text-align: center;">{{restaurant.res_name}}</h1>
         <hr>
         <img src="https://www.logodesignlove.com/images/monograms/subway-monogram-01.jpg" alt="" style="width: 400px;"
@@ -125,7 +124,7 @@
                 <th>Email:</th>
                 <td>
                     <div class="form-group">
-                        <input type="text" class="form-control" value="{{restaurant.comp_email}}">
+                        <input type="text" class="form-control" name="comp_email" value="{{restaurant.comp_email}}">
                     </div>
                 </td>
             </tr>
