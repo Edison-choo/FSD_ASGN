@@ -33,9 +33,9 @@ router.get("/menuBook", (req, res) => {
 
 router.get("/foodCart", (req, res) => {
   let sess = req.session;
+  console.log(sess.cart);
   if (sess.cart) {
     let cart = sess.cart.map((c) => parseInt(c.id));
-
     Menu.findAll({
       where: {
         id: { [Op.in] : cart }
@@ -63,16 +63,23 @@ router.get("/payment", (req, res) => {
 
 //add item to session
 router.post("/add/:id", urlencodedParser, (req, res) => {
-  cart = [];
+  let cart = [];
+  let existCart = [];
   let { quantity, specifications } = req.body;
   // console.log(quantity, specifications)
   let sess = req.session;
+  if (sess.cart) {
+    existCart = (sess.cart.map((food) => food.id));
+  }
+  console.log(existCart);
   cart.push({
     id: req.params.id,
     quantity: quantity,
     specifications: specifications,
   });
-  if (sess.cart) {
+  if (existCart.indexOf(req.params.id) > -1) {
+    sess.cart[existCart.indexOf(req.params.id)] = cart[0]
+  } else if (sess.cart) {
     sess.cart = sess.cart.concat(cart);
   } else {
     sess.cart = cart;
@@ -83,15 +90,11 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
 });
 
 //delete item from session
-router.get('/delete/:id', (res, req) => {
+router.get('/delete/:id', (req, res) => {
   let sess = req.session;
-  console.log(sess);
-  let cart = sess.cart.filter((c) => c.id == req.params.id);
-  if (cart) {
-    delete sess.cart[sess.cart.indexOf(cart)];
-    res.redirect('video/foodCart');
-  }
-  res.redirect('video/foodCart');
+  sess.cart = sess.cart.filter((c) => c.id !== req.params.id);
+  alertMessage(res, "success",'Food is removed to the shopping cart', 'fas fa-trash-alt', true);
+  res.redirect('../../book/foodCart');
 });
 
 module.exports = router;

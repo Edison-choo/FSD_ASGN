@@ -29,6 +29,10 @@ router.get('/', (req, res) => {
 	res.render('index', {title: title})
 });
 
+// User Login Route
+router.get('/showLogin', (req, res) => {
+	res.render('user/login');
+});
 
 // Rendering of customers
 // Copy Paste

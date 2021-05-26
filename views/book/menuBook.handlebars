@@ -68,11 +68,6 @@
               <div class="popUpContentTitle">{{this.name}}
                 <br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
                 </div>
-                {{#each ../session.cart}}
-                {{#ifEquals this.id ../this.id}}
-                <div style="font-weight: 300;">Ordered x{{this.quantity}}</div>
-                {{/ifEquals}}
-                {{/each}}
                 
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">

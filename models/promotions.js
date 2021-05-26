@@ -2,6 +2,9 @@ const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 
 const Promotions = db.define('promotions',{
+    name: {
+        type: Sequelize.STRING
+    },
     startdate: {
         type: Sequelize.DATE
     },

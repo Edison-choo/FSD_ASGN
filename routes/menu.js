@@ -51,7 +51,6 @@ router.get("/updateMenu", (req, res) => {
 router.post("/addMenu", urlencodedParser, (req, res) => {
   let errors = [];
   let { foodId, foodName, foodType, foodPrice, specifications } = req.body;
-  var menuList;
 
   foodId = foodId.toString();
 
@@ -83,9 +82,9 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
           Menu.findOne({ where: { foodNo: foodId } })
             .then((menu) => {
               if (menu) {
+                alertMessage(res, "danger",'Food id is already registered', 'fas fa-ban', true);
                 res.render("menu/updateMenu", {
-                  error: menu.name + " already exists",
-                  menus: menuList,
+                  menus: menus,
                   foodId,
                   foodName,
                   foodType,
@@ -106,6 +105,7 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                   restaurantId: id,
                 })
                   .then((menu) => {
+                    alertMessage(res, "success",'Food is successfully added to the menu', 'fas fa-check-circle', true);
                     res.redirect("/menu/updateMenu");
                   })
                   .catch((err) => console.log(err));
@@ -139,6 +139,7 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
       } else {
         console.log(`Unsuccessful update of data...`);
       }
+      alertMessage(res, "success",'Food is successfully updated', 'fas fa-check-circle', true);
       res.redirect("/menu/updateMenu");
     })
     .catch((err) => console.log(err));
@@ -153,6 +154,7 @@ router.get("/delete/:id", (req, res) => {
       } else {
         console.log("Unsuccessful deletion of data...");
       }
+      alertMessage(res, "success",'Food is successfully deleted from the menu', 'fas fa-check-circle', true);
       res.redirect("/menu/updateMenu");
     })
     .catch((err) => console.log(err));

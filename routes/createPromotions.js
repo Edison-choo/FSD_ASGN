@@ -30,7 +30,7 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
         Promotions.findOne({ where: {name:req.body.name} })
         .then(promotions => {
             if(promotions){
-                res.render('promotion/createPromotion', {
+                res.render('promotion/createPromotions', {
                     error: promotions.name + 'already exist',
                     name,
                     startdate,
@@ -41,13 +41,14 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
                 });
             } else {
                 Promotions.create({
-                    PromoName: name,
-                    PromoStart: startdate,
-                    PromoEnd: enddate,
-                    DiscountAmt: discount,
-                    BannerImg: banner
+                    name: name,
+                    startdate: startdate,
+                    enddate: enddate,
+                    discount: discount,
+                    details: details,
+                    banner: banner
                 }).then(promotions =>{
-                    res.redirect('/promotion/createPromotions');
+                    res.redirect('/createPromotions');
                 })
                 .catch(err => console.log(err));
             }
