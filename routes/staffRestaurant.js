@@ -19,6 +19,11 @@ router.get("/createRestaurant", (req, res) => {
   res.render("staffRestaurant/createRestaurant");
 });
 
+//View Restaurant Page
+router.get("/viewRestaurant", (req, res) => {
+  res.render("staffRestaurant/viewRestaurant");
+});
+
 //Post for Create Restaurant Page
 router.post("/createRestaurant", urlencodedParser, (req, res) => {
   let errors = [];
