@@ -1,116 +1,141 @@
 <h1>Tell us about your restaurant:</h1>
 <hr>
 <br>
-<form action="/staffRestaurant/createRestaurant" method="post">
-    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#companyDetails"
-        aria-expanded="false" aria-controls="collapseExample">
-        <div class="card-body">
-            <div class="boxText">1: Enter Company Details <i class="fas fa-building"></i></div>
-        </div>
-    </button>
+<div id="smartwizard" class="formTab">
+    <ul class="nav">
+        <li>
+            <a class="nav-link" href="#step-1">
+                Enter Company Details
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#step-2">
+                Enter Restaurant Details
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#step-3">
+                Enter Links For Socials
+            </a>
+        </li>
+    </ul>
+    <form action="/staffRestaurant/createRestaurant" method="post">
+        <div class="tab-content formTab">
+            <div id="step-1" class="tab-pane" role="tabpanel">
+                <div class="form-outline mb-4">
+                    <input type="text" id="comp_name" name="comp_name" class="form-control" />
+                    <label class="form-label" for="comp_name">Company name</label>
+                </div>
 
-    <!-- Collapsed content -->
-    <div class="collapse mt-3" id="companyDetails">
+                <!-- Address -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="address" name="address" class="form-control" />
+                    <label class="form-label" for="address">Address</label>
+                </div>
 
-        <!-- Company name -->
-        <div class="form-outline mb-4">
-            <input type="text" id="comp_name" name="comp_name" class="form-control" />
-            <label class="form-label" for="comp_name">Company name</label>
-        </div>
-
-        <!-- Address -->
-        <div class="form-outline mb-4">
-            <input type="text" id="address" name="address" class="form-control" />
-            <label class="form-label" for="address">Address</label>
-        </div>
-
-        <!-- Company Email -->
-        <div class="form-outline mb-4">
-            <input type="email" id="comp_email" name="comp_email" class="form-control" />
-            <label class="form-label" for="comp_email">Company Email</label>
-        </div>
+                <!-- Company Email -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="comp_email" name="comp_email" class="form-control" />
+                    <label class="form-label" for="comp_email">Company Email</label>
+                </div>
 
 
-        <!-- UEN -->
-        <div class="form-outline mb-4">
-            <input type="text" id="uen" name="uen" class="form-control" />
-            <label class="form-label" for="uen">Unique Entity Number</label>
+                <!-- UEN -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="uen" name="uen" class="form-control" />
+                    <label class="form-label" for="uen">Unique Entity Number</label>
+                </div>
+            </div>
+            <div id="step-2" class="tab-pane" role="tabpanel">
+                <!-- Restaurant name -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="res_name" name="res_name" class="form-control" />
+                    <label class="form-label" for="res_name">Restaurant name</label>
+                </div>
+                <!-- Cuisine -->
+                <select class="form-select" id="cuisine" name="cuisine">
+                    <option selected>Cuisine</option>
+                    <option value="Western">Western</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="French">French</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Seafood">Seafood</option>
+                    <option value="Local">Local</option>
+                </select>
+                <br>
+                <!-- Opening and Closing Hours -->
+                <div class="form_group">
+                    <label for="open_time">Opening:</label>
+                    <input type='text' name="open_time" class="form-control" id="open_time" />
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="close_time">Closing:</label>
+                    <input type='text' name="close_time" class="form-control" id="close_time" />
+                </div>
+                <br>
+                <!-- Halal -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value=1 id="halal" name="halal">
+                    <label class="form-check-label" for="halal">
+                        Halal
+                    </label>
+                </div>
+            </div>
+            <div id="step-3" class="tab-pane" role="tabpanel">
+                <!-- Facebook Link -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="facebook" name="facebook" class="form-control" />
+                    <label class="form-label" for="facebook">Facebook account url</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="twitter" name="twitter" class="form-control" />
+                    <label class="form-label" for="twitter">Twitter account url</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="instagram" name="instagram" class="form-control" />
+                    <label class="form-label" for="instagram">Instagram account url</label>
+                </div>
+                <div class="">
+                    <button class="btn btn-primary btn-block">SUBMIT<i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
         </div>
-    </div>
-    <br>
-    <br>
-    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#restaurantDetails"
-        aria-expanded="false" aria-controls="collapseExample">
-        <div class="card-body">
-            <div class="boxText">2: Enter Restaurant Details <i class="fas fa-utensils"></i></div>
-        </div>
-    </button>
-    <br>
-    <br>
-    <!-- Collapsed content -->
-    <div class="collapse mt-3" id="restaurantDetails">
-        <!-- Restaurant name -->
-        <div class="form-outline mb-4">
-            <input type="text" id="res_name" name="res_name" class="form-control" />
-            <label class="form-label" for="res_name">Restaurant name</label>
-        </div>
-        <!-- Cuisine -->
-        <select class="form-select" id="cuisine" name="cuisine">
-            <option selected>Cuisine</option>
-            <option value="Western">Western</option>
-            <option value="Mexican">Mexican</option>
-            <option value="Thai">Thai</option>
-            <option value="Indian">Indian</option>
-            <option value="Japanese">Japanese</option>
-            <option value="French">French</option>
-            <option value="Chinese">Chinese</option>
-            <option value="Italian">Italian</option>
-            <option value="Seafood">Seafood</option>
-            <option value="Local">Local</option>
-        </select>
-        <br>
-        <!-- Opening and Closing Hours -->
-        <div>Select Opening and Closing hours:</div>
-        <div style="border: 1px solid lightgrey; border-radius:10px; padding: 10px;">
-            <label for="open_time">Opening:</label>
-            <input type="time" id="open_time" name="open_time" class="input-group mb-3">
-            <label for="close_time">Closing:</label>
-            <input type="time" id="close_time" name="close_time" class="input-group mb-3">
-        </div>
-        <br>
-        <!-- Halal -->
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value= 1 id="halal" name="halal">
-            <label class="form-check-label" for="halal">
-                Halal
-            </label>
-        </div>
-        <br>
-    </div>
-    <button class="collapse_btn" type="button" data-mdb-toggle="collapse" data-mdb-target="#socialMedia"
-        aria-expanded="false" aria-controls="collapseExample">
-        <div class="card-body">
-            <div class="boxText">3: Enter links for Socials <i class="fas fa-user-friends"></i></div>
-        </div>
-    </button>
-    <div class="collapse mt-3" id="socialMedia">
-        <!-- Facebook Link -->
-        <div class="form-outline mb-4">
-            <input type="text" id="facebook" name="facebook" class="form-control" />
-            <label class="form-label" for="facebook">Facebook account url</label>
-        </div>
-        <div class="form-outline mb-4">
-            <input type="text" id="twitter" name="twitter" class="form-control" />
-            <label class="form-label" for="twitter">Twitter account url</label>
-        </div>
-        <div class="form-outline mb-4">
-            <input type="text" id="instagram" name="instagram" class="form-control" />
-            <label class="form-label" for="instagram">Instagram account url</label>
-        </div>
-    </div>
-    <!-- Submit button -->
-    <div style="margin-top: 50px;">
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit details <i
-                class="fas fa-paper-plane"></i></button>
-    </div>
-</form>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+    type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"
+    type="text/javascript"></script>
+
+<script>
+    $(function () {
+        $('#open_time').timepicker
+            ({
+                format: 'HH:MM',
+                uiLibrary: 'bootstrap4',
+            });
+        $('#close_time').timepicker
+            ({
+                format: 'HH:MM',
+                uiLibrary: 'bootstrap4',
+            });
+        $('#smartwizard').smartWizard({
+            theme: "dots",
+            transition: {
+                animation: "slide-horizontal",
+                speed: "400",
+            }
+        });
+    });
+</script>

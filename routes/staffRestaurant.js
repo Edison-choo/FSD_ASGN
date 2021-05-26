@@ -21,7 +21,25 @@ router.get("/createRestaurant", (req, res) => {
 
 //View Restaurant Page
 router.get("/viewRestaurant", (req, res) => {
-  res.render("staffRestaurant/viewRestaurant");
+  let name = "Subway";
+  Restaurant.findOne({ where: { res_name: name } }).then((restaurant) => {
+    res.render("staffRestaurant/viewRestaurant", { restaurant });
+  });
+});
+
+//Edit Restaurant Page
+router.get("/editRestaurant/:id", (req, res) => {
+  Restaurant.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((restaurant) => {
+    checkOptions(restaurant);
+    res.render("staffRestaurant/editRestaurant", {
+      restaurant: restaurant,
+    });
+  })
+  .catch((err) => console.log(err));
 });
 
 //Post for Create Restaurant Page
@@ -123,4 +141,59 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
   }
 });
 
+function checkOptions(restaurant) {
+  restaurant.western =
+    restaurant.cuisine.search("Western") >= 0 ? "selected" : "";
+  restaurant.mexican =
+    restaurant.cuisine.search("Mexican") >= 0 ? "selected" : "";
+  restaurant.thai = restaurant.cuisine.search("Thai") >= 0 ? "selected" : "";
+  restaurant.indian =
+    restaurant.cuisine.search("Indian") >= 0 ? "selected" : "";
+  restaurant.Japanese =
+    restaurant.cuisine.search("Japanese") >= 0 ? "selected" : "";
+  restaurant.french =
+    restaurant.cuisine.search("French") >= 0 ? "selected" : "";
+  restaurant.chinese =
+    restaurant.cuisine.search("Chinese") >= 0 ? "selected" : "";
+  restaurant.italian =
+    restaurant.cuisine.search("Italian") >= 0 ? "selected" : "";
+  restaurant.seafood =
+    restaurant.cuisine.search("Seafood") >= 0 ? "selected" : "";
+  restaurant.local = restaurant.cuisine.search("Local") >= 0 ? "selected" : "";
+}
+
+//Put for edit restaurant
+router.put("/saveEditedRestaurant/:id", (req, res) => {
+  let res_name = req.body.res_name;
+  let uen = req.body.uen;
+  let comp_name = req.body.comp_name;
+  let address = req.body.address;
+  let open_time = req.body.open_time;
+  let close_time = req.body.close_time;
+  let cuisine = req.body.cuisine;
+  let halal = req.body.halal;
+  let comp_email = req.body.comp_email;
+  Restaurant.update(
+    {
+      res_name,
+      uen,
+      comp_name,
+      address,
+      open_time,
+      close_time,
+      cuisine,
+      halal,
+      comp_email,
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then(() => {
+      res.redirect("/restaurant/viewRestaurant");
+    })
+    .catch((err) => console.log(err));
+});
 module.exports = router;

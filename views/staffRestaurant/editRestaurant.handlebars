@@ -1,0 +1,152 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<style>
+    .backTheme {
+        background-color: #35322d;
+        color: #FFFFFF;
+        padding: 20px;
+        border-radius: 15px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 900px;
+    }
+
+    .tblTheme {
+        background-color: #35322d;
+        color: #FFFFFF;
+        padding: 20px;
+
+    }
+
+    th {
+        color: #ffb03b;
+    }
+
+    img {
+        margin: 20px;
+    }
+
+    .table-hover {
+        color: white;
+         !important
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+</style>
+
+<div class="backTheme">
+    <form action="/staffRestaurant/saveEditedRestaurant/{{restaurant.id}}?_method=PUT" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <h1 style="text-align: center;">{{restaurant.res_name}}</h1>
+        <hr>
+        <img src="https://www.logodesignlove.com/images/monograms/subway-monogram-01.jpg" alt="" style="width: 400px;"
+            class="center">
+        <table class="table table-dark table-hover tblTheme">
+            <tr>
+                <th>UEN:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="text" id="uen" name="uen" class="form-control" value="{{restaurant.uen}}" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Company Name:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="comp_name" class="form-control" value="{{restaurant.comp_name}}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Location:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="address" class="form-control" value="{{restaurant.address}}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Opening Time:</th>
+                <td>
+                    <div class="form_group">
+                        <label for="open_time">Opening:</label>
+                        <input type='text' name="open_time" class="form-control" id="open_time"
+                            value="{{restaurant.open_time}}" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Closing Time:</th>
+                <td>
+                    <div class="form-group">
+                        <label for="close_time">Closing:</label>
+                        <input type='text' name="close_time" class="form-control" id="close_time"
+                            value="{{restaurant.close_time}}" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Cuisine:</th>
+                <td>
+                    <select class="form-select" id="cuisine" name="cuisine">
+                        <option value="Western" {{restaurant.western}}>Western</option>
+                        <option value="Mexican" {{restaurant.mexican}}>Mexican</option>
+                        <option value="Thai" {{restaurant.thai}}>Thai</option>
+                        <option value="Indian" {{restaurant.indian}}>Indian</option>
+                        <option value="Japanese" {{restaurant.japanese}}>Japanese</option>
+                        <option value="French" {{restaurant.french}}>French</option>
+                        <option value="Chinese" {{restaurant.chinese}}>Chinese</option>
+                        <option value="Italian" {{restaurant.italian}}>Italian</option>
+                        <option value="Seafood" {{restaurant.seafood}}>Seafood</option>
+                        <option value="Local" {{restaurant.local}}>Local</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Halal:</th>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value=1 id="halal" name="halal" {{#if
+                            restaurant.halal}}checked{{/if}}>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="text" class="form-control" value="{{restaurant.comp_email}}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button id="butAddVideo" class="btn btn-primary btn-block">Save</button>
+    </form>
+</div>
+
+
+
+<script>
+    $(function () {
+        $('#open_time').timepicker
+            ({
+                format: 'HH:MM',
+                uiLibrary: 'bootstrap4',
+            });
+        $('#close_time').timepicker
+            ({
+                format: 'HH:MM',
+                uiLibrary: 'bootstrap4',
+            });
+    });
+</script>
