@@ -82,8 +82,8 @@
                   {{#ifIn @key ../this.specifications}}
                   <div>
                     <label for="">{{@key}}:</label>
-                    <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example">  
-                      <option value="" selected>Open this select menu</option>
+                    <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example" required>  
+                      <option value="">Open this select menu</option>
                       
                       {{#each this}}
                       {{#idIfIn ../../this.id ../../../session.cart}}

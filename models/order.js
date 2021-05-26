@@ -5,6 +5,9 @@ const Order = db.define('order', {
     userId: {
         type: Sequelize.INTEGER
     },
+    food: {
+        type: Sequelize.STRING
+    },
     date: {
         type: Sequelize.DATE
     },

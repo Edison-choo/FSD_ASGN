@@ -39,33 +39,24 @@
                     <th scope="col">Food</th>
                     <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
-                    <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{#each menus}}
                     <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>delete</td>
+                    <td>{{#inc @index}}{{/inc}}</td>
+                    <td>{{name}}</td>
+                    <td>{{price}}</td>
+                    {{#each ../order.food}}
+                    {{#ifEquals id ../id}}
+                    <td>{{quantity}}</td>
+                    {{/ifEquals}}
+                    {{/each}}
                     </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>delete</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>delete</td>
-                    </tr>
+                    {{/each}}
                 </tbody>
                 </table>
+                <div style="float:right;margin-right:20px;">Total: ${{#distanceFixed order.total}}{{/distanceFixed}}</div>
             </div>
         </div>
         <button type="button" name="" id="" class="btn btn-block homeButton" onclick="window.location.href='/'">Back To Home</button>

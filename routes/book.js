@@ -7,6 +7,7 @@ const menuSpecification = require("../models/menuSpecification");
 const { session } = require("passport");
 // const { Sequelize } = require("sequelize/types");
 const { Op } = require("sequelize");
+const Order = require("../models/order");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -33,7 +34,7 @@ router.get("/menuBook", (req, res) => {
 
 router.get("/foodCart", (req, res) => {
   let sess = req.session;
-  console.log(sess.cart);
+  // console.log(sess.cart);
   if (sess.cart) {
     let cart = sess.cart.map((c) => parseInt(c.id));
     Menu.findAll({
@@ -43,7 +44,12 @@ router.get("/foodCart", (req, res) => {
     })
       .then((menus) => {
         if (menus) {
-          res.render("book/foodCart", {menus});
+          let count = 0;
+          menus.forEach((food) => {
+            count += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
+          })
+          req.session.total = count;
+          res.render("book/foodCart", {menus, count});
         }
       })
       .catch((err) => console.log(err))
@@ -53,8 +59,27 @@ router.get("/foodCart", (req, res) => {
   
 });
 
-router.get("/receipt", (req, res) => {
-  res.render("book/receipt");
+router.get("/receipt/:id", (req, res) => {
+  Order.findOne({ where: { id:req.params.id } })
+    .then((order) => {
+      if (order) {
+        order.food = JSON.parse(order.food);
+        if (order.food) {
+          let cart = order.food.map((c) => parseInt(c.id));
+          Menu.findAll({
+            where: {
+              id: { [Op.in] : cart }
+            },
+          })
+            .then((menus) => {
+              if (menus) {
+                res.render("book/receipt", {order, menus});
+              }
+            })
+            .catch((err) => console.log(err))
+        }
+      }
+    }).catch((err) => console.log(err));
 });
 
 router.get("/payment", (req, res) => {
@@ -95,6 +120,42 @@ router.get('/delete/:id', (req, res) => {
   sess.cart = sess.cart.filter((c) => c.id !== req.params.id);
   alertMessage(res, "success",'Food is removed to the shopping cart', 'fas fa-trash-alt', true);
   res.redirect('../../book/foodCart');
+});
+
+//create order
+router.post('/createOrder', urlencodedParser, (req, res) => {
+  let sess = req.session;
+  let {remark} = req.body;
+  if (sess.cart) {
+    let total = 0;
+    // let cart = sess.cart.map((c) => parseInt(c.id));
+    // Menu.findAll({
+    //   where: {
+    //     id: { [Op.in] : cart }
+    //   },
+    // })
+    //   .then((menus) => {
+    //     if (menus) {
+    //       menus.forEach((food) => {
+    //         $scope.total += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
+    //       })
+    //     }
+    //   })
+    //   .catch((err) => console.log(err))
+    Order.create({
+      userId: 1,
+      food:JSON.stringify(sess.cart),
+      date: new Date(),
+      total:req.session.total,
+      remarks: remark
+    }).then((order) => {
+      sess.cart = undefined;
+      res.redirect('/book/receipt/'+order.id);
+    }).catch((err) => console.log(err));
+  } else {
+    console.log("test")
+    res.redirect('/book/foodCart');
+  }
 });
 
 module.exports = router;
