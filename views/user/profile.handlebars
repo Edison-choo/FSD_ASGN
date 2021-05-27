@@ -45,7 +45,7 @@
     <p style="color: red;">*Enter confirm password to update</p>
 
     <!-- Submit button -->
-    <button type="submit" class="registerBtn btn btn-primary btn-block mb-4">Update</button>
+    <button type="submit" class="AllBtn register Btn btn btn-primary btn-block mb-4">Update</button>
   </form>
 </div>
 
@@ -112,7 +112,7 @@
       </div>
 
       <!-- Submit button -->
-      <button type="submit" class="registerBtn btn btn-primary btn-block mb-8">Add</button> 
+      <button type="submit" class="AllBtn registerBtn btn btn-primary btn-block mb-8">Add</button> 
     </form>
   </div>
   
@@ -176,12 +176,12 @@
       </div>
 
       <!-- Submit button -->
-      <button type="submit" class="registerBtn btn btn-primary btn-block mb-8">Update</button> 
+      <button type="submit" class="AllBtn registerBtn btn btn-primary btn-block mb-8">Update</button> 
     </form>
   </div>
 
   <div id="creditCardList"> 
-    <button type="button" class="accBtn btn btn-primary" onclick="displayAddCreditCard()">Add Credit Card</button>
+    <button type="button" class="AllBtn accBtn btn btn-primary" onclick="displayAddCreditCard()">Add Credit Card</button>
     <table width="70%" border="1" id="creditCardTable">
       <thead>
         <tr align="center">
@@ -196,12 +196,16 @@
           <td>Cruz Chua</td>
           <td>**** **** **** 9875</td>
           <td>12/24</td>
-          <td><button type="button" class="btn btn-primary" onclick="displayUpdateCreditCard()">Update</button></td>
+          <td><button type="button" class="AllBtn btn btn-primary" onclick="displayUpdateCreditCard()">Update</button></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+<br>
+
+<button type="button" class="btn btn-primary" style="background-color: thistle  ; color: black">Delete Account</button>
 
 <script>
   var addCreditCardForm = document.getElementById("addCreditCardForm");

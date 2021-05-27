@@ -34,6 +34,17 @@
   margin-left: 4%;
 }
 
+.AllBtn {
+  border: 3px solid #ffb03b;
+  background-color: #35322d;
+  color: #ffb03b;
+}
+.AllBtn:hover {
+  border: 3px solid #35322d;
+  background-color: #ffb03b;
+  color: #35322d;
+}
+
 /* Chrome, Safari, Edge, Opera */
 #registerForm input[type=number]::-webkit-outer-spin-button,
 #registerForm input[type=number]::-webkit-inner-spin-button,
