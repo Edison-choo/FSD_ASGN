@@ -1,27 +1,22 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="../../public/js/tableLayout.js"></script>
 <style>
     .checked {
         color: orange;
     }
 
     .seat {
-        height: 25px;
-        width: 25px;
+        height: 50px;
+        width: 50px;
         background-color: #bbb;
         border-radius: 50%;
         display: inline-block;
     }
 
     .square {
-        height: 25px;
-        width: 25px;
-        background-color: #555;
-    }
-    .center{
-        margin-left: auto;
-        margin-right: auto;
+        height: 100%;
+        width: 100%;
+        background-color: #bbb;
+        display: inline-block;
     }
 </style>
 <div class="media row" style="padding: 10px; background-color:#f2f1ef;">
@@ -63,8 +58,7 @@
                     <td>{{restaurant.cuisine}}</td>
                 </tr>
                 <tr>
-                    <td>Halal <img src="https://img.icons8.com/ios/452/halal-sign.png" alt=""
-                            style="width: 25px; height: 25px;">:</td>
+                    <td>Halal <img src="https://img.icons8.com/ios/452/halal-sign.png" alt="" style="width: 25px; height: 25px;">:</td>
                     {{#if restaurant.halal}}
                     <td>Yes</td>
                     {{/if}}
@@ -78,55 +72,20 @@
                 </tr>
                 <tr>
                     <td>Email:</td>
-                    <td>{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i
-                                class="fas fa-envelope"></i></a> </td>
+                    <td>{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
             <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn btn-primary btn-block">Book a
                 table</a>
         </div>
     </div>
+    <br>
+    <div id="resDiv">
+        <table id = "resTable">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+    </div>
 </div>
-<br>
-<div id="table-wrap">
-    <table id="drawing-table" class="center">
-        <tr>
-            <td></td>
-        </tr>
-    </table>
-</div>
-
-<script>
-    function buildGrid(cols, rows) {
-
-        var tableMarkup = "";
-
-        for (x = 0; x < rows; x++) {
-            tableMarkup += "<tr>";
-            for (y = 0; y < cols; y++) {
-                tableMarkup += "<td><div class='square'></div></td>";
-            }
-            tableMarkup += "</tr>";
-        }
-
-        $("#drawing-table").html(tableMarkup)
-
-    };
-
-    $(function () {
-
-        // Variable Setup
-        var cols = 40,
-            rows = 30,
-            curColor = "red",
-            mouseDownState = false,
-            eraseState = false,
-            tracingMode = false,
-            prevColor = "",
-            $el;
-
-        // Inital Build of Table  
-        buildGrid(cols, rows);
-    });
-
-</script>
+<script src="../../public/js/res.js"></script>

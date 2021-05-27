@@ -21,7 +21,6 @@
     "express-mysql-session": "^2.1.6",
     "express-session": "^1.15.6",
     "flash-messenger": "^1.1.1",
-    "jquery": "^3.6.0",
     "jquery.steps": "^1.1.1",
     "mdb-ui-kit": "^3.5.1",
     "method-override": "^3.0.0",
