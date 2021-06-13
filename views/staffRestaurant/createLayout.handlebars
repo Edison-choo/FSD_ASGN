@@ -100,6 +100,16 @@
         z-index: 20;
     }
     .selected { border: 3px solid black; }
+    .legendBorder{
+      border: 3px solid black;
+      border-radius: 15px;
+      padding: 20px;
+    }
+    .legendBorder legend {
+      display: block;
+      padding-inline-start: 2px;
+      padding-inline-end: 2px;
+    }
 </style>
 
 <h1>Create your restaurant layout:</h1>
@@ -117,16 +127,17 @@
         </table>
     </div>
     <div class="col-md-3">
-      <div id="color-selector">
+      <div class="legendBorder">
+      <fieldset id="color-selector">
         <legend>Color Picker</legend>
         <div class="color red selected" data-class="square"><div class="square center"></div><input type="text"></div>
         <div class="color green" data-class="seat"><div class="seat center"></div><input type="text"></div>
         <div class="color eraser" data-class="eraser"><i class="fas fa-eraser center centerText"></i></div>
+      </fieldset>
       </div>
     </div>
     </div>
 </form>
-<button>Click Me</button>
 <script>
     function buildGrid(cols, rows) {
 
