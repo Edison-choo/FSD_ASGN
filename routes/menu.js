@@ -51,6 +51,7 @@ router.get("/updateMenu", (req, res) => {
 router.post("/addMenu", urlencodedParser, (req, res) => {
   let errors = [];
   let { foodId, foodName, foodType, foodPrice, specifications } = req.body;
+  // let foodId = foodType.slice(0, 1).toUpperCase() + '01';
 
   foodId = foodId.toString();
 
