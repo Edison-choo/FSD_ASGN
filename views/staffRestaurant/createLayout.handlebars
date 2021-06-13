@@ -37,8 +37,9 @@
         text-align: center;
         padding-left: 9px;
         color: #bbb;
+        cursor: pointer;
     }
-    .centerText {
+    .centerText:hover{
         color: #555;
     }
     .tableLayout {
@@ -56,7 +57,7 @@
         height: 25px;
         width: 25px;
         cursor: pointer;
-        background-color: yellow;
+        background-color: white;
     }
 
     .checkTD:hover {
@@ -88,7 +89,6 @@
         left: 20px;
         width: 14px;
         height: 14px;
-        background: url(../images/colordot.png) no-repeat;
         border: 0;
     }
 
@@ -99,23 +99,31 @@
     .colorpicker {
         z-index: 20;
     }
+    .selected { border: 3px solid black; }
 </style>
 
 <h1>Create your restaurant layout:</h1>
 
 <form action="" method="post">
-    <fieldset id="color-selector">
-        <legend>Color Picker</legend>
-        <div class="color red selected" data-color="red"><div class="square center"></div><input type="text"></div>
-        <div class="color green" data-color="green"><div class="seat center"></div><input type="text"></div>
-        <div class="color eraser" data-color="eraser"><i class="fas fa-eraser center centerText"></i></div>
-    </fieldset>
-    <div id="table-wrap">
+    <div class="row">
+
+    
+    
+    <div id="table-wrap" class="col-md-9">
         <table id="drawing-table" class="tableLayout">
             <tr>
                 <td></td>
             </tr>
         </table>
+    </div>
+    <div class="col-md-3">
+      <div id="color-selector">
+        <legend>Color Picker</legend>
+        <div class="color red selected" data-class="square"><div class="square center"></div><input type="text"></div>
+        <div class="color green" data-class="seat"><div class="seat center"></div><input type="text"></div>
+        <div class="color eraser" data-class="eraser"><i class="fas fa-eraser center centerText"></i></div>
+      </div>
+    </div>
     </div>
 </form>
 <button>Click Me</button>
@@ -141,7 +149,7 @@
         // Variable Setup
         var cols = 32,
             rows = 18,
-            curColor = "red",
+            curFur = "square",
             mouseDownState = false,
             eraseState = false,
             tracingMode = false,
@@ -154,11 +162,27 @@
             mouseDownState = true;
             $el = $(this).children("label");
             if (eraseState) {
-                $el.removeAttr("style");
+                $el.removeClass();
+                $el.addClass("checkTD");
             } else {
                 $el.removeClass();
-                $el.addClass("seat");
+                $el.addClass(curFur);
             }
         })
+        	$("#color-selector").delegate(".color", "click", function() {
+		
+		$el = $(this);
+		var pulledVal = $el.attr("data-class");
+		
+		if (pulledVal == 'eraser') {
+			eraseState = true;
+		} else {
+			eraseState = false;
+			curFur = pulledVal;
+		}
+		
+		$(".color").removeClass("selected");
+		$(this).addClass("selected");
+	});
     });
 </script>
