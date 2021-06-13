@@ -187,4 +187,12 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+
+//Get create table layout page
+router.get("/createLayout", (req, res) => {
+  res.render("staffRestaurant/createLayout");
+});
+
+
 module.exports = router;
