@@ -191,6 +191,12 @@ Handlebars.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
 });
 
+let orderNum = 0
+Handlebars.registerHelper("num", function (options) {
+  orderNum ++;
+  return orderNum;
+});
+
 Handlebars.registerHelper("idIfIn", function (elem, list, options) {
   if (list) {
     list = list.map((x) => x.id);

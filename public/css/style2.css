@@ -51,7 +51,7 @@
   width: 380px;
   height: 175px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-  margin-top: 30px;
+  margin-top: 40px;
   margin-left: 30px;
 }
 
@@ -62,6 +62,26 @@
   width: 140px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+#menuOrdered {
+  font-weight: 300; 
+  height: 55px; 
+  background-color:#35322d; 
+  margin-top:175px;
+  color: #eeeeee;
+  padding: 10px 10px;
+  margin-bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  border-radius: 0px 0px 3px 3px;
+}
+
+#menuOrdered button {
+  background-color:#ffb03b; 
+  height: 35px;
+  float:right;
+  margin-right: 7px;
+  width: 172px;
 }
 
 .menuContent,
@@ -227,6 +247,8 @@
   /* border-bottom: rgba(177, 177, 177, 0.8) solid 1px; */
   font-weight: 300;
   font-size: 0.9em;
+  vertical-align:text-top;
+  padding-bottom: 10px;
 }
 
 .bookTable1 td:first-child {
@@ -519,4 +541,8 @@
 
 .buttonIcon svg:hover {
     fill: black ;
+}
+
+#selectOrder {
+  width: 100%;
 }
