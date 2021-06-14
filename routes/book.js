@@ -14,6 +14,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.get("/menuBook", (req, res) => {
   var types = [];
   // req.session.cart = undefined;
+  console.log(req.session.cart);
   Menu.findAll({
     attributes: { exclude: ["restaurantId"] },
   })
@@ -46,7 +47,10 @@ router.get("/foodCart", (req, res) => {
         if (menus) {
           let count = 0;
           menus.forEach((food) => {
-            count += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
+            sess.cart[cart.indexOf(food.id)].orders.forEach((order) => {
+              count += parseFloat(food.price) * order.quantity;
+            })
+            // count += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
           })
           req.session.total = count;
           res.render("book/foodCart", {menus, count});
@@ -90,7 +94,8 @@ router.get("/payment", (req, res) => {
 router.post("/add/:id", urlencodedParser, (req, res) => {
   let cart = [];
   let existCart = [];
-  let { quantity, specifications } = req.body;
+  let { quantity, specifications, remark } = req.body;
+  remark = remark === undefined ? '' : remark;
   // console.log(quantity, specifications)
   let sess = req.session;
   if (sess.cart) {
@@ -99,25 +104,65 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
   console.log(existCart);
   cart.push({
     id: req.params.id,
+    orders: [{
+    uniqueId: 1,
     quantity: quantity,
     specifications: specifications,
+    remark: remark,
+    }]
   });
   if (existCart.indexOf(req.params.id) > -1) {
-    sess.cart[existCart.indexOf(req.params.id)] = cart[0]
+    //tbr
+    cart[0].orders[0].uniqueId = sess.cart[existCart.indexOf(req.params.id)].orders.length + 1;
+    sess.cart[existCart.indexOf(req.params.id)].orders = sess.cart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
   } else if (sess.cart) {
     sess.cart = sess.cart.concat(cart);
   } else {
     sess.cart = cart;
   }
-  console.log(sess.cart);
+  // console.log(sess.cart);
   alertMessage(res, "success",'Food is added to the shopping cart', 'fas fa-sign-in-alt', true);
+  res.redirect("/book/menuBook"); 
+});
+
+//update item
+router.post("/update/:id", urlencodedParser, (req, res) => {
+  let cart = [];
+  let existCart = [];
+  let { quantity, specifications, remark } = req.body;
+  remark = remark === undefined ? '' : remark;
+  let sess = req.session;
+  let foodId = req.params.id.split('-')[0];
+  let uniqueId = req.params.id.split('-')[1];
+  console.log(foodId, uniqueId, quantity);
+  if (sess.cart) {
+    existCart = (sess.cart.map((food) => food.id));
+  }
+  cart.push({
+    id: foodId,
+    orders: [{
+    uniqueId: 1,
+    quantity: quantity,
+    specifications: specifications,
+    remark: remark,
+    }]
+  });
+  if (existCart.indexOf(foodId) > -1) {
+    //tbr
+    sess.cart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
+  }
+  alertMessage(res, "success",'Food is updated in the shopping cart', 'fas fa-sign-in-alt', true);
   res.redirect("/book/menuBook"); 
 });
 
 //delete item from session
 router.get('/delete/:id', (req, res) => {
   let sess = req.session;
-  sess.cart = sess.cart.filter((c) => c.id !== req.params.id);
+  let existCart = sess.cart.map((food) => food.id);
+  let foodId = req.params.id.split('-')[0];
+  let uniqueId = req.params.id.split('-')[1];
+  console.log(foodId, uniqueId);
+  sess.cart[existCart.indexOf(foodId)].orders = sess.cart[existCart.indexOf(foodId)].orders.filter((c) => c.uniqueId != uniqueId);
   alertMessage(res, "success",'Food is removed to the shopping cart', 'fas fa-trash-alt', true);
   res.redirect('../../book/foodCart');
 });
