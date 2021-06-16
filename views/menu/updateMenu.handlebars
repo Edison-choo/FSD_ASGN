@@ -78,7 +78,7 @@
         <div class="row">
           <div class="menu col-lg-7 ">
             <div class="menuTitle">
-              <h4>SPECIFICATIONS</h4>
+              <h5>SPECIFICATIONS</h5>
             </div>
             <div>
               <table class="menuTable" id="menuTable">
@@ -94,7 +94,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                  {{#each menuSpecification}}
+                  {{#each menuSpec}}
                     <tr>
                       <td></td>
                         <td>{{inc @index}}</td>
@@ -124,17 +124,17 @@
           <div class="col-lg-1"></div>
           <div class="menu col-lg-4">
             <div class="menuTitle">
-              <H4>TABLE DETAILS</H4>
+              <H5>TABLE DETAILS</H5>
             </div>
             <div style="height: 35px;"></div>
             <table class="bookTable bookTable1">
                     <tr>
-                        <td>Food No:</td>
-                        <td>3</td>
+                        <td>Total food:</td>
+                        <td>{{menus.length}}</td>
                     </tr>
                     <tr>
                         <td>Categories:</td>
-                        <td>2</td>
+                        <td>{{types.length}}</td>
                     </tr>
                     <tr>
                         <td>Specifications:</td>
@@ -230,18 +230,53 @@
       </div>
       <div class="modal-body">
         <div class="">
-            <div class="popUpContent">
-                <form action="/menu/addMenu" method="POST">
+            <div class="popUpContent" style="width: 425px;">
+                <form action="/menu/addSpec" method="POST">
                   <div class="popUpContentTitle">Specification</div>
                     <div class="form-outline">
                       <input type="text" id="name" name='name' class="form-control" required/>
                       <label class="form-label" for="name">Name</label>
                     </div>
-                    <div class="form-outline">
-                      <input type="text" id="foodName" name='foodName' value="{{#if foodName}}{{foodName}}{{/if}}" class="form-control" required/>
-                      <label class="form-label" for="foodName">Food Name</label>
+                    <hr>
+                    <div class="popUpContentTitle" style="font-size: 1em; font-weight:400;">Options of the Specifications</div>
+                    <ol style="padding-left: 10px;">
+                      <li>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="text" id="option1" name='option1' value="" class="form-control" required/>
+                              <label class="form-label" for="option1">Option</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="number" id="addPrice1" name='addPrice1' value="" class="form-control" required/>
+                              <label class="form-label" for="addPrice1">Additional Cost</label>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row">
+                      <div class="col">
+                        <div class="form-outline">
+                          <input type="text" id="option2" name='option2' value="" class="form-control" required/>
+                          <label class="form-label" for="option2">Option</label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-outline">
+                          <input type="number" id="addPrice2" name='addPrice2' value="" class="form-control" required/>
+                          <label class="form-label" for="addPrice2">Additional Cost</label>
+                        </div>
+                      </div>
                     </div>
 
+                      </li>
+                    </ol>
+                    <button class="btn addOption" type="button" style="margin-top: 10px; background-color:#ffb03b;">
+                      Add An Option
+                  </button>
             </div>
         </div>
       </div>
@@ -329,7 +364,11 @@
 </div>
 {{/each}}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="js/scripts.js"></script>
+
 <script>
+
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("menuTable");

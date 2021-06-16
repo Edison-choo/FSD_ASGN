@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const alertMessage = require("../helpers/messenger");
 const Menu = require("../models/menu");
+const MenuSpec = require("../models/menuSpec");
 const menuSpecification = require("../models/menuSpecification");
 const User = require("../models/user");
 
@@ -31,11 +32,12 @@ router.get("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/addMenu", (req, res) => {
-  res.render("menu/addMenu");
-});
+// router.get("/addMenu", (req, res) => {
+//   res.render("menu/addMenu");
+// });
 
 router.get("/updateMenu", (req, res) => {
+  let types = [];
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
   }).then((menus) => {
@@ -43,7 +45,24 @@ router.get("/updateMenu", (req, res) => {
       // menus.forEach((menu) => {
       // 	menu.specifications = JSON.parse(menu.specifications);
       // });
-      res.render("menu/updateMenu", { menus, menuSpecification });
+      menus.forEach((menu) => {
+        if (types.includes(menu.type) === false) {
+          types.push(menu.type);
+        }
+      });
+      MenuSpec.findAll()
+      .then((specs) => {
+        let menuSpec = {};
+        specs.forEach((option) => {
+          if (option.name in menuSpec) {
+            menuSpec[option.name].concat([option.option]);
+          } else {
+            menuSpec[option.name] = [option.option];
+          }
+        });
+        console.log(menuSpec);
+      res.render("menu/updateMenu", { menus, menuSpecification, types, menuSpec });
+      });
     }
   });
 });
@@ -159,6 +178,47 @@ router.get("/delete/:id", (req, res) => {
       res.redirect("/menu/updateMenu");
     })
     .catch((err) => console.log(err));
+});
+
+// add specifications
+router.post('/addSpec', urlencodedParser, (req, res) => {
+  let name = req.body.name;
+  let option1 = req.body.option1;
+  let addPrice1 = req.body.addPrice1;
+  let option2 = req.body.option2;
+  let addPrice2 = req.body.addPrice2;
+  let optionList = [[option1, addPrice1], [option2, addPrice2]];
+  // console.log(optionList);
+  for (i = 0; i < optionList.length; i++) {
+    let option = optionList[i][0];
+    let addPrice = optionList[i][1];
+    MenuSpec.findOne({ where: { name: name } })
+  .then((spec) => {
+    if (spec) {
+      alertMessage(res, "danger",'Specification name is already registered', 'fas fa-ban', true);
+      res.redirect('/updateMenu')
+    } else {
+      let id = 1;
+      MenuSpec.create({
+        name: name,
+        option: option,
+        addPrice: addPrice,
+        restaurantId: id,
+      })
+        .then((specOption) => {
+          console.log(`Successfuly added ${option} to ${name}`);
+        })
+        .catch((err) => console.log(err));
+    }
+    // if (i === optionList.length - 1) {
+    //   if (check === true) {
+    //     alertMessage(res, "success",'Specification is successfully added', 'fas fa-check-circle', true);
+    //   } else {
+    //     alertMessage(res, "danger",'Error encountered. Pls retry', 'fas fa-ban', true);
+    //   }
+    // }
+  })};
+  res.redirect("/menu/updateMenu");
 });
 
 module.exports = router;
