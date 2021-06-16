@@ -48,7 +48,6 @@
 
     .tableLayout td {
         border: 1px dotted black;
-        height: 0px;
         padding: 0;
         margin: 0;
     }
@@ -134,9 +133,13 @@
         <div class="color green" data-class="seat"><div class="seat center"></div><input type="text"></div>
         <div class="color eraser" data-class="eraser"><i class="fas fa-eraser center centerText"></i></div>
       </fieldset>
+      <fieldset>
+          <button class="btn btn-danger" type="button" id="clear">Clear All<i class="fas fa-trash-alt"></i></button>
+      </fieldset>
       </div>
     </div>
     </div>
+    <button class="btn btn-primary">Next</button>
 </form>
 <script>
     function buildGrid(cols, rows) {
@@ -146,7 +149,7 @@
         for (x = 0; x < rows; x++) {
             tableMarkup += "<tr>";
             for (y = 0; y < cols; y++) {
-                tableMarkup += "<td><label for='" + y + vert[x] + "' class='checkTD'></label><input class='checkInp' type='checkbox' name='' id='" + y + vert[x] + "'/></td>";
+                tableMarkup += "<td><label for='" + y + vert[x] + "' class='checkTD'></label><input class='checkInp' type='hidden' name='' id='" + y + vert[x] + "'/></td>";
             }
             tableMarkup += "</tr>";
         }
@@ -169,15 +172,18 @@
 
         // Inital Build of Table  
         buildGrid(cols, rows);
-        $("#drawing-table").delegate("td", "mousedown", function () {
+        $("#drawing-table").delegate("td", "click", function () {
             mouseDownState = true;
             $el = $(this).children("label");
+            $checkBox =  $(this).children("input");
             if (eraseState) {
                 $el.removeClass();
                 $el.addClass("checkTD");
+                $checkBox.val();
             } else {
                 $el.removeClass();
                 $el.addClass(curFur);
+                $checkBox.val(curFur);
             }
         })
         	$("#color-selector").delegate(".color", "click", function() {
@@ -195,5 +201,12 @@
 		$(".color").removeClass("selected");
 		$(this).addClass("selected");
 	});
+        $("#clear").click(function (){
+            $box = $(".tableLayout td").children("label")
+            $inp = $(".checkInp")
+            $box.removeClass()
+            $box.addClass("checkTD")
+            $inp.val()
+        })
     });
 </script>
