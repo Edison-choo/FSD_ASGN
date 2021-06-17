@@ -121,7 +121,7 @@
 
 <h1>Create your restaurant layout:</h1>
 
-<form action="" method="post">
+<form action="/staffRestaurant/createLayout" method="post" id="layoutForm">
     <div class="row">
         <div id="table-wrap" class="col-md-9">
             <table id="drawing-table" class="tableLayout">
@@ -159,13 +159,10 @@
             </div>
         </div>
     </div>
-    <label for="">Seat</label>
-    <input type="text" name="seat" id="seatList">
-    <label for="">Square</label>
-    <input type="text" name="square" id="squareList">
-    <label for="">Table</label>
-    <input type="text" name="tblDic" id="tblDic">
-    <button type="button" class="btn btn-primary" id="next">Next</button>
+    <input type="hidden" name="seat" id="seatList">
+    <input type="hidden" name="square" id="squareList">
+    <input type="hidden" name="tables" id="tblDic">
+    <button type="button" class="btn btn-primary" id="next">Submit</button>
 </form>
 <script>
     var colors = [
@@ -333,6 +330,7 @@
                 }
             }
             $("#tblDic").val(tblDicFormat)
+            $("#layoutForm").submit();
         });
     });
 </script>

@@ -6,6 +6,7 @@ const alertMessage = require("../helpers/messenger");
 const Restaurant = require("../models/restaurants");
 const emailValidator = require("email-validator");
 const urlValidator = require("valid-url");
+const Layout = require("../models/layout");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -194,5 +195,35 @@ router.get("/createLayout", (req, res) => {
   res.render("staffRestaurant/createLayout");
 });
 
+router.post("/createLayout", urlencodedParser, (req, res) => {
+  let errors = [];
+  let {
+    seat,
+    square,
+    tables,
+  } = req.body;
 
+  if (seat.length == 0){
+    errors.push({text: "No Seat!"});
+  }
+  if (square.length == 0){
+    errors.push({text: "No Tables!"})
+  }
+  if (errors.length > 0){
+    res.render("staffRestaurant/createLayout", {
+      errors,
+      seat,
+      square,
+      tables,
+    });
+  }else {
+    Layout.create({
+      restaurant: "Subway",
+      seat: seat,
+      square: square,
+      tables: tables,
+      occupied: ""
+    });
+  }
+});
 module.exports = router;
