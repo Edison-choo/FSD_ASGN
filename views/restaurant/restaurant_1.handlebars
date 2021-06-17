@@ -6,26 +6,52 @@
         color: orange;
     }
 
+    .checkTD {
+        height: 25px;
+        width: 25px;
+    }
+
     .seat {
         height: 25px;
         width: 25px;
         background-color: #bbb;
         border-radius: 50%;
-        display: inline-block;
     }
 
     .square {
         height: 25px;
         width: 25px;
-        background-color: #555;
+        background-color: #bbb;
     }
 
     .center {
         margin-left: auto;
         margin-right: auto;
     }
+
+    #table-wrap {
+        width: 100%;
+    }
+
+    #drawing-table {
+        border-collapse: collapse;
+    }
+
+    #drawing-table td {
+        padding: 0;
+        margin: 0;
+    }
+
+    .default {
+        padding: 30px;
+        background-color: #f2f1ef;
+        border-radius: 25px;
+        webkit-box-shadow: 3px 3px 5px 6px #ccc;
+        -moz-box-shadow: 3px 3px 5px 6px #ccc;
+        box-shadow: 3px 3px 5px 6px #ccc;
+    }
 </style>
-<div class="media row" style="padding: 10px; background-color:#f2f1ef;">
+<div class="media row default">
     <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
         class="align-self-start mr-3 col-md-4" alt="..." style="max-height: 400px; max-width: 400px;">
     <div class="media-body col-md-8">
@@ -89,7 +115,7 @@
     </div>
 </div>
 <br>
-<div id="table-wrap">
+<div id="table-wrap" class="default">
     <table id="drawing-table" class="center">
         <tr>
             <td></td>
@@ -101,11 +127,11 @@
     function buildGrid(cols, rows) {
 
         var tableMarkup = "";
-
+        vert = 'abcdefghijklmnopqr'
         for (x = 0; x < rows; x++) {
             tableMarkup += "<tr>";
             for (y = 0; y < cols; y++) {
-                tableMarkup += "<td><div class='square'></div></td>";
+                tableMarkup += "<td><div id ='" + y + vert[x] + "' class='checkTD'></div></td>";
             }
             tableMarkup += "</tr>";
         }
@@ -117,13 +143,10 @@
     $(function () {
 
         // Variable Setup
-        var cols = 40,
-            rows = 30,
-            curColor = "red",
-            mouseDownState = false,
-            eraseState = false,
-            tracingMode = false,
-            prevColor = "",
+        var cols = 32,
+            rows = 18,
+            seatList = [],
+            squareList = [],
             $el;
 
         // Inital Build of Table  

@@ -223,7 +223,10 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
       square: square,
       tables: tables,
       occupied: ""
-    });
+    }).then((layout) => {
+      res.redirect("/staffRestaurant");
+    })
+    .catch((err) => console.log(err));
   }
 });
 module.exports = router;

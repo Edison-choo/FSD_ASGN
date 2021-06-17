@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Restaurant = require("../models/restaurants");
+const Layout = require("../models/layout");
 var sortSource = require("../public/js/res")
-
-
-console.log(sortSource.sortBy)
 
 //Restaurants Page
 router.get('/', (req, res) => {
