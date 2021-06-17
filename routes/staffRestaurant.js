@@ -218,7 +218,7 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
     });
   }else {
     Layout.create({
-      restaurant: "Subway",
+      res_name: "Subway",
       seat: seat,
       square: square,
       tables: tables,
