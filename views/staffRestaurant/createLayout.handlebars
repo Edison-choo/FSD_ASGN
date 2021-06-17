@@ -67,6 +67,12 @@
         background-color: grey;
     }
 
+    .tblClass {
+        border: 3px solid white;
+        margin: 1px;
+        text-shadow: white 0px 0px 10px;
+    }
+
     .color {
         float: left;
         position: relative;
@@ -126,8 +132,18 @@
         </div>
         <div class="col-md-3">
             <div class="legendBorder">
+                <fieldset>
+                    <legend>Table Select</legend>
+                    <span id="table-selector">
+                        <button class="btn btn-sm selected tblClass" style="background-color: #00ffff;" type="button" id="table-1">1</button>
+                    </span>
+                    <span id="add-button">
+                        <button id="add-table" type="button">+</button>
+                    </span>
+                </fieldset>
+                <br>
                 <fieldset id="color-selector">
-                    <legend>Color Picker</legend>
+                    <legend>Picker</legend>
                     <div class="color red selected" data-class="square">
                         <div class="square center"></div><input type="text">
                     </div>
@@ -147,9 +163,50 @@
     <input type="text" name="seat" id="seatList">
     <label for="">Square</label>
     <input type="text" name="square" id="squareList">
+    <label for="">Table</label>
+    <input type="text" name="tblDic" id="tblDic">
     <button type="button" class="btn btn-primary" id="next">Next</button>
 </form>
 <script>
+    var colors = [
+                    "#f5f5dc",
+                    "#000000",
+                    "#0000ff",
+                    "#a52a2a",
+                    "#00008b",
+                    "#008b8b",
+                    "#a9a9a9",
+                    "#006400",
+                    "#bdb76b",
+                    "#8b008b",
+                    "#556b2f",
+                    "#ff8c00",
+                    "#9932cc",
+                    "#8b0000",
+                    "#e9967a",
+                    "#9400d3",
+                    "#ff00ff",
+                    "#ffd700",
+                    "#008000",
+                    "#4b0082",
+                    "#add8e6",
+                    "#e0ffff",
+                    "#90ee90",
+                    "#d3d3d3",
+                    "#ffb6c1",
+                    "#ffffe0",
+                    "#00ff00",
+                    "#ff00ff",
+                    "#800000",
+                    "#000080",
+                    "#808000",
+                    "#ffa500",
+                    "#ffc0cb",
+                    "#800080",
+                    "#800080",
+                    "#ff0000",
+                    "#c0c0c0"
+                ];
     function remove(array, n) {
         const index = array.indexOf(n)
         if (index > -1) {
@@ -185,6 +242,9 @@
             prevColor = "",
             seatList = [],
             squareList = [],
+            curTbl = "table-1",
+            curColor = "#00ffff",
+            tblDic = { "table-1": [] },
             $el;
 
         // Inital Build of Table  
@@ -195,12 +255,18 @@
             seatID = $el.attr("id")
             seatList = remove(seatList, seatID)
             squareList = remove(squareList, seatID)
+            for (i in tblDic){
+                tblDic[i] = remove(tblDic[i], seatID)
+            }
             if (eraseState) {
                 $el.removeClass();
+                $el.css("background-color", "white");
                 $el.addClass("checkTD");
             } else {
                 $el.removeClass();
                 $el.addClass(curFur);
+                $el.css("background-color", curColor)
+                tblDic[curTbl].push(seatID)
                 if (curFur == "square") {
                     squareList.push(seatID)
                 }
@@ -208,7 +274,7 @@
                     seatList.push(seatID)
                 }
             }
-        })
+        });
         $("#color-selector").delegate(".color", "click", function () {
 
             $el = $(this);
@@ -224,16 +290,49 @@
             $(".color").removeClass("selected");
             $(this).addClass("selected");
         });
+        $("#add-table").click(function () {
+            tblLen = Object.keys(tblDic).length + 1
+            tblID = "table-" + (tblLen);
+            tblDic[tblID] = [];
+            tblBtn = "<button type='button' class='btn btn-sm tblClass' id='" + tblID + "'>" + tblLen + "</button>"
+            $("#table-selector").append(tblBtn)
+            if (tblLen == colors.length) {
+                $("#add-button").remove()
+            }
+            for (i = 0; i < tblLen; i++) {
+                j = i + 2
+                var color = colors[i]
+                $('#table-' + j).css("background-color", color)
+            }
+        });
+        $("#table-selector").delegate(".tblClass", "click", function () {
+            $el = $(this);
+            curTbl = $el.attr("id");
+            curColor = $el.css("background-color");
+            $(".tblClass").removeClass("selected");
+            $(this).addClass("selected");
+        });
         $("#clear").click(function () {
             $el = $(".tableLayout td").children();
             $el.removeClass()
+            $el.css("background-color", "white");
             $el.addClass("checkTD")
             seatList = []
             squareList = []
-        })
+            for (i in tblDic){
+                tblDic[i] = []
+            }
+        });
         $("#next").click(function () {
             $("#seatList").val(seatList)
             $("#squareList").val(squareList)
-        })
+            tblDicFormat = []
+            for (i in tblDic){
+                if (tblDic[i].length > 0){
+                    tblDicFormat.push(i + ": [" + tblDic[i] + "]");
+                }
+            }
+            $("#tblDic").val(tblDicFormat)
+        });
     });
 </script>
