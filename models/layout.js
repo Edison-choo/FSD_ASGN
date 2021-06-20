@@ -15,7 +15,7 @@ const Layout = db.define('layout', {
         type:Sequelize.STRING(4000)
     },
     occupied:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING(400)
     },
 })
 
