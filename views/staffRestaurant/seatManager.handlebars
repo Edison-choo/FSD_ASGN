@@ -1,6 +1,4 @@
-<script
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
     .checked {
         color: orange;
@@ -9,42 +7,21 @@
     .seat {
         height: 25px;
         width: 25px;
-        background-color: #bbb;
+        background-color: green;
         border-radius: 50%;
         cursor: pointer;
-    }
-
-    .seat:hover {
-        background-color: #555;
     }
 
     .square {
         height: 25px;
         width: 25px;
-        background-color: #bbb;
+        background-color: green;
         cursor: pointer;
-    }
-
-    .square:hover {
-        background-color: #555;
     }
 
     .center {
         margin-left: auto;
         margin-right: auto;
-        margin-top: 9px;
-    }
-
-    .centerText {
-        font-size: 25px;
-        text-align: center;
-        padding-left: 9px;
-        color: #bbb;
-        cursor: pointer;
-    }
-
-    .centerText:hover {
-        color: #555;
     }
 
     .tableLayout {
@@ -61,18 +38,34 @@
         width: 25px;
         background-color: white;
     }
-    #table-wrap{
-        border:3px solid black
+
+    .taken {
+        background-color: red;
+    }
+
+    #table-wrap {
+        border: 3px solid black
     }
 </style>
-<div id="table-wrap" class="col-md-9">
-  <table id="drawing-table" class="tableLayout">
-    <tr>
-      <td></td>
-    </tr>
-  </table>
-</div>
+<form action="/staffRestaurant/seatManager" method="post" id="seatManager">
+    <div id="table-wrap">
+        <table id="drawing-table" class="tableLayout">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <input type="hidden" name="occupied" id="occupied">
+    <button type="button" id="apply" class="btn btn-primary">Apply</button>
+</form>
 <script>
+    function remove(array, n) {
+        const index = array.indexOf(n)
+        if (index > -1) {
+            array.splice(index, 1)
+        }
+        return array
+    }
     function buildGrid(cols, rows) {
 
         var tableMarkup = "";
@@ -95,16 +88,46 @@
             rows = 18,
             seatList = "{{layouts.seat}}".split(","),
             squareList = "{{layouts.square}}".split(","),
-            //tables = JSON.parse('{{layouts.tables}}'),
+            tblDic = JSON.parse('{{layouts.tables}}'.replace(/&quot;/g, '"')),
+            occupied = "{{layouts.occupied}}".split(","),
             $el;
         buildGrid(cols, rows);
         for (i in seatList) {
             $("#" + seatList[i]).removeClass("checkTD")
             $("#" + seatList[i]).addClass("seat")
         }
-        for (i in squareList){
+        for (i in squareList) {
             $("#" + squareList[i]).removeClass("checkTD")
             $("#" + squareList[i]).addClass("square")
-        } 
+        }
+        for (const [key, value] of Object.entries(tblDic)) {
+            for (i in value) {
+                $("#" + value[i]).addClass(key)
+            }
+        }
+        for (i in occupied) {
+            if (occupied[i].length > 0){
+                $("." + occupied[i]).addClass("taken")
+            }
+        }
+
+        for (const [key, value] of Object.entries(tblDic)) {
+            for (i in value) {
+                $("#" + value[i]).click(function () {
+                    if ($("." + key).hasClass("taken")) {
+                        $("." + key).removeClass("taken")
+                        occupied = remove(occupied, key)
+                    }
+                    else {
+                        $("." + key).addClass("taken")
+                        occupied.push(key)
+                    }
+                })
+            }
+        }
+        $("#apply").click(function () {
+            $("#occupied").val(occupied)
+            $("#seatManager").submit()
+        })
     });
 </script>

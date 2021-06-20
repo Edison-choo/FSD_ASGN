@@ -243,4 +243,21 @@ router.get("/seatManager", (req, res) => {
   });
 });
 
+router.post("/seatManager", urlencodedParser, (req, res) => {
+  let { occupied } = req.body;
+  Layout.update(
+    {
+      occupied: occupied,
+    },
+    {
+      where: {
+        res_name: "Subway",
+      },
+    }
+  )
+    .then(() => {
+      res.redirect("/staffRestaurant/seatManager");
+    })
+    .catch((err) => console.log(err));
+});
 module.exports = router;
