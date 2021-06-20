@@ -3,10 +3,11 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const alertMessage = require("../helpers/messenger");
 const Menu = require("../models/menu");
+const MenuSpec = require("../models/menuSpec");
 const menuSpecification = require("../models/menuSpecification");
 const { session } = require("passport");
 // const { Sequelize } = require("sequelize/types");
-const { Op } = require("sequelize");
+const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -27,7 +28,27 @@ router.get("/menuBook", (req, res) => {
           }
         });
         types.sort();
-        res.render("book/menuBook", { menus, types, menuSpecification });
+        MenuSpec.findAll().then((specs) => {
+          let menuSpec = {};
+          specs.forEach((option) => {
+            if (option.name in menuSpec) {
+              menuSpec[option.name] = menuSpec[option.name].concat([
+                {option:option.option, addPrice:option.addPrice}
+              ]);
+            } else {
+              console.log("test1");
+              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+            }
+          });
+          console.log(menuSpec);
+          res.render("book/menuBook", {
+            menus,
+            menuSpecification,
+            types,
+            menuSpec,
+          });
+        });
+        // res.render("book/menuBook", { menus, types, menuSpecification });
       }
     })
     .catch((err) => console.log(err));
@@ -48,7 +69,7 @@ router.get("/foodCart", (req, res) => {
           let count = 0;
           menus.forEach((food) => {
             sess.cart[cart.indexOf(food.id)].orders.forEach((order) => {
-              count += parseFloat(food.price) * order.quantity;
+              count += (parseFloat(food.price)+order.additional) * order.quantity;
             })
             // count += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
           })
@@ -96,33 +117,45 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
   let existCart = [];
   let { quantity, specifications, remark } = req.body;
   remark = remark === undefined ? '' : remark;
-  // console.log(quantity, specifications)
+  specifications = typeof(specifications) === 'string' ? [specifications]: specifications;
+  console.log(specifications)
   let sess = req.session;
   if (sess.cart) {
     existCart = (sess.cart.map((food) => food.id));
   }
   console.log(existCart);
-  cart.push({
-    id: req.params.id,
-    orders: [{
-    uniqueId: 1,
-    quantity: quantity,
-    specifications: specifications,
-    remark: remark,
-    }]
+  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }, restaurant_id:1}})
+  .then((specs) => {
+    let additional = 0;
+    specs.forEach(spec => {
+      additional += parseFloat(spec.addPrice)
+      console.log(spec.addPrice);
+    });
+    console.log(additional);
+    cart.push({
+      id: req.params.id,
+      orders: [{
+      uniqueId: 1,
+      quantity: quantity,
+      specifications: specifications,
+      additional: additional,
+      remark: remark,
+      }]
+    });
+    if (existCart.indexOf(req.params.id) > -1) {
+      //tbr
+      cart[0].orders[0].uniqueId = sess.cart[existCart.indexOf(req.params.id)].orders.length + 1;
+      sess.cart[existCart.indexOf(req.params.id)].orders = sess.cart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
+    } else if (sess.cart) {
+      sess.cart = sess.cart.concat(cart);
+    } else {
+      sess.cart = cart;
+    }
+    console.log(sess.cart);
+    alertMessage(res, "success",'Food is added to the shopping cart', 'fas fa-sign-in-alt', true);
+    res.redirect("/book/menuBook"); 
   });
-  if (existCart.indexOf(req.params.id) > -1) {
-    //tbr
-    cart[0].orders[0].uniqueId = sess.cart[existCart.indexOf(req.params.id)].orders.length + 1;
-    sess.cart[existCart.indexOf(req.params.id)].orders = sess.cart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
-  } else if (sess.cart) {
-    sess.cart = sess.cart.concat(cart);
-  } else {
-    sess.cart = cart;
-  }
-  // console.log(sess.cart);
-  alertMessage(res, "success",'Food is added to the shopping cart', 'fas fa-sign-in-alt', true);
-  res.redirect("/book/menuBook"); 
+  
 });
 
 //update item
@@ -163,6 +196,9 @@ router.get('/delete/:id', (req, res) => {
   let uniqueId = req.params.id.split('-')[1];
   console.log(foodId, uniqueId);
   sess.cart[existCart.indexOf(foodId)].orders = sess.cart[existCart.indexOf(foodId)].orders.filter((c) => c.uniqueId != uniqueId);
+  if (sess.cart[existCart.indexOf(foodId)].orders.length === 0) {
+    sess.cart = sess.cart.filter((c) => c.id != foodId);
+  }
   alertMessage(res, "success",'Food is removed to the shopping cart', 'fas fa-trash-alt', true);
   res.redirect('../../book/foodCart');
 });

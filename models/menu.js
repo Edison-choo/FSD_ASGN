@@ -17,9 +17,9 @@ const Menu = db.define('menu', {
     specifications: {
         type: Sequelize.STRING
     },
-    restaurantId: {
-        type: Sequelize.INTEGER
-    }
+    // restaurantId: {
+    //     type: Sequelize.INTEGER
+    // }
     // image: {
     //     type: Sequelize.STRING
     // },

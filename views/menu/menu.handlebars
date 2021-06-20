@@ -70,7 +70,7 @@
                     <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
                   </div>
                   
-                  {{#each ../menuSpecification}}
+                  {{#each ../menuSpec}}
                   {{#ifIn @key ../this.specifications}}
                   <div>
                     <label for="">{{@key}}:</label>
@@ -78,7 +78,7 @@
                       <option selected>Open this select menu</option>
                       
                       {{#each this}}
-                      <option value="{{this}}">{{this}}</option>
+                      <option value="{{this.option}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{/each}}
                     </select>
                   </div>

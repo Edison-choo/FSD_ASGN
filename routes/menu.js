@@ -6,12 +6,14 @@ const Menu = require("../models/menu");
 const MenuSpec = require("../models/menuSpec");
 const menuSpecification = require("../models/menuSpecification");
 const User = require("../models/user");
+const e = require("connect-flash");
 
 var userLog = false;
 var location = "";
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
+//page of user view menu
 router.get("/", (req, res) => {
   var types = [];
   Menu.findAll({
@@ -26,7 +28,27 @@ router.get("/", (req, res) => {
           }
         });
         types.sort();
-        res.render("menu/menu", { menus, types, menuSpecification });
+        MenuSpec.findAll().then((specs) => {
+          let menuSpec = {};
+          specs.forEach((option) => {
+            if (option.name in menuSpec) {
+              menuSpec[option.name] = menuSpec[option.name].concat([
+                {option:option.option, addPrice:option.addPrice}
+              ]);
+            } else {
+              console.log("test1");
+              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+            }
+          });
+          console.log(menuSpec);
+          res.render("menu/menu", {
+            menus,
+            menuSpecification,
+            types,
+            menuSpec,
+          });
+        });
+        // res.render("menu/menu", { menus, types, menuSpecification });
       }
     })
     .catch((err) => console.log(err));
@@ -36,6 +58,7 @@ router.get("/", (req, res) => {
 //   res.render("menu/addMenu");
 // });
 
+//page of menu table
 router.get("/updateMenu", (req, res) => {
   let types = [];
   Menu.findAll({
@@ -50,29 +73,42 @@ router.get("/updateMenu", (req, res) => {
           types.push(menu.type);
         }
       });
-      MenuSpec.findAll()
-      .then((specs) => {
+      MenuSpec.findAll().then((specs) => {
         let menuSpec = {};
         specs.forEach((option) => {
           if (option.name in menuSpec) {
-            menuSpec[option.name].concat([option.option]);
+            menuSpec[option.name] = menuSpec[option.name].concat([
+              option.option,
+            ]);
           } else {
+            console.log("test1");
             menuSpec[option.name] = [option.option];
           }
         });
         console.log(menuSpec);
-      res.render("menu/updateMenu", { menus, menuSpecification, types, menuSpec });
+        res.render("menu/updateMenu", {
+          menus,
+          menuSpecification,
+          types,
+          menuSpec,
+        });
       });
     }
   });
 });
 
+//add food
 router.post("/addMenu", urlencodedParser, (req, res) => {
   let errors = [];
-  let { foodId, foodName, foodType, foodPrice, specifications } = req.body;
+  let { foodName, foodType, foodPrice, specifications } = req.body;
   // let foodId = foodType.slice(0, 1).toUpperCase() + '01';
-
-  foodId = foodId.toString();
+  if (specifications) {
+    specifications = specifications.toString();
+  } else {
+    specifications = "";
+  }
+  // specifications = undefined ? " " : specifications.toString();
+  // foodId = foodId.toString();
 
   if (foodPrice < 0) {
     errors.push({ text: "Please do not enter negative value for price" });
@@ -85,6 +121,13 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
   })
     .then((menus) => {
       if (menus) {
+        let menuOrder = menus.filter(f => f.type == foodType).sort((f1, f2) => f1.foodNo > f2.foodNo ? 1 : -1);
+        let menuLength = 0;
+        if (menuOrder[0] === undefined) {
+          menuLength = 1;
+        } else {
+          menuLength = parseInt((menuOrder[menuOrder.length - 1].foodNo).slice(-2)) + 1;
+        }
         // menus.forEach((menu) => {
         // 	menu.specifications = JSON.parse(menu.specifications);
         // });
@@ -92,20 +135,24 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
           res.render("menu/updateMenu", {
             errors,
             menus,
-            foodId,
             foodName,
             foodType,
             foodPrice,
             specifications,
           });
         } else {
-          Menu.findOne({ where: { foodNo: foodId } })
+          Menu.findOne({ where: { name: foodName } })
             .then((menu) => {
               if (menu) {
-                alertMessage(res, "danger",'Food id is already registered', 'fas fa-ban', true);
+                alertMessage(
+                  res,
+                  "danger",
+                  "Food name is already registered",
+                  "fas fa-ban",
+                  true
+                );
                 res.render("menu/updateMenu", {
                   menus: menus,
-                  foodId,
                   foodName,
                   foodType,
                   foodPrice,
@@ -114,18 +161,23 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                 });
               } else {
                 let id = 1;
-                console.log(id);
-                specifications = specifications.toString();
+                let foodId = foodType.slice(0,1).toUpperCase() + foodType.slice(-1).toUpperCase() + ("00" + menuLength).slice(-2);
                 Menu.create({
                   foodNo: foodId,
                   name: foodName,
                   price: foodPrice,
                   type: foodType,
                   specifications: specifications,
-                  restaurantId: id,
+                  restaurant_id: id,
                 })
                   .then((menu) => {
-                    alertMessage(res, "success",'Food is successfully added to the menu', 'fas fa-check-circle', true);
+                    alertMessage(
+                      res,
+                      "success",
+                      "Food is successfully added to the menu",
+                      "fas fa-check-circle",
+                      true
+                    );
                     res.redirect("/menu/updateMenu");
                   })
                   .catch((err) => console.log(err));
@@ -137,7 +189,9 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+//fix menuSpec
 
+//update food
 router.post("/update/:id", urlencodedParser, (req, res) => {
   let id = req.params.id;
   let { foodId, foodName, foodType, foodPrice, specifications } = req.body;
@@ -159,12 +213,19 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
       } else {
         console.log(`Unsuccessful update of data...`);
       }
-      alertMessage(res, "success",'Food is successfully updated', 'fas fa-check-circle', true);
+      alertMessage(
+        res,
+        "success",
+        "Food is successfully updated",
+        "fas fa-check-circle",
+        true
+      );
       res.redirect("/menu/updateMenu");
     })
     .catch((err) => console.log(err));
 });
 
+//delete food from menu
 router.get("/delete/:id", (req, res) => {
   let id = req.params.id;
   Menu.destroy({ where: { id: id } })
@@ -174,51 +235,89 @@ router.get("/delete/:id", (req, res) => {
       } else {
         console.log("Unsuccessful deletion of data...");
       }
-      alertMessage(res, "success",'Food is successfully deleted from the menu', 'fas fa-check-circle', true);
+      alertMessage(
+        res,
+        "success",
+        "Food is successfully deleted from the menu",
+        "fas fa-check-circle",
+        true
+      );
       res.redirect("/menu/updateMenu");
     })
     .catch((err) => console.log(err));
 });
 
 // add specifications
-router.post('/addSpec', urlencodedParser, (req, res) => {
+router.post("/addSpec", urlencodedParser, (req, res) => {
   let name = req.body.name;
-  let option1 = req.body.option1;
-  let addPrice1 = req.body.addPrice1;
-  let option2 = req.body.option2;
-  let addPrice2 = req.body.addPrice2;
-  let optionList = [[option1, addPrice1], [option2, addPrice2]];
-  // console.log(optionList);
+  let optionList = [];
+  for (i in req.body) {
+    // console.log(req.body[i]);
+    if (i !== 'name' && i.slice(0,1) === 'o') {
+      optionList.push([req.body[i]]);
+    } else if (i !== 'name' && i.slice(0,1) === 'a') {
+      optionList[optionList.length - 1] = optionList[optionList.length - 1].concat([req.body[i]]);
+    }
+  };
+  console.log(optionList);
   for (i = 0; i < optionList.length; i++) {
     let option = optionList[i][0];
     let addPrice = optionList[i][1];
-    MenuSpec.findOne({ where: { name: name } })
-  .then((spec) => {
-    if (spec) {
-      alertMessage(res, "danger",'Specification name is already registered', 'fas fa-ban', true);
-      res.redirect('/updateMenu')
-    } else {
-      let id = 1;
-      MenuSpec.create({
-        name: name,
-        option: option,
-        addPrice: addPrice,
-        restaurantId: id,
-      })
-        .then((specOption) => {
-          console.log(`Successfuly added ${option} to ${name}`);
+    MenuSpec.findOne({ where: { name: name } }).then((spec) => {
+      if (spec) {
+        alertMessage(
+          res,
+          "danger",
+          "Specification name is already registered",
+          "fas fa-ban",
+          true
+        );
+        res.redirect("/updateMenu");
+      } else {
+        let id = 1;
+        MenuSpec.create({
+          name: name,
+          option: option,
+          addPrice: addPrice,
+          restaurantId: id,
         })
-        .catch((err) => console.log(err));
-    }
-    // if (i === optionList.length - 1) {
-    //   if (check === true) {
-    //     alertMessage(res, "success",'Specification is successfully added', 'fas fa-check-circle', true);
-    //   } else {
-    //     alertMessage(res, "danger",'Error encountered. Pls retry', 'fas fa-ban', true);
-    //   }
-    // }
-  })};
+          .then((specOption) => {
+            console.log(`Successfuly added ${option} to ${name}`);
+          })
+          .catch((err) => console.log(err));
+      }
+      // if (i === optionList.length - 1) {
+      //   if (check === true) {
+      //     alertMessage(res, "success",'Specification is successfully added', 'fas fa-check-circle', true);
+      //   } else {
+      //     alertMessage(res, "danger",'Error encountered. Pls retry', 'fas fa-ban', true);
+      //   }
+      // }
+    });
+  }
   res.redirect("/menu/updateMenu");
+});
+
+//delete specifications
+router.get("/deleteSpec/:name", (req, res) => {
+  let name = req.params.name;
+  MenuSpec.destroy({ where: { name: name } })
+    .then((n) => {
+      if (n) {
+        console.log(`${n} number of rows have been deleted...`);
+      } else {
+        console.log("Unsuccessful deletion of data...");
+      }
+      alertMessage(
+        res,
+        "success",
+        "Specifications is successfully deleted",
+        "fas fa-check-circle",
+        true
+      );
+      res.redirect("/menu/updateMenu");
+    })
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;

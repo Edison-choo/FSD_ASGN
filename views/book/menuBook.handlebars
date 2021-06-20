@@ -96,7 +96,7 @@
                     <input type="button" value="+" class="plus">
                   </div>
                   
-                  {{#each ../menuSpecification}}
+                  {{#each ../menuSpec}}
                   {{#ifIn @key ../this.specifications}}
                   <div>
                     <label for="">{{@key}}:</label>
@@ -104,7 +104,7 @@
                       <option value="">Open this select menu</option>
                       
                       {{#each this}}
-                      <option value="{{this}}">{{this}}</option>
+                      <option value="{{this}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{/each}}
                     </select>
                   </div>
@@ -185,7 +185,7 @@
                     <input type="button" value="+" class="plus">
                   </div>
                   
-                  {{#each ../../../menuSpecification}}
+                  {{#each ../../../menuSpec}}
                   {{#ifIn @key ../this.specifications}}
                   <div>
                     <label for="">{{@key}}:</label>
@@ -200,7 +200,7 @@
                       {{#ifIn this ../../../this.specifications}}
                       <option value="{{this}}" selected>{{this}}</option>
                       {{else}}
-                      <option value="{{this}}">{{this}}</option>
+                      <option value="{{this}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{/ifIn}}
                       {{!-- {{/each}} --}}
                       {{!-- {{/ifEquals}} --}}

@@ -100,12 +100,9 @@
                         <td>{{inc @index}}</td>
                         <td>{{@key}}</td>
                         <td>{{this}}</td>
-                        <td><button class="buttonIcon" data-bs-toggle="modal" data-bs-target="#edit{{this.id}}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        <td>
                         </td>
-                        <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{this.id}}"></button></td>
+                        <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{@key}}"></button></td>
                         <td></td>
                     </tr>
                   {{/each}}
@@ -138,7 +135,7 @@
                     </tr>
                     <tr>
                         <td>Specifications:</td>
-                        <td>3</td>
+                        <td>{{#len menuSpec}}{{/len}}</td>
                     </tr>
 
                 </table>
@@ -163,10 +160,10 @@
             <div class="popUpContent">
                 <form action="/menu/addMenu" method="POST">
                   <div class="popUpContentTitle">Food Details</div>
-                    <div class="form-outline">
+                    {{!-- <div class="form-outline">
                       <input type="text" id="foodId" name='foodId' value="{{#if foodId}}{{foodId}}{{/if}}" class="form-control" required/>
                       <label class="form-label" for="foodId">Food ID</label>
-                    </div>
+                    </div> --}}
                     <div class="form-outline">
                       <input type="text" id="foodName" name='foodName' value="{{#if foodName}}{{foodName}}{{/if}}" class="form-control" required/>
                       <label class="form-label" for="foodName">Food Name</label>
@@ -187,7 +184,7 @@
                     </div>
                     
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
-                    {{#each menuSpecification}}
+                    {{#each menuSpec}}
                     <div class="form-check specification">
                       <input class="form-check-input" name="specifications" type="checkbox" value="{{@key}}" id="flexCheckDefault{{@index}}"/>
                       <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}} <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="It will give user options {{this}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
@@ -274,9 +271,13 @@
 
                       </li>
                     </ol>
-                    <button class="btn addOption" type="button" style="margin-top: 10px; background-color:#ffb03b;">
+                    <button class="btn addOption" type="button" style="margin-top: 10px; background-color:#ffb03b;width:200px;">
                       Add An Option
                   </button>
+                  <button class="btn removeOption" type="button" style="margin-top: 10px; background-color:#ffb03b;width:200px;margin-left:20px;">
+                      Remove Last Option
+                  </button>
+                  <div id="hidden" style="display: none; color:red;margin-top:20px;"></div>
             </div>
         </div>
       </div>
@@ -322,7 +323,7 @@
                     </div>
 
                     <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
-                    {{#each ../menuSpecification}}
+                    {{#each ../menuSpec}}
                     <div class="form-check specification">
                       <input class="form-check-input" name="specifications" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="{{@key}}" id="flexCheckDefault{{@index}}"/>
                       <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
@@ -357,6 +358,22 @@
             <div>Are you sure you want to delete the item?</div>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
             <button type="button" class="btn btn-danger" onclick="location.href='/menu/delete/{{this.id}}';">Delete</button>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+{{#each menuSpec}}
+<div class="modal fade popUpDelete" id="delete{{@key}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div style="clear: both; text-align:center; margin: 20px auto 10px;">
+            <div>Are you sure you want to delete the specifications?</div>
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='/menu/deleteSpec/{{@key}}';">Delete</button>    
         </div>
       </div>
     </div>

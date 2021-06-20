@@ -187,6 +187,12 @@ Handlebars.registerHelper("distanceFixed", function (distance) {
   }
 });
 
+Handlebars.registerHelper("distanceFixedCost", function (distance, additional, quantity) {
+  if (Number.isInteger(distance)) {
+    return ((distance+additional)*quantity).toFixed(2);
+  }
+});
+
 Handlebars.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
 });
@@ -205,4 +211,8 @@ Handlebars.registerHelper("idIfIn", function (elem, list, options) {
     }
   }
   return options.inverse(this);
+});
+
+Handlebars.registerHelper("len", function(dict) {
+  return Object.keys(dict).length;
 });
