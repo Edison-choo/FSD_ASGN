@@ -1,0 +1,110 @@
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+></script>
+<style>
+    .checked {
+        color: orange;
+    }
+
+    .seat {
+        height: 25px;
+        width: 25px;
+        background-color: #bbb;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .seat:hover {
+        background-color: #555;
+    }
+
+    .square {
+        height: 25px;
+        width: 25px;
+        background-color: #bbb;
+        cursor: pointer;
+    }
+
+    .square:hover {
+        background-color: #555;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 9px;
+    }
+
+    .centerText {
+        font-size: 25px;
+        text-align: center;
+        padding-left: 9px;
+        color: #bbb;
+        cursor: pointer;
+    }
+
+    .centerText:hover {
+        color: #555;
+    }
+
+    .tableLayout {
+        border-collapse: collapse;
+    }
+
+    .tableLayout td {
+        padding: 0;
+        margin: 0;
+    }
+
+    .checkTD {
+        height: 25px;
+        width: 25px;
+        background-color: white;
+    }
+    #table-wrap{
+        border:3px solid black
+    }
+</style>
+<div id="table-wrap" class="col-md-9">
+  <table id="drawing-table" class="tableLayout">
+    <tr>
+      <td></td>
+    </tr>
+  </table>
+</div>
+<script>
+    function buildGrid(cols, rows) {
+
+        var tableMarkup = "";
+        vert = 'abcdefghijklmnopqr'
+        for (x = 0; x < rows; x++) {
+            tableMarkup += "<tr>";
+            for (y = 0; y < cols; y++) {
+                tableMarkup += "<td><div id ='" + y + vert[x] + "' class='checkTD'></div></td>";
+            }
+            tableMarkup += "</tr>";
+        }
+
+        $("#drawing-table").html(tableMarkup)
+
+    };
+    $(function () {
+
+        // Variable Setup
+        var cols = 32,
+            rows = 18,
+            seatList = "{{layouts.seat}}".split(","),
+            squareList = "{{layouts.square}}".split(","),
+            //tables = JSON.parse('{{layouts.tables}}'),
+            $el;
+        buildGrid(cols, rows);
+        for (i in seatList) {
+            $("#" + seatList[i]).removeClass("checkTD")
+            $("#" + seatList[i]).addClass("seat")
+        }
+        for (i in squareList){
+            $("#" + squareList[i]).removeClass("checkTD")
+            $("#" + squareList[i]).addClass("square")
+        } 
+    });
+</script>

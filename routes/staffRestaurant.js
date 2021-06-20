@@ -34,13 +34,14 @@ router.get("/editRestaurant/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-  }).then((restaurant) => {
-    checkOptions(restaurant);
-    res.render("staffRestaurant/editRestaurant", {
-      restaurant: restaurant,
-    });
   })
-  .catch((err) => console.log(err));
+    .then((restaurant) => {
+      checkOptions(restaurant);
+      res.render("staffRestaurant/editRestaurant", {
+        restaurant: restaurant,
+      });
+    })
+    .catch((err) => console.log(err));
 });
 
 //Post for Create Restaurant Page
@@ -165,7 +166,16 @@ function checkOptions(restaurant) {
 
 //Put for edit restaurant
 router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
-  let {uen, comp_name, address, open_time, close_time, cuisine, halal, comp_email} = req.body;
+  let {
+    uen,
+    comp_name,
+    address,
+    open_time,
+    close_time,
+    cuisine,
+    halal,
+    comp_email,
+  } = req.body;
   Restaurant.update(
     {
       uen: uen,
@@ -189,7 +199,6 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
     .catch((err) => console.log(err));
 });
 
-
 //Get create table layout page
 router.get("/createLayout", (req, res) => {
   res.render("staffRestaurant/createLayout");
@@ -197,36 +206,41 @@ router.get("/createLayout", (req, res) => {
 
 router.post("/createLayout", urlencodedParser, (req, res) => {
   let errors = [];
-  let {
-    seat,
-    square,
-    tables,
-  } = req.body;
+  let { seat, square, tables } = req.body;
 
-  if (seat.length == 0){
-    errors.push({text: "No Seat!"});
+  if (seat.length == 0) {
+    errors.push({ text: "No Seat!" });
   }
-  if (square.length == 0){
-    errors.push({text: "No Tables!"})
+  if (square.length == 0) {
+    errors.push({ text: "No Tables!" });
   }
-  if (errors.length > 0){
+  if (errors.length > 0) {
     res.render("staffRestaurant/createLayout", {
       errors,
       seat,
       square,
       tables,
     });
-  }else {
+  } else {
     Layout.create({
       res_name: "Subway",
       seat: seat,
       square: square,
       tables: tables,
-      occupied: ""
-    }).then((layout) => {
-      res.redirect("/staffRestaurant");
+      occupied: "",
     })
-    .catch((err) => console.log(err));
+      .then((layout) => {
+        res.redirect("/staffRestaurant");
+      })
+      .catch((err) => console.log(err));
   }
 });
+
+router.get("/seatManager", (req, res) => {
+  let name = "Subway";
+  Layout.findOne({ where: { res_name: name } }).then((layouts) => {
+    res.render("staffRestaurant/seatManager", { layouts });
+  });
+});
+
 module.exports = router;

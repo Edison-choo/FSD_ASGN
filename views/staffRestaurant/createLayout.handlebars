@@ -323,12 +323,7 @@
         $("#next").click(function () {
             $("#seatList").val(seatList)
             $("#squareList").val(squareList)
-            tblDicFormat = []
-            for (i in tblDic){
-                if (tblDic[i].length > 0){
-                    tblDicFormat.push(i + ": [" + tblDic[i] + "]");
-                }
-            }
+            tblDicFormat = JSON.stringify(tblDic)
             $("#tblDic").val(tblDicFormat)
             $("#layoutForm").submit();
         });
