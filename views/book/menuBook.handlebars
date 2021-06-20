@@ -104,7 +104,7 @@
                       <option value="">Open this select menu</option>
                       
                       {{#each this}}
-                      <option value="{{this}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
+                      <option value="{{this.option}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{/each}}
                     </select>
                   </div>
@@ -197,10 +197,10 @@
                       {{#each ../../../session.cart}} --}}
                       {{!-- {{#ifEquals ../../../this.id this.id}} --}}
                       {{!-- {{#each this.orders}} --}}
-                      {{#ifIn this ../../../this.specifications}}
-                      <option value="{{this}}" selected>{{this}}</option>
+                      {{#ifIn this.option ../../../this.specifications}}
+                      <option value="{{this.option}}" selected>{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{else}}
-                      <option value="{{this}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
+                      <option value="{{this.option}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
                       {{/ifIn}}
                       {{!-- {{/each}} --}}
                       {{!-- {{/ifEquals}} --}}

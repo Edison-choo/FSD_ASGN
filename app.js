@@ -184,11 +184,15 @@ Handlebars.registerHelper("checklength", function (v1, v2, options) {
 Handlebars.registerHelper("distanceFixed", function (distance) {
   if (Number.isInteger(distance)) {
     return distance.toFixed(2);
+  } else if (Number.isFinite(distance)) {
+    return distance.toFixed(2);
   }
 });
 
 Handlebars.registerHelper("distanceFixedCost", function (distance, additional, quantity) {
   if (Number.isInteger(distance)) {
+    return ((distance+additional)*quantity).toFixed(2);
+  } else if (Number.isFinite(distance)) {
     return ((distance+additional)*quantity).toFixed(2);
   }
 });

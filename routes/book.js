@@ -124,7 +124,9 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
     existCart = (sess.cart.map((food) => food.id));
   }
   console.log(existCart);
-  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }, restaurant_id:1}})
+  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
+    // , restaurant_id:1
+  }})
   .then((specs) => {
     let additional = 0;
     specs.forEach(spec => {

@@ -37,22 +37,26 @@
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Food</th>
-                    <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each menus}}
-                    <tr>
-                    <td>{{#inc @index}}{{/inc}}</td>
-                    <td>{{name}}</td>
-                    <td>{{price}}</td>
-                    {{#each ../order.food}}
-                    {{#ifEquals id ../id}}
-                    <td>{{quantity}}</td>
+                    {{#each order.food}}
+                    {{#each orders}}
+                    {{#each ../../menus}}
+                    {{#ifEquals ../../id id}}
+                    <tr style="padding-bottom: 10px">
+                    <td>{{inc @index}}</td>
+                    <td>{{name}}
+                    {{#if ../specifications}}<br><span style="font-size: 0.8em;">Spec: {{../specifications}}</span>{{/if}}
+                    {{#if ../remark}}<br><span style="font-size: 0.8em;">Remark: {{../remark}}</span>{{/if}}</td>
+                    <td>{{../this.quantity}}</td>
+                    <td>{{#distanceFixedCost price ../this.additional ../this.quantity}}{{/distanceFixedCost}}</td>
+                    </tr>
                     {{/ifEquals}}
                     {{/each}}
-                    </tr>
+                    {{/each}}
                     {{/each}}
                 </tbody>
                 </table>
