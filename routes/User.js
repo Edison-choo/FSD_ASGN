@@ -100,26 +100,9 @@ router.get('/forget_password', (req, res) => {
 });
 
 router.get('/profile', (req,res) => {
-	location = "user/profile";
-	checkCurrentUser(req.session.passport.user, location, res);
+	res.render("user/profile");
 })
 
-function checkUser(user){
-	if(user > 0){
-		userLog = true;
-	}else{
-		userLog = false;
-	}
-	return userLog;
-}
 
-function checkCurrentUser(user, location, res){
-	if(user != 0){
-		 User.findOne({ where: {id: user} })
-		 			.then(users => {
-		 				res.render(location, {fname: users.fname, userLog:checkUser(user)});
-		 			});	
-	 }
-}
 
 module.exports = router;
