@@ -5,14 +5,14 @@
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="fname" class="form-control" name="fname" required />
+          <input type="text" id="fname" class="form-control" name="fname" value="{{user.fname}}" required />
           <label class="form-label" for="fname">First name</label>
         </div>
       </div>
 
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="lname" class="form-control" name="lname" required />
+          <input type="text" id="lname" class="form-control" name="lname" value="{{user.lname}}" required />
           <label class="form-label" for="lname">Last name</label>
         </div>
       </div>
@@ -20,19 +20,19 @@
 
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="email" id="email" class="form-control" name="email" required />
+      <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
       <label class="form-label" for="email">Email address</label>
     </div>
 
     <!-- Phone number input -->
     <div class="form-outline mb-4">
-      <input type="number" id="phone" class="form-control" name="phone" required />
+      <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
       <label class="form-label" for="phone">Phone No.</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="password" class="form-control" name="password" value="" required />
+      <input type="password" id="password" class="form-control" name="password" required />
       <label class="form-label" for="password">Password</label>
     </div>
 

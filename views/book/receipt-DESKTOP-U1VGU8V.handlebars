@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="receipt">
+            <img src="/img/tick.png" alt="">
+            <div>
+                <div class="receiptTitle">Payment is successful</div>
+                <div style="text-align: center;">
+                    Thanks for your purchase. We will start preparing your food 15 minutes in advance of your booked timeslot. See you there
+                </div>
+            </div>
+            <div>
+                <div class="receiptSubTitle">Booking details</div>
+                <table class="bookTable bookTable1">
+                    <tr>
+                        <td>Restaurant:</td>
+                        <td>Restaurant 1</td>
+                    </tr>
+                    <tr>
+                        <td>Booking Date:</td>
+                        <td>01/01/2021</td>
+                    </tr>
+                    <tr>
+                        <td>Booking Time:</td>
+                        <td>4:00pm</td>
+                    </tr>
+                    <tr>
+                        <td>Pax:</td>
+                        <td>4</td>
+                    </tr>
+                </table>
+                </div>
+                <div>
+                    <div class="receiptSubTitle">Order details</div>
+                    <table class="bookTable bookTable2">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Food</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each menus}}
+                    <tr>
+                    <td>{{#inc @index}}{{/inc}}</td>
+                    <td>{{name}}</td>
+                    <td>{{price}}</td>
+                    {{#each ../order.food}}
+                    {{#ifEquals id ../id}}
+                    <td>{{quantity}}</td>
+                    {{/ifEquals}}
+                    {{/each}}
+                    </tr>
+                    {{/each}}
+                </tbody>
+                </table>
+                <div style="float:right;margin-right:20px;">Total: ${{#distanceFixed order.total}}{{/distanceFixed}}</div>
+            </div>
+        </div>
+        <button type="button" name="" id="" class="btn btn-block homeButton" onclick="window.location.href='/'">Back To Home</button>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>

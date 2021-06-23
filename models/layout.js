@@ -6,16 +6,16 @@ const Layout = db.define('layout', {
         type:Sequelize.STRING
     },
     seat:{
-        type:Sequelize.STRING(1234)
+        type:Sequelize.STRING(4000)
     },
     square:{
-        type:Sequelize.STRING(1234)
+        type:Sequelize.STRING(4000)
     },
     tables:{
-        type:Sequelize.STRING(1234)
+        type:Sequelize.STRING(4000)
     },
     occupied:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING(400)
     },
 })
 

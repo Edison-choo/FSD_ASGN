@@ -13,8 +13,8 @@
         <ul>
           <li><a class="nav-link scrollto " href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/bookingInterface/bookingDetailsEmailInsert">Booking Details</a></li>
-          {{#if userLog}}
-          <li><a class="nav-link scrollto" href="/user/profile">{{fname}}</a></li>
+          {{#if user}}
+          <li><a class="nav-link scrollto" href="/user/profile">{{user.fname}}</a></li>
           <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li>
           {{else}}
           <li><a class="nav-link scrollto" href="/user/login">Login</a></li>

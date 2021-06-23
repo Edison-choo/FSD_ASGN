@@ -1,0 +1,142 @@
+<script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        <div class="menuNav">
+          <button class="btn" onclick="window.location.href='/menu/updateMenu'">Table View (Edit)</button>
+          <button class="btn" style="cursor: not-allowed;">User View</button>
+        </div>
+        <div class="menuEdit">
+            <h1 class="menuTitle">MENU
+                </h1>
+            
+        </div>
+        {{#if types}}
+        <div class="subNav">
+          {{#each types}}
+          <div class="subNavItem" style="font-weight: 500;"><a href="#{{this}}">{{this}}</a></div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if types}}
+        
+        {{#each types}}
+        <div class="menuType">
+            <div class="menuSubTitle" id="{{this}}"><h2>{{this}}</h2></div>
+          <div class="menuCat">
+              {{#each ../menus}}
+              {{#ifEquals this.type ../this}}
+                <div class="menuItem">
+                    <div class="menuImage"></div>
+                    <div class="menuContent">
+                      <div>{{this.name}}<br><span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
+                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">Details</button>
+                    </div>
+                </div>
+              {{/ifEquals}}
+              {{/each}}
+          </div>
+
+        </div>
+        {{/each}}
+        {{else}}
+        <div style="margin-top: 60px; text-align:center;"><h2>Menu empty...</h2></div>
+        {{/if}}
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+
+<!-- Modal -->
+{{#each menus}}
+<div class="modal fade modalMenu" id="food{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Food Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+            <div class="menuImage"></div>
+            <div class="popUpContent popUpContent2">
+              <div class="popUpContentTitle">{{this.name}}<br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span></div>
+                <form action="">
+                  <label style="display: block;" for="">Quantity:</label>
+                  <div class="quantity buttons_added">
+                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                  </div>
+                  
+                  {{#each ../menuSpecification}}
+                  {{#ifIn @key ../this.specifications}}
+                  <div>
+                    <label for="">{{@key}}:</label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">  
+                      <option selected>Open this select menu</option>
+                      
+                      {{#each this}}
+                      <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                  {{/ifIn}}
+                  {{/each}}
+                  
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+<script src="">
+  // Basice Code keep it 
+$(document).ready(function () {
+  $(document).on("scroll", onScroll);
+
+  //smoothscroll
+  $('a[href^="#"]').on('click', function (e) {
+      e.preventDefault();
+      $(document).off("scroll");
+
+      $('a').each(function () {
+          $(this).removeClass('active');
+      })
+      $(this).addClass('active');
+
+      var target = this.hash,
+          menu = target;
+      $target = $(target);
+      $('html, body').stop().animate({
+          'scrollTop': $target.offset().top+2
+      }, 500, 'swing', function () {
+          window.location.hash = target;
+          $(document).on("scroll", onScroll);
+      });
+  });
+});
+
+function onScroll(event){
+  var scrollPos = $(document).scrollTop();
+  $('.subNav a').each(function () {
+      var currLink = $(this);
+      var refElement = $(currLink.attr("href"));
+      if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+          $('.subNav a').removeClass("active");
+          currLink.addClass("active");
+      }
+      else{
+          currLink.removeClass("active");
+      }
+  });
+}
+</script>
+

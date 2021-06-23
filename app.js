@@ -3,20 +3,16 @@
  * in this JS file.
  * */
 const express = require("express");
-const session = require("express-session");
 const path = require("path");
-const exphbs = require("express-handlebars");
-const methodOverride = require("method-override");
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const flash = require("connect-flash");
-const FlashMessenger = require("flash-messenger");
+const exphbs = require("express-handlebars");
+const methodOverride = require("method-override");
+const passport = require("passport");
 const Handlebars = require("handlebars");
 const queryString = require("querystring");
-const passport = require("passport");
 const cookieSession = require("cookie-session");
-const MySQLStore = require("express-mysql-session");
-const db = require("./config/db");
 /*
  * Loads routes file main.js in routes directory. The main.js determines which function
  * will be called based on the HTTP request and URL.
@@ -32,47 +28,25 @@ const staffResRoute = require("./routes/staffRestaurant");
 const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
 
+// Bring in database connection
+const DB = require("./config/DBConnection");
+
+const MySQLStore = require("express-mysql-session");
+const db = require("./config/db");
+
+const flash = require("connect-flash");
+const FlashMessenger = require("flash-messenger");
 /*
  * Creates an Express server - Express is a web application framework for creating web applications
- * in Node JS.
+ * in Node JS.f
  */
 const app = express();
 
-// Creates static folder for publicly accessible HTML, CSS and Javascript files
-app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  cookieSession({
-    keys: ["key1", "key2"],
-  })
-);
-
-app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(flash());
-app.use(FlashMessenger.middleware);
-
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.error_msg = req.flash("error_msg");
-  res.locals.error = req.flash("error");
-  res.locals.user = req.user || null;
-  res.locals.session = req.session;
-  next();
-});
+// Connects to MySQL database
+DB.setUpDB(false);
 
 const authenticate = require("./config/passport");
 authenticate.localStrategy(passport);
-
-app.use("/", mainRoute);
-app.use("/book", bookRoute);
-app.use("/menu", menuRoute);
-app.use("/restaurant", resRoute);
-app.use("/reviews", reviewsRoute);
-app.use("/createReviews", createReviewsRoute);
-app.use("/user", userRoute);
-app.use("/staffRestaurant", staffResRoute);
-app.use("/createPromotions", createPromotions);
-app.use("/bookingInterface", bookingInterfaceRoute);
 
 // Handlebars Middleware
 /*
@@ -99,6 +73,14 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
+// Creates static folder for publicly accessible HTML, CSS and Javascript files
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  cookieSession({
+    keys: ["key1", "key2"],
+  })
+);
 
 // Method override middleware to use other HTTP methods such as PUT and DELETE
 app.use(methodOverride("_method"));
@@ -128,6 +110,36 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+app.use(FlashMessenger.middleware);
+
+app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
+
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user || null;
+  res.locals.session = req.session;
+  next();
+});
+
+app.use("/", mainRoute);
+app.use("/book", bookRoute);
+app.use("/menu", menuRoute);
+app.use("/restaurant", resRoute);
+app.use("/reviews", reviewsRoute);
+app.use("/createReviews", createReviewsRoute);
+app.use("/user", userRoute);
+app.use("/staffRestaurant", staffResRoute);
+app.use("/createPromotions", createPromotions);
+app.use("/bookingInterface", bookingInterfaceRoute);
+
+
+
 app.use(express.json());
 
 // Place to define global variables - not used in practical 1
@@ -154,10 +166,6 @@ app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
 
-// Bring in database connection
-const DB = require("./config/DBConnection");
-// Connects to MySQL database
-DB.setUpDB(false);
 
 Handlebars.registerHelper("ifEquals", function (a, b, options) {
   if (a == b) {
