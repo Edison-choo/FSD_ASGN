@@ -8,6 +8,10 @@ const menuSpecification = require("../models/menuSpecification");
 const User = require("../models/user");
 const e = require("connect-flash");
 
+// Required for file upload
+const fs = require("fs");
+const upload = require("../helpers/imageUpload");
+
 var userLog = false;
 var location = "";
 
@@ -33,11 +37,13 @@ router.get("/", (req, res) => {
           specs.forEach((option) => {
             if (option.name in menuSpec) {
               menuSpec[option.name] = menuSpec[option.name].concat([
-                {option:option.option, addPrice:option.addPrice}
+                { option: option.option, addPrice: option.addPrice },
               ]);
             } else {
               console.log("test1");
-              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+              menuSpec[option.name] = [
+                { option: option.option, addPrice: option.addPrice },
+              ];
             }
           });
           console.log(menuSpec);
@@ -100,16 +106,17 @@ router.get("/updateMenu", (req, res) => {
 //add food
 router.post("/addMenu", urlencodedParser, (req, res) => {
   let errors = [];
-  let { foodName, foodType, foodPrice, specifications } = req.body;
+  let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
   // let foodId = foodType.slice(0, 1).toUpperCase() + '01';
-  if (specifications) {
-    specifications = specifications.toString();
-  } else {
-    specifications = "";
-  }
-  // specifications = undefined ? " " : specifications.toString();
+  // if (specifications) {
+  //   specifications = specifications.toString();
+  // } else {
+  //   specifications = "";
+  // }
+  menuImage = menuImage === undefined ? '' : menuImage;
+  specifications = specifications === undefined ? "" : specifications.toString();
   // foodId = foodId.toString();
-
+  console.log(menuImage);
   if (foodPrice < 0) {
     errors.push({ text: "Please do not enter negative value for price" });
   }
@@ -121,12 +128,15 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
   })
     .then((menus) => {
       if (menus) {
-        let menuOrder = menus.filter(f => f.type == foodType).sort((f1, f2) => f1.foodNo > f2.foodNo ? 1 : -1);
+        let menuOrder = menus
+          .filter((f) => f.type == foodType)
+          .sort((f1, f2) => (f1.foodNo > f2.foodNo ? 1 : -1));
         let menuLength = 0;
         if (menuOrder[0] === undefined) {
           menuLength = 1;
         } else {
-          menuLength = parseInt((menuOrder[menuOrder.length - 1].foodNo).slice(-2)) + 1;
+          menuLength =
+            parseInt(menuOrder[menuOrder.length - 1].foodNo.slice(-2)) + 1;
         }
         // menus.forEach((menu) => {
         // 	menu.specifications = JSON.parse(menu.specifications);
@@ -135,6 +145,7 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
           res.render("menu/updateMenu", {
             errors,
             menus,
+            menuImage,
             foodName,
             foodType,
             foodPrice,
@@ -153,6 +164,7 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                 );
                 res.render("menu/updateMenu", {
                   menus: menus,
+                  menuImage,
                   foodName,
                   foodType,
                   foodPrice,
@@ -161,13 +173,17 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                 });
               } else {
                 let id = 1;
-                let foodId = foodType.slice(0,1).toUpperCase() + foodType.slice(-1).toUpperCase() + ("00" + menuLength).slice(-2);
+                let foodId =
+                  foodType.slice(0, 1).toUpperCase() +
+                  foodType.slice(-1).toUpperCase() +
+                  ("00" + menuLength).slice(-2);
                 Menu.create({
                   foodNo: foodId,
                   name: foodName,
                   price: foodPrice,
                   type: foodType,
                   specifications: specifications,
+                  image: menuImage,
                   restaurant_id: id,
                 })
                   .then((menu) => {
@@ -191,11 +207,52 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
 });
 //fix menuSpec
 
+//fix
+//i change req.user.id to 1
+//upload image
+router.post("/upload", urlencodedParser, (req, res) => {
+  // Creates user id directory for upload if not exist
+  if (!fs.existsSync("./public/uploads/" + 1)) {
+    fs.mkdirSync("./public/uploads/" + 1);
+  }
+  upload.menuUpload(req, res, (err) => {
+    if (err) {
+      res.json({ file: "/img/no-image.jpg", err: err });
+    } else {
+      if (req.file === undefined) {
+        res.json({ file: "/img/no-image.jpg", err: err });
+      } else {
+        res.json({ file: `/uploads/1/${req.file.filename}` });
+      }
+    }
+  });
+});
+
+//upload image (edit)
+router.post("/uploadEdit", urlencodedParser, (req, res) => {
+  // Creates user id directory for upload if not exist
+  if (!fs.existsSync("./public/uploads/" + 1)) {
+    fs.mkdirSync("./public/uploads/" + 1);
+  }
+  upload.menuUploadEdit(req, res, (err) => {
+    if (err) {
+      res.json({ file: "/img/no-image.jpg", err: err });
+    } else {
+      if (req.file === undefined) {
+        res.json({ file: "/img/no-image.jpg", err: err });
+      } else {
+        res.json({ file: `/uploads/1/${req.file.filename}` });
+      }
+    }
+  });
+});
+
 //update food
 router.post("/update/:id", urlencodedParser, (req, res) => {
   let id = req.params.id;
-  let { foodId, foodName, foodType, foodPrice, specifications } = req.body;
-  specifications = specifications.toString();
+  let { menuImage, foodId, foodName, foodType, foodPrice, specifications } = req.body;
+  specifications = specifications === undefined ? "" : specifications.toString();
+  menuImage = menuImage === undefined ? '' : menuImage;
 
   Menu.update(
     {
@@ -204,6 +261,7 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
       price: foodPrice,
       type: foodType,
       specifications: specifications,
+      image: menuImage,
     },
     { where: { id: id } }
   )
@@ -253,12 +311,14 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
   let optionList = [];
   for (i in req.body) {
     // console.log(req.body[i]);
-    if (i !== 'name' && i.slice(0,1) === 'o') {
+    if (i !== "name" && i.slice(0, 1) === "o") {
       optionList.push([req.body[i]]);
-    } else if (i !== 'name' && i.slice(0,1) === 'a') {
-      optionList[optionList.length - 1] = optionList[optionList.length - 1].concat([req.body[i]]);
+    } else if (i !== "name" && i.slice(0, 1) === "a") {
+      optionList[optionList.length - 1] = optionList[
+        optionList.length - 1
+      ].concat([req.body[i]]);
     }
-  };
+  }
   console.log(optionList);
   for (i = 0; i < optionList.length; i++) {
     let option = optionList[i][0];

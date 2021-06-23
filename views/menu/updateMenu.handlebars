@@ -114,7 +114,7 @@
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                   </svg>
-                  Add An Item
+                  Add A Spec
               </button>
             </div>
           </div>
@@ -154,11 +154,18 @@
         <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form action="/menu/addMenu" method="POST">
       <div class="modal-body">
         <div class="">
-            <div class="menuImage"></div>
+            <div class="popUpImage">
+              <div class="menuImage">
+              <img src="/img/no-image.jpg" alt="" id="menuImg" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+              </div>
+              <input type="file" name="menuImageUpload" id="menuImageUpload" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
+              <input type="hidden" name="menuImage" id="menuImage">
+              <div class="font-weight-bold text-danger small" id="menuImageErr" style="display:none"></div>
+            </div>
             <div class="popUpContent">
-                <form action="/menu/addMenu" method="POST">
                   <div class="popUpContentTitle">Food Details</div>
                     {{!-- <div class="form-outline">
                       <input type="text" id="foodId" name='foodId' value="{{#if foodId}}{{foodId}}{{/if}}" class="form-control" required/>
@@ -300,7 +307,14 @@
       <form action="/menu/update/{{this.id}}" method="POST">
       <div class="modal-body">
         <div class="">
-            <div class="menuImage"></div>
+            <div class="popUpImage">
+              <div class="menuImage">
+              <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+              </div>
+              <input onchange="uploadImg({{this.id}})" type="file" name="menuImageUpload" id="menuImageUpload{{id}}" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
+              <input type="hidden" name="menuImage" id="menuImage{{id}}" value="{{this.image}}">
+              <div class="font-weight-bold text-danger small" id="menuImageErr{{id}}" style="display:none"></div>
+            </div>
             <div class="popUpContent">
                 
                     <div class="popUpContentTitle">Food Details</div>
