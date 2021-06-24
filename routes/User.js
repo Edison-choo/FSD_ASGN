@@ -119,8 +119,6 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
     if(errors.length == 0){
 		bcrypt.genSalt(10, function(err, salt) {
 			bcrypt.hash(password, salt, function(err, hash) {
-				
-			console.log("1");
         User.update({
 			password: hash
 		},
@@ -128,22 +126,18 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 		)
 		.then(user => {
 			if (user > 0) {
-				console.log("3");
 			console.log(user, req.body.email, user.email, errors.length);
 			// If user is found, email has already been registered
 				success_msg = "Password has been resetted";
 				res.render('user/login', {success_msg:success_msg});
 			
 			}else{
-				console.log("2");
 				errors.push({"text": "User not found"});
 				res.render('user/forgetpassword', {errors, email, passport, cpassword});
 			} 
 		})
 	})})
     }else{
-
-		console.log("4");
         res.render('user/forgetpassword', {errors, email, password, cpassword})
     }
 
@@ -153,6 +147,86 @@ router.get('/profile', (req,res) => {
 	res.render("user/profile");
 });
 
+router.get('/editProfile', urlencodedParser, (req, res) => {
+	res.render('user/editProfile');
+});
 
+router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
+	User.destroy({
+		where: {
+			id: req.params.id
+		}
+	}).then(() => {
+		req.logout();
+
+		req.flash("success_msg", "Account have been successfully removed.");
+	
+		res.redirect("/user/login");
+	}).catch(err => console.log(err));
+});
+
+router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
+	let errors = [];
+	let success_msg = '';
+	let {fname, lname, email, phone, passport, cpassword} = req.body;
+	var new_password = "";
+
+	User.findOne({ where: {id: req.params.id} })
+	.then(user => {
+		if(user){
+			if(user.password != req.body.password){
+
+			
+				if(req.body.password != req.body.cpassword){
+					errors.push({"text": "Password do not match"})
+				}else{
+					if(req.body.password.length < 8){
+						errors.push({"text": "Password must be at least 8 characters"});
+					}else{
+						bcrypt.genSalt(10, function(err, salt) {
+							bcrypt.hash(req.body.password, salt, function(err, hash) {
+							User.update({
+								password: hash
+							},
+							{where:{id: req.params.id}}
+							)
+						})})
+					}
+					
+				}
+			}
+		}
+	})
+
+	emailValidate = validator.validate(email);
+	if(!emailValidate){
+		errors.push({"text": "Email is not valid"});
+	}
+
+	if(String(phone).length != 8){
+		errors.push({"text": "Phone number must have at least 8 digit"});
+	}
+
+	if(errors.length == 0){
+		User.update({
+			fname: req.body.fname,
+			lname: req.body.lname,
+			phone: req.body.phone,
+			email: req.body.email,
+		},
+		{where:{id: req.params.id}}
+		)
+		.then(user => {
+			if(user){
+				res.redirect("/user/profile")
+			}else{
+				errors.push({"text": "User not found"});
+				res.render('user/profile', {errors});
+			}
+		})
+	}else{
+		res.render('user/editProfile', {errors})
+	}
+});
 
 module.exports = router;

@@ -320,6 +320,7 @@
   border-top: none;
   width: 80%;
   margin: 0 auto;
+  margin-bottom: 5%;
 }
 .rightCont{
   width: 70%;
@@ -330,6 +331,10 @@
   margin-bottom: 5%;
 }
 
+#displayForm{
+  margin-top: 6%;
+  padding: 3%;
+}
 
 </style>
 
@@ -362,9 +367,12 @@
                 <div class="tab-content profile-tab" id="myTabContent">
                   <div id="About" class="tabcontent">
                     <div class="rightCont">
-                      
-                      <input type="image" src="https://www.pngrepo.com/png/75500/180/edit-button.png" width="25px" height="auto" style="float: right;" onclick="editProfile()">
-                      <form>
+                      <div style="float: right;margin-bottom: 2%; display:flex;">
+                        <a href="/user/editProfile"><button class="btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
+                        <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
+                          <input type="submit" class="btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+                        </form>
+                      </div>
                       <table width="100%" id="displayInfo">
                         <tbody>
                           <tr>
@@ -377,23 +385,6 @@
                           </tr>
                         </tbody>
                       </table>
-                      <table width="100%" id="displayForm" border="1">
-                        <tbody>
-                          <tr>
-                            <td align="left">Email</td>
-                            <td align="right">
-                                <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td align="left">Phone No.</td>
-                            <td align="right">
-                              <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      </form>
                     </div>
                   </div>
 
@@ -416,16 +407,6 @@ function openProfile(evt, page) {
   }
   document.getElementById(page).style.display = "block";
   evt.currentTarget.className += " active";
-}
-
-var displayForm = document.getElementById("displayForm");
-displayForm.style.display = "none";
-
-var displayInfo = document.getElementById("displayInfo");
-
-function editProfile(){
-  displayForm.style.display = "block";
-  displayInfo.style.display = "none";
 }
 
 

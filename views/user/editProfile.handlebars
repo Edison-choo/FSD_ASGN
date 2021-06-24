@@ -1,0 +1,81 @@
+<div class="editProfileForm">
+    <h5>Edit Profile</h5>
+  <form method="POST" action="/user/updateProfile/{{user.id}}">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="fname" class="form-control" name="fname" value="{{user.fname}}" required />
+          <label class="form-label" for="fname">First name</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="lname" class="form-control" name="lname" value="{{user.lname}}" required />
+          <label class="form-label" for="lname">Last name</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
+      <label class="form-label" for="email">Email address</label>
+    </div>
+
+    <!-- Phone number input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
+      <label class="form-label" for="phone">Phone No.</label>
+    </div>
+
+    <div id="changePasswordInputs">
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="password" class="form-control" name="password" value="{{user.password}}" required />
+        <label class="form-label" for="password">Password</label>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="cpassword" class="form-control" name="cpassword" value="{{user.password}}" required />
+        <label class="form-label" for="cpassword">Confirm Password</label>
+      </div>
+    </div>
+
+    <!-- 2 column grid layout for inline styling -->
+	  <div class="row mb-4" id="cp">
+      <div class="col" style="text-align: center;">
+      <!-- Simple link -->
+      <a onclick="displayChangePassword()" id="changePassword">Change Password?</a>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="editProfileBtn btn btn-primary btn-lg btn-block">Confirm</button>
+  </form>
+</div>
+
+<style>
+  #changePasswordInputs{
+    display: none;
+  }
+  #changePassword{
+    cursor: pointer; 
+    color: #1266f1
+  }
+  #changePassword:hover{
+    color: blue;
+  }
+</style>
+<script>
+  var cpi = document.getElementById("changePasswordInputs");
+  var cp = document.getElementById("cp");
+  function displayChangePassword(){
+    cpi.style.display = "block";
+    cp.style.display = "none";
+    document.getElementById("password").value = "";
+    document.getElementById("cpassword").value = "";
+  }
+</script>
