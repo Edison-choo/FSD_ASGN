@@ -231,7 +231,6 @@
  --}}
 
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -239,6 +238,7 @@
 
 
 <style>
+
 .emp-profile{
     padding: 3%;
     margin-top: 3%;
@@ -321,6 +321,16 @@
   width: 80%;
   margin: 0 auto;
 }
+.rightCont{
+  width: 70%;
+  float: right;
+  margin-top: -10%;
+  margin-right: 3%;
+  font-size: 17px;
+  margin-bottom: 5%;
+}
+
+
 </style>
 
 <div class="container emp-profile">
@@ -336,9 +346,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
-                                    <h5>
-                                        {{user.fname}} {{user.lname}}
-                                    </h5>
+                          <h5>
+                              {{user.fname}} {{user.lname}}
+                          </h5>
                         </div>
                         <!-- Tab links -->
                         <div class="tab">
@@ -346,20 +356,50 @@
                           <button class="tablinks" onclick="openProfile(event, 'PD')">Payment Details</button>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                    </div>
                 </div>
 
                 
-                        <div class="tab-content profile-tab" id="myTabContent">
-                          <div id="About" class="tabcontent">
-                            <h3>...</h3>
-                          </div>
+                <div class="tab-content profile-tab" id="myTabContent">
+                  <div id="About" class="tabcontent">
+                    <div class="rightCont">
+                      
+                      <input type="image" src="https://www.pngrepo.com/png/75500/180/edit-button.png" width="25px" height="auto" style="float: right;" onclick="editProfile()">
+                      <form>
+                      <table width="100%" id="displayInfo">
+                        <tbody>
+                          <tr>
+                            <td align="left">Email</td>
+                            <td align="right">{{user.email}}</td>
+                          </tr>
+                          <tr>
+                            <td align="left">Phone No.</td>
+                            <td align="right">{{user.phone}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table width="100%" id="displayForm" border="1">
+                        <tbody>
+                          <tr>
+                            <td align="left">Email</td>
+                            <td align="right">
+                                <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">Phone No.</td>
+                            <td align="right">
+                              <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </form>
+                    </div>
+                  </div>
 
-                          <div id="PD" class="tabcontent">
-                            <h3>....</h3>
-                          </div>
+                  <div id="PD" class="tabcontent">
+                    <h3>....</h3>
+                  </div>
 </div>
 
 <script>
@@ -377,5 +417,16 @@ function openProfile(evt, page) {
   document.getElementById(page).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+var displayForm = document.getElementById("displayForm");
+displayForm.style.display = "none";
+
+var displayInfo = document.getElementById("displayInfo");
+
+function editProfile(){
+  displayForm.style.display = "block";
+  displayInfo.style.display = "none";
+}
+
 
 </script>
