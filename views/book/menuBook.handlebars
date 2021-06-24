@@ -23,17 +23,20 @@
                     style="margin-bottom: 40px;"
                     {{/ifEquals}}
                     {{/each}}>
-                    <div class="menuImage"></div>
+                    <div class="popUpImage">
+                      <div class="menuImage">
+                        <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                      </div>
+                    </div>
                     <div class="menuContent">
                       <div>{{this.name}}<br>
                       <span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
                       </div>
                       
-                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">{{#if ../../session.cart}}{{#each ../../session.cart}}
+                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">
+                        {{#if ../../session.cart}}{{#each ../../session.cart}}
                     {{#ifEquals this.id ../this.id}}
                     New Order
-                    {{else}}
-                    Order
                     {{/ifEquals}}
                     {{/each}}
                     {{else}}
@@ -81,7 +84,12 @@
       <form action="/book/add/{{this.id}}" method="post">
       <div class="modal-body">
         <div class="">
-            <div class="menuImage"></div>
+            <div class="popUpImage">
+              <div class="menuImage">
+                <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                <input type="hidden" name="menuImage" value="{{this.image}}">
+              </div>
+            </div>
             <div class="popUpContent popUpContent2">
               <div class="popUpContentTitle">{{this.name}}
                 <br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
@@ -168,7 +176,12 @@
       <form action="/book/update/{{../this.id}}-{{uniqueId}}" method="post">
       <div class="modal-body">
         <div class="">
-            <div class="menuImage"></div>
+            <div class="popUpImage">
+              <div class="menuImage">
+                <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                <input type="hidden" name="menuImage" value="{{this.image}}">
+              </div>
+            </div>
             <div class="popUpContent popUpContent2">
               {{#each ../../menus}}
               {{#ifEquals id ../../id}}

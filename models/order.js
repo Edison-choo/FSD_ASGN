@@ -6,7 +6,7 @@ const Order = db.define('order', {
         type: Sequelize.INTEGER
     },
     food: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(4000)
     },
     date: {
         type: Sequelize.DATE

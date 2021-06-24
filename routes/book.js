@@ -115,8 +115,9 @@ router.get("/payment", (req, res) => {
 router.post("/add/:id", urlencodedParser, (req, res) => {
   let cart = [];
   let existCart = [];
-  let { quantity, specifications, remark } = req.body;
+  let { menuImage, quantity, specifications, remark } = req.body;
   remark = remark === undefined ? '' : remark;
+  specifications = specifications === undefined ? '' : specifications;
   specifications = typeof(specifications) === 'string' ? [specifications]: specifications;
   console.log(specifications)
   let sess = req.session;
@@ -138,6 +139,7 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
       id: req.params.id,
       orders: [{
       uniqueId: 1,
+      image: menuImage,
       quantity: quantity,
       specifications: specifications,
       additional: additional,
@@ -164,8 +166,10 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
 router.post("/update/:id", urlencodedParser, (req, res) => {
   let cart = [];
   let existCart = [];
-  let { quantity, specifications, remark } = req.body;
+  let { menuImage, quantity, specifications, remark } = req.body;
   remark = remark === undefined ? '' : remark;
+  specifications = specifications === undefined ? '' : specifications;
+  specifications = typeof(specifications) === 'string' ? [specifications]: specifications;
   let sess = req.session;
   let foodId = req.params.id.split('-')[0];
   let uniqueId = req.params.id.split('-')[1];
@@ -173,21 +177,48 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
   if (sess.cart) {
     existCart = (sess.cart.map((food) => food.id));
   }
-  cart.push({
-    id: foodId,
-    orders: [{
-    uniqueId: 1,
-    quantity: quantity,
-    specifications: specifications,
-    remark: remark,
-    }]
+  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
+    // , restaurant_id:1
+  }})
+  .then((specs) => {
+    let additional = 0;
+    specs.forEach(spec => {
+      additional += parseFloat(spec.addPrice)
+    });
+    cart.push({
+      id: req.params.id,
+      orders: [{
+      uniqueId: 1,
+      image: menuImage,
+      quantity: quantity,
+      specifications: specifications,
+      additional: additional,
+      remark: remark,
+      }]
+    });
+    if (existCart.indexOf(foodId) > -1) {
+      sess.cart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
+    }
+    alertMessage(res, "success",'Food is updated in the shopping cart', 'fas fa-sign-in-alt', true);
+    res.redirect("/book/menuBook");
   });
-  if (existCart.indexOf(foodId) > -1) {
-    //tbr
-    sess.cart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
-  }
-  alertMessage(res, "success",'Food is updated in the shopping cart', 'fas fa-sign-in-alt', true);
-  res.redirect("/book/menuBook"); 
+  // cart.push({
+  //   id: foodId,
+  //   orders: [{
+  //   uniqueId: 1,
+  //   image: menuImage,
+  //   quantity: quantity,
+  //   specifications: specifications,
+  //   additional: additional,
+  //   remark: remark,
+  //   }]
+  // });
+  // if (existCart.indexOf(foodId) > -1) {
+  //   //tbr
+  //   sess.cart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
+  // }
+  // alertMessage(res, "success",'Food is updated in the shopping cart', 'fas fa-sign-in-alt', true);
+  // res.redirect("/book/menuBook");
 });
 
 //delete item from session
