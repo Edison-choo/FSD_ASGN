@@ -1,62 +1,16 @@
-/* Cruz */
-#loginForm, #registerForm, #fpForm, #profileForm, .creditCardForm{
-    border: 1px solid grey;
+.loginForm, .regForm, .cpForm {
+  width: 100%;
+  padding: 20px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.creditCardForm{
-  margin-top: 5%;
-}
-
-.userTitle{
-    font-weight: bold;
-    background-color: lightgray;
-    padding: 0.5%;
-    border-bottom: 1px solid grey;
-}
-
-#loginForm form, #registerForm form, #fpForm form, #profileForm form, .creditCardForm form{
-    padding: 4%;
-}
-
-#creditCardTable{
-    border-collapse: collapse;
-    border-spacing: 5px;
-    margin: 0 auto;
-    border-color: grey;
-}
-
-#creditCardList{
-  margin: 2.5%;
-}
-
-.accBtn{
-  margin: 2%;
-  margin-left: 4%;
-}
-
-.AllBtn {
-  border: 3px solid #ffb03b;
-  background-color: #35322d;
-  color: #ffb03b;
-}
-.AllBtn:hover {
-  border: 3px solid #35322d;
-  background-color: #ffb03b;
-  color: #35322d;
-}
-
-/* Chrome, Safari, Edge, Opera */
-#registerForm input[type=number]::-webkit-outer-spin-button,
-#registerForm input[type=number]::-webkit-inner-spin-button,
-#profileForm input[type=number]::-webkit-outer-spin-button,
-#profileForm input[type=number]::-webkit-inner-spin-button,  
-.creditCardForm input[type=number]::-webkit-outer-spin-button,
-.creditCardForm input[type=number]::-webkit-inner-spin-button{
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-#registerForm input[type=number], #profileForm input[type=number] {
-  -moz-appearance: textfield;
+.loginBtn, .loginBtn:hover,
+.regBtn, .regBtn:hover,
+.cpBtn, .cpBtn:hover{
+  background-color:#433f39; 
+  border-color:#433f39
 }

@@ -1,15 +1,15 @@
-<div id="loginForm">
-	<p class="userTitle">Login</p>
+<div class="loginForm">
+    <h5>Login</h5>
 	<form method="POST" action="/user/loginUser">
 	<!-- Email input -->
 	<div class="form-outline mb-4">
-		<input type="email" id="email" class="form-control" name="email" />
+		<input type="email" id="email" class="form-control" name="email" required/>
 		<label class="form-label" for="email">Email address</label>
 	</div>
 
 	<!-- Password input -->
 	<div class="form-outline mb-4">
-		<input type="password" id="password" class="form-control" name="password" />
+		<input type="password" id="password" class="form-control" name="password" required/>
 		<label class="form-label" for="password">Password</label>
 	</div>
 
@@ -23,8 +23,7 @@
 	</div>
 
 	<!-- Submit button -->
-	<button type="submit" class="AllBtn loginBtn btn btn-primary btn-block mb-4">Sign in</button>
-
+	<button type="submit" class="loginBtn btn btn-primary btn-lg btn-block">Sign in</button>
 	<!-- Register buttons -->
 	<div class="text-center">
 		<p>Not a member? <a href="/user/register">Register</a></p>
