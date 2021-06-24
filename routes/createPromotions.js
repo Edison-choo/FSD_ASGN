@@ -73,9 +73,9 @@ router.get('/:id', (req, res) => {
             }).catch(err => console.log(err));
 });
 
-router.get('/:id', (req, res) => {
-    let id = req.params.id;
-    res.render('/createPromotions', promotions.id);
-    }).catch(err => console.log(err));
+// router.get('/:id', (req, res) => {
+//     let id = req.params.id;
+//     res.render('/createPromotions', promotions.id);
+//     }).catch(err => console.log(err));
 
 module.exports = router;
