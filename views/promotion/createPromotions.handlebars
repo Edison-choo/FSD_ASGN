@@ -56,6 +56,7 @@
   class="btn btn-primary"
   data-mdb-toggle="modal"
   data-mdb-target="#exampleModal"
+  style="background-color: #ffb03b;"
 >
   Create A Promotion
 </button>
@@ -103,8 +104,8 @@
             </tr>
         </table>
         <div style="float: right;">
-            <input class="btn btn-primary" type="submit" value="Submit"/>
-                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+            <input class="btn btn-primary" type="submit" value="Submit"/ style="background-color: #3b5998;">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
           Close
         </button>
         </div>
@@ -144,28 +145,34 @@
 <div class="container">
     <h2>Promotions</h2>
     <hr>
-    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 200px; border-radius:15px;">
+    {{#if promotions}}
+    {{#each promotions}}
+    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
         <div class="row g-0">
             <div class="col-md-2">
                 <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-                    alt="..." class="img-fluid" style="max-height: 200px; " />
+                    alt="..." class="img-fluid" style="max-height: 250px; " />
             </div>
             <div class="col-md-10">
                 <div class="card-body">
-                    <h4 class="card-title" style="color: white;">McDonald's Breakfast Promotion</h4>
-                    <p class="card-text" style="color: white;">Start Date:DD-MM-YYYY</p>
-                    <p class="card-text" style="color: white;">End Date:DD-MM-YYYY</p>
+                    <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">{{discount}}%</c> </h4>
+                    <p class="card-text" style="color: white;">Start Date: {{startdate}}</p>
+                    <p class="card-text" style="color: white;">End Date: {{enddate}}</p>
+                    <p class="card-text" style="color: white;">Details: {{details}}</p>
                 <div class="buttons">
                     <div class="action_btn">
-                        <a class="btn btn-primary" style="background-color: #3b5998" href="restaurant/restaurant_1" role="button" p>Update</a></div>
-                        <a class="btn btn-primary" style="background-color: #BB4450" href="#!" role="button">Delete</a></div>
+                        <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/createPromotions/{{id}}" role="button">Delete</a>
+                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" role="button">Update</a>
                     </div>
                 </div>
                 </div>
             </div>
         </div>
     </div>
+    {{/each}}
 </div>
+{{/if}}
+
 
 <style>
     .modal-content {

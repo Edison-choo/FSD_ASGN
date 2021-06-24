@@ -8,8 +8,15 @@ const Promotions = require('../models/promotions');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', (req, res) => {
-    res.render('promotion/createPromotions');
+    Promotions.findAll(
+    ).then((promotions) => {
+        console.log(promotions)
+        res.render('promotion/createPromotions', {promotions: promotions})
+    }).catch(err => console.log(err));
 });
+// router.get('/', (req, res) => {
+//     res.render('promotion/createPromotions');
+// });
 
 router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
@@ -55,5 +62,20 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
         });
     }
 });
+
+router.get('/:id', (req, res) => {
+            Promotions.destroy({
+                where: {
+                    id: req.params.id
+                }
+            }).then(() => {
+                res.redirect('/createPromotions');
+            }).catch(err => console.log(err));
+});
+
+router.get('/:id', (req, res) => {
+    let id = req.params.id;
+    res.render('/createPromotions', promotions.id);
+    }).catch(err => console.log(err));
 
 module.exports = router;

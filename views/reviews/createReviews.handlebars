@@ -93,7 +93,7 @@
 <form method="POST" action="/createReviews/reviews/createReviews" id="ratingForm">
   <div class="container" id='food' style="margin-bottom: 20px;">
     <h4>How would you rate the food?</h4>
-    <div class="form-check form-check-inline">
+    {{!-- <div class="form-check form-check-inline">
       <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio1" value="1" />
       <label class="form-check-label" for="inlineRadio1">1</label>
     </div>
@@ -117,70 +117,39 @@
       <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio5" value="5" />
       <label class="form-check-label" for="inlineRadio2">5</label>
     </div>
-  </div>
-    {{!-- <fieldset class="rating">
-        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
-        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
-        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
-        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+  </div> --}}
+    <fieldset class="rating">
+        <input type="radio" id="star5" name="FoodOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+        <input type="radio" id="star4" name="FoodOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+        <input type="radio" id="star3" name="FoodOption" value="3" /><label for="star3" title="Meh">3 stars</label>
+        <input type="radio" id="star2" name="FoodOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+        <input type="radio" id="star1" name="FoodOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
     </fieldset>
-    </div> --}}
+    <br>
+    </div>
 
     <div class="container" id='service' style="margin-bottom: 20px;">
     <h4>How was the customer service?</h4>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio1" value="1" />
-      <label class="form-check-label" for="inlineRadio1">1</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio2" value="2"/>
-      <label class="form-check-label" for="inlineRadio2">2</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio3" value="3" />
-      <label class="form-check-label" for="inlineRadio3">3</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio4" value="4" />
-      <label class="form-check-label" for="inlineRadio2">4</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="CustOption" id="inlineRadio5" value="5" />
-      <label class="form-check-label" for="inlineRadio2">5</label>
-    </div>
+      <fieldset class="rating">
+        <input type="radio" id="star5" name="CustOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+        <input type="radio" id="star4" name="CustOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+        <input type="radio" id="star3" name="CustOption" value="3" /><label for="star3" title="Meh">3 stars</label>
+        <input type="radio" id="star2" name="CustOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+        <input type="radio" id="star1" name="CustOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+    </fieldset>
+    <br>
   </div>
 
     <div class="container" id='environment' style="margin-bottom: 20px;">
     <h4>Is the environment clean?</h4>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio1" value="1" />
-      <label class="form-check-label" for="inlineRadio1">1</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio2" value="2" />
-      <label class="form-check-label" for="inlineRadio2">2</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio3" value="3" />
-      <label class="form-check-label" for="inlineRadio3">3</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio4" value="4" />
-      <label class="form-check-label" for="inlineRadio2">4</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio5" value="5" />
-      <label class="form-check-label" for="inlineRadio2">5</label>
-    </div>
+    <fieldset class="rating">
+        <input type="radio" id="star5" name="EnvOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+        <input type="radio" id="star4" name="EnvOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+        <input type="radio" id="star3" name="EnvOption" value="3" /><label for="star3" title="Meh">3 stars</label>
+        <input type="radio" id="star2" name="EnvOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+        <input type="radio" id="star1" name="EnvOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+    </fieldset>
+    <br>
   </div>
 
   <!-- Email input -->
@@ -196,7 +165,7 @@
   </div>
 
   <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+  <button type="submit" class="btn btn-primary btn-block mb-4" style="background-color: #ffb03b;">Submit</button>
 </form>
 
 <script>
@@ -208,7 +177,31 @@
             $('#status').html("nothing checked");
             return false;
         } else {
-            $('#status').html( 'You picked ' + $('input:radio[name=rating]:checked').val() );
+            $('#status').html( 'You picked ' + $('input:radio[name=FoodOption]:checked').val() );
+        }
+    });
+});
+  $(document).ready(function() {
+    $("form#ratingForm").submit(function(e) 
+    {
+        e.preventDefault(); // prevent the default click action from being performed
+        if ($("#ratingForm :radio:checked").length == 0) {
+            $('#status').html("nothing checked");
+            return false;
+        } else {
+            $('#status').html( 'You picked ' + $('input:radio[name=CustOption]:checked').val() );
+        }
+    });
+});
+  $(document).ready(function() {
+    $("form#ratingForm").submit(function(e) 
+    {
+        e.preventDefault(); // prevent the default click action from being performed
+        if ($("#ratingForm :radio:checked").length == 0) {
+            $('#status').html("nothing checked");
+            return false;
+        } else {
+            $('#status').html( 'You picked ' + $('input:radio[name=EnvOption]:checked').val() );
         }
     });
 });
