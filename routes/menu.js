@@ -212,8 +212,8 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
 //upload image
 router.post("/upload", urlencodedParser, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/" + 1)) {
-    fs.mkdirSync("./public/uploads/" + 1);
+  if (!fs.existsSync("./public/uploads/menu/" + 1)) {
+    fs.mkdirSync("./public/uploads/menu/" + 1);
   }
   upload.menuUpload(req, res, (err) => {
     if (err) {
@@ -222,7 +222,7 @@ router.post("/upload", urlencodedParser, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/1/${req.file.filename}` });
+        res.json({ file: `/uploads/menu/1/${req.file.filename}` });
       }
     }
   });
@@ -231,8 +231,8 @@ router.post("/upload", urlencodedParser, (req, res) => {
 //upload image (edit)
 router.post("/uploadEdit", urlencodedParser, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/" + 1)) {
-    fs.mkdirSync("./public/uploads/" + 1);
+  if (!fs.existsSync("./public/uploads/menu/" + 1)) {
+    fs.mkdirSync("./public/uploads/menu/" + 1);
   }
   upload.menuUploadEdit(req, res, (err) => {
     if (err) {
@@ -241,7 +241,7 @@ router.post("/uploadEdit", urlencodedParser, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/1/${req.file.filename}` });
+        res.json({ file: `/uploads/menu/1/${req.file.filename}` });
       }
     }
   });
@@ -266,7 +266,7 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
     { where: { id: id } }
   )
     .then((n) => {
-      if (n) {
+      if (n > 0) {
         console.log(`${n} has been updated`);
       } else {
         console.log(`Unsuccessful update of data...`);
@@ -288,7 +288,7 @@ router.get("/delete/:id", (req, res) => {
   let id = req.params.id;
   Menu.destroy({ where: { id: id } })
     .then((n) => {
-      if (n) {
+      if (n > 0) {
         console.log(`${n} number of rows have been deleted...`);
       } else {
         console.log("Unsuccessful deletion of data...");

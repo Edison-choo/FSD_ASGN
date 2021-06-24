@@ -14,9 +14,18 @@ const storage = multer.diskStorage({
   },
 });
 
+const menuStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "./public/uploads/menu/" + 1 + "/");
+  },
+  filename: (req, file, callback) => {
+    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 // Initialise Upload
 const menuUpload = multer({
-  storage: storage,
+  storage: menuStorage,
   limits: {
     fileSize: 1000000,
   },
@@ -27,7 +36,7 @@ const menuUpload = multer({
 
 // Initialise Upload
 const menuUploadEdit = multer({
-  storage: storage,
+  storage: menuStorage,
   limits: {
     fileSize: 1000000,
   },
@@ -45,6 +54,7 @@ const restUpload = multer({
     checkFileType(file, callback);
   },
 }).single("restaurantIcon");
+
 // Check File Type
 function checkFileType(file, callback) {
   // Allowed file extensions
