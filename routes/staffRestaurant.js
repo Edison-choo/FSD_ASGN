@@ -7,6 +7,8 @@ const Restaurant = require("../models/restaurants");
 const emailValidator = require("email-validator");
 const urlValidator = require("valid-url");
 const Layout = require("../models/layout");
+const fs = require("fs");
+const upload = require("../helpers/imageUpload");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -62,6 +64,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
     facebook,
     twitter,
     instagram,
+    iconURL,
   } = req.body;
 
   //Email validation
@@ -98,6 +101,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
       facebook,
       twitter,
       instagram,
+      iconURL,
     });
   } else {
     //Check if address is already used
@@ -117,6 +121,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             facebook,
             twitter,
             instagram,
+            iconURL,
           });
         } else {
           Restaurant.create({
@@ -132,6 +137,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             facebook: facebook,
             twitter: twitter,
             instagram: instagram,
+            image:iconURL,
           })
             .then((restaurant) => {
               res.redirect("/staffRestaurant");
@@ -175,6 +181,7 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
     cuisine,
     halal,
     comp_email,
+    iconURL
   } = req.body;
   Restaurant.update(
     {
@@ -186,6 +193,7 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
       cuisine: cuisine,
       halal: halal,
       comp_email: comp_email,
+      image:iconURL
     },
     {
       where: {
@@ -259,5 +267,22 @@ router.post("/seatManager", urlencodedParser, (req, res) => {
       res.redirect("/staffRestaurant/seatManager");
     })
     .catch((err) => console.log(err));
+});
+router.post("/upload", urlencodedParser, (req, res) => {
+  // Creates user id directory for upload if not exist
+  if (!fs.existsSync("./public/uploads/" + 1)) {
+    fs.mkdirSync("./public/uploads/" + 1);
+  }
+  upload.restUpload(req, res, (err) => {
+    if (err) {
+      res.json({ file: "/img/no-image.jpg", err: err });
+    } else {
+      if (req.file === undefined) {
+        res.json({ file: "/img/no-image.jpg", err: err });
+      } else {
+        res.json({ file: `/uploads/1/${req.file.filename}` });
+      }
+    }
+  });
 });
 module.exports = router;

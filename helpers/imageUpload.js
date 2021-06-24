@@ -1,7 +1,6 @@
 const multer = require("multer");
 const path = require("path");
 
-
 //fix
 //i change req.user.id to 1
 
@@ -11,7 +10,7 @@ const storage = multer.diskStorage({
     callback(null, "./public/uploads/" + 1 + "/");
   },
   filename: (req, file, callback) => {
-    callback(null,1 + "-" + Date.now() + path.extname(file.originalname));
+    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -37,6 +36,15 @@ const menuUploadEdit = multer({
   },
 }).single("menuImageUploadE");
 
+const restUpload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter: (req, file, callback) => {
+    checkFileType(file, callback);
+  },
+}).single("restaurantIcon");
 // Check File Type
 function checkFileType(file, callback) {
   // Allowed file extensions
@@ -52,4 +60,5 @@ function checkFileType(file, callback) {
     callback({ message: "Images Only" });
   }
 }
-module.exports = { menuUpload, menuUploadEdit };
+
+module.exports = { menuUpload, menuUploadEdit, restUpload };

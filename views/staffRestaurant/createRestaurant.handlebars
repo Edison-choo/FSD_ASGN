@@ -18,8 +18,13 @@
                 Enter Links For Socials
             </a>
         </li>
+        <li>
+            <a class="nav-link" href="#step-4">
+                Add Icon For Restaurant
+            </a>
+        </li>
     </ul>
-    <form action="/staffRestaurant/createRestaurant" method="post">
+    <form action="/staffRestaurant/createRestaurant" method="post" id="createRestaurant">
         <div class="tab-content formTab">
             <div id="step-1" class="tab-pane" role="tabpanel">
                 <div class="form-outline mb-4">
@@ -85,6 +90,7 @@
                         Halal
                     </label>
                 </div>
+
             </div>
             <div id="step-3" class="tab-pane" role="tabpanel">
                 <!-- Facebook Link -->
@@ -100,14 +106,22 @@
                     <input type="text" id="instagram" name="instagram" class="form-control" />
                     <label class="form-label" for="instagram">Instagram account url</label>
                 </div>
-                <div class="">
-                    <button class="btn btn-primary btn-block">SUBMIT<i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div id="step-4" class="tab-pane" role="tabpanel">
+                <div>
+                    <input type="file" id="restaurantIcon" name="restaurantIcon"
+                        accept="image/png,image/jpeg,image/jpg,image/gif">
+                    <img id="icon" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid">
+                    <input id="iconURL" type="hidden" name="iconURL">
+                    <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
                 </div>
+                <button>Submit</button>
             </div>
         </div>
     </form>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -119,6 +133,29 @@
     type="text/javascript"></script>
 
 <script>
+    $("#restaurantIcon").on("change", function () {
+        let image = $("#restaurantIcon")[0].files[0];
+        let formdata = new FormData();
+        formdata.append("restaurantIcon", image);
+        $.ajax({
+            url: "/staffRestaurant/upload",
+            type: "POST",
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+                $("#icon").attr("src", data.file);
+                $("#iconURL").val(data.file); // sets iconURL hidden field
+                if (data.err) {
+                    $("#iconErr").show();
+                    $("#iconErr").text(data.err.message);
+                } else {
+                    $("#iconErr").hide();
+                }
+            },
+        });
+    });
+    
     $(function () {
         $('#open_time').timepicker
             ({
@@ -135,6 +172,20 @@
             transition: {
                 animation: "slide-horizontal",
                 speed: "400",
+            },
+        });
+        $('.sw-btn-next').attr("id", "submit");
+        $("#smartwizard").on("leaveStep", function (e, anchorObject, currentStepIndex, nextStepIndex, stepDirection) {
+            if (anchorObject.prevObject.length - 1 == nextStepIndex) {
+                $('#submit').html("Submit<i class='fas fa-paper-plane'></i>");
+                $('#submit').click(()=>{
+                    $('#submit').submit("createRestaurant")
+                })
+                $("#submit").removeClass();
+                $("#submit").addClass("btn sw-btn-prev ripple-surface")
+            } else {
+                $('#submit').text("Next");
+                $('#submit').attr("type", "button")
             }
         });
     });

@@ -38,6 +38,9 @@ const Restaurants = db.define('restaurants', {
     instagram:{
         type: Sequelize.STRING
     },
+    image: {
+        type: Sequelize.STRING
+    },
 });
 
 module.exports = Restaurants;
