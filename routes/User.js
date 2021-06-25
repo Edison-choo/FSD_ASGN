@@ -6,6 +6,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs")
 const passport = require("passport");
 const { response } = require('express');
+const ensureAuthenticated = require('../helpers/auth');
 var validator = require('email-validator');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -201,11 +202,11 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 
 });
 
-router.get('/profile', (req,res) => {
+router.get('/profile', urlencodedParser, ensureAuthenticated, (req,res) => {
 	res.render("user/profile");
 });
 
-router.get('/editProfile', urlencodedParser, (req, res) => {
+router.get('/editProfile', urlencodedParser, ensureAuthenticated, (req, res) => {
 	res.render('user/editProfile');
 });
 
@@ -226,15 +227,12 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	let errors = [];
 	let success_msg = '';
-	let {fname, lname, email, phone, passport, cpassword} = req.body;
-	var new_password = "";
+	let {fname, lname, email, phone, passport, cpassword, addressl1, addressl2, postalcode, restname} = req.body;
 
 	User.findOne({ where: {id: req.params.id} })
 	.then(user => {
 		if(user){
 			if(user.password != req.body.password){
-
-			
 				if(req.body.password != req.body.cpassword){
 					errors.push({"text": "Password do not match"})
 				}else{
@@ -265,23 +263,50 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 		errors.push({"text": "Phone number must have at least 8 digit"});
 	}
 
+	if(req.user.cust_type == "staff"){
+		if(String(req.user.postalcode).length != 6){
+			errors.push({"text": "Please enter valid postal code"});
+		}
+	}
+
 	if(errors.length == 0){
-		User.update({
-			fname: req.body.fname,
-			lname: req.body.lname,
-			phone: req.body.phone,
-			email: req.body.email,
-		},
-		{where:{id: req.params.id}}
-		)
-		.then(user => {
-			if(user){
-				res.redirect("/user/profile")
-			}else{
-				errors.push({"text": "User not found"});
-				res.render('user/profile', {errors});
-			}
-		})
+		if(req.user.cust_type == "customer"){
+			User.update({
+				fname: req.body.fname,
+				lname: req.body.lname,
+				phone: req.body.phone,
+				email: req.body.email,
+			},
+			{where:{id: req.params.id}}
+			)
+			.then(user => {
+				if(user){
+					res.redirect("/user/profile")
+				}else{
+					errors.push({"text": "User not found"});
+					res.render('user/profile', {errors});
+				}
+			})
+		}else{
+			User.update({
+				fname: req.body.restname,
+				phone: req.body.phone,
+				email: req.body.email,
+				addressl1: req.body.addressl1,
+				addressl2: req.body.addressl2,
+				postalcode: req.body.postalcode
+			},
+			{where:{id: req.params.id}}
+			)
+			.then(user => {
+				if(user){
+					res.redirect("/user/profile")
+				}else{
+					errors.push({"text": "User not found"});
+					res.render('user/profile', {errors});
+				}
+			})
+		}
 	}else{
 		res.render('user/editProfile', {errors})
 	}

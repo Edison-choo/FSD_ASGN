@@ -4,6 +4,7 @@ const router = express.Router();
 //Login - Copy Paste
 const User = require("../models/user");
 const Promotions = require('../models/promotions');
+const ensureAuthenticated = require('../helpers/auth');
 
 //Home page
 router.get('/', (req, res) => {

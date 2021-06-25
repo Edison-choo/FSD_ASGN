@@ -4,6 +4,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Reviews = require('../models/reviews');
+const ensureAuthenticated = require('../helpers/auth');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 

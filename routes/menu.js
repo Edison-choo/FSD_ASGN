@@ -7,6 +7,7 @@ const MenuSpec = require("../models/menuSpec");
 const menuSpecification = require("../models/menuSpecification");
 const User = require("../models/user");
 const e = require("connect-flash");
+const ensureAuthenticated = require('../helpers/auth');
 
 // Required for file upload
 const fs = require("fs");

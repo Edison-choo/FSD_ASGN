@@ -9,6 +9,7 @@ const { session } = require("passport");
 // const { Sequelize } = require("sequelize/types");
 const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
+const ensureAuthenticated = require('../helpers/auth');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 

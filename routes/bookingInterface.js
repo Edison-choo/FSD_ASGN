@@ -10,6 +10,7 @@ const emailValidator = require("email-validator");
 const alertMessage = require('../helpers/messenger');
 const Restaurant = require('../models/restaurants')
 const { Op } = require("sequelize");
+const ensureAuthenticated = require('../helpers/auth');
 
 var res_name
 var email

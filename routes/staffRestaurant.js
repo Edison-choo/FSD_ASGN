@@ -9,6 +9,7 @@ const urlValidator = require("valid-url");
 const Layout = require("../models/layout");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
+const ensureAuthenticated = require('../helpers/auth');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 

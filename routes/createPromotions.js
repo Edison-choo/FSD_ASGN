@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Promotions = require('../models/promotions');
 const moment = require('moment');
+const ensureAuthenticated = require('../helpers/auth');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
