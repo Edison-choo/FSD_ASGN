@@ -90,20 +90,25 @@
   border-top: none;
   width: 80%;
   margin: 0 auto;
-  margin-bottom: 5%;
+  margin-bottom: 10%;
+  margin-top: -15%;
 }
 .rightCont{
   width: 70%;
   float: right;
-  margin-top: -10%;
   margin-right: 3%;
   font-size: 17px;
-  margin-bottom: 5%;
+  margin-bottom: 10%;
 }
 
 #displayForm{
   margin-top: 6%;
   padding: 3%;
+}
+
+#profileimg{
+  min-width: 280px !important;
+  min-height: 280px !important;
 }
 
 </style>
@@ -112,13 +117,18 @@
 <div class="row">
     <div class="col-md-4">
         <div class="profile-img">
-            <img src="" id="profileimg" alt=""/>
+          {{#if user.profilepic}}
+            <img src="{{user.profilepic}}" id="profileimg" alt=""/>
+            
+          {{else}}
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="profileimg" alt=""/>
+          {{/if}}
             <div class="file btn btn-lg btn-primary">
                 Change Photo
                 <input type="file" id="userimg" name="userfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <input type="hidden" id="profileImg">
-                <span id="errorMsg"></span>
             </div>
+            <span id="errorMsg"></span>
         </div>
     </div>
     <div class="col-md-6">

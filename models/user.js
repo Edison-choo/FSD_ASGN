@@ -31,6 +31,9 @@ const User = db.define('users', {
     cust_type: {
         type: Sequelize.STRING
     },
+    profilepic: {
+        type: Sequelize.STRING
+    }
 });
 
 module.exports = User;
