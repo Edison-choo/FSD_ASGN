@@ -115,7 +115,7 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
             <div class="file btn btn-lg btn-primary">
                 Change Photo
-                <input type="file" name="file"/>
+                <input type="file" name="userfile"/>
             </div>
         </div>
     </div>
@@ -128,9 +128,9 @@
         <!-- Tab links -->
         <div class="tab">
           <button class="tablinks active" onclick="openProfile(event, 'About')">About</button>
-          
+          {{#ifEquals user.cust_type "customer"}}
           <button class="tablinks" onclick="openProfile(event, 'PD')">Payment Details</button>
-          
+          {{/ifEquals}}
         </div>
     </div>
 </div>
@@ -155,6 +155,7 @@
             <td align="left">Phone No.</td>
             <td align="right">{{user.phone}}</td>
           </tr>
+          {{#ifEquals user.cust_type "staff"}}
           <tr>
             <td align="left">Address Line 1</td>
             <td align="right">{{user.addressl1}}</td>
@@ -167,6 +168,7 @@
             <td align="left">Postal Code</td>
             <td align="right">{{user.postalcode}}</td>
           </tr>
+          {{/ifEquals}}
         </tbody>
       </table>
     </div>

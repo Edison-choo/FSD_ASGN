@@ -23,6 +23,15 @@ const menuStorage = multer.diskStorage({
   },
 });
 
+const userStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "./public/uploads/userProfileImg/" + req.user.id + "/");
+  },
+  filename: (req, file, callback) => {
+    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 // Initialise Upload
 const menuUpload = multer({
   storage: menuStorage,
@@ -33,6 +42,17 @@ const menuUpload = multer({
     checkFileType(file, callback);
   },
 }).single("menuImageUpload"); // Must be the name as the HTML file upload input
+
+// Initialise Upload
+const userUpload = multer({
+  storage: userStorage,
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter: (req, file, callback) => {
+    checkFileType(file, callback);
+  },
+}).single("userfile"); // Must be the name as the HTML file upload input
 
 // Initialise Upload
 const menuUploadEdit = multer({
