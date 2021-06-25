@@ -9,6 +9,8 @@ const { response } = require('express');
 const ensureAuthenticated = require('../helpers/auth');
 var validator = require('email-validator');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
+const fs = require('fs');
+const upload = require('../helpers/imageUpload');
 
 router.get('/login', (req, res) => {
 	res.render('user/login');
@@ -311,5 +313,23 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 		res.render('user/editProfile', {errors})
 	}
 });
+
+router.post('/upload', ensureAuthenticated, (req, res) => {
+	// Creates user id directory for upload if not exist
+	if (!fs.existsSync('./public/uploads/UserProfileImg/' + req.user.id)){
+		fs.mkdirSync('./public/uploads/UserProfileImg/' + req.user.id);
+	}
+	upload.userUpload(req, res, (err) => {
+	if (err) {
+		res.json({file: '/img/no-image.jpg', err: err});
+	} else {
+		if (req.file === undefined) {
+			res.json({file: '/img/no-image.jpg', err: err});
+		} else {
+			res.json({file: `/uploads/userProfileImg/${req.user.id}/${req.file.filename}`});
+		}
+	}
+	});
+})
 
 module.exports = router;

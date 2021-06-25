@@ -91,4 +91,4 @@ function checkFileType(file, callback) {
   }
 }
 
-module.exports = { menuUpload, menuUploadEdit, restUpload };
+module.exports = { menuUpload, menuUploadEdit, restUpload, userUpload };
