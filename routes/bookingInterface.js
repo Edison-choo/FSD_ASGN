@@ -20,7 +20,7 @@ router.get('/bookForm/:res_name', (req, res) => {
     res.render('bookingInterface/bookForm', { res_name });
 });
 
-router.get('/updateForm/:email/:res_name', (req, res) => {
+router.get('/updateForm', (req, res) => {
     res.render('bookingInterface/updateForm');
 });
 
@@ -37,7 +37,7 @@ router.post('/bookingDetailsEmailInsert', urlencodedParser, (req, res) => {
     }
 
     if (errors.length > 0) {
-        res.render('bookingInterface/bookForm', {
+        res.render('bookingInterface/bookingDetailsEmailInsert', {
             errors,
             email
         });
