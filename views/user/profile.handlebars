@@ -1,238 +1,6 @@
-{{!-- <div id="profileForm">
-  <p class="userTitle">My Profile</p>
-  <form method="POST" action="/user/updateUser">
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-    <div class="row mb-4">
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="fname" class="form-control" name="fname" value="{{user.fname}}" required />
-          <label class="form-label" for="fname">First name</label>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="lname" class="form-control" name="lname" value="{{user.lname}}" required />
-          <label class="form-label" for="lname">Last name</label>
-        </div>
-      </div>
-    </div>
-
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
-      <label class="form-label" for="email">Email address</label>
-    </div>
-
-    <!-- Phone number input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
-      <label class="form-label" for="phone">Phone No.</label>
-    </div>
-
-    <!-- Password input -->
-    <div class="form-outline mb-4">
-      <input type="password" id="password" class="form-control" name="password" required />
-      <label class="form-label" for="password">Password</label>
-    </div>
-
-    <!-- Password input -->
-    <div class="form-outline mb-4">
-      <input type="password" id="cpassword" class="form-control" name="cpassword" value="" required />
-      <label class="form-label" for="cpassword">Confirm Password</label>
-    </div>
-
-    <p style="color: red;">*Enter confirm password to update</p>
-
-    <!-- Submit button -->
-    <button type="submit" class="AllBtn register Btn btn btn-primary btn-block mb-4">Update</button>
-  </form>
-</div>
-
-<div class="creditCardForm">
-  <p class="userTitle">Credit Card</p>
-
-  <div id="addCreditCardForm">
-    <button type="button" class="btn btn-primary" onclick="closeForm()" style="background-color:thistle; margin-right: 5%; color: black; float:right">Close</button>
-    <form method="POST" action="/user/addCreditCard">
-      <!-- 2 column grid layout with text inputs for the first and last names -->
-      <div class="row mb-4">
-        <div class="col">
-          <div class="form-outline">
-            <input type="text" id="fname" class="form-control" name="fname" required />
-            <label class="form-label" for="fname">First name</label>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-outline">
-            <input type="text" id="lname" class="form-control" name="lname" required />
-            <label class="form-label" for="lname">Last name</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Email input -->
-      <div class="form-outline mb-4">
-        <input type="email" id="email" class="form-control" name="email" required />
-        <label class="form-label" for="email">Email address</label>
-      </div>
-
-      <!-- Credit card number input -->
-      <div class="row g-3 form-outline mb-4">
-        <div class="col-sm-7">
-          <div class="form-outline">
-            <input type="number" id="ccno" class="form-control" />
-            <label class="form-label" for="ccno">Credit Card No.</label>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="form-outline">
-            <input type="month" id="my" class="form-control" value= "" />
-            <label class="form-label" for="my"</label>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="form-outline">
-            <input type="number" id="cvv" class="form-control" />
-            <label class="form-label" for="cvv">CVV</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Billing address input -->
-      <div class="form-outline mb-4" style="margin-top: -2.5%;">
-        <input type="text" id="address1" class="form-control" name="address1" value="" required />
-        <label class="form-label" for="address1">Billing Address 1</label>
-      </div>
-
-      <div class="form-outline mb-4">
-        <input type="text" id="address2" class="form-control" name="address2" value="" required />
-        <label class="form-label" for="address2">Billing Address 2</label>
-      </div>
-
-      <!-- Submit button -->
-      <button type="submit" class="AllBtn registerBtn btn btn-primary btn-block mb-8">Add</button> 
-    </form>
-  </div>
-  
-  <div id="updateCreditCardForm">
-    <button type="button" class="btn btn-primary" onclick="closeForm()" style="background-color: thistle; margin-right: 5%; color: black; float:right">Close</button>
-    <form method="POST" action="/user/updateCreditCard">
-      <!-- 2 column grid layout with text inputs for the first and last names -->
-      <div class="row mb-4">
-        <div class="col">
-          <div class="form-outline">
-            <input type="text" id="fname" class="form-control" name="fname" required />
-            <label class="form-label" for="fname">First name</label>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-outline">
-            <input type="text" id="lname" class="form-control" name="lname" required />
-            <label class="form-label" for="lname">Last name</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Email input -->
-      <div class="form-outline mb-4">
-        <input type="email" id="email" class="form-control" name="email" required />
-        <label class="form-label" for="email">Email address</label>
-      </div>
-
-      <!-- Credit card number input -->
-      <div class="row g-3 form-outline mb-4">
-        <div class="col-sm-7">
-          <div class="form-outline">
-            <input type="number" id="ccno" class="form-control" />
-            <label class="form-label" for="ccno">Credit Card No.</label>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="form-outline">
-            <input type="month" id="my" class="form-control" value= "" />
-            <label class="form-label" for="my"</label>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="form-outline">
-            <input type="number" id="cvv" class="form-control" />
-            <label class="form-label" for="cvv">CVV</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Billing address input -->
-      <div class="form-outline mb-4" style="margin-top: -2.5%;">
-        <input type="text" id="address1" class="form-control" name="address1" value="" required />
-        <label class="form-label" for="address1">Billing Address 1</label>
-      </div>
-
-      <div class="form-outline mb-4">
-        <input type="text" id="address2" class="form-control" name="address2" value="" required />
-        <label class="form-label" for="address2">Billing Address 2</label>
-      </div>
-
-      <!-- Submit button -->
-      <button type="submit" class="AllBtn registerBtn btn btn-primary btn-block mb-8">Update</button> 
-    </form>
-  </div>
-
-  <div id="creditCardList"> 
-    <button type="button" class="AllBtn accBtn btn btn-primary" onclick="displayAddCreditCard()">Add Credit Card</button>
-    <table width="70%" border="1" id="creditCardTable">
-      <thead>
-        <tr align="center">
-          <th>Name</th>
-          <th>Card No.</th>
-          <th>MM/YY</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr align="center">
-          <td>Cruz Chua</td>
-          <td>**** **** **** 9875</td>
-          <td>12/24</td>
-          <td><button type="button" class="AllBtn btn btn-primary" onclick="displayUpdateCreditCard()">Update</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<br>
-
-<button type="button" class="btn btn-primary" style="background-color: thistle  ; color: black">Delete Account</button>
-
-<script>
-  var addCreditCardForm = document.getElementById("addCreditCardForm");
-  var updateCreditCard = document.getElementById("updateCreditCardForm");
-  addCreditCardForm.style.display = "none";
-  updateCreditCard.style.display = "none";
-
-  function displayAddCreditCard(){
-    addCreditCardForm.style.display = "block";
-    updateCreditCard.style.display = "none";
-  }
-
-  function closeForm(){
-    addCreditCardForm.style.display = "none";
-    updateCreditCard.style.display = "none";
-  }
-
-  function displayUpdateCreditCard(){
-    addCreditCardForm.style.display = "none";
-    updateCreditCard.style.display = "block";
-  }
-</script>
- --}}
-
-
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../helpers/checkuser.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 
@@ -240,12 +8,14 @@
 <style>
 
 .emp-profile{
-    padding: 3%;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff;
-    border: 1px solid black;
+    width: 100%;
+  padding: 20px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10%;
 }
 .profile-img{
     text-align: center;
@@ -339,58 +109,91 @@
 </style>
 
 <div class="container emp-profile">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="profile-head">
-                          <h5>
-                              {{user.fname}} {{user.lname}}
-                          </h5>
-                        </div>
-                        <!-- Tab links -->
-                        <div class="tab">
-                          <button class="tablinks active" onclick="openProfile(event, 'About')">About</button>
-                          <button class="tablinks" onclick="openProfile(event, 'PD')">Payment Details</button>
-                        </div>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="profile-img">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+            <div class="file btn btn-lg btn-primary">
+                Change Photo
+                <input type="file" name="file"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="profile-head">
+          <h5>
+              {{user.fname}} {{user.lname}}
+          </h5>
+        </div>
+        <!-- Tab links -->
+        <div class="tab">
+          <button class="tablinks active" onclick="openProfile(event, 'About')">About</button>
+          
+          <button class="tablinks" onclick="openProfile(event, 'PD')">Payment Details</button>
+          
+        </div>
+    </div>
+</div>
 
-                
-                <div class="tab-content profile-tab" id="myTabContent">
-                  <div id="About" class="tabcontent">
-                    <div class="rightCont">
-                      <div style="float: right;margin-bottom: 2%; display:flex;">
-                        <a href="/user/editProfile"><button class="btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
-                        <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
-                          <input type="submit" class="btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
-                        </form>
-                      </div>
-                      <table width="100%" id="displayInfo">
-                        <tbody>
-                          <tr>
-                            <td align="left">Email</td>
-                            <td align="right">{{user.email}}</td>
-                          </tr>
-                          <tr>
-                            <td align="left">Phone No.</td>
-                            <td align="right">{{user.phone}}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
 
-                  <div id="PD" class="tabcontent">
-                    <h3>....</h3>
-                  </div>
+<div class="tab-content profile-tab" id="myTabContent">
+  <div id="About" class="tabcontent">
+    <div class="rightCont">
+      <div style="float: right;margin-bottom: 2%; display:flex;">
+        <a href="/user/editProfile"><button class="btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
+        <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
+          <input type="submit" class="btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+        </form>
+      </div>
+      <table width="100%" id="displayInfo">
+        <tbody>
+          <tr>
+            <td align="left">Email</td>
+            <td align="right">{{user.email}}</td>
+          </tr>
+          <tr>
+            <td align="left">Phone No.</td>
+            <td align="right">{{user.phone}}</td>
+          </tr>
+          <tr>
+            <td align="left">Address Line 1</td>
+            <td align="right">{{user.addressl1}}</td>
+          </tr>
+          <tr>
+            <td align="left">Address Line 2</td>
+            <td align="right">{{user.addressl2}}</td>
+          </tr>
+          <tr>
+            <td align="left">Postal Code</td>
+            <td align="right">{{user.postalcode}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="PD" class="tabcontent">
+    <div class="rightCont">
+      <div style="float: right;margin-bottom: 2%; display:flex;">
+        <a href="/user/editProfile"><button class="btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
+        <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
+          <input type="submit" class="btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+        </form>
+      </div>
+      <table width="100%" id="displayInfo">
+        <tbody>
+          <tr>
+            <td align="left">Email</td>
+            <td align="right">{{user.email}}</td>
+          </tr>
+          <tr>
+            <td align="left">Phone No.</td>
+            <td align="right">{{user.phone}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>

@@ -27,7 +27,7 @@ const userRoute = require("./routes/User");
 const staffResRoute = require("./routes/staffRestaurant");
 const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
-
+const {checkuser} = require('./helpers/checkuser');
 // Bring in database connection
 const DB = require("./config/DBConnection");
 
@@ -61,6 +61,9 @@ authenticate.localStrategy(passport);
 app.engine(
   "handlebars",
   exphbs({
+    helpers:{
+      checkuser: checkuser
+    },
     defaultLayout: "main", // Specify default template views/layout/main.handlebar
   })
 );
@@ -228,3 +231,7 @@ Handlebars.registerHelper("idIfIn", function (elem, list, options) {
 Handlebars.registerHelper("len", function(dict) {
   return Object.keys(dict).length;
 });
+
+
+
+

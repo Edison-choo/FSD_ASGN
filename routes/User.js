@@ -17,6 +17,10 @@ router.get('/register', (req, res) => {
 	res.render('user/register');
 });
 
+router.get('/registerOwner', urlencodedParser, (req, res) => {
+	res.render('user/registerOwner')
+});
+
 router.post('/registerUser', urlencodedParser, (req, res) => {
 	let errors = []
     let success_msg = ''; 
@@ -62,7 +66,7 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 			res.render('user/register', {error: user.email + ' already registered', fname, lname, phone, email, password, cpassword });
 			} else {
  			// Create new user record
-				User.create({fname, lname, phone, email, password, cust_type:"customer"})
+				User.create({fname:fname, lname:lname, phone:phone, email:email, password:password, cust_type:"customer"})
 				.then(user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
@@ -72,6 +76,60 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 		})
     }else{
         res.render('user/register', {errors, fname, lname, phone, email, password, cpassword})
+    }
+});
+
+router.post('/registeringOwner', urlencodedParser, (req, res) => {
+	let errors = []
+    let success_msg = ''; 
+
+    let {restname, email, phone, addressl1, addressl2, postalcode, password, cpassword} = req.body;	
+
+    if(req.body.password != req.body.cpassword){
+        errors.push({"text": "Password do not match"});
+    }
+
+    if(req.body.password.length < 8){
+        errors.push({"text": "Password must be at least 8 characters"});
+    }
+
+	if(String(req.body.postalcode).length != 6){
+		errors.push({"text": "Please enter valid postal code"});
+	}
+
+	emailValidate = validator.validate(req.body.email);
+	if(!emailValidate){
+		errors.push({"text": "Email is not valid"});
+	}
+
+	if(String(req.body.phone).length != 8){
+		errors.push({"text": "Phone number must have at least 8 digit"});
+	}
+
+	bcrypt.genSalt(10, function(err, salt) {
+		bcrypt.hash(req.body.password, salt, function(err, hash) {
+			req.body.password = hash;
+		});
+	});
+
+    if(errors.length == 0){
+        User.findOne({ where: {email: req.body.email} })
+		.then(user => {
+			if (user) {
+		// If user is found, email has already been registered
+			res.render('user/registerOwner', {error: user.email + ' already registered'});
+			} else {
+ 			// Create new user record
+				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, addressl1: req.body.addressl1, addressl2: req.body.addressl2, postalcode: req.body.postalcode, password:req.body.password, cust_type:"staff"})
+				.then(user => {
+					success_msg = email + " registered successfully";
+					res.render('user/login', {success_msg:success_msg});
+				})
+				.catch(err => console.log(err));
+			}
+		})
+    }else{
+        res.render('user/registerOwner', {errors})
     }
 });
 

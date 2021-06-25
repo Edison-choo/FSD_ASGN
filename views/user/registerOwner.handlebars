@@ -1,21 +1,10 @@
 <div class="regForm">
-    <h5>Register (Customer)</h5>
-  <form method="POST" action="/user/registerUser">
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-    <div class="row mb-4">
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="fname" class="form-control" name="fname" required />
-          <label class="form-label" for="fname">First name</label>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="lname" class="form-control" name="lname" required />
-          <label class="form-label" for="lname">Last name</label>
-        </div>
-      </div>
+    <h5>Register (Owner)</h5>
+  <form method="POST" action="/user/registeringOwner">
+    <!-- Restaurant Name input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="restname" class="form-control" name="restname" required />
+      <label class="form-label" for="restname">Restaurant Name</label>
     </div>
 
     <!-- Email input -->
@@ -28,6 +17,24 @@
     <div class="form-outline mb-4">
       <input type="number" id="phone" class="form-control" name="phone" required />
       <label class="form-label" for="phone">Phone No.</label>
+    </div>
+
+    <!-- Address Line 1 input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="addressl1" class="form-control" name="addressl1" required />
+      <label class="form-label" for="addressl1">Address Line 1</label>
+    </div>
+
+    <!-- Address Line 2 input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="addressl2" class="form-control" name="addressl2" />
+      <label class="form-label" for="addressl2">Address Line 2</label>
+    </div>
+
+    <!-- Postal Code input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="postalcode" class="form-control" name="postalcode" required />
+      <label class="form-label" for="postalcode">Postal Code</label>
     </div>
 
     <!-- Password input -->
@@ -50,7 +57,7 @@
       <p>
         Already a member? <a href="/user/login">Login</a>
       <br>
-      Have a restaurant? <a href="/user/registerOwner">Register as owner</a>
+      Be a customer? <a href="/user/register">Register as customer</a>
       </p>
     </div>
   </form>
