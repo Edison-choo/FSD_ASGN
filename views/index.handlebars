@@ -168,8 +168,27 @@
     role="tabpanel"
     aria-labelledby="ex3-tab-2"
   >
-    Content
-  </div>
+    {{#if promotions}}
+    {{#each promotions}}
+    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
+                    alt="..." class="img-fluid" style="max-height: 250px; " />
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">{{discount}}%</c> </h4>
+                    <p class="card-text" style="color: white;">Start Date: {{startdate}}</p>
+                    <p class="card-text" style="color: white;">End Date: {{enddate}}</p>
+                    <p class="card-text" style="color: white;">Details: {{details}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/if}}
+</div>
   <div
     class="tab-pane fade"
     id="ex3-pills-3"

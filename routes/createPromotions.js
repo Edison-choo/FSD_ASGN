@@ -4,6 +4,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Promotions = require('../models/promotions');
+const moment = require('moment');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -22,6 +23,8 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
 
     let{name, startdate, enddate, discount, details, banner} = req.body;
+    // startdate = moment(req.body.startdate, "DD/MM/YYYY");
+    // enddate = moment(req.body.enddate, "DD/MM/YYYY");
 
     if(errors.length > 0){
         res.render('promotion/createPromotions', {
@@ -73,9 +76,17 @@ router.get('/:id', (req, res) => {
             }).catch(err => console.log(err));
 });
 
-// router.get('/:id', (req, res) => {
-//     let id = req.params.id;
-//     res.render('/createPromotions', promotions.id);
-//     }).catch(err => console.log(err));
+router.post('/updatePromotions/:id', urlencodedParser,(req, res) => {
+    let{name, startdate, enddate, discount, details, banner} = req.body;
+    // startdate = moment(req.body.startdate, "DD/MM/YYYY");
+    // enddate = moment(req.body.enddate, "DD/MM/YYYY");
+
+        Promotions.update({ name, startdate, enddate, discount, details, banner},
+            {where: {id:req.params.id} })
+        .then(() => {
+                    res.redirect('/createPromotions');
+                })
+                .catch(err => console.log(err));
+            });
 
 module.exports = router;

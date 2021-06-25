@@ -109,39 +109,11 @@
           Close
         </button>
         </div>
+      </form>
   </div>
 </div>
 </div>
 
-{{!-- <h2>Create a Promotion</h2>
-
-    <form method="POST" action="/createPromotions/promotion/createPromotions">
-        <table>
-            <tr>
-                <td><label for="">Enter Promotion Name: </label></td>
-                <td><input type="text" name="name"></td>
-            </tr>
-            <tr>
-                <td><label for="">Start Date: </label></td>
-                <td><input type="date" name="startdate"></td>
-                <td><label for="">End Date:</label></td>
-                <td><input type="date" name="enddate"></td>
-            </tr>
-            <tr>
-                <td><label for="">Discount: </label></td>
-                <td><input type="numbers" name="discount"> %</td>
-            </tr>
-            <tr>
-                <td><label for="">Details: </label></td>
-                <td><textarea name="details" id="" cols="30" rows="2"></textarea></td>
-            </tr>
-            <tr>
-                <td><label for="">Banner Photo: </label></td>
-                <td><input type="file" name="banner" accept="image/png, image/jpeg, image/jpg"></td>
-            </tr>
-        </table>
-        <input class="btn btn-primary" type="submit" value="Submit"/>
-    </form> --}}
 <div class="container">
     <h2>Promotions</h2>
     <hr>
@@ -162,7 +134,7 @@
                 <div class="buttons">
                     <div class="action_btn">
                         <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/createPromotions/{{id}}" role="button">Delete</a>
-                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" role="button">Update</a>
+                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" data-mdb-toggle="modal" data-mdb-target="#update{{id}}" role="button">Update</a>
                     </div>
                 </div>
                 </div>
@@ -172,6 +144,60 @@
     {{/each}}
 </div>
 {{/if}}
+
+{{#each promotions}}
+<div
+  class="modal fade"
+  id="update{{id}}"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+<div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="/createPromotions/updatePromotions/{{id}}">
+        <table id="form-table">
+            <tr>
+                <td align="right"><label for="">Title: </label></td>
+                <td><input type="text" name="name" value="{{name}}"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Start Date: </label></td>
+                <td><input type="date" name="startdate" value="{{startdate}}"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">End Date:</label></td>
+                <td><input type="date" name="enddate" value="{{enddate}}"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Discount: </label></td>
+                <td><input type="numbers" name="discount" value="{{discount}}"> %</td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Details: </label></td>
+                <td><textarea name="details" id="" cols="30" rows="2">{{details}}</textarea></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="">Banner Photo: </label></td>
+                <td><input type="file" name="banner" accept="image/png, image/jpeg, image/jpg"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div style="float: right;">
+            <input class="btn btn-primary" type="submit" value="Submit"/ style="background-color: #3b5998;">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
+          Close
+        </button>
+        </div>
+      </form>
+  </div>
+</div>
+</div>
+{{/each}}
 
 
 <style>
