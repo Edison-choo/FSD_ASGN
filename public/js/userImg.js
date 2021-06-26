@@ -1,7 +1,7 @@
 $('#userimg').on('change', function(){
     let image = $("#userimg")[0].files[0];
     let formdata = new FormData();
-    formdata.append('userimg', image);
+    formdata.append('userfile', image);
     $.ajax({
         url: '/user/upload',
         type: 'POST',
