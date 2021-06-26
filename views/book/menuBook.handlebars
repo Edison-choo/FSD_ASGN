@@ -44,12 +44,14 @@
                     {{/if}}</button>
                     </div>
                     {{#each ../../session.cart}}
+                    {{#ifEqualsUser this.userId ../../../user}}
                     {{#ifEquals this.id ../this.id}}
                     <div id="menuOrdered">
                     Ordered
                     <button type="button" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll{{this.id}}">Edit Order</button>
                     </div>
                     {{/ifEquals}}
+                    {{/ifEqualsUser}}
                     {{/each}}
                 </div>
               

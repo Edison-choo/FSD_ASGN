@@ -16,6 +16,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.get("/menuBook", (req, res) => {
   var types = [];
   // req.session.cart = undefined;
+  // req.session.total = undefined;
   console.log(req.session.cart);
   Menu.findAll({
     attributes: { exclude: ["restaurantId"] },
@@ -37,7 +38,6 @@ router.get("/menuBook", (req, res) => {
                 {option:option.option, addPrice:option.addPrice}
               ]);
             } else {
-              console.log("test1");
               menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
             }
           });
@@ -57,9 +57,13 @@ router.get("/menuBook", (req, res) => {
 
 router.get("/foodCart", (req, res) => {
   let sess = req.session;
-  // console.log(sess.cart);
+  let userId = req.user ? req.user.id : 0;
   if (sess.cart) {
-    let cart = sess.cart.map((c) => parseInt(c.id));
+    tempCart = sess.cart.filter((food) => food.userId === userId);
+  }
+  // console.log(sess.cart);
+  if (tempCart) {
+    let cart = tempCart.map((c) => parseInt(c.id));
     Menu.findAll({
       where: {
         id: { [Op.in] : cart }
@@ -69,12 +73,21 @@ router.get("/foodCart", (req, res) => {
         if (menus) {
           let count = 0;
           menus.forEach((food) => {
-            sess.cart[cart.indexOf(food.id)].orders.forEach((order) => {
+            tempCart[cart.indexOf(food.id)].orders.forEach((order) => {
               count += (parseFloat(food.price)+order.additional) * order.quantity;
             })
             // count += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
           })
-          req.session.total = count;
+          if ('total' in req.session) {
+            let specTotal = req.session.total.filter((t) => t.userId === userId);
+            if (req.session.total.indexOf(specTotal[0]) > -1) {
+              req.session.total[req.session.total.indexOf(specTotal[0])] = {userId: userId, count: count};
+            } else {
+              req.session.total.push({userId: userId, count: count})
+            }          
+          } else {
+            req.session.total = [{userId: userId, count: count}];
+          }
           res.render("book/foodCart", {menus, count});
         }
       })
@@ -120,10 +133,16 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
   remark = remark === undefined ? '' : remark;
   specifications = specifications === undefined ? '' : specifications;
   specifications = typeof(specifications) === 'string' ? [specifications]: specifications;
-  console.log(specifications)
+  let userId = req.user ? req.user.id : 0;
   let sess = req.session;
+  let tempCart = [];
   if (sess.cart) {
-    existCart = (sess.cart.map((food) => food.id));
+    tempCart = sess.cart.filter((food) => food.userId === userId);
+  } else {
+    sess.cart = [];
+  }
+  if (tempCart) {
+    existCart = (tempCart.map((food) => food.id));
   }
   console.log(existCart);
   MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
@@ -138,6 +157,7 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
     console.log(additional);
     cart.push({
       id: req.params.id,
+      userId: userId,
       orders: [{
       uniqueId: 1,
       image: menuImage,
@@ -149,14 +169,15 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
     });
     if (existCart.indexOf(req.params.id) > -1) {
       //tbr
-      cart[0].orders[0].uniqueId = sess.cart[existCart.indexOf(req.params.id)].orders.length + 1;
-      sess.cart[existCart.indexOf(req.params.id)].orders = sess.cart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
-    } else if (sess.cart) {
-      sess.cart = sess.cart.concat(cart);
+      cart[0].orders[0].uniqueId = tempCart[existCart.indexOf(req.params.id)].orders.length + 1;
+      tempCart[existCart.indexOf(req.params.id)].orders = tempCart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
+    } else if (tempCart) {
+      tempCart = tempCart.concat(cart);
     } else {
-      sess.cart = cart;
+      tempCart = cart;
     }
-    console.log(sess.cart);
+    console.log(tempCart);
+    sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
     alertMessage(res, "success",'Food is added to the shopping cart', 'fas fa-sign-in-alt', true);
     res.redirect("/book/menuBook"); 
   });
@@ -171,12 +192,13 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
   remark = remark === undefined ? '' : remark;
   specifications = specifications === undefined ? '' : specifications;
   specifications = typeof(specifications) === 'string' ? [specifications]: specifications;
+  let userId = req.user ? req.user.id : 0;
   let sess = req.session;
   let foodId = req.params.id.split('-')[0];
   let uniqueId = req.params.id.split('-')[1];
-  console.log(foodId, uniqueId, quantity);
-  if (sess.cart) {
-    existCart = (sess.cart.map((food) => food.id));
+  let tempCart = sess.cart.filter((food) => food.userId === userId);
+  if (tempCart) {
+    existCart = (tempCart.map((food) => food.id));
   }
   MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
     // , restaurant_id:1
@@ -187,9 +209,10 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
       additional += parseFloat(spec.addPrice)
     });
     cart.push({
-      id: req.params.id,
+      id: foodId,
+      userId: userId,
       orders: [{
-      uniqueId: 1,
+      uniqueId: uniqueId,
       image: menuImage,
       quantity: quantity,
       specifications: specifications,
@@ -197,9 +220,11 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
       remark: remark,
       }]
     });
+    console.log(cart[0].orders)
     if (existCart.indexOf(foodId) > -1) {
-      sess.cart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
+      tempCart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
     }
+    sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
     alertMessage(res, "success",'Food is updated in the shopping cart', 'fas fa-sign-in-alt', true);
     res.redirect("/book/menuBook");
   });
@@ -225,14 +250,17 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
 //delete item from session
 router.get('/delete/:id', (req, res) => {
   let sess = req.session;
-  let existCart = sess.cart.map((food) => food.id);
   let foodId = req.params.id.split('-')[0];
   let uniqueId = req.params.id.split('-')[1];
+  let userId = req.user ? req.user.id : 0;
+  let tempCart = sess.cart.filter((food) => food.userId === userId);
+  let existCart = tempCart.map((food) => food.id);
   console.log(foodId, uniqueId);
-  sess.cart[existCart.indexOf(foodId)].orders = sess.cart[existCart.indexOf(foodId)].orders.filter((c) => c.uniqueId != uniqueId);
-  if (sess.cart[existCart.indexOf(foodId)].orders.length === 0) {
-    sess.cart = sess.cart.filter((c) => c.id != foodId);
+  tempCart[existCart.indexOf(foodId)].orders = tempCart[existCart.indexOf(foodId)].orders.filter((c) => c.uniqueId != uniqueId);
+  if (tempCart[existCart.indexOf(foodId)].orders.length === 0) {
+    tempCart = tempCart.filter((c) => c.id != foodId);
   }
+  sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
   alertMessage(res, "success",'Food is removed to the shopping cart', 'fas fa-trash-alt', true);
   res.redirect('../../book/foodCart');
 });
@@ -241,6 +269,7 @@ router.get('/delete/:id', (req, res) => {
 router.post('/createOrder', urlencodedParser, (req, res) => {
   let sess = req.session;
   let {remark} = req.body;
+  let userId = req.user ? req.user.id : 0;
   if (sess.cart) {
     let total = 0;
     // let cart = sess.cart.map((c) => parseInt(c.id));
@@ -258,13 +287,14 @@ router.post('/createOrder', urlencodedParser, (req, res) => {
     //   })
     //   .catch((err) => console.log(err))
     Order.create({
-      userId: 1,
-      food:JSON.stringify(sess.cart),
+      userId: userId,
+      food:JSON.stringify(sess.cart.filter((food) => food.userId === userId)),
       date: new Date(),
-      total:req.session.total,
+      total:(req.session.total.filter((t) => t.userId === userId).map((t) => t.count))[0],
       remarks: remark
     }).then((order) => {
-      sess.cart = undefined;
+      sess.cart = sess.cart.filter((f) => f.userId !== userId);
+      sess.total = sess.total.filter((f) => f.userId !== userId);
       res.redirect('/book/receipt/'+order.id);
     }).catch((err) => console.log(err));
   } else {

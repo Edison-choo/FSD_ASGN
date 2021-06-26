@@ -16,10 +16,10 @@ const storage = multer.diskStorage({
 
 const menuStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "./public/uploads/menu/" + 1 + "/");
+    callback(null, "./public/uploads/menu/" + req.user.id + "/");
   },
   filename: (req, file, callback) => {
-    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+    callback(null, req.user.id + "-" + Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -28,7 +28,7 @@ const userStorage = multer.diskStorage({
     callback(null, "./public/uploads/userProfileImg/" + req.user.id + "/");
   },
   filename: (req, file, callback) => {
-    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+    callback(null, req.user.id + "-" + Date.now() + path.extname(file.originalname));
   },
 });
 

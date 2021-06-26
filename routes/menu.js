@@ -13,13 +13,10 @@ const ensureAuthenticated = require('../helpers/auth');
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 
-var userLog = false;
-var location = "";
-
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //page of user view menu
-router.get("/", (req, res) => {
+router.get("/", ensureAuthenticated, (req, res) => {
   var types = [];
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
@@ -66,7 +63,7 @@ router.get("/", (req, res) => {
 // });
 
 //page of menu table
-router.get("/updateMenu", (req, res) => {
+router.get("/updateMenu", ensureAuthenticated, (req, res) => {
   let types = [];
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
@@ -108,22 +105,12 @@ router.get("/updateMenu", (req, res) => {
 router.post("/addMenu", urlencodedParser, (req, res) => {
   let errors = [];
   let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
-  // let foodId = foodType.slice(0, 1).toUpperCase() + '01';
-  // if (specifications) {
-  //   specifications = specifications.toString();
-  // } else {
-  //   specifications = "";
-  // }
   menuImage = menuImage === undefined ? '' : menuImage;
   specifications = specifications === undefined ? "" : specifications.toString();
-  // foodId = foodId.toString();
   console.log(menuImage);
   if (foodPrice < 0) {
     errors.push({ text: "Please do not enter negative value for price" });
   }
-
-  // res.render('menu/updateMenu')
-
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
   })
@@ -139,9 +126,6 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
           menuLength =
             parseInt(menuOrder[menuOrder.length - 1].foodNo.slice(-2)) + 1;
         }
-        // menus.forEach((menu) => {
-        // 	menu.specifications = JSON.parse(menu.specifications);
-        // });
         if (errors.length > 0) {
           res.render("menu/updateMenu", {
             errors,
@@ -213,8 +197,8 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
 //upload image
 router.post("/upload", urlencodedParser, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/menu/" + 1)) {
-    fs.mkdirSync("./public/uploads/menu/" + 1);
+  if (!fs.existsSync("./public/uploads/menu/" + req.user.id)) {
+    fs.mkdirSync("./public/uploads/menu/" + req.user.id);
   }
   upload.menuUpload(req, res, (err) => {
     if (err) {
@@ -223,7 +207,7 @@ router.post("/upload", urlencodedParser, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/menu/1/${req.file.filename}` });
+        res.json({ file: `/uploads/menu/${req.user.id}/${req.file.filename}` });
       }
     }
   });
@@ -232,8 +216,8 @@ router.post("/upload", urlencodedParser, (req, res) => {
 //upload image (edit)
 router.post("/uploadEdit", urlencodedParser, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/menu/" + 1)) {
-    fs.mkdirSync("./public/uploads/menu/" + 1);
+  if (!fs.existsSync("./public/uploads/menu/" + req.user.id)) {
+    fs.mkdirSync("./public/uploads/menu/" + req.user.id);
   }
   upload.menuUploadEdit(req, res, (err) => {
     if (err) {
@@ -242,7 +226,7 @@ router.post("/uploadEdit", urlencodedParser, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/menu/1/${req.file.filename}` });
+        res.json({ file: `/uploads/menu/${req.user.id}/${req.file.filename}` });
       }
     }
   });
@@ -285,7 +269,7 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
 });
 
 //delete food from menu
-router.get("/delete/:id", (req, res) => {
+router.get("/delete/:id", ensureAuthenticated, (req, res) => {
   let id = req.params.id;
   Menu.destroy({ where: { id: id } })
     .then((n) => {
@@ -360,7 +344,7 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
 });
 
 //delete specifications
-router.get("/deleteSpec/:name", (req, res) => {
+router.get("/deleteSpec/:name", ensureAuthenticated, (req, res) => {
   let name = req.params.name;
   MenuSpec.destroy({ where: { name: name } })
     .then((n) => {

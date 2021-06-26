@@ -166,7 +166,16 @@ app.listen(port, () => {
 });
 
 
+//handlebars helper
 Handlebars.registerHelper("ifEquals", function (a, b, options) {
+  if (a == b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+Handlebars.registerHelper("ifEqualsUser", function (a, b, options) {
+  b = b ? b.id : 0;
   if (a == b) {
     return options.fn(this);
   }

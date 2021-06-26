@@ -41,6 +41,7 @@
             </thead>
             <tbody>
                 {{#each session.cart}}
+                {{#ifEqualsUser this.userId ../user}}
                 {{#each orders}}
                 {{#each ../../menus}}
                 {{#ifEquals ../../id id}}
@@ -56,6 +57,7 @@
                 {{/ifEquals}}
                 {{/each}}
                 {{/each}}
+                {{/ifEqualsUser}}
                 {{/each}}
             </tbody>
             </table>
