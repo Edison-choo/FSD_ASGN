@@ -55,39 +55,18 @@
         </tr>
     </thead>
     <tbody>
+        {{#if reviews}}
+        {{#each reviews}}
         <tr>
-            <td><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
+            <td>
+                {{food}}
             </td>
             <td>
-                <p>test1</p>
+                <p>{{comments}}</p>
             </td>
         </tr>
-        <tr>
-            <td><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </td>
-            <td>
-                <p>test2</p>
-            </td>
-        </tr>
-        <tr>
-            <td><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </td>
-            <td>
-                <p>test3</p>
-            </td>
-        </tr>
+        {{/each}}
+        {{/if}}
     </tbody>
 </table>
 <nav aria-label="Page navigation example">
