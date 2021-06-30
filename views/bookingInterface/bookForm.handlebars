@@ -35,6 +35,8 @@
 </div>
 <br>
 <div class="bookingForm">
+
+    {{#if user}}
     <form method="POST" action="/bookingInterface/bookForm/{{res_name}}">
         <div class="container base restab">
             <h3 class="title">Restaurant Booking:</h3>
@@ -84,16 +86,16 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="firstName" placeholder="First name" required>
+                        <input type="text" name="firstName" placeholder="First name" value="{{user.fname}}" readonly>
                     </div>
                     <div class="col">
-                        <input type="text" name="lastName" placeholder="Last name" required>
+                        <input type="text" name="lastName" placeholder="Last name" value="{{user.lname}}" readonly>
                     </div>
                 </div>
             </div>
             <br>
             <h5 style="padding-left: 3px;">Email:</h5>
-            <input type="email" name="email" placeholder="example@example.com" required>
+            <input type="email" name="email" placeholder="example@example.com" value="{{user.email}}" readonly>
             <br>
             <br>
             <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
@@ -105,5 +107,9 @@
                 class="btn btn-primary btn-lg btn-block">Book!</button>
         </div>
     </form>
+
+    {{else}}
+    <h2 style="text-align: center;">Please login before trying to book</h2>
+    {{/if}}
 </div>
 <br>

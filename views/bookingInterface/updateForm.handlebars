@@ -40,7 +40,7 @@
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
             <h5 style="padding-left: 3px;">Select Date:</h5>
-            <input type="date" name="bookingDate" id="datefield" min="" max="" required>
+            <input type="date" name="bookingDate" id="datefield" min="" max="" value="{{booking.date}}" required>
             <script>
                 var today = new Date();
                 var dd = today.getDate();
@@ -75,7 +75,7 @@
             <br>
             <br>
             <h5 style="padding-left: 3px;">Select Time:</h5>
-            <input type="time" min="9:00" max="22:00" name="bookingTime" required>
+            <input type="time" min="9:00" max="22:00" name="bookingTime" value="{{booking.time}}" required>
 
             <br>
             <br>
@@ -84,20 +84,20 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="bookingFName" placeholder="First name" readonly>
+                        <input type="text" name="bookingFName" placeholder="First name" value="{{user.fname}}" readonly>
                     </div>
                     <div class="col">
-                        <input type="text" name="bookingLName" placeholder="Last name" readonly>
+                        <input type="text" name="bookingLName" placeholder="Last name" value="{{user.lname}}" readonly>
                     </div>
                 </div>
             </div>
             <br>
             <h5 style="padding-left: 3px;">Email:</h5>
-            <input type="email" name="bookingEmail" placeholder="example@example.com" readonly>
+            <input type="email" name="bookingEmail" placeholder="example@example.com" value="{{booking.email}}" readonly>
             <br>
             <br>
             <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
-            <input type="number" name="bookingPax" min="1" max="10" placeholder="Number of People"
+            <input type="number" name="bookingPax" min="1" max="10" placeholder="Number of People" value="{{booking.pax}}"
                 oninvalid="PLease enter pax" required>
             <br>
             <br>

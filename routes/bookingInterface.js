@@ -21,8 +21,17 @@ router.get('/bookForm/:res_name', (req, res) => {
     res.render('bookingInterface/bookForm', { res_name });
 });
 
-router.get('/updateForm', (req, res) => {
-    res.render('bookingInterface/updateForm');
+router.get('/updateForm/:email/:res_name', (req, res) => {
+    email_id = req.params.email;
+    res_name_id = req.params.res_name
+    Booking.findOne({
+        where: {
+            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+        }
+    }).then(booking => {
+        console.log(booking);
+        res.render('bookingInterface/updateForm', { booking });
+    })
 });
 
 router.get('/bookingDetailsEmailInsert', (req, res) => {
