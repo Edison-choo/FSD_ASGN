@@ -11,6 +11,9 @@ const Reviews = db.define('reviews', {
     environment: {
         type: Sequelize.INTEGER
     },
+    average: {
+        type: Sequelize.INTEGER
+    },
     email: {
         type: Sequelize.STRING
     },

@@ -16,7 +16,7 @@ const upload = require("../helpers/imageUpload");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //page of user view menu
-router.get("/", ensureAuthenticated, (req, res) => {
+router.get("/", (req, res) => {
   var types = [];
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
@@ -63,7 +63,7 @@ router.get("/", ensureAuthenticated, (req, res) => {
 // });
 
 //page of menu table
-router.get("/updateMenu", ensureAuthenticated, (req, res) => {
+router.get("/updateMenu", (req, res) => {
   let types = [];
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
@@ -102,94 +102,94 @@ router.get("/updateMenu", ensureAuthenticated, (req, res) => {
 });
 
 //add food
-router.post("/addMenu", urlencodedParser, (req, res) => {
-  let errors = [];
-  let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
-  menuImage = menuImage === undefined ? '' : menuImage;
-  specifications = specifications === undefined ? "" : specifications.toString();
-  console.log(menuImage);
-  if (foodPrice < 0) {
-    errors.push({ text: "Please do not enter negative value for price" });
-  }
-  Menu.findAll({
-    attributes: { exclude: ["restaurant_id"] },
-  })
-    .then((menus) => {
-      if (menus) {
-        let menuOrder = menus
-          .filter((f) => f.type == foodType)
-          .sort((f1, f2) => (f1.foodNo > f2.foodNo ? 1 : -1));
-        let menuLength = 0;
-        if (menuOrder[0] === undefined) {
-          menuLength = 1;
-        } else {
-          menuLength =
-            parseInt(menuOrder[menuOrder.length - 1].foodNo.slice(-2)) + 1;
-        }
-        if (errors.length > 0) {
-          res.render("menu/updateMenu", {
-            errors,
-            menus,
-            menuImage,
-            foodName,
-            foodType,
-            foodPrice,
-            specifications,
-          });
-        } else {
-          Menu.findOne({ where: { name: foodName } })
-            .then((menu) => {
-              if (menu) {
-                alertMessage(
-                  res,
-                  "danger",
-                  "Food name is already registered",
-                  "fas fa-ban",
-                  true
-                );
-                res.render("menu/updateMenu", {
-                  menus: menus,
-                  menuImage,
-                  foodName,
-                  foodType,
-                  foodPrice,
-                  specifications,
-                  menuSpecification,
-                });
-              } else {
-                let id = 1;
-                let foodId =
-                  foodType.slice(0, 1).toUpperCase() +
-                  foodType.slice(-1).toUpperCase() +
-                  ("00" + menuLength).slice(-2);
-                Menu.create({
-                  foodNo: foodId,
-                  name: foodName,
-                  price: foodPrice,
-                  type: foodType,
-                  specifications: specifications,
-                  image: menuImage,
-                  restaurant_id: id,
-                })
-                  .then((menu) => {
-                    alertMessage(
-                      res,
-                      "success",
-                      "Food is successfully added to the menu",
-                      "fas fa-check-circle",
-                      true
-                    );
-                    res.redirect("/menu/updateMenu");
-                  })
-                  .catch((err) => console.log(err));
-              }
-            })
-            .catch((err) => console.log(err));
-        }
-      }
-    })
-    .catch((err) => console.log(err));
-});
+// router.post("/addMenu", urlencodedParser, (req, res) => {
+//   let errors = [];
+//   let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
+//   menuImage = menuImage === undefined ? '' : menuImage;
+//   specifications = specifications === undefined ? "" : specifications.toString();
+//   console.log(menuImage);
+//   if (foodPrice < 0) {
+//     errors.push({ text: "Please do not enter negative value for price" });
+//   }
+//   Menu.findAll({
+//     attributes: { exclude: ["restaurant_id"] },
+//   })
+//     .then((menus) => {
+//       if (menus) {
+//         let menuOrder = menus
+//           .filter((f) => f.type == foodType)
+//           .sort((f1, f2) => (f1.foodNo > f2.foodNo ? 1 : -1));
+//         let menuLength = 0;
+//         if (menuOrder[0] === undefined) {
+//           menuLength = 1;
+//         } else {
+//           menuLength =
+//             parseInt(menuOrder[menuOrder.length - 1].foodNo.slice(-2)) + 1;
+//         }
+//         if (errors.length > 0) {
+//           res.render("menu/updateMenu", {
+//             errors,
+//             menus,
+//             menuImage,
+//             foodName,
+//             foodType,
+//             foodPrice,
+//             specifications,
+//           });
+//         } else {
+//           Menu.findOne({ where: { name: foodName } })
+//             .then((menu) => {
+//               if (menu) {
+//                 alertMessage(
+//                   res,
+//                   "danger",
+//                   "Food name is already registered",
+//                   "fas fa-ban",
+//                   true
+//                 );
+//                 res.render("menu/updateMenu", {
+//                   menus: menus,
+//                   menuImage,
+//                   foodName,
+//                   foodType,
+//                   foodPrice,
+//                   specifications,
+//                   menuSpecification,
+//                 });
+//               } else {
+//                 let id = 1;
+//                 let foodId =
+//                   foodType.slice(0, 1).toUpperCase() +
+//                   foodType.slice(-1).toUpperCase() +
+//                   ("00" + menuLength).slice(-2);
+//                 Menu.create({
+//                   foodNo: foodId,
+//                   name: foodName,
+//                   price: foodPrice,
+//                   type: foodType,
+//                   specifications: specifications,
+//                   image: menuImage,
+//                   restaurant_id: id,
+//                 })
+//                   .then((menu) => {
+//                     alertMessage(
+//                       res,
+//                       "success",
+//                       "Food is successfully added to the menu",
+//                       "fas fa-check-circle",
+//                       true
+//                     );
+//                     res.redirect("/menu/updateMenu");
+//                   })
+//                   .catch((err) => console.log(err));
+//               }
+//             })
+//             .catch((err) => console.log(err));
+//         }
+//       }
+//     })
+//     .catch((err) => console.log(err));
+// });
 //fix menuSpec
 
 //fix
@@ -220,6 +220,7 @@ router.post("/uploadEdit", urlencodedParser, (req, res) => {
     fs.mkdirSync("./public/uploads/menu/" + req.user.id);
   }
   upload.menuUploadEdit(req, res, (err) => {
+    console.log(err, req.file);
     if (err) {
       res.json({ file: "/img/no-image.jpg", err: err });
     } else {
@@ -269,7 +270,7 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
 });
 
 //delete food from menu
-router.get("/delete/:id", ensureAuthenticated, (req, res) => {
+router.get("/delete/:id", (req, res) => {
   let id = req.params.id;
   Menu.destroy({ where: { id: id } })
     .then((n) => {
@@ -344,7 +345,7 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
 });
 
 //delete specifications
-router.get("/deleteSpec/:name", ensureAuthenticated, (req, res) => {
+router.get("/deleteSpec/:name", (req, res) => {
   let name = req.params.name;
   MenuSpec.destroy({ where: { name: name } })
     .then((n) => {
@@ -361,6 +362,124 @@ router.get("/deleteSpec/:name", ensureAuthenticated, (req, res) => {
         true
       );
       res.redirect("/menu/updateMenu");
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/getMenu", (req, res) => {
+  let types = [];
+  Menu.findAll({
+    attributes: { exclude: ["restaurant_id"] },
+  }).then((menus) => {
+    if (menus) {
+      menus.forEach((menu) => {
+        if (types.includes(menu.type) === false) {
+          types.push(menu.type);
+        }
+      });
+      MenuSpec.findAll().then((specs) => {
+        let menuSpec = {};
+        specs.forEach((option) => {
+          if (option.name in menuSpec) {
+            menuSpec[option.name] = menuSpec[option.name].concat([
+              option.option,
+            ]);
+          } else {
+            menuSpec[option.name] = [option.option];
+          }
+        });
+        res.json({1: menus, 2:menuSpec});
+      });
+    }
+  });
+});
+
+// test
+router.post("/addMenu", urlencodedParser, (req, res) => {
+  let errors = [];
+  let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
+  menuImage = menuImage === undefined ? '' : menuImage;
+  specifications = specifications === undefined ? "" : specifications.toString();
+  console.log(menuImage);
+  if (foodPrice < 0) {
+    errors.push({ text: "Please do not enter negative value for price" });
+  }
+  Menu.findAll({
+    attributes: { exclude: ["restaurant_id"] },
+  })
+    .then((menus) => {
+      if (menus) {
+        let menuOrder = menus
+          .filter((f) => f.type == foodType)
+          .sort((f1, f2) => (f1.foodNo > f2.foodNo ? 1 : -1));
+        let menuLength = 0;
+        if (menuOrder[0] === undefined) {
+          menuLength = 1;
+        } else {
+          menuLength =
+            parseInt(menuOrder[menuOrder.length - 1].foodNo.slice(-2)) + 1;
+        }
+        if (errors.length > 0) {
+          res.json({
+            errors,
+            menus,
+            menuImage,
+            foodName,
+            foodType,
+            foodPrice,
+            specifications,
+          });
+        } else {
+          Menu.findOne({ where: { name: foodName } })
+            .then((menu) => {
+              if (menu) {
+                alertMessage(
+                  res,
+                  "danger",
+                  "Food name is already registered",
+                  "fas fa-ban",
+                  true
+                );
+                res.json({
+                  menus: menus,
+                  menuImage,
+                  foodName,
+                  foodType,
+                  foodPrice,
+                  specifications,
+                  menuSpecification,
+                });
+              } else {
+                let id = 1;
+                let foodId =
+                  foodType.slice(0, 1).toUpperCase() +
+                  foodType.slice(-1).toUpperCase() +
+                  ("00" + menuLength).slice(-2);
+                Menu.create({
+                  foodNo: foodId,
+                  name: foodName,
+                  price: foodPrice,
+                  type: foodType,
+                  specifications: specifications,
+                  image: menuImage,
+                  restaurant_id: id,
+                })
+                  .then((menu) => {
+                    alertMessage(
+                      res,
+                      "success",
+                      "Food is successfully added to the menu",
+                      "fas fa-check-circle",
+                      true
+                    );
+                    res.json({menus});
+                  })
+                  .catch((err) => console.log(err));
+              }
+            })
+            .catch((err) => console.log(err));
+        }
+      }
     })
     .catch((err) => console.log(err));
 });
