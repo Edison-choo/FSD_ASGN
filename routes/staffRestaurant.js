@@ -8,7 +8,7 @@ const emailValidator = require("email-validator");
 const urlValidator = require("valid-url");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
-const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticated = require("../helpers/auth");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -25,13 +25,13 @@ router.get("/createRestaurant", (req, res) => {
 //View Restaurant Page
 router.get("/viewRestaurant", (req, res) => {
   let email = req.user.email;
-  Restaurant.findOne({ where: { email:email } }).then((restaurant) => {
+  Restaurant.findOne({ where: { email: email } }).then((restaurant) => {
     res.render("staffRestaurant/viewRestaurant", { restaurant });
   });
 });
 
 //Edit Restaurant Page
-router.get("/editRestaurant/:id", (req, res) => {
+router.get("/editRestaurant", (req, res) => {
   let email = req.user.email;
   Restaurant.findOne({
     where: {
@@ -49,7 +49,7 @@ router.get("/editRestaurant/:id", (req, res) => {
 
 //Post for Create Restaurant Page
 router.post("/createRestaurant", urlencodedParser, (req, res) => {
-  let email = req.user.email
+  let email = req.user.email;
   let errors = [];
 
   // Retrieves fields from register page from request body
@@ -126,26 +126,27 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             iconURL,
           });
         } else {
-          Restaurant.update({
-            comp_name: comp_name,
-            address: address,
-            comp_email: comp_email,
-            uen: uen,
-            res_name: res_name,
-            cuisine: cuisine,
-            open_time: open_time,
-            close_time: close_time,
-            halal: halal,
-            facebook: facebook,
-            twitter: twitter,
-            instagram: instagram,
-            image:iconURL,
-          },
-          {
-            where:{
-              email:email,
+          Restaurant.update(
+            {
+              comp_name: comp_name,
+              address: address,
+              comp_email: comp_email,
+              uen: uen,
+              res_name: res_name,
+              cuisine: cuisine,
+              open_time: open_time,
+              close_time: close_time,
+              halal: halal,
+              facebook: facebook,
+              twitter: twitter,
+              instagram: instagram,
+              image: iconURL,
+            },
+            {
+              where: {
+                email: email,
+              },
             }
-          }
           )
             .then((restaurant) => {
               res.redirect("/staffRestaurant");
@@ -179,8 +180,8 @@ function checkOptions(restaurant) {
 }
 
 //Put for edit restaurant
-router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
-  req.user.email
+router.post("/editRestaurant", urlencodedParser, (req, res) => {
+  email = req.user.email;
   let {
     uen,
     comp_name,
@@ -190,7 +191,7 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
     cuisine,
     halal,
     comp_email,
-    iconURL
+    iconURL,
   } = req.body;
   Restaurant.update(
     {
@@ -202,7 +203,7 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
       cuisine: cuisine,
       halal: halal,
       comp_email: comp_email,
-      image:iconURL
+      image: iconURL,
     },
     {
       where: {
@@ -240,17 +241,19 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
       tables,
     });
   } else {
-    Restaurant.update({
-      seat: seat,
-      square: square,
-      tables: tables,
-      occupied: "",
-    },
-    {
-      where:{
-        email: email,
+    Restaurant.update(
+      {
+        seat: seat,
+        square: square,
+        tables: tables,
+        occupied: "",
+      },
+      {
+        where: {
+          email: email,
+        },
       }
-    })
+    )
       .then((layout) => {
         res.redirect("/staffRestaurant");
       })
