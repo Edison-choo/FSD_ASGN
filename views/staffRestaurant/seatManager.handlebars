@@ -50,15 +50,21 @@
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
-    <div id="table-wrap">
-        <table id="drawing-table" class="tableLayout">
-            <tr>
-                <td></td>
-            </tr>
-        </table>
+    <div class="row">
+        <div id="table-wrap" class="col-md-8">
+            <table id="drawing-table" class="tableLayout">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-success" type="button" id="allGreen">Vacant All</button>
+            <button class="btn btn-danger" type="button" id="allRed">Occupied All</button>
+        </div>
+        <input type="hidden" name="occupied" id="occupied">
+        <button type="button" id="apply" class="btn btn-primary">Apply</button>
     </div>
-    <input type="hidden" name="occupied" id="occupied">
-    <button type="button" id="apply" class="btn btn-primary">Apply</button>
 </form>
 <script>
     function remove(array, n) {
@@ -108,7 +114,7 @@
             }
         }
         for (i in occupied) {
-            if (occupied[i].length > 0){
+            if (occupied[i].length > 0) {
                 $("." + occupied[i]).addClass("taken")
             }
         }
@@ -130,6 +136,22 @@
         $("#apply").click(function () {
             $("#occupied").val(occupied)
             $("#seatManager").submit()
+        })
+        $("#allGreen").click(function(){
+            for (const [key, value] of Object.entries(tblDic)) {
+                if ($("." + key).hasClass("taken")){
+                    $("." + key).removeClass("taken")
+                    occupied = remove(occupied, key)
+                }
+            }
+        })
+        $("#allRed").click(function(){
+            for (const [key, value] of Object.entries(tblDic)) {
+                if (!($("." + key).hasClass("taken"))){
+                    $("." + key).addClass("taken")
+                    occupied.push(key)
+                }
+            }
         })
     });
 </script>
