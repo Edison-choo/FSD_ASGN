@@ -6,7 +6,6 @@ const alertMessage = require("../helpers/messenger");
 const Restaurant = require("../models/restaurants");
 const emailValidator = require("email-validator");
 const urlValidator = require("valid-url");
-const Layout = require("../models/layout");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 const ensureAuthenticated = require('../helpers/auth');
@@ -231,12 +230,16 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
       tables,
     });
   } else {
-    Layout.create({
-      res_name: "Subway",
+    Restaurant.update({
       seat: seat,
       square: square,
       tables: tables,
       occupied: "",
+    },
+    {
+      where:{
+        email: req.params.email,
+      }
     })
       .then((layout) => {
         res.redirect("/staffRestaurant");
@@ -247,14 +250,14 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
 
 router.get("/seatManager", (req, res) => {
   let name = "Subway";
-  Layout.findOne({ where: { res_name: name } }).then((layouts) => {
+  Restaurant.findOne({ where: { res_name: name } }).then((layouts) => {
     res.render("staffRestaurant/seatManager", { layouts });
   });
 });
 
 router.post("/seatManager", urlencodedParser, (req, res) => {
   let { occupied } = req.body;
-  Layout.update(
+  Restaurant.update(
     {
       occupied: occupied,
     },
