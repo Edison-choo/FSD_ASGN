@@ -1,90 +1,38 @@
 <style>
-  .rating {
-    float:left;
-}
+/****** Style Star Rating Widget *****/
 
-/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
-   follow these rules. Every browser that supports :checked also supports :not(), so
-   it doesn’t make the test unnecessarily selective */
-.rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-    clip:rect(0,0,0,0);
-}
+.rating { 
+ border: none;
+ float: left;
+  }
 
-.rating:not(:checked) > label {
-    float:right;
-    width:1em;
-    padding:0 .1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:200%;
-    line-height:1.2;
-    color:#ddd;
-    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
-}
+.rating > input { display: none; } 
+.rating > label:before { 
+  font-size: 2em;
+  content: '★ ';
+  }
 
-.rating:not(:checked) > label:before {
-    content: '★ ';
-}
+ .rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+   }
 
-.rating > input:checked ~ label {
-    color: #f70;
-    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
-}
+   .rating > label { 
+    color: #ddd; 
+    float: right; 
+     }
 
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-    color: gold;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
-}
+     /***** CSS Magic to Highlight Stars on Hover *****/
 
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-    color: #ea0;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
-}
+    .rating > input:checked ~ label, /* show gold star when clicked */
+     .rating:not(:checked) > label:hover, /* hover current star */
+      .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } 
+       /*        hover previous stars in list */
 
-.rating > label:active {
-    position:relative;
-    top:2px;
-    left:2px;
-}
-
-/* end of Lea's code */
-
-/*
- * Clearfix from html5 boilerplate
- */
-
-.clearfix:before,
-.clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/*
- * For IE 6/7 only
- * Include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
-}
-
-/* my stuff */
-#status, button {
-    margin: 20px 0;
-}
-
+       .rating > input:checked + label:hover,
+       .rating > input:checked ~ label:hover,
+       .rating > label:hover ~ input:checked ~ label, 
+       .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 </style>
 <h2>Leave a Review</h2>
 
@@ -93,63 +41,64 @@
 <form method="POST" action="/createReviews/reviews/createReviews" id="ratingForm">
   <div class="container" id='food' style="margin-bottom: 20px;">
     <h4>How would you rate the food?</h4>
-    {{!-- <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio1" value="1" />
-      <label class="form-check-label" for="inlineRadio1">1</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio2" value="2" />
-      <label class="form-check-label" for="inlineRadio2">2</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio3" value="3" />
-      <label class="form-check-label" for="inlineRadio3">3</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio4" value="4" />
-      <label class="form-check-label" for="inlineRadio2">4</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="FoodOption" id="inlineRadio5" value="5" />
-      <label class="form-check-label" for="inlineRadio2">5</label>
-    </div>
-  </div> --}}
     <fieldset class="rating">
-        <input type="radio" id="star5" name="FoodOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
-        <input type="radio" id="star4" name="FoodOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
-        <input type="radio" id="star3" name="FoodOption" value="3" /><label for="star3" title="Meh">3 stars</label>
-        <input type="radio" id="star2" name="FoodOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-        <input type="radio" id="star1" name="FoodOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+    <input type="radio" id="star5_food" name="FoodOption" value=5 /><label class = "full" for="star5_food" title="Awesome - 5 stars"></label>
+    <input type="radio" id="star4_food" name="FoodOption" value=4 /><label class = "full" for="star4_food" title="Pretty good - 4 stars"></label>
+    <input type="radio" id="star3_food" name="FoodOption" value=3 /><label class = "full" for="star3_food" title="Meh - 3 stars"></label>
+    <input type="radio" id="star2_food" name="FoodOption" value=2 /><label class = "full" for="star2_food" title="Kinda bad - 2 stars"></label>
+    <input type="radio" id="star1_food" name="FoodOption" value=1 /><label class = "full" for="star1_food" title="Sucks big time - 1 star"></label>
     </fieldset>
     <br>
-    </div>
-
+    <br>
+  </div>
     <div class="container" id='service' style="margin-bottom: 20px;">
-    <h4>How was the customer service?</h4>
+      <h4>How was the customer service?</h4>
       <fieldset class="rating">
-        <input type="radio" id="star5" name="CustOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
-        <input type="radio" id="star4" name="CustOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
-        <input type="radio" id="star3" name="CustOption" value="3" /><label for="star3" title="Meh">3 stars</label>
-        <input type="radio" id="star2" name="CustOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-        <input type="radio" id="star1" name="CustOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
-    </fieldset>
-    <br>
+      <input type="radio" id="star5_cust" name="CustOption" value=5 /><label class = "full" for="star5_cust" title="Awesome - 5 stars"></label>
+      <input type="radio" id="star4_cust" name="CustOption" value=4 /><label class = "full" for="star4_cust" title="Pretty good - 4 stars"></label>
+      <input type="radio" id="star3_cust" name="CustOption" value=3 /><label class = "full" for="star3_cust" title="Meh - 3 stars"></label>
+      <input type="radio" id="star2_cust" name="CustOption" value=2 /><label class = "full" for="star2_cust" title="Kinda bad - 2 stars"></label>
+      <input type="radio" id="star1_cust" name="CustOption" value=1 /><label class = "full" for="star1_cust" title="Sucks big time - 1 star"></label>
+      </fieldset>
+      <br>
+      <br>
   </div>
 
     <div class="container" id='environment' style="margin-bottom: 20px;">
     <h4>Is the environment clean?</h4>
+    {{!-- <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio1" value=1 />
+      <label class="form-check-label" for="inlineRadio1">1</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio2" value=2 />
+      <label class="form-check-label" for="inlineRadio2">2</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio3" value=3 />
+      <label class="form-check-label" for="inlineRadio3">3</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio4" value=4 />
+      <label class="form-check-label" for="inlineRadio2">4</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="EnvOption" id="inlineRadio5" value=5 />
+      <label class="form-check-label" for="inlineRadio2">5</label>
+    </div> --}}
     <fieldset class="rating">
-        <input type="radio" id="star5" name="EnvOption" value="5" /><label for="star5" title="Rocks!">5 stars</label>
-        <input type="radio" id="star4" name="EnvOption" value="4" /><label for="star4" title="Pretty good">4 stars</label>
-        <input type="radio" id="star3" name="EnvOption" value="3" /><label for="star3" title="Meh">3 stars</label>
-        <input type="radio" id="star2" name="EnvOption" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-        <input type="radio" id="star1" name="EnvOption" value="1" /><label for="star1" title="Sucks big time">1 star</label>
-    </fieldset>
-    <br>
+      <input type="radio" id="star5_env" name="EnvOption" value=5 /><label class = "full" for="star5_env" title="Awesome - 5 stars"></label>
+      <input type="radio" id="star4_env" name="EnvOption" value=4 /><label class = "full" for="star4_env" title="Pretty good - 4 stars"></label>
+      <input type="radio" id="star3_env" name="EnvOption" value=3 /><label class = "full" for="star3_env" title="Meh - 3 stars"></label>
+      <input type="radio" id="star2_env" name="EnvOption" value=2 /><label class = "full" for="star2_env" title="Kinda bad - 2 stars"></label>
+      <input type="radio" id="star1_env" name="EnvOption" value=1 /><label class = "full" for="star1_env" title="Sucks big time - 1 star"></label>
+      </fieldset>
+      <br>
+      <br>
   </div>
 
   <!-- Email input -->
