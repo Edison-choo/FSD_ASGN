@@ -24,17 +24,18 @@ router.get("/createRestaurant", (req, res) => {
 
 //View Restaurant Page
 router.get("/viewRestaurant", (req, res) => {
-  let name = "Subway";
-  Restaurant.findOne({ where: { res_name: name } }).then((restaurant) => {
+  let email = req.user.email;
+  Restaurant.findOne({ where: { email:email } }).then((restaurant) => {
     res.render("staffRestaurant/viewRestaurant", { restaurant });
   });
 });
 
 //Edit Restaurant Page
 router.get("/editRestaurant/:id", (req, res) => {
+  let email = req.user.email;
   Restaurant.findOne({
     where: {
-      id: req.params.id,
+      email: email,
     },
   })
     .then((restaurant) => {
@@ -48,6 +49,7 @@ router.get("/editRestaurant/:id", (req, res) => {
 
 //Post for Create Restaurant Page
 router.post("/createRestaurant", urlencodedParser, (req, res) => {
+  let email = req.user.email
   let errors = [];
 
   // Retrieves fields from register page from request body
@@ -124,7 +126,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             iconURL,
           });
         } else {
-          Restaurant.create({
+          Restaurant.update({
             comp_name: comp_name,
             address: address,
             comp_email: comp_email,
@@ -138,7 +140,13 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             twitter: twitter,
             instagram: instagram,
             image:iconURL,
-          })
+          },
+          {
+            where:{
+              email:email,
+            }
+          }
+          )
             .then((restaurant) => {
               res.redirect("/staffRestaurant");
             })
@@ -172,6 +180,7 @@ function checkOptions(restaurant) {
 
 //Put for edit restaurant
 router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
+  req.user.email
   let {
     uen,
     comp_name,
@@ -197,7 +206,7 @@ router.post("/editRestaurant/:id", urlencodedParser, (req, res) => {
     },
     {
       where: {
-        id: req.params.id,
+        email: email,
       },
     }
   )
@@ -213,6 +222,7 @@ router.get("/createLayout", (req, res) => {
 });
 
 router.post("/createLayout", urlencodedParser, (req, res) => {
+  let email = req.user.email;
   let errors = [];
   let { seat, square, tables } = req.body;
 
@@ -238,7 +248,7 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
     },
     {
       where:{
-        email: req.params.email,
+        email: email,
       }
     })
       .then((layout) => {
@@ -249,13 +259,14 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
 });
 
 router.get("/seatManager", (req, res) => {
-  let name = "Subway";
-  Restaurant.findOne({ where: { res_name: name } }).then((layouts) => {
+  let email = req.user.email;
+  Restaurant.findOne({ where: { email: email } }).then((layouts) => {
     res.render("staffRestaurant/seatManager", { layouts });
   });
 });
 
 router.post("/seatManager", urlencodedParser, (req, res) => {
+  let email = req.user.email;
   let { occupied } = req.body;
   Restaurant.update(
     {
@@ -263,7 +274,7 @@ router.post("/seatManager", urlencodedParser, (req, res) => {
     },
     {
       where: {
-        res_name: "Subway",
+        email: email,
       },
     }
   )

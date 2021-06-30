@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');
 const router = express.Router();
 var bodyParser = require('body-parser');
 const User = require("../models/user");
+const Restaurant = require("../models/restaurants");
 const bcrypt = require("bcryptjs")
 const passport = require("passport");
 const { response } = require('express');
@@ -75,6 +76,7 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 					res.render('user/login', {success_msg:success_msg});
 				})
 				.catch(err => console.log(err));
+				
 			}
 		})
     }else{
@@ -124,7 +126,9 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 			} else {
  			// Create new user record
 				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, addressl1: req.body.addressl1, addressl2: req.body.addressl2, postalcode: req.body.postalcode, password:req.body.password, cust_type:"staff"})
-				.then(user => {
+				.then(
+					Restaurant.create({email:email}),
+					user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
 				})
