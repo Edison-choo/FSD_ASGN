@@ -54,11 +54,8 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
 
   // Retrieves fields from register page from request body
   let {
-    comp_name,
-    address,
-    comp_email,
-    uen,
     res_name,
+    comp_email,
     cuisine,
     open_time,
     close_time,
@@ -92,14 +89,12 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
   if (errors.length > 0) {
     res.render("staffRestaurant/createRestaurant", {
       errors,
-      comp_name,
-      address,
-      comp_email,
-      uen,
       res_name,
+      comp_email,
       cuisine,
       open_time,
       close_time,
+      halal,
       facebook,
       twitter,
       instagram,
@@ -107,19 +102,19 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
     });
   } else {
     //Check if address is already used
-    Restaurant.findOne({ where: { address: req.body.address } })
+    Restaurant.findOne({
+      where: {res_name:res_name},
+    })
       .then((restaurant) => {
         if (restaurant) {
           res.render("staffRestaurant/createRestaurant", {
-            error: restaurant.address + "is already in use...",
-            comp_name,
-            address,
-            comp_email,
-            uen,
+            error: res_name + " is already in use...",
             res_name,
+            comp_email,
             cuisine,
             open_time,
             close_time,
+            halal,
             facebook,
             twitter,
             instagram,
@@ -128,11 +123,8 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
         } else {
           Restaurant.update(
             {
-              comp_name: comp_name,
-              address: address,
-              comp_email: comp_email,
-              uen: uen,
               res_name: res_name,
+              comp_email: comp_email,
               cuisine: cuisine,
               open_time: open_time,
               close_time: close_time,
@@ -183,7 +175,6 @@ function checkOptions(restaurant) {
 router.post("/editRestaurant", urlencodedParser, (req, res) => {
   email = req.user.email;
   let {
-    uen,
     comp_name,
     address,
     open_time,
@@ -195,7 +186,6 @@ router.post("/editRestaurant", urlencodedParser, (req, res) => {
   } = req.body;
   Restaurant.update(
     {
-      uen: uen,
       comp_name: comp_name,
       address: address,
       open_time: open_time,

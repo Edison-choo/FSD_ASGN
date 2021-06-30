@@ -5,57 +5,36 @@
     <ul class="nav">
         <li>
             <a class="nav-link" href="#step-1">
-                Enter Company Details
-            </a>
-        </li>
-        <li>
-            <a class="nav-link" href="#step-2">
                 Enter Restaurant Details
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#step-3">
+            <a class="nav-link" href="#step-2">
                 Enter Links For Socials
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#step-4">
+            <a class="nav-link" href="#step-3">
                 Add Icon For Restaurant
             </a>
         </li>
     </ul>
     <form action="/staffRestaurant/createRestaurant" method="post" id="createRestaurant">
         <div class="tab-content formTab">
+            <!-- Restaurant name and tag -->
             <div id="step-1" class="tab-pane" role="tabpanel">
-                <div class="form-outline mb-4">
-                    <input type="text" id="comp_name" name="comp_name" class="form-control" />
-                    <label class="form-label" for="comp_name">Company name</label>
-                </div>
-
-                <!-- Address -->
-                <div class="form-outline mb-4">
-                    <input type="text" id="address" name="address" class="form-control" />
-                    <label class="form-label" for="address">Address</label>
+                <div class="input-group mb-3">
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Restaurant Name"
+                        aria-label="Restaurant Name" />
+                    <span class="input-group-text" style="height: 35px;">@</span>
+                    <input type="text" id="tag" class="form-control" placeholder="Tag" aria-label="Tag" />
+                    <input type="hidden" id="res_name" name="res_name" class="form-control"/>
                 </div>
 
                 <!-- Company Email -->
                 <div class="form-outline mb-4">
                     <input type="email" id="comp_email" name="comp_email" class="form-control" />
-                    <label class="form-label" for="comp_email">Company Email</label>
-                </div>
-
-
-                <!-- UEN -->
-                <div class="form-outline mb-4">
-                    <input type="text" id="uen" name="uen" class="form-control" />
-                    <label class="form-label" for="uen">Unique Entity Number</label>
-                </div>
-            </div>
-            <div id="step-2" class="tab-pane" role="tabpanel">
-                <!-- Restaurant name -->
-                <div class="form-outline mb-4">
-                    <input type="text" id="res_name" name="res_name" class="form-control" />
-                    <label class="form-label" for="res_name">Restaurant name</label>
+                    <label class="form-label" for="comp_email">Public Company Email</label>
                 </div>
                 <!-- Cuisine -->
                 <select class="form-select" id="cuisine" name="cuisine">
@@ -74,12 +53,12 @@
                 <br>
                 <!-- Opening and Closing Hours -->
                 <div class="form_group">
-                    <label for="open_time">Opening:</label>
+                    <label for="open_time">Opening Hours:</label>
                     <input type='text' name="open_time" class="form-control" id="open_time" />
                 </div>
                 <br>
                 <div class="form-group">
-                    <label for="close_time">Closing:</label>
+                    <label for="close_time">Closing Hours:</label>
                     <input type='text' name="close_time" class="form-control" id="close_time" />
                 </div>
                 <br>
@@ -90,9 +69,8 @@
                         Halal
                     </label>
                 </div>
-
             </div>
-            <div id="step-3" class="tab-pane" role="tabpanel">
+            <div id="step-2" class="tab-pane" role="tabpanel">
                 <!-- Facebook Link -->
                 <div class="form-outline mb-4">
                     <input type="text" id="facebook" name="facebook" class="form-control" />
@@ -107,15 +85,15 @@
                     <label class="form-label" for="instagram">Instagram account url</label>
                 </div>
             </div>
-            <div id="step-4" class="tab-pane" role="tabpanel">
+            <div id="step-3" class="tab-pane" role="tabpanel">
                 <div>
                     <input type="file" id="restaurantIcon" name="restaurantIcon"
                         accept="image/png,image/jpeg,image/jpg,image/gif">
                     <img id="icon" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid">
                     <input id="iconURL" type="hidden" name="iconURL">
                     <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
+                    <button class="btn btn-primary btn-block">Submit</button>
                 </div>
-                <button>Submit</button>
             </div>
         </div>
     </form>
@@ -133,6 +111,12 @@
     type="text/javascript"></script>
 
 <script>
+    $("#name").on("change", function (){
+        $("#res_name").val($("#name").val() + "@" + $("#tag").val())
+    })
+    $("#tag").on("change", function (){
+        $("#res_name").val($("#name").val() + "@" + $("#tag").val())
+    })
     $("#restaurantIcon").on("change", function () {
         let image = $("#restaurantIcon")[0].files[0];
         let formdata = new FormData();
@@ -155,7 +139,7 @@
             },
         });
     });
-    
+
     $(function () {
         $('#open_time').timepicker
             ({
@@ -178,7 +162,7 @@
         $("#smartwizard").on("leaveStep", function (e, anchorObject, currentStepIndex, nextStepIndex, stepDirection) {
             if (anchorObject.prevObject.length - 1 == nextStepIndex) {
                 $('#submit').html("Submit<i class='fas fa-paper-plane'></i>");
-                $('#submit').click(()=>{
+                $('#submit').click(() => {
                     $('#submit').submit("createRestaurant")
                 })
                 $("#submit").removeClass();

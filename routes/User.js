@@ -123,7 +123,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
  			// Create new user record
 				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:req.body.password, uen: req.body.uen, cust_type:"staff"})
 				.then(
-					Restaurant.create({email:email}),
+					Restaurant.create({email:email, address:address}),
 					user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
