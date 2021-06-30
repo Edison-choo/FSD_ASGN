@@ -128,6 +128,7 @@
                 <input type="file" id="userimg" name="userfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <input type="hidden" id="profileImg">
             </div>
+            <br>
             <span id="errorMsg"></span>
         </div>
     </div>
@@ -169,16 +170,8 @@
           </tr>
           {{#ifEquals user.cust_type "staff"}}
           <tr>
-            <td align="left">Address Line 1</td>
-            <td align="right">{{user.addressl1}}</td>
-          </tr>
-          <tr>
-            <td align="left">Address Line 2</td>
-            <td align="right">{{user.addressl2}}</td>
-          </tr>
-          <tr>
-            <td align="left">Postal Code</td>
-            <td align="right">{{user.postalcode}}</td>
+            <td align="left">Address</td>
+            <td align="right">{{user.address}}</td>
           </tr>
           {{/ifEquals}}
         </tbody>

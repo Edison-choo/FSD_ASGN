@@ -23,6 +23,7 @@ in video.
       restaurantMenu.hasMany(menu, { foreignKey: 'restaurant_id', allowNull: false });
       restaurantMenu.hasMany(menuSpec, { foreignKey: 'restaurant_id', allowNull: false });
       restaurantMenu.hasMany(order, { foreignKey: 'restaurant_id', allowNull: false });
+      
 
       mySQLDB.sync({
           // Creates table if none exists

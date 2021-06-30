@@ -88,7 +88,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 	let errors = []
     let success_msg = ''; 
 
-    let {restname, email, phone, addressl1, addressl2, postalcode, password, cpassword} = req.body;	
+    let {restname, email, phone, address, password, cpassword, uen} = req.body;	
 
     if(req.body.password != req.body.cpassword){
         errors.push({"text": "Password do not match"});
@@ -97,10 +97,6 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
     if(req.body.password.length < 8){
         errors.push({"text": "Password must be at least 8 characters"});
     }
-
-	if(String(req.body.postalcode).length != 6){
-		errors.push({"text": "Please enter valid postal code"});
-	}
 
 	emailValidate = validator.validate(req.body.email);
 	if(!emailValidate){
@@ -125,7 +121,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 			res.render('user/registerOwner', {error: user.email + ' already registered'});
 			} else {
  			// Create new user record
-				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, addressl1: req.body.addressl1, addressl2: req.body.addressl2, postalcode: req.body.postalcode, password:req.body.password, cust_type:"staff"})
+				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:req.body.password, uen: req.body.uen, cust_type:"staff"})
 				.then(
 					Restaurant.create({email:email}),
 					user => {

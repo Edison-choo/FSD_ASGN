@@ -19,22 +19,10 @@
       <label class="form-label" for="phone">Phone No.</label>
     </div>
 
-    <!-- Address Line 1 input -->
+    <!-- Address input -->
     <div class="form-outline mb-4">
-      <input type="text" id="addressl1" class="form-control" name="addressl1" required />
-      <label class="form-label" for="addressl1">Address Line 1</label>
-    </div>
-
-    <!-- Address Line 2 input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="addressl2" class="form-control" name="addressl2" />
-      <label class="form-label" for="addressl2">Address Line 2</label>
-    </div>
-
-    <!-- Postal Code input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="postalcode" class="form-control" name="postalcode" required />
-      <label class="form-label" for="postalcode">Postal Code</label>
+      <input type="text" id="address" class="form-control" name="address" required />
+      <label class="form-label" for="address">Address</label>
     </div>
 
     <!-- Password input -->
@@ -49,8 +37,15 @@
       <label class="form-label" for="cpassword">Confirm Password</label>
     </div>
 
+    <!-- UEN input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="uen" class="form-control" name="uen" required />
+      <label class="form-label" for="uen">UEN</label>
+      <p style="color: red; font-size: 13px">*Enter valid UEN to proceed</p>
+    </div>
+
     <!-- Submit button -->
-    <button type="submit" class="regBtn btn btn-primary btn-lg btn-block">Sign Up</button>
+    <button type="submit" class="regBtn btn btn-primary btn-lg btn-block" id="regBtn">Sign Up</button>
 
     <!-- Register buttons -->
     <div class="text-center">
@@ -62,3 +57,107 @@
     </div>
   </form>
 </div>
+<script>
+  let input = document.getElementById("uen");
+  let button = document.getElementById("regBtn");
+
+  button.disabled = true;
+  input.addEventListener("change", validateUEN);
+
+  function validateUEN () {
+    const entityTypeIndicator = [
+        'LP', 'LL', 'FC', 'PF', 'RF', 'MQ', 'MM', 'NB', 'CC', 'CS', 'MB', 'FM', 'GS', 'GA',
+        'GB', 'DP', 'CP', 'NR', 'CM', 'CD', 'MD', 'HS', 'VH', 'CH', 'MH', 'CL', 'XL', 'CX',
+        'RP', 'TU', 'TC', 'FB', 'FN', 'PA', 'PB', 'SS', 'MC', 'SM'
+    ];
+    var debug = true;
+    // (A) Businesses registered with ACRA
+    if (document.getElementById("uen").value.length === 9) {
+        // check that last character is a letter
+        if (!isNaN(document.getElementById("uen").value[document.getElementById("uen").value.length - 1])) {
+            if (debug) { console.log('(A) last character is not an alphabet'); }
+            return false;
+        }
+
+        for (var i = 0; i < document.getElementById("uen").value.length - 1; i++) {
+            // check that first 8 letters are all numbers
+            if (isNaN(document.getElementById("uen").value[i])) {
+                if (debug) { console.log('(A) there are non-numbers in 1st to 8th letters'); }
+                return false;
+            }
+        }
+
+        // (A) Businesses registered with ACRA (SUCCESS)
+        if (debug) { console.log('valid (A) Businesses registered with ACRA'); }
+        button.disabled = false;
+        return true;
+    }
+    else if (document.getElementById("uen").value.length === 10) {
+        // check that last character is a letter
+        if (!isNaN(document.getElementById("uen").value[document.getElementById("uen").value.length - 1])) {
+            if (debug) { console.log('(B)(C) last character is not an alphabet'); }
+            return false;
+        }
+
+        // (B) Local companies registered with ACRA
+        if (!isNaN(document.getElementById("uen").value[0]) && !isNaN(document.getElementById("uen").value[1]) && !isNaN(document.getElementById("uen").value[2]) && !isNaN(document.getElementById("uen").value[3])) {
+            // check that 5th to 9th letters are all numbers
+            if (!isNaN(document.getElementById("uen").value[4]) && !isNaN(document.getElementById("uen").value[5]) && !isNaN(document.getElementById("uen").value[6]) &&
+                !isNaN(document.getElementById("uen").value[7]) && !isNaN(document.getElementById("uen").value[8])) {
+                // (B) Local companies registered with ACRA (SUCCESS)
+                if (debug) { console.log('valid (B) Local companies registered with ACRA'); }
+                return true;
+            } else {
+                if (debug) { console.log('(B) there are non-numbers in 5th to 9th letters'); }
+                return false;
+            }
+        }
+        // (C) All other entities which will be issued new UEN
+        else {
+            // check that 1st letter is either T or S or R
+            if (document.getElementById("uen").value[0] !== 'T' && document.getElementById("uen").value[0] !== 'S' && document.getElementById("uen").value[0] !== 'R') {
+                if (debug) { console.log('(C) 1st letter is incorrect'); }
+                return false;
+            }
+
+            // check that 2nd and 3rd letters are numbers only
+            if (isNaN(document.getElementById("uen").value[1]) || isNaN(document.getElementById("uen").value[2])) {
+                if (debug) { console.log('(C) 2nd and 3rd letter is incorrect'); }
+                return false;
+            }
+
+            // check that 4th letter is an alphabet
+            if (!isNaN(document.getElementById("uen").value[3])) {
+                if (debug) { console.log('(C) 4th letter is not an alphabet'); }
+                return false;
+            }
+
+            // check entity-type indicator
+            var entityTypeMatch = false,
+                entityType = String(document.getElementById("uen").value[3]) + String(document.getElementById("uen").value[4]);
+            for (var i = 0; i < entityTypeIndicator.length; i++) {
+                if (String(entityTypeIndicator[i]) === String(entityType)) {
+                    entityTypeMatch = true;
+                }
+            }
+            if (!entityTypeMatch) {
+                if (debug) { console.log('(C) entity-type indicator is invalid'); }
+                return false;
+            }
+
+            // check that 6th to 9th letters are numbers only
+            if (isNaN(document.getElementById("uen").value[5]) || isNaN(document.getElementById("uen").value[6]) || isNaN(document.getElementById("uen").value[7]) || isNaN(document.getElementById("uen").value[8])) {
+                if (debug) { console.log('(C) 2nd and 3rd letter is incorrect'); }
+                return false;
+            }
+
+            // (C) All other entities which will be issued new UEN (SUCCESS)
+            if (debug) { console.log('valid (C) All other entities which will be issued new UEN'); }
+            button.disabled = false;
+            return true;
+        }
+    }
+
+    return false;
+}
+</script>

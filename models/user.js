@@ -16,14 +16,8 @@ const User = db.define('users', {
     email: {
         type: Sequelize.STRING
     },
-    addressl1: {
+    address: {
         type: Sequelize.STRING
-    },
-    addressl2: {
-        type: Sequelize.STRING
-    },
-    postalcode: {
-        type: Sequelize.INTEGER
     },
     password: {
         type: Sequelize.STRING
@@ -32,6 +26,9 @@ const User = db.define('users', {
         type: Sequelize.STRING
     },
     profilepic: {
+        type: Sequelize.STRING
+    },
+    uen: {
         type: Sequelize.STRING
     }
 });
