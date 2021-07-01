@@ -270,26 +270,26 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
 });
 
 //delete food from menu
-router.get("/delete/:id", (req, res) => {
-  let id = req.params.id;
-  Menu.destroy({ where: { id: id } })
-    .then((n) => {
-      if (n > 0) {
-        console.log(`${n} number of rows have been deleted...`);
-      } else {
-        console.log("Unsuccessful deletion of data...");
-      }
-      alertMessage(
-        res,
-        "success",
-        "Food is successfully deleted from the menu",
-        "fas fa-check-circle",
-        true
-      );
-      res.redirect("/menu/updateMenu");
-    })
-    .catch((err) => console.log(err));
-});
+// router.get("/delete/:id", (req, res) => {
+//   let id = req.params.id;
+//   Menu.destroy({ where: { id: id } })
+//     .then((n) => {
+//       if (n > 0) {
+//         console.log(`${n} number of rows have been deleted...`);
+//       } else {
+//         console.log("Unsuccessful deletion of data...");
+//       }
+//       alertMessage(
+//         res,
+//         "success",
+//         "Food is successfully deleted from the menu",
+//         "fas fa-check-circle",
+//         true
+//       );
+//       res.redirect("/menu/updateMenu");
+//     })
+//     .catch((err) => console.log(err));
+// });
 
 // add specifications
 router.post("/addSpec", urlencodedParser, (req, res) => {
@@ -402,7 +402,7 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
   specifications = specifications === undefined ? "" : specifications.toString();
   console.log(menuImage);
   if (foodPrice < 0) {
-    errors.push({ text: "Please do not enter negative value for price" });
+    errors.push({ text: "Please do not enter negative value for price!" });
   }
   Menu.findAll({
     attributes: { exclude: ["restaurant_id"] },
@@ -422,30 +422,13 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
         if (errors.length > 0) {
           res.json({
             errors,
-            menuImage,
-            foodName,
-            foodType,
-            foodPrice,
-            specifications,
           });
         } else {
           Menu.findOne({ where: { name: foodName } })
             .then((menu) => {
               if (menu) {
-                alertMessage(
-                  res,
-                  "danger",
-                  "Food name is already registered",
-                  "fas fa-ban",
-                  true
-                );
                 res.json({
-                  menuImage,
-                  foodName,
-                  foodType,
-                  foodPrice,
-                  specifications,
-                  menuSpecification,
+                  error: 'Food name is already registered!'
                 });
               } else {
                 let id = 1;
@@ -463,13 +446,6 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                   restaurant_id: id,
                 })
                   .then((menu) => {
-                    alertMessage(
-                      res,
-                      "success",
-                      "Food is successfully added to the menu",
-                      "fas fa-check-circle",
-                      true
-                    );
                     res.json({menu});
                   })
                   .catch((err) => console.log(err));
@@ -478,6 +454,20 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
             .catch((err) => console.log(err));
         }
       }
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/delete/:id", (req, res) => {
+  let id = req.params.id;
+  Menu.destroy({ where: { id: id } })
+    .then((n) => {
+      if (n > 0) {
+        console.log(`${n} number of rows have been deleted...`);
+      } else {
+        console.log("Unsuccessful deletion of data...");
+      }
+      res.json({success: "Food is successfully deleted from the menu"});
     })
     .catch((err) => console.log(err));
 });

@@ -1,5 +1,7 @@
 //edison
 
+const { Sequelize } = require("sequelize/types");
+
 $(function () {
   $(".addOption").on({
     click: function () {
@@ -41,27 +43,26 @@ $(function () {
       }
     },
   });
-
-  // function getdata(){
-  //     $.ajax({
-  //         url:'/task/gettask',
-  //         method:'get',
-  //         dataType:'json',
-  //         success:function(response){
-  //                 if(response.msg=='success'){
-  //                     $('tr.taskrow').remove()
-  //                     if(response.data==undefined || response.data==null || response.data==''){
-  //                         $('.tblData').hide();
-  //                     }else{
-  //                     $('.tblData').show();
-  //                 }
-  //             }
-  //         },
-  //         error:function(response){
-  //             alert('server error');
-  //         }
-  //     });
-  // }
+  function getdata(){
+      $.ajax({
+          url:'/task/gettask',
+          method:'get',
+          dataType:'json',
+          success:function(response){
+                  if(response.msg=='success'){
+                      $('tr.taskrow').remove()
+                      if(response.data==undefined || response.data==null || response.data==''){
+                          $('.tblData').hide();
+                      }else{
+                      $('.tblData').show();
+                  }
+              }
+          },
+          error:function(response){
+              alert('server error');
+          }
+      });
+    }
 });
 
 $("#menuImageUpload").on("change", function () {
@@ -111,6 +112,7 @@ function uploadImg(id) {
     });
 }
 
+// edit food in menu
 function editMenu(id) {
   console.log("opening edit..." + id);
   $.ajax({
@@ -142,35 +144,78 @@ function editMenu(id) {
   });
 }
 
-function addMenu() {
-  console.log("opening add...");
-  let formdata = $("#addMenuForm").serializeArray();
-  $.ajax({
-      url: "/menu/addMenu",
-      type: "POST",
-      data: formdata,
-      success: (data) => {
-        if (data.menu) {
-          console.log(data.menu.name+" successfully updated");
-          let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
-          console.log(last)
-          $(".foodRow tr").last().after("<tr></tr>");
-          $(".foodRow tr").last().append($(".foodRow tr").first().html());
-          $(".foodRow tr").last().find('td').eq(1).text(last + 1);
-          $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
-          $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
-          $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
-          $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
-          $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
-          $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
-          $(".foodRow tr").last().find('td').eq(8).find("button").attr("data-bs-target", "#delete("+data.menu.id+")");
-          $("#close").trigger("click");
+// Add new food to menu
+$(function() {
+  $("#addMenuForm").on('submit', (e) => {
+    e.preventDefault();
+    console.log("opening add...");
+    let formdata = $("#addMenuForm").serializeArray();
+    $.ajax({
+        url: "/menu/addMenu",
+        type: "POST",
+        data: formdata,
+        success: (data) => {
+          if ('menu' in data) {
+            console.log(data.menu.name+" successfully updated");
+            let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
+            console.log(last);
+            $(".foodRow tr").last().after("<tr></tr>");
+            $(".foodRow tr").last().append($(".foodRow tr").first().html());
+            $(".foodRow tr").last().find('td').eq(1).text(last + 1);
+            $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
+            $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
+            $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
+            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
+            $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
+            $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
+            $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
+            $("#close").trigger("click");
+            $("#error").hide();
+          } else if ('errors' in data) {
+            // data.errors.each((i, item) => {
+            //   var errorHtml = `<div class="alert alert-danger">${item.text}</div>`;
+            // });
+            // $(".row").first().before(errorHtml);
+            console.log(data.errors)
+            $("#addMenu1 #error").text(data.errors[0].text);
+            $("#addMenu1 #error").show();
+            // $(".addMenu1 #menuImage").val(data.menuImage);
+            // $(".addMenu1 #foodName").val(data.foodName);
+            // $(".addMenu1 #foodType").val(data.foodType);
+            // $(".addMenu1 #foodPrice").val(data.foodPrice);
+            // $(".addMenu1 .specifications").each(function(i, item){
+            //   if (specifications.includes($(".addMenu1 .specifications").eq(i).find("input").val())) {
+            //     $(".addMenu1 .specifications").eq(i).find("input").prop('checked', true);
+            //   }
+            // })
+          } else {
+            $("#addMenu1 #error").hide();
+            $("#addMenu1 #error").text(data.error);
+            $("#addMenu1 #error").show();
+          }
         }
-      }
-  });
+    });
+  })
+  
+})
+
+// delete menu
+function triggerDelete(id) {
+  console.log("opening delete..." + id);
+  $("#delete button").last().attr("onclick",`deleteMenu(${id})`);
 }
 
-// function getMenu() {
-
-// }
+function deleteMenu(id) {
+  console.log("deleting..." + id);
+  $.ajax({
+      url: "/menu/delete/"+id,
+      type: "GET",
+      dataType: 'json',
+      success: (data) => {
+        $(".popUpDelete button").first().trigger('click');
+        $(".foodRow tr").last().remove();
+        $(".successMsg").text(data.success);
+      },
+  });
+}
 

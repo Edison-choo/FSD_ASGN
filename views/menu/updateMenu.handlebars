@@ -2,7 +2,8 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-       <div class="menuNav">
+        <div class="alert alert-success successMsg" style="display: none;"></div>
+        <div class="menuNav">
           <button class="btn" style="cursor: not-allowed;">Table View (Edit)</button>
           <button class="btn" onclick="window.location.href='/menu'">User View</button>
         </div>
@@ -43,7 +44,7 @@
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </td>
-                    <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{this.id}}"></button></td>
+                    <td><button onclick="triggerDelete({{id}})" type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete"></button></td>
                     <td></td>
                 </tr>
               {{/each}}
@@ -200,6 +201,7 @@
                     </svg></a></label>
                     </div>
                     {{/each}}
+                      <div class="font-weight-bold text-danger small" id="error" style="display:none; width: 250px; font-size:0.8em;margin-top:10px;"></div>
                     {{!-- <div class="form-check specification">
                       <input class="form-check-input" name='temperature' type="checkbox" {{#if temperature}}checked{{/if}} value="true" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Temperature <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
@@ -218,7 +220,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="addMenu()" class="btn btn-dark">Done</button>
+        <button type="submit" class="btn btn-dark">Done</button>
       </div>
       </form>
     </div>
@@ -296,73 +298,6 @@
   </div>
 </div>
 
-{{!-- {{#each menus}} --}}
-{{!-- <div class="modal fade modalMenu" id="edit{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdrop1Label">Update New Food</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="/menu/update/{{this.id}}" method="POST">
-      <div class="modal-body">
-        <div class="">
-            <div class="popUpImage">
-              <div class="menuImage">
-              <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
-              </div>
-              <input onchange="uploadImg({{this.id}})" type="file" name="menuImageUpload" id="menuImageUpload{{id}}" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
-              <input type="hidden" name="menuImage" id="menuImage{{id}}" value="{{this.image}}">
-              <div class="font-weight-bold text-danger small" id="menuImageErr{{id}}" style="display:none"></div>
-            </div>
-            <div class="popUpContent">
-                
-                    <div class="popUpContentTitle">Food Details</div>
-
-                  <div class="form-outline">
-                      <input type="text" id="foodNo" name='foodId' value="{{this.foodNo}}" class="form-control" required/>
-                      <label class="form-label" for="foodId">Food ID</label>
-                    </div>
-                    <div class="form-outline">
-                      <input type="text" id="foodName" name='foodName' value="{{this.name}}" class="form-control" required/>
-                      <label class="form-label" for="foodName">Food Name</label>
-                    </div>
-                    <div class="form-outline">
-                      <input type="text" id="foodType" name='foodType' value="{{this.type}}" class="form-control" required/>
-                      <label class="form-label" for="foodType">Food Type</label>
-                    </div>
-                    <div class="form-outline">
-                      <input type="number" id="foodPrice" name='foodPrice' value="{{#distanceFixed this.price}}{{/distanceFixed}}" class="form-control" required/>
-                      <label class="form-label" for="foodPrice">Food Price</label>
-                    </div>
-
-                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
-                    {{#each ../menuSpec}}
-                    <div class="form-check specification">
-                      <input class="form-check-input" name="specifications" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="{{@key}}" id="flexCheckDefault{{@index}}"/>
-                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
-                    </div>
-                    {{/each}}
-                    {{!-- <div class="form-check specification">
-                      <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="true" id="flexCheckDefault2"/>
-                      <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
-                    </div>
-                    <div class="form-check specification">
-                      <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault3"/>
-                      <label class="form-check-label" for="flexCheckDefault3">Portion</label>
-                    </div>--}}
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-dark">Done</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div> --}}
-{{!-- {{/each}} --}}
-
 <div class="modal fade modalMenu" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -428,21 +363,21 @@
   </div>
 </div>
 
-{{#each menus}}
-<div class="modal fade popUpDelete" id="delete{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+
+<div class="modal fade popUpDelete" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-body">
         <div style="clear: both; text-align:center; margin: 20px auto 10px;">
             <div>Are you sure you want to delete the item?</div>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
-            <button type="button" class="btn btn-danger" onclick="location.href='/menu/delete/{{this.id}}';">Delete</button>    
+            <button id="deleteMenu" type="button" class="btn btn-danger">Delete</button>    
         </div>
       </div>
     </div>
   </div>
 </div>
-{{/each}}
+
 
 {{#each menuSpec}}
 <div class="modal fade popUpDelete" id="delete{{@key}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">

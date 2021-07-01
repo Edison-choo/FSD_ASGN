@@ -27,13 +27,10 @@ const userRoute = require("./routes/User");
 const staffResRoute = require("./routes/staffRestaurant");
 const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
-<<<<<<< Updated upstream
 const bookingStaffRoute = require("./routes/bookingStaff")
     // Bring in database connection
-=======
 const {formatDate} = require('./helpers/hbs');
 // Bring in database connection
->>>>>>> Stashed changes
 const DB = require("./config/DBConnection");
 
 const MySQLStore = require("express-mysql-session");
@@ -63,21 +60,14 @@ authenticate.localStrategy(passport);
  * 3. 'defaultLayout' specifies the main.handlebars file under views/layouts as the main template
  *
  * */
-<<<<<<< Updated upstream
-app.engine(
-    "handlebars",
-    exphbs({
-        defaultLayout: "main", // Specify default template views/layout/main.handlebar
-    })
-);
-=======
+
 app.engine('handlebars', exphbs({
 	helpers: {
 	formatDate: formatDate
 	},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar
-	}));
->>>>>>> Stashed changes
+}));
+
 app.set("view engine", "handlebars");
 
 // Body parser middleware to parse HTTP body in order to read HTTP data
