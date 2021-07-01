@@ -32,6 +32,8 @@ router.get('/updateForm/:email/:res_name', (req, res) => {
         console.log(booking);
         res.render('bookingInterface/updateForm', { booking });
     })
+})
+
 
 router.get('/bookingDetailsEmailInsert', (req, res) => {
     res.render('bookingInterface/bookingDetailsEmailInsert');
