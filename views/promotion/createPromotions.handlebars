@@ -128,8 +128,8 @@
             <div class="col-md-10">
                 <div class="card-body">
                     <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">{{discount}}%</c> </h4>
-                    <p class="card-text" style="color: white;">Start Date: {{startdate}}</p>
-                    <p class="card-text" style="color: white;">End Date: {{enddate}}</p>
+                    <p class="card-text" style="color: white;">Start Date: {{formatDate startdate 'DD/MM/YYYY'}}</p>
+                    <p class="card-text" style="color: white;">End Date: {{formatDate enddate 'DD/MM/YYYY'}}</p>
                     <p class="card-text" style="color: white;">Details: {{details}}</p>
                 <div class="buttons">
                     <div class="action_btn">
@@ -164,12 +164,12 @@
             </tr>
             <tr>
                 <td align="right"><label for="">Start Date: </label></td>
-                <td><input type="date" name="startdate" value="{{startdate}}"></td>
+                <td><input type="date" name="startdate" value="{{formatDate startdate 'DD/MM/YYYY'}}"></td>
                 <td></td>
             </tr>
             <tr>
                 <td align="right"><label for="">End Date:</label></td>
-                <td><input type="date" name="enddate" value="{{enddate}}"></td>
+                <td><input type="date" name="enddate" value="{{formatDate enddate 'DD/MM/YYYY'}}"></td>
                 <td></td>
             </tr>
             <tr>

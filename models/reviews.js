@@ -14,11 +14,11 @@ const Reviews = db.define('reviews', {
     average: {
         type: Sequelize.INTEGER
     },
-    email: {
-        type: Sequelize.STRING
-    },
     comments: {
         type: Sequelize. STRING
+    },
+    userid:{
+        type: Sequelize.INTEGER
     }
 });
 

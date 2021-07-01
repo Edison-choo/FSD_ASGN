@@ -10,7 +10,7 @@ const ensureAuthenticated = require('../helpers/auth');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', (req, res) => {
-    Promotions.findAll(
+    Promotions.findAll( {where: {staffid: req.user.id}}
     ).then((promotions) => {
         console.log(promotions)
         res.render('promotion/createPromotions', {promotions: promotions})
@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
 
-    let{name, startdate, enddate, discount, details, banner} = req.body;
+    let{name, startdate, enddate, discount, details, banner, staffid} = req.body;
     // startdate = moment(req.body.startdate, "DD/MM/YYYY");
     // enddate = moment(req.body.enddate, "DD/MM/YYYY");
 
@@ -57,7 +57,8 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
                     enddate: enddate,
                     discount: discount,
                     details: details,
-                    banner: banner
+                    banner: banner,
+                    staffid: req.user.id
                 }).then(promotions =>{
                     res.redirect('/createPromotions');
                 })
