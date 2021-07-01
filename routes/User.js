@@ -121,9 +121,9 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 			res.render('user/registerOwner', {error: user.email + ' already registered'});
 			} else {
  			// Create new user record
-				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:req.body.password, uen: req.body.uen, cust_type:"staff"})
+				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:req.body.password, uen: req.body.uen, cust_type:"staff"}),
+				Restaurant.create({email:email, address:address})
 				.then(
-					Restaurant.create({email:email, address:address}),
 					user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
