@@ -6,7 +6,6 @@
     .card {
         margin: 15px;
         background-color: #35322d;
-        border-radius: 25px;
         height: 450px;
         width: 18rem;
         display: inline-table;
@@ -24,13 +23,15 @@
         color: #35322d;
     }
 
-    .w-100 {
-        border-radius: 25px;
-    }
-
     h4 {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-weight: bold;
+    }
+    .defaultSize{
+        width: 18rem;
+    }
+    .titleCard{
+        font-size: 21px;
     }
 </style>
 <!-- Sort By Buttons -->
@@ -46,11 +47,11 @@
 <!-- Cards -->
 {{#each restaurant}}
 <a href="restaurant/restaurant_1/{{this.id}}">
-    <div class="card">
+    <div class="card defaultSize" style="width: 300px; height:400px;">
         <img src="{{this.image}}"
-            alt="..." class="img-fluid center w-100 hover-shadow" />
+            alt="..." class="card-img-top " style="width: 300px; height:300px;" />
         <div class="card-body">
-            <h4 class="card-title">{{this.res_name}}</h4>
+            <h4 class="card-title titleCard">{{this.res_name}}</h4>
             <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
         </div>
     </div>
