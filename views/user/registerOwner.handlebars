@@ -1,10 +1,10 @@
-<div class="regForm">
+<div class="FDefaultTab regForm">
     <h5>Register (Owner)</h5>
   <form method="POST" action="/user/registeringOwner">
     <!-- Restaurant Name input -->
     <div class="form-outline mb-4">
       <input type="text" id="restname" class="form-control" name="restname" required />
-      <label class="form-label" for="restname">Restaurant Name</label>
+      <label class="form-label" for="restname">Restaurant's Owner Name</label>
     </div>
 
     <!-- Email input -->
@@ -40,12 +40,12 @@
     <!-- UEN input -->
     <div class="form-outline mb-4">
       <input type="text" id="uen" class="form-control" name="uen" required />
-      <label class="form-label" for="uen">UEN</label>
-      <p style="color: red; font-size: 13px">*Enter valid UEN to proceed</p>
+      <label class="form-label" for="uen">Restaurant UEN</label>
+      <p style="color: red; font-size: 13px" id="errMsg">*Enter valid UEN to proceed</p>
     </div>
 
     <!-- Submit button -->
-    <button type="submit" class="regBtn btn btn-primary btn-lg btn-block" id="regBtn">Sign Up</button>
+    <button type="submit" class="FDefaultButton regBtn btn btn-primary btn-lg btn-block" id="regBtn">Sign Up</button>
 
     <!-- Register buttons -->
     <div class="text-center">
@@ -90,6 +90,7 @@
         // (A) Businesses registered with ACRA (SUCCESS)
         if (debug) { console.log('valid (A) Businesses registered with ACRA'); }
         button.disabled = false;
+        document.getElementById("errMsg").style.display = "none";
         return true;
     }
     else if (document.getElementById("uen").value.length === 10) {
@@ -154,6 +155,7 @@
             // (C) All other entities which will be issued new UEN (SUCCESS)
             if (debug) { console.log('valid (C) All other entities which will be issued new UEN'); }
             button.disabled = false;
+            document.getElementById("errMsg").style.display = "none";
             return true;
         }
     }

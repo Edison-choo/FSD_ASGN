@@ -12,13 +12,18 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto " href="/">Home</a></li>
-          <li><a class="nav-link scrollto" href="/bookingInterface/bookingDetailsEmailInsert">Booking Details</a></li>
           {{#if user}}
-          <li><a class="nav-link scrollto" href="/user/profile">{{user.fname}}</a></li>
+          {{#ifEquals user.cust_type "customer"}}
+          <li><a class="nav-link scrollto " href="/restaurant">Restaurant</a></li>
+          {{/ifEquals}}
+          {{#ifEquals user.cust_type "staff"}}
+          <li><a class="nav-link scrollto " href="/staffRestaurant/seatManager">Seat Manager</a></li>
+          {{/ifEquals}}
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="/bookingInterface/bookingDetailsEmailInsert">Notification<i class="fas fa-bell"></i></a></li>
+          {{#if user}}
           <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li>
-          {{else}}
-          <li><a class="nav-link scrollto" href="/user/login">Login</a></li>
-          <li><a class="nav-link scrollto" href="/user/register">Register</a></li>
           {{/if}}
           {{!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -40,8 +45,12 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-
-      <a href="/restaurant" class="book-a-table-btn scrollto">Book a table</a>
-
+    {{#if user}}
+          <a href="/user/profile" class="book-a-table-btn scrollto">{{user.fname}}</a>
+          
+          
+    {{else}}
+      <a href="/user/login" class="book-a-table-btn scrollto">Login</a>
+    {{/if}}
     </div>
   </header><!-- End Header -->
