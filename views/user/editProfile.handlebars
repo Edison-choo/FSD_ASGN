@@ -39,22 +39,10 @@
     </div>
 
     {{#ifEquals user.cust_type "staff"}}
-    <!-- Address Line 1 input -->
+    <!-- Address input -->
     <div class="form-outline mb-4">
-      <input type="text" id="addressl1" class="form-control" value="{{user.addressl1}}" name="addressl1" required />
-      <label class="form-label" for="addressl1">Address Line 1</label>
-    </div>
-
-    <!-- Address Line 2 input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="addressl2" class="form-control" value="{{user.addressl2}}" name="addressl2" />
-      <label class="form-label" for="addressl2">Address Line 2</label>
-    </div>
-
-    <!-- Postal Code input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="postalcode" class="form-control" value="{{user.postalcode}}" name="postalcode" required />
-      <label class="form-label" for="postalcode">Postal Code</label>
+      <input type="text" id="address" class="form-control" value="{{user.address}}" name="address" required />
+      <label class="form-label" for="addressl1">Address</label>
     </div>
     {{/ifEquals}}
 

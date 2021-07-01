@@ -229,7 +229,7 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	let errors = [];
 	let success_msg = '';
-	let {fname, lname, email, phone, passport, cpassword, addressl1, addressl2, postalcode, restname} = req.body;
+	let {fname, lname, email, phone, passport, cpassword, address, restname} = req.body;
 
 	User.findOne({ where: {id: req.params.id} })
 	.then(user => {
@@ -265,12 +265,6 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 		errors.push({"text": "Phone number must have at least 8 digit"});
 	}
 
-	if(req.user.cust_type == "staff"){
-		if(String(req.user.postalcode).length != 6){
-			errors.push({"text": "Please enter valid postal code"});
-		}
-	}
-
 	if(errors.length == 0){
 		if(req.user.cust_type == "customer"){
 			User.update({
@@ -294,9 +288,7 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 				fname: req.body.restname,
 				phone: req.body.phone,
 				email: req.body.email,
-				addressl1: req.body.addressl1,
-				addressl2: req.body.addressl2,
-				postalcode: req.body.postalcode
+				address: req.body.address
 			},
 			{where:{id: req.params.id}}
 			)

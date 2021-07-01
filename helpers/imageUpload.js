@@ -32,6 +32,15 @@ const userStorage = multer.diskStorage({
   },
 });
 
+const userStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "./public/uploads/userProfileImg/" + req.user.id + "/");
+  },
+  filename: (req, file, callback) => {
+    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 // Initialise Upload
 const menuUpload = multer({
   storage: menuStorage,
