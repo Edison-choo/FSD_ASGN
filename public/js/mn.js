@@ -144,34 +144,30 @@ function editMenu(id) {
 
 function addMenu() {
   console.log("opening add...");
-  let menuImage = $("#addMenu1 #menuImageUpload").val();
-  let foodName = $("#addMenu1 #foodName").val();
-  let foodType = $("#addMenu1 #foodType").val();
-  let foodPrice = $("#addMenu1 #foodPrice").val();
-  let specifications = [];
-  console.log($("#addMenu1 .specification"));
-  $("#addMenu1 .specification").each(function (i, item){
-    if ($("#addMenu1 .specification").eq(i).find('input').is(':checked')) {
-      specifications.push($("#addMenu1 .specification").eq(i).find('input').val());
-    }
+  let formdata = $("#addMenuForm").serializeArray();
+  $.ajax({
+      url: "/menu/addMenu",
+      type: "POST",
+      data: formdata,
+      success: (data) => {
+        if (data.menu) {
+          console.log(data.menu.name+" successfully updated");
+          let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
+          console.log(last)
+          $(".foodRow tr").last().after("<tr></tr>");
+          $(".foodRow tr").last().append($(".foodRow tr").first().html());
+          $(".foodRow tr").last().find('td').eq(1).text(last + 1);
+          $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
+          $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
+          $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
+          $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
+          $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
+          $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
+          $(".foodRow tr").last().find('td').eq(8).find("button").attr("data-bs-target", "#delete("+data.menu.id+")");
+          $("#close").trigger("click");
+        }
+      }
   });
-  specifications = specifications == [] ? undefined : specifications;
-  let formdata = new FormData();
-  formdata.append("menuImage", menuImage);
-  formdata.append("foodName", foodName);
-  formdata.append("foodType", foodType);
-  formdata.append("foodPrice", foodPrice);
-  formdata.append("specifications", specifications);
-  
-  // $.ajax({
-  //     url: "/menu/addMenu",
-  //     type: "POST",
-  //     data: formdata,
-  //     contentType: false,
-  //     processData: false,
-  //     success: (data) => {
-
-  // });
 }
 
 // function getMenu() {

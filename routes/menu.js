@@ -422,7 +422,6 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
         if (errors.length > 0) {
           res.json({
             errors,
-            menus,
             menuImage,
             foodName,
             foodType,
@@ -441,7 +440,6 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                   true
                 );
                 res.json({
-                  menus: menus,
                   menuImage,
                   foodName,
                   foodType,
@@ -472,7 +470,7 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                       "fas fa-check-circle",
                       true
                     );
-                    res.json({menus});
+                    res.json({menu});
                   })
                   .catch((err) => console.log(err));
               }

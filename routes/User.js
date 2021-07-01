@@ -56,11 +56,9 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 		errors.push({"text": "Phone number must have at least 8 digit"});
 	}
 
-	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(password, salt, function(err, hash) {
-			password = hash;
-		});
-	});
+	
+
+
 
     if(errors.length == 0){
         User.findOne({ where: {email: req.body.email} })
@@ -70,13 +68,16 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 			res.render('user/register', {error: user.email + ' already registered', fname, lname, phone, email, password, cpassword });
 			} else {
  			// Create new user record
-				User.create({fname:fname, lname:lname, phone:phone, email:email, password:password, cust_type:"customer"})
+			 bcrypt.genSalt(10, function(err, salt) {
+				bcrypt.hash(password, salt, function(err, hash) {
+				User.create({fname:fname, lname:lname, phone:phone, email:email, password:hash, cust_type:"customer"})
 				.then(user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
 				})
 				.catch(err => console.log(err));
-				
+				})
+			})
 			}
 		})
     }else{
@@ -106,12 +107,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 	if(String(req.body.phone).length != 8){
 		errors.push({"text": "Phone number must have at least 8 digit"});
 	}
-
-	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(req.body.password, salt, function(err, hash) {
-			req.body.password = hash;
-		});
-	});
+		
 
     if(errors.length == 0){
         User.findOne({ where: {email: req.body.email} })
@@ -121,7 +117,9 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 			res.render('user/registerOwner', {error: user.email + ' already registered'});
 			} else {
  			// Create new user record
-				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:req.body.password, uen: req.body.uen, cust_type:"staff"}),
+			 bcrypt.genSalt(10, function(err, salt) {
+				bcrypt.hash(req.body.password, salt, function(err, hash) {
+				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:hash, uen: req.body.uen, cust_type:"staff"}),
 				Restaurant.create({email:email, address:address})
 				.then(
 					user => {
@@ -129,6 +127,8 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 					res.render('user/login', {success_msg:success_msg});
 				})
 				.catch(err => console.log(err));
+				});
+			});
 			}
 		})
     }else{

@@ -35,9 +35,6 @@
                       
                       <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">
                         {{#if ../../session.cart}}{{#each ../../session.cart}}
-                    {{#ifEquals this.id ../this.id}}
-                    New Order
-                    {{/ifEquals}}
                     {{/each}}
                     {{else}}
                     Order
