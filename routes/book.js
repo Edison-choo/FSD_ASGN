@@ -58,6 +58,7 @@ router.get("/menuBook", (req, res) => {
 router.get("/foodCart", (req, res) => {
   let sess = req.session;
   let userId = req.user ? req.user.id : 0;
+  let tempCart = undefined;
   if (sess.cart) {
     tempCart = sess.cart.filter((food) => food.userId === userId);
   }

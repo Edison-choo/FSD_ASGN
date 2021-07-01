@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
 
 router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
     let errors = [];
-
     let{FoodOption, CustOption, EnvOption, email, comments} = req.body;
+    let Average = (parseInt(FoodOption) + parseInt(CustOption) + parseInt(EnvOption))/ 3
     console.log(FoodOption);
     console.log(CustOption);
     if(errors.length > 0){
@@ -24,7 +24,8 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
             FoodOption,
             CustOption, 
             EnvOption, 
-            comments
+            Average,
+            comments,
         });
     } else{
         Reviews.findOne({ where: {email: req.body.email} })
@@ -36,6 +37,7 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
                     FoodOption,
                     CustOption,
                     EnvOption,
+                    Average,
                     comments
                 });
             } else{
@@ -43,6 +45,7 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
                     food: FoodOption,
                     service: CustOption,
                     environment: EnvOption,
+                    average: Average,
                     email: email,
                     comments: comments
                 }).then(reviews => {

@@ -5,16 +5,10 @@ const Restaurants = db.define("restaurants", {
   email: {
     type: Sequelize.STRING,
   },
-  comp_name: {
-    type: Sequelize.STRING,
-  },
   address: {
     type: Sequelize.STRING,
   },
   comp_email: {
-    type: Sequelize.STRING,
-  },
-  uen: {
     type: Sequelize.STRING,
   },
   res_name: {

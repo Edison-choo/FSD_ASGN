@@ -1626,3 +1626,34 @@ section {
   font-weight: bold;
   font-size:large;
 }
+
+/* Integrated color */
+.FDefaultButton {
+  border: 3px solid #ffb03b !important;
+  background-color: #35322d !important;
+  color: #ffb03b !important;
+}
+.FDefaultButton:hover {
+  border: 3px solid #35322d !important;
+  background-color: #ffb03b !important;
+  color: #35322d !important;
+}
+
+.FDefaultButtonRed {
+  background-color: #894242 !important;
+}
+
+.FDefaultButtonBlue {
+  background-color: #3b5998 !important;
+}
+
+.FDefaultTab {
+  box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
+  border-radius: 6px;
+}
+
+.FDefaultTabDark {
+  background-color: #35322d;
+  box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
+  border-radius: 6px;
+}

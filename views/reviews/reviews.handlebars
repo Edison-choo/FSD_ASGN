@@ -16,7 +16,7 @@
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
-                    | 12 Ratings
+                    | {{reviews.length}} Ratings 
                 </div>
                 <hr>
                 <table class="table table-borderless">
@@ -59,7 +59,7 @@
         {{#each reviews}}
         <tr>
             <td>
-                {{food}}
+                {{average}}
             </td>
             <td>
                 <p>{{comments}}</p>
