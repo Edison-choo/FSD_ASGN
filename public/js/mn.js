@@ -2,7 +2,7 @@
 
 const { Sequelize } = require("sequelize/types");
 
-$(function () {
+$(function() {
   $(".addOption").on({
     click: function () {
       $("#hidden").css({
@@ -110,7 +110,7 @@ function uploadImg(id) {
         }
         },
     });
-}
+};
 
 // edit food in menu
 function editMenu(id) {
@@ -142,18 +142,24 @@ function editMenu(id) {
       })
       },
   });
-}
+};
 
 // Add new food to menu
-$(function() {
-  $("#addMenuForm").on('submit', (e) => {
-    e.preventDefault();
-    console.log("opening add...");
-    let formdata = $("#addMenuForm").serializeArray();
+function addMenu() {
+  console.log("opening add...");
+  let formdata = $("#addMenuForm").serializeArray();
+// $(function() {
+//   $("#addMenuForm").on('submit', function (e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     e.stopImmediatePropagation();
+//     console.log("opening add...");
+//     let formdata = $("#addMenuForm").serializeArray();
     $.ajax({
         url: "/menu/addMenu",
         type: "POST",
         data: formdata,
+        dataType: 'json',
         success: (data) => {
           if ('menu' in data) {
             console.log(data.menu.name+" successfully updated");
@@ -195,15 +201,15 @@ $(function() {
           }
         }
     });
-  })
+  // })
   
-})
+};
 
 // delete menu
 function triggerDelete(id) {
   console.log("opening delete..." + id);
   $("#delete button").last().attr("onclick",`deleteMenu(${id})`);
-}
+};
 
 function deleteMenu(id) {
   console.log("deleting..." + id);
@@ -215,7 +221,8 @@ function deleteMenu(id) {
         $(".popUpDelete button").first().trigger('click');
         $(".foodRow tr").last().remove();
         $(".successMsg").text(data.success);
+        $(".successMsg").show()
       },
   });
-}
+};
 

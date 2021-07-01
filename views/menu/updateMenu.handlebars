@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -155,7 +154,7 @@
         <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
         <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="addMenuForm" action="/menu/addMenu" method="POST">
+      <form id="addMenuForm" action="" method="post">
       <div class="modal-body">
         <div class="">
             <div class="popUpImage">
@@ -201,7 +200,7 @@
                     </svg></a></label>
                     </div>
                     {{/each}}
-                      <div class="font-weight-bold text-danger small" id="error" style="display:none; width: 250px; font-size:0.8em;margin-top:10px;"></div>
+                    <div class="font-weight-bold text-danger small" id="error" style="display:none; width: 250px; font-size:0.8em;margin-top:10px;"></div>
                     {{!-- <div class="form-check specification">
                       <input class="form-check-input" name='temperature' type="checkbox" {{#if temperature}}checked{{/if}} value="true" id="flexCheckDefault2"/>
                       <label class="form-check-label" for="flexCheckDefault2">Temperature <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
@@ -220,7 +219,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-dark">Done</button>
+        <button type="button" onclick="addMenu()" class="btn btn-dark">Done</button>
       </div>
       </form>
     </div>

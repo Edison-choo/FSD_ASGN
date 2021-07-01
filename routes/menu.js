@@ -422,11 +422,23 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
         if (errors.length > 0) {
           res.json({
             errors,
+            menuImage,
+            foodName,
+            foodType,
+            foodPrice,
+            specifications,
           });
         } else {
           Menu.findOne({ where: { name: foodName } })
             .then((menu) => {
               if (menu) {
+                alertMessage(
+                  res,
+                  "danger",
+                  "Food name is already registered",
+                  "fas fa-ban",
+                  true
+                );
                 res.json({
                   error: 'Food name is already registered!'
                 });
@@ -446,6 +458,13 @@ router.post("/addMenu", urlencodedParser, (req, res) => {
                   restaurant_id: id,
                 })
                   .then((menu) => {
+                    alertMessage(
+                      res,
+                      "success",
+                      "Food is successfully added to the menu",
+                      "fas fa-check-circle",
+                      true
+                    );
                     res.json({menu});
                   })
                   .catch((err) => console.log(err));
