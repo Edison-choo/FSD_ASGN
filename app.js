@@ -27,7 +27,8 @@ const userRoute = require("./routes/User");
 const staffResRoute = require("./routes/staffRestaurant");
 const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
-// Bring in database connection
+const bookingStaffRoute = require("./routes/bookingStaff")
+    // Bring in database connection
 const DB = require("./config/DBConnection");
 
 const MySQLStore = require("express-mysql-session");
@@ -58,27 +59,27 @@ authenticate.localStrategy(passport);
  *
  * */
 app.engine(
-  "handlebars",
-  exphbs({
-    defaultLayout: "main", // Specify default template views/layout/main.handlebar
-  })
+    "handlebars",
+    exphbs({
+        defaultLayout: "main", // Specify default template views/layout/main.handlebar
+    })
 );
 app.set("view engine", "handlebars");
 
 // Body parser middleware to parse HTTP body in order to read HTTP data
 app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
+    bodyParser.urlencoded({
+        extended: false,
+    })
 );
 app.use(bodyParser.json());
 
 // Creates static folder for publicly accessible HTML, CSS and Javascript files
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
-  cookieSession({
-    keys: ["key1", "key2"],
-  })
+    cookieSession({
+        keys: ["key1", "key2"],
+    })
 );
 
 // Method override middleware to use other HTTP methods such as PUT and DELETE
@@ -89,24 +90,24 @@ app.use(cookieParser());
 
 // To store session information. By default it is stored as a cookie on browser
 app.use(
-  session({
-    key: "foodecent_session",
-    secret: "foodecent",
-    store: new MySQLStore({
-      host: db.host,
-      port: 3306,
-      user: db.username,
-      password: db.password,
-      database: db.database,
-      clearExpired: true,
-      // How frequently expired sessions will be cleared; milliseconds:
-      checkExpirationInterval: 900000,
-      // The maximum age of a valid session; milliseconds:
-      expiration: 900000,
-    }),
-    resave: false,
-    saveUninitialized: false,
-  })
+    session({
+        key: "foodecent_session",
+        secret: "foodecent",
+        store: new MySQLStore({
+            host: db.host,
+            port: 3306,
+            user: db.username,
+            password: db.password,
+            database: db.database,
+            clearExpired: true,
+            // How frequently expired sessions will be cleared; milliseconds:
+            checkExpirationInterval: 900000,
+            // The maximum age of a valid session; milliseconds:
+            expiration: 900000,
+        }),
+        resave: false,
+        saveUninitialized: false,
+    })
 );
 
 app.use(passport.initialize());
@@ -117,13 +118,13 @@ app.use(FlashMessenger.middleware);
 
 app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.error_msg = req.flash("error_msg");
-  res.locals.error = req.flash("error");
-  res.locals.user = req.user || null;
-  res.locals.session = req.session;
-  next();
+app.use(function(req, res, next) {
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    res.locals.user = req.user || null;
+    res.locals.session = req.session;
+    next();
 });
 
 app.use("/", mainRoute);
@@ -136,14 +137,14 @@ app.use("/user", userRoute);
 app.use("/staffRestaurant", staffResRoute);
 app.use("/createPromotions", createPromotions);
 app.use("/bookingInterface", bookingInterfaceRoute);
-
+app.use("/bookingStaff", bookingStaffRoute)
 
 
 app.use(express.json());
 
 // Place to define global variables - not used in practical 1
-app.use(function (req, res, next) {
-  next();
+app.use(function(req, res, next) {
+    next();
 });
 
 // Use Routes
@@ -162,81 +163,77 @@ const port = 5000;
 
 // Starts the server and listen to port 5000
 app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`);
+    console.log(`Server started on http://localhost:${port}`);
 });
 
 
 //handlebars helper
-Handlebars.registerHelper("ifEquals", function (a, b, options) {
-  if (a == b) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
+Handlebars.registerHelper("ifEquals", function(a, b, options) {
+    if (a == b) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 });
 
-Handlebars.registerHelper("ifEqualsUser", function (a, b, options) {
-  b = b ? b.id : 0;
-  if (a == b) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
+Handlebars.registerHelper("ifEqualsUser", function(a, b, options) {
+    b = b ? b.id : 0;
+    if (a == b) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 });
 
-Handlebars.registerHelper("ifIn", function (elem, list, options) {
-  if (list.indexOf(elem) > -1) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
+Handlebars.registerHelper("ifIn", function(elem, list, options) {
+    if (list.indexOf(elem) > -1) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 });
 
-Handlebars.registerHelper("checklength", function (v1, v2, options) {
-  "use strict";
-  if (v1.length > v2) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
+Handlebars.registerHelper("checklength", function(v1, v2, options) {
+    "use strict";
+    if (v1.length > v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 });
 
-Handlebars.registerHelper("distanceFixed", function (distance) {
-  if (Number.isInteger(distance)) {
-    return distance.toFixed(2);
-  } else if (Number.isFinite(distance)) {
-    return distance.toFixed(2);
-  }
+Handlebars.registerHelper("distanceFixed", function(distance) {
+    if (Number.isInteger(distance)) {
+        return distance.toFixed(2);
+    } else if (Number.isFinite(distance)) {
+        return distance.toFixed(2);
+    }
 });
 
-Handlebars.registerHelper("distanceFixedCost", function (distance, additional, quantity) {
-  if (Number.isInteger(distance)) {
-    return ((distance+additional)*quantity).toFixed(2);
-  } else if (Number.isFinite(distance)) {
-    return ((distance+additional)*quantity).toFixed(2);
-  }
+Handlebars.registerHelper("distanceFixedCost", function(distance, additional, quantity) {
+    if (Number.isInteger(distance)) {
+        return ((distance + additional) * quantity).toFixed(2);
+    } else if (Number.isFinite(distance)) {
+        return ((distance + additional) * quantity).toFixed(2);
+    }
 });
 
-Handlebars.registerHelper("inc", function (value, options) {
-  return parseInt(value) + 1;
+Handlebars.registerHelper("inc", function(value, options) {
+    return parseInt(value) + 1;
 });
 
 let orderNum = 0
-Handlebars.registerHelper("num", function (options) {
-  orderNum ++;
-  return orderNum;
+Handlebars.registerHelper("num", function(options) {
+    orderNum++;
+    return orderNum;
 });
 
-Handlebars.registerHelper("idIfIn", function (elem, list, options) {
-  if (list) {
-    list = list.map((x) => x.id);
-    if (list.indexOf(elem.toString()) > -1) {
-      return options.fn(this);
+Handlebars.registerHelper("idIfIn", function(elem, list, options) {
+    if (list) {
+        list = list.map((x) => x.id);
+        if (list.indexOf(elem.toString()) > -1) {
+            return options.fn(this);
+        }
     }
-  }
-  return options.inverse(this);
+    return options.inverse(this);
 });
 
 Handlebars.registerHelper("len", function(dict) {
-  return Object.keys(dict).length;
+    return Object.keys(dict).length;
 });
-
-
-
-

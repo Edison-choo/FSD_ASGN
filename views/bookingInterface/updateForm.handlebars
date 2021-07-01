@@ -40,7 +40,7 @@
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
             <h5 style="padding-left: 3px;">Select Date:</h5>
-            <input type="date" name="bookingDate" id="datefield" min="" max="" value="{{booking.date}}" required>
+            <input type="date" name="bookingDate" id="datefield" min="" max=""  required value="{{booking.date}}">
             <script>
                 var today = new Date();
                 var dd = today.getDate();
@@ -85,10 +85,10 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="bookingFName" placeholder="First name" value="{{user.fname}}" readonly>
+                        <input type="text" name="bookingFName" placeholder="First name" value="{{booking.firstName}}" readonly>
                     </div>
                     <div class="col">
-                        <input type="text" name="bookingLName" placeholder="Last name" value="{{user.lname}}" readonly>
+                        <input type="text" name="bookingLName" placeholder="Last name" value="{{booking.lastName}}" readonly>
                     </div>
                 </div>
             </div>

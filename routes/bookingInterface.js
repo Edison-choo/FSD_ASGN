@@ -14,6 +14,7 @@ const ensureAuthenticated = require('../helpers/auth');
 
 var res_name
 var email
+var email_id
 
 router.get('/bookForm/:res_name', (req, res) => {
     res_name = req.params.res_name;
@@ -23,7 +24,7 @@ router.get('/bookForm/:res_name', (req, res) => {
 
 router.get('/updateForm/:email/:res_name', (req, res) => {
     email_id = req.params.email;
-    res_name_id = req.params.res_name
+    res_name_id = req.params.res_name;
     Booking.findOne({
         where: {
             [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
@@ -75,11 +76,13 @@ router.post('/bookingDetailsEmailInsert', urlencodedParser, (req, res) => {
 router.get('/bookingDetailsList/:email', (req, res) => {
     email_id = req.params.email;
     Booking.findAll({
-        where: { email: email_id }
-    }).then(booking => {
-        console.log(booking);
-        res.render('bookingInterface/bookingDetailsList', { booking });
-    })
+            where: { email: email_id }
+        }).then(booking => {
+            console.log(booking);
+
+            res.render('bookingInterface/bookingDetailsList', { booking });
+        })
+        .catch((err) => console.log(err));
 });
 
 router.get('/bookingDetailsListPage/:email/:res_name', (req, res) => {

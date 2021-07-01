@@ -21,7 +21,13 @@
           {{/ifEquals}}
           {{/if}}
 
-          <li><a class="nav-link scrollto" href="/bookingInterface/bookingDetailsEmailInsert">Notification<i class="fas fa-bell"></i></a></li>
+          
+          {{#if user}}
+          {{#ifEquals user.cust_type "staff"}}
+          <li><a class="nav-link scrollto" href="/bookingStaff/viewBookings/{{user.fname}}">Notification<i class="fas fa-bell"></i></a></li>
+          {{/ifEquals}}
+          {{/if}}
+
           {{#if user}}
           <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li>
           {{/if}}

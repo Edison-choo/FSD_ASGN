@@ -10,29 +10,20 @@
 
 <body>
   <div class="container" style="">
-    <h1 style="text-align: center;">Here are the bookings you've made currently</h1>
+    <h1 style="text-align: center;">Customer Bookings</h1>
     {{#each booking}}
     <br>
     <div class="card">
       <div class="card-body">
-        Your Booking at {{this.res_name}}
+        Booking at {{this.res_name}}
         <div style="float:right;">
           <a href="../bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to view</a>
         </div>
       </div>
     </div>
     {{/each}}
-
-    
     <br>
   </div>
-
-
-  {{#ifEquals booking undefined}}
-  <div>
-    <p style="text-align: center;">There are no bookings under {{this.email}}</p>
-  </div>
-  {{/ifEquals}}
 </body>
 
 </head>
