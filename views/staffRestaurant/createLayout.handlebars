@@ -104,11 +104,10 @@
 
     .selected {
         border: 3px solid black;
+        color: black;
     }
 
     .legendBorder {
-        border: 3px solid black;
-        border-radius: 15px;
         padding: 20px;
     }
 
@@ -117,13 +116,21 @@
         padding-inline-start: 2px;
         padding-inline-end: 2px;
     }
+
+    .tableTab {
+        padding: 50px;
+    }
+
+    .tableTab>table {
+        margin: auto;
+    }
 </style>
 
-<h1>Create your restaurant layout:</h1>
+<div style="font-weight: bold; font-size: 30px">Create your restaurant layout:</div>
 
 <form action="/staffRestaurant/createLayout" method="post" id="layoutForm">
     <div class="row">
-        <div id="table-wrap" class="col-md-9">
+        <div id="table-wrap" class="col-md-9 FDefaultTab tableTab">
             <table id="drawing-table" class="tableLayout">
                 <tr>
                     <td></td>
@@ -131,19 +138,24 @@
             </table>
         </div>
         <div class="col-md-3">
-            <div class="legendBorder">
+            <div class="legendBorder FDefaultTab">
                 <fieldset>
-                    <legend>Table Select</legend>
+                    <div>Table Select <i class="far fa-question-circle"></i></div>
+                    <hr>
                     <span id="table-selector">
-                        <button class="btn btn-sm selected tblClass" style="background-color: #00ffff;" type="button" id="table-1">1</button>
+                        <button class="btn btn-sm selected tblClass" style="background-color: #00ffff;" type="button"
+                            id="table-1">1</button>
                     </span>
                     <span id="add-button">
                         <button id="add-table" type="button">+</button>
                     </span>
                 </fieldset>
-                <br>
+            </div>
+            <br>
+            <div class="legendBorder FDefaultTab">
                 <fieldset id="color-selector">
-                    <legend>Picker</legend>
+                    <div>Picker <i class="far fa-question-circle"></i></div>
+                    <hr>
                     <div class="color red selected" data-class="square">
                         <div class="square center"></div><input type="text">
                     </div>
@@ -152,58 +164,63 @@
                     </div>
                     <div class="color eraser" data-class="eraser"><i class="fas fa-eraser center centerText"></i></div>
                 </fieldset>
-                <fieldset>
-                    <button class="btn btn-danger" type="button" id="clear">Clear All<i
-                            class="fas fa-trash-alt"></i></button>
-                </fieldset>
+            </div>
+            <br>
+            <div class="FDefaultTab legendBorder">
+                <button class="btn btn-danger btn-block" type="button" id="clear">Clear All<i
+                        class="fas fa-trash-alt"></i></button>
+            </div>
+            <br>
+            <div class="FDefaultTab legendBorder">
+                <button type="button" class="btn btn-primary btn-block" id="next">Submit</button>
             </div>
         </div>
     </div>
     <input type="hidden" name="seat" id="seatList">
     <input type="hidden" name="square" id="squareList">
     <input type="hidden" name="tables" id="tblDic">
-    <button type="button" class="btn btn-primary" id="next">Submit</button>
+
 </form>
 <script>
     var colors = [
-                    "#f5f5dc",
-                    "#000000",
-                    "#0000ff",
-                    "#a52a2a",
-                    "#00008b",
-                    "#008b8b",
-                    "#a9a9a9",
-                    "#006400",
-                    "#bdb76b",
-                    "#8b008b",
-                    "#556b2f",
-                    "#ff8c00",
-                    "#9932cc",
-                    "#8b0000",
-                    "#e9967a",
-                    "#9400d3",
-                    "#ff00ff",
-                    "#ffd700",
-                    "#008000",
-                    "#4b0082",
-                    "#add8e6",
-                    "#e0ffff",
-                    "#90ee90",
-                    "#d3d3d3",
-                    "#ffb6c1",
-                    "#ffffe0",
-                    "#00ff00",
-                    "#ff00ff",
-                    "#800000",
-                    "#000080",
-                    "#808000",
-                    "#ffa500",
-                    "#ffc0cb",
-                    "#800080",
-                    "#800080",
-                    "#ff0000",
-                    "#c0c0c0"
-                ];
+        "#f5f5dc",
+        "#000000",
+        "#0000ff",
+        "#a52a2a",
+        "#00008b",
+        "#008b8b",
+        "#a9a9a9",
+        "#006400",
+        "#bdb76b",
+        "#8b008b",
+        "#556b2f",
+        "#ff8c00",
+        "#9932cc",
+        "#8b0000",
+        "#e9967a",
+        "#9400d3",
+        "#ff00ff",
+        "#ffd700",
+        "#008000",
+        "#4b0082",
+        "#add8e6",
+        "#e0ffff",
+        "#90ee90",
+        "#d3d3d3",
+        "#ffb6c1",
+        "#ffffe0",
+        "#00ff00",
+        "#ff00ff",
+        "#800000",
+        "#000080",
+        "#808000",
+        "#ffa500",
+        "#ffc0cb",
+        "#800080",
+        "#800080",
+        "#ff0000",
+        "#c0c0c0"
+    ];
     function remove(array, n) {
         const index = array.indexOf(n)
         if (index > -1) {
@@ -252,7 +269,7 @@
             seatID = $el.attr("id")
             seatList = remove(seatList, seatID)
             squareList = remove(squareList, seatID)
-            for (i in tblDic){
+            for (i in tblDic) {
                 tblDic[i] = remove(tblDic[i], seatID)
             }
             if (eraseState) {
@@ -316,7 +333,7 @@
             $el.addClass("checkTD")
             seatList = []
             squareList = []
-            for (i in tblDic){
+            for (i in tblDic) {
                 tblDic[i] = []
             }
         });

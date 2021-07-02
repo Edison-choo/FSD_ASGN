@@ -43,15 +43,14 @@
         background-color: red;
     }
 
-    #table-wrap {
-        border: 3px solid black;
+    .standardPad {
         padding: 10px;
     }
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
     <div class="row">
-        <div id="table-wrap" class="col-md-8">
+        <div id="table-wrap" class="col-md-8 FDefaultTab standardPad">
             <table id="drawing-table" class="tableLayout">
                 <tr>
                     <td></td>
@@ -59,11 +58,18 @@
             </table>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-success" type="button" id="allGreen">Vacant All</button>
-            <button class="btn btn-danger" type="button" id="allRed">Occupied All</button>
+            <div class="FDefaultTab standardPad">
+                <button class="btn btn-success btn-block" type="button" id="allGreen">Vacant All</button>
+            </div>
+            <div class="FDefaultTab standardPad">
+                <button class="btn btn-danger btn-block" type="button" id="allRed">Occupied All</button>
+            </div>
+            <br>
+            <div class="FDefaultTab standardPad">
+                <button type="button" id="apply" class="btn btn-lg btn-primary btn-block">Apply</button>
+            </div>
         </div>
         <input type="hidden" name="occupied" id="occupied">
-        <button type="button" id="apply" class="btn btn-primary">Apply</button>
     </div>
 </form>
 <script>
@@ -137,17 +143,17 @@
             $("#occupied").val(occupied)
             $("#seatManager").submit()
         })
-        $("#allGreen").click(function(){
+        $("#allGreen").click(function () {
             for (const [key, value] of Object.entries(tblDic)) {
-                if ($("." + key).hasClass("taken")){
+                if ($("." + key).hasClass("taken")) {
                     $("." + key).removeClass("taken")
                     occupied = remove(occupied, key)
                 }
             }
         })
-        $("#allRed").click(function(){
+        $("#allRed").click(function () {
             for (const [key, value] of Object.entries(tblDic)) {
-                if (!($("." + key).hasClass("taken"))){
+                if (!($("." + key).hasClass("taken"))) {
                     $("." + key).addClass("taken")
                     occupied.push(key)
                 }

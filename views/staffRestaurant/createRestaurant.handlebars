@@ -1,3 +1,24 @@
+<style>
+    .imageUpload {
+        width: 100%;
+        padding: 50px;
+        cursor: pointer;
+        border: 3px solid white;
+    }
+    .imageUpload > div{
+        text-align: center;
+    }
+    .imageUpload:hover{
+        border: 3px solid #ffb03b;
+        transition: 0.2s;
+    }
+    .fileName{
+        padding-top: 10px;
+        font-size: large;
+        font-weight: bold;
+        color: #35322d;
+    }
+</style>
 <h1>Tell us about your restaurant:</h1>
 <hr>
 <br>
@@ -28,7 +49,7 @@
                         aria-label="Restaurant Name" />
                     <span class="input-group-text" style="height: 35px;">@</span>
                     <input type="text" id="tag" class="form-control" placeholder="Tag" aria-label="Tag" />
-                    <input type="hidden" id="res_name" name="res_name" class="form-control"/>
+                    <input type="hidden" id="res_name" name="res_name" class="form-control" />
                 </div>
 
                 <!-- Company Email -->
@@ -88,10 +109,19 @@
             <div id="step-3" class="tab-pane" role="tabpanel">
                 <div>
                     <input type="file" id="restaurantIcon" name="restaurantIcon"
-                        accept="image/png,image/jpeg,image/jpg,image/gif">
-                    <img id="icon" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid">
+                        accept="image/png,image/jpeg,image/jpg,image/gif" style="display: none;">
                     <input id="iconURL" type="hidden" name="iconURL">
-                    <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
+                    <label for="restaurantIcon" class="FDefaultTab imageUpload">
+                        <div>
+                            <img id="icon" src="/img/UploadFile.png" alt=""
+                                style="width: 300px;">
+                            <div class="instr">Select a file or drag here</div>
+                            <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
+                            <br>
+                            <span class="instr btn btn-primary">Select a file</span>
+                            <div class="fileName" style="display: none;"></div>
+                        </div>
+                    </label>
                     <button class="btn btn-primary btn-block">Submit</button>
                 </div>
             </div>
@@ -111,10 +141,15 @@
     type="text/javascript"></script>
 
 <script>
-    $("#name").on("change", function (){
+    $("#restaurantIcon").on("change", function (){
+        $(".instr").css("display", "none")
+        $(".fileName").css("display", "block")
+        $(".fileName").html($("#restaurantIcon").val())
+    })
+    $("#name").on("change", function () {
         $("#res_name").val($("#name").val() + "@" + $("#tag").val())
     })
-    $("#tag").on("change", function (){
+    $("#tag").on("change", function () {
         $("#res_name").val($("#name").val() + "@" + $("#tag").val())
     })
     $("#restaurantIcon").on("change", function () {
@@ -157,20 +192,6 @@
                 animation: "slide-horizontal",
                 speed: "400",
             },
-        });
-        $('.sw-btn-next').attr("id", "submit");
-        $("#smartwizard").on("leaveStep", function (e, anchorObject, currentStepIndex, nextStepIndex, stepDirection) {
-            if (anchorObject.prevObject.length - 1 == nextStepIndex) {
-                $('#submit').html("Submit<i class='fas fa-paper-plane'></i>");
-                $('#submit').click(() => {
-                    $('#submit').submit("createRestaurant")
-                })
-                $("#submit").removeClass();
-                $("#submit").addClass("btn sw-btn-prev ripple-surface")
-            } else {
-                $('#submit').text("Next");
-                $('#submit').attr("type", "button")
-            }
         });
     });
 </script>
