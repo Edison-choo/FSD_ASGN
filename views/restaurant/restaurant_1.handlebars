@@ -42,7 +42,8 @@
     }
 
     .default {
-        padding: 30px;
+        padding: 40px;
+        margin: auto;
     }
 </style>
 <div class="media row default FDefaultTab">
@@ -103,18 +104,20 @@
                                 class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
-            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn btn-primary btn-block">Book a
+            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Book a
                 table</a>
         </div>
     </div>
 </div>
 <br>
-<div id="table-wrap" class="media default FDefaultTab">
+<div id="table-wrap" class="default FDefaultTab">
     <table id="drawing-table" class="center tableLayout">
         <tr>
             <td></td>
         </tr>
     </table>
+    <hr>
+    <div style="text-align: center;"><i class="fas fa-square-full" style="color: green;"></i> - Vacant <span style="padding-left: 45px;"></span> <i class="fas fa-square-full"  style="color: red;"></i> - Occupied</div>
 </div>
 
 <script>
