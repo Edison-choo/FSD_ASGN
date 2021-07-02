@@ -1,3 +1,6 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -93,7 +96,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="specRow">
                   {{#each menuSpec}}
                     <tr>
                       <td></td>
@@ -102,7 +105,7 @@
                         <td>{{this}}</td>
                         <td>
                         </td>
-                        <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{@key}}"></button></td>
+                        <td><button onclick="triggerDeleteSpec('{{@key}}')" type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#deleteSpec"></button></td>
                         <td></td>
                     </tr>
                   {{/each}}
@@ -154,7 +157,7 @@
         <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
         <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="addMenuForm" action="" method="post">
+      <form id="addMenuForm" action="/menu/addMenu" method="post">
       <div class="modal-body">
         <div class="">
             <div class="popUpImage">
@@ -219,7 +222,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="addMenu()" class="btn btn-dark">Done</button>
+        <button type="submit" class="btn btn-dark">Done</button>
       </div>
       </form>
     </div>
@@ -302,9 +305,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Update New Food</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/menu/update/{{this.id}}" method="POST">
+      <form id="updateMenuForm" action="/menu/update/{{this.id}}" method="POST">
       <div class="modal-body">
         <div class="">
             <div class="popUpImage">
@@ -377,24 +380,21 @@
   </div>
 </div>
 
-
-{{#each menuSpec}}
-<div class="modal fade popUpDelete" id="delete{{@key}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+<div class="modal fade popUpDelete" id="deleteSpec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-body">
         <div style="clear: both; text-align:center; margin: 20px auto 10px;">
             <div>Are you sure you want to delete the specifications?</div>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
-            <button type="button" class="btn btn-danger" onclick="location.href='/menu/deleteSpec/{{@key}}';">Delete</button>    
+            <button type="button" class="btn btn-danger">Delete</button>    
         </div>
       </div>
     </div>
   </div>
 </div>
-{{/each}}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> --}}
 <script src="js/scripts.js"></script>
 
 <script>

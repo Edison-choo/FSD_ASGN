@@ -1,6 +1,5 @@
 //edison
-
-const { Sequelize } = require("sequelize/types");
+// const { Sequelize } = require("sequelize/types");
 
 $(function() {
   $(".addOption").on({
@@ -65,6 +64,13 @@ $(function() {
     }
 });
 
+function cleanInput() {
+  console.log("emptying input");
+  $("#addMenu1 .popUpContent #foodName").val("");
+  $("#addMenu1 .popUpContent #foodType").val("");
+  $("#addMenu1 .popUpContent #foodPrice").val("");
+}
+
 $("#menuImageUpload").on("change", function () {
   let image = $("#menuImageUpload")[0].files[0];
   let formdata = new FormData();
@@ -112,6 +118,105 @@ function uploadImg(id) {
     });
 };
 
+// Add new food to menu
+// function addMenu() {
+//   console.log("opening add...");
+//   let formdata = $("#addMenuForm").serializeArray();
+$(function() {
+  $("#addMenuForm").on('submit', function(e) {
+    e.preventDefault();
+    // e.stopPropagation();
+    // e.stopImmediatePropagation();
+    console.log("opening add...");
+    let formdata = $("#addMenuForm").serializeArray();
+    var $form = $(this);
+    if (!$form.valid) return false;
+    // $(".successMsg").hide();
+    $.ajax({
+        url: "/menu/addMenu",
+        type: "POST",
+        data: formdata,
+        dataType: 'json',
+        success: (data) => {
+          if ('menu' in data) {
+            console.log(data.menu.name+" successfully updated");
+            let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
+            console.log(last);
+            $(".foodRow tr").last().after("<tr></tr>");
+            $(".foodRow tr").last().append($(".foodRow tr").first().html());
+            $(".foodRow tr").last().find('td').eq(1).text(last + 1);
+            $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
+            $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
+            $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
+            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
+            $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
+            $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
+            $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
+            $(".successMsg").text(data.success);
+            $(".successMsg").show();
+            $("#close").trigger("click");
+            $("#error").hide();
+            cleanInput();
+          } else if ('errors' in data) {
+            // data.errors.each((i, item) => {
+            //   var errorHtml = `<div class="alert alert-danger">${item.text}</div>`;
+            // });
+            // $(".row").first().before(errorHtml);
+            console.log(data.errors)
+            $("#addMenu1 #error").text(data.errors[0].text);
+            $("#addMenu1 #error").show();
+            // $(".addMenu1 #menuImage").val(data.menuImage);
+            // $(".addMenu1 #foodName").val(data.foodName);
+            // $(".addMenu1 #foodType").val(data.foodType);
+            // $(".addMenu1 #foodPrice").val(data.foodPrice);
+            // $(".addMenu1 .specifications").each(function(i, item){
+            //   if (specifications.includes($(".addMenu1 .specifications").eq(i).find("input").val())) {
+            //     $(".addMenu1 .specifications").eq(i).find("input").prop('checked', true);
+            //   }
+            // })
+          } else {
+            $("#addMenu1 #error").hide();
+            $("#addMenu1 #error").text(data.error);
+            $("#addMenu1 #error").show();
+          }
+        }
+    });
+  })
+  
+});
+
+// delete menu
+function triggerDelete(id) {
+  console.log("opening delete..." + id);
+  $("#delete button").last().attr("onclick",`deleteMenu(${id})`);
+};
+
+function deleteMenu(id) {
+  console.log("deleting..." + id);
+  $.ajax({
+      url: "/menu/delete/"+id,
+      type: "GET",
+      dataType: 'json',
+      success: (data) => {
+        $(".popUpDelete button").first().trigger('click');
+        let updatedId;
+        $(".foodRow tr").each((i,item)=>{
+          if ($(".foodRow tr").eq(i).find('td').eq(2).text() == data.menu.foodNo) {
+            updatedId = i;
+          }
+        });
+        $(".foodRow tr").each((i,item)=>{
+          if (i > updatedId) {
+            $(".foodRow tr").eq(i).find('td').eq(1).text(parseInt($(".foodRow tr").eq(i).find('td').eq(1).text())-1)
+          }
+        });
+        $(".foodRow tr").eq(updatedId).remove();
+        $(".successMsg").text(data.success);
+        $(".successMsg").show()
+      },
+  });
+};
+
 // edit food in menu
 function editMenu(id) {
   console.log("opening edit..." + id);
@@ -140,89 +245,77 @@ function editMenu(id) {
           $("#edit .popUpContent .specification").eq(i).find("input").prop('checked', true);
         }
       })
-      },
+    },
   });
 };
 
-// Add new food to menu
-function addMenu() {
-  console.log("opening add...");
-  let formdata = $("#addMenuForm").serializeArray();
-// $(function() {
-//   $("#addMenuForm").on('submit', function (e) {
-//     e.preventDefault();
-//     e.stopPropagation();
-//     e.stopImmediatePropagation();
-//     console.log("opening add...");
-//     let formdata = $("#addMenuForm").serializeArray();
+$(function() {
+  $("#updateMenuForm").on('submit', function(e) {
+    e.preventDefault();
+    console.log("opening add...");
+    let formdata = $("#updateMenuForm").serializeArray();
+    var $form = $(this);
+    if (!$form.valid) return false;
+    $(".successMsg").hide();
+    let id = $("#edit .menuImage img").attr("id").substring(7);
+    let foodNo = $("#edit .popUpContent #foodNo").attr("value");
     $.ajax({
-        url: "/menu/addMenu",
+        url: "/menu/update/"+id,
         type: "POST",
         data: formdata,
         dataType: 'json',
         success: (data) => {
           if ('menu' in data) {
-            console.log(data.menu.name+" successfully updated");
-            let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
-            console.log(last);
-            $(".foodRow tr").last().after("<tr></tr>");
-            $(".foodRow tr").last().append($(".foodRow tr").first().html());
-            $(".foodRow tr").last().find('td').eq(1).text(last + 1);
-            $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
-            $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
-            $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
-            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
-            $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
-            $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
-            $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
-            $("#close").trigger("click");
+            let updatedID;
+            $(".foodRow tr").each((i,item)=>{
+              if ($(".foodRow tr").eq(i).find('td').eq(2).text() == foodNo) {
+                updatedID = i;
+              }
+            });
+            $(".foodRow tr").eq(updatedID).find('td').eq(2).text(data.menu.foodNo);
+            $(".foodRow tr").eq(updatedID).find('td').eq(3).text(data.menu.name);
+            $(".foodRow tr").eq(updatedID).find('td').eq(4).text(data.menu.type);
+            $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+data.menu.price);
+            $(".foodRow tr").eq(updatedID).find('td').eq(6).text(data.menu.specifications);
+            $(".successMsg").text(data.success);
+            $(".successMsg").show();
+            $("#edit #close").trigger("click");
             $("#error").hide();
-          } else if ('errors' in data) {
-            // data.errors.each((i, item) => {
-            //   var errorHtml = `<div class="alert alert-danger">${item.text}</div>`;
-            // });
-            // $(".row").first().before(errorHtml);
-            console.log(data.errors)
-            $("#addMenu1 #error").text(data.errors[0].text);
-            $("#addMenu1 #error").show();
-            // $(".addMenu1 #menuImage").val(data.menuImage);
-            // $(".addMenu1 #foodName").val(data.foodName);
-            // $(".addMenu1 #foodType").val(data.foodType);
-            // $(".addMenu1 #foodPrice").val(data.foodPrice);
-            // $(".addMenu1 .specifications").each(function(i, item){
-            //   if (specifications.includes($(".addMenu1 .specifications").eq(i).find("input").val())) {
-            //     $(".addMenu1 .specifications").eq(i).find("input").prop('checked', true);
-            //   }
-            // })
-          } else {
-            $("#addMenu1 #error").hide();
-            $("#addMenu1 #error").text(data.error);
-            $("#addMenu1 #error").show();
           }
         }
     });
-  // })
+  })
   
+});
+
+// delete specifications
+function triggerDeleteSpec(name) {
+  console.log("triggering delete spec..." + name);
+  $("#deleteSpec button").last().attr("onclick",`deleteMenuSpec('${name}')`);
 };
 
-// delete menu
-function triggerDelete(id) {
-  console.log("opening delete..." + id);
-  $("#delete button").last().attr("onclick",`deleteMenu(${id})`);
-};
-
-function deleteMenu(id) {
-  console.log("deleting..." + id);
+function deleteMenuSpec(name) {
+  console.log("deleting spec..." + name);
   $.ajax({
-      url: "/menu/delete/"+id,
+      url: "/menu/deleteSpec/"+name,
       type: "GET",
       dataType: 'json',
       success: (data) => {
-        $(".popUpDelete button").first().trigger('click');
-        $(".foodRow tr").last().remove();
+        $("#deleteSpec button").first().trigger('click');
+        let deleted;
+        $(".specRow tr").each((i,item)=>{
+          if ($(".specRow tr").eq(i).find('td').eq(2).text() == name) {
+            deleted = i;
+          }
+        });
+        $(".specRow tr").each((i,item)=>{
+          if (i > deleted) {
+            $(".specRow tr").eq(i).find('td').eq(1).text(parseInt($(".specRow tr").eq(i).find('td').eq(1).text())-1)
+          }
+        });
+        $(".specRow tr").eq(deleted).remove();
         $(".successMsg").text(data.success);
         $(".successMsg").show()
       },
   });
 };
-
