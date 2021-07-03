@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 const User = require("../models/user");
 const Restaurant = require("../models/restaurants");
 const Promotion = require("../models/promotions");
-const bcrypt = require("bcryptjs")
+const CreditCard = require("../models/creditcard");
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { response } = require('express');
 const ensureAuthenticated = require('../helpers/auth');
@@ -13,6 +14,7 @@ var validator = require('email-validator');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
+var valid = require("card-validator");
 
 router.get('/login', (req, res) => {
 	res.render('user/login');
@@ -95,7 +97,9 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 	let errors = []
     let success_msg = ''; 
 
-    let {res_name, email, password, cpassword, uen} = req.body;	
+    let {res_chain, res_tag, email, password, cpassword, uen} = req.body;	
+
+	let res_name = req.body.res_chain + "@" + req.body.res_tag;
 
 	// current timestamp in milliseconds
 	let ts = Date.now();
@@ -132,8 +136,8 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
  			// Create new user record
 			 bcrypt.genSalt(10, function(err, salt) {
 				bcrypt.hash(req.body.password, salt, function(err, hash) {
-				User.create({fname: req.body.res_name, email:req.body.email, password:hash, uen: req.body.uen, cust_type:"staff", date: fulldate}),
-				Restaurant.create({email:email, res_name: res_name})
+				User.create({fname: res_name, email:req.body.email, password:hash, uen: req.body.uen, cust_type:"staff", date: fulldate}),
+				Restaurant.create({res_name: res_name})
 				.then(
 					user => {
 					success_msg = email + " registered successfully";
@@ -219,14 +223,21 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 
 router.get('/profile', urlencodedParser, ensureAuthenticated, (req,res) => {
 	if(req.user.cust_type == "staff"){
-		Restaurant.findOne({where: {email: req.user.email}})
+		Restaurant.findOne({where: {res_name: req.user.fname}})
 		.then(restaurant => {
 			if(restaurant){
 				res.render("user/profile", {restaurant});
 			}
 		})
 	}else{
-		res.render("user/profile")
+		CreditCard.findAll({where: {userid: req.user.id}})
+		.then(creditcard => {
+			if(creditcard){
+				res.render("user/profile", {creditcard});
+			}else{
+				res.render("user/profile")
+			}
+		})
 	}
 	
 });
@@ -243,12 +254,17 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 	}),
 	Restaurant.destroy({
 		where: {
-			email: req.user.email
+			res_name: req.user.fname
 		}
 	}),
 	Promotion.destroy({
 		where: {
 			staffid: req.params.id
+		}
+	}),
+	CreditCard.destroy({
+		where: {
+			userid: req.params.id
 		}
 	})
 	.then(() => {
@@ -263,7 +279,11 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	let errors = [];
 	let success_msg = '';
-	let {fname, lname, email, phone, passport, cpassword, address, res_name} = req.body;
+	let {fname, lname, email, phone, passport, cpassword, address, res_chain, res_tag} = req.body;
+
+	if(req.user.cust_type == "staff"){
+		let res_name = req.body.res_chain + "@" + req.body.res_tag;
+	}
 
 	User.findOne({ where: {id: req.params.id} })
 	.then(user => {
@@ -322,13 +342,13 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 			})
 		}else{
 			User.update({
-				fname: req.body.res_name,
+				fname: req.body.res_chain + "@" + req.body.res_tag,
 				email: req.body.email
 			},
 			{where:{id: req.params.id}}
 			)
 			Restaurant.update({
-				res_name: req.body.res_name,
+				res_name: req.body.res_chain + "@" + req.body.res_tag,
 				email: req.body.email
 			},
 			{where:{id: req.params.id}}
@@ -368,6 +388,102 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
 		}
 	}
 	});
+})
+
+router.get('/addCreditCard', ensureAuthenticated, (req, res) => {
+	res.render("user/addCreditCard");
+})
+
+router.post('/addCard', (req, res) => {
+	let errors = [];
+	let success_msg = '';
+	
+	let {cardname, cardno, mm, yyyy, cvv} = req.body;
+
+	if(req.body.cardno.toString().length != 16){
+		errors.push({"text": "Card number should be 16 digits"});
+	}
+
+	if(req.body.cvv.toString().length != 3){
+		errors.push({"text": "Please enter valid card cvv"});
+	}
+
+	var numberValidation = valid.number(cardno.toString());
+
+	if(errors.length == 0){
+		CreditCard.findOne({where: {cardno: req.body.cardno.toString()}})
+		.then(card => {
+			if(card){
+				res.render('user/addCreditCard', {error: 'Card is already registered'});
+			}else{
+				CreditCard.create({cardname: req.body.cardname, cardno: req.body.cardno.toString(), mm: req.body.mm, yyyy: req.body.yyyy, cvv: req.body.cvv, cardtype: numberValidation.card.type, userid: req.user.id})
+				.then(card => {
+					if(card){
+						res.redirect('/user/profile');
+					}
+				})
+			}
+		})
+	}else{
+		res.render('user/addCreditCard', {errors})
+	}
+})
+
+router.post("/deleteCreditCard/:id", (req, res) => {
+	CreditCard.destroy({where: {id: req.params.id}})
+	.then(card => {
+		if(card){
+			res.redirect("/user/profile")
+		}
+	})
+})
+
+router.get("/editCreditCard/:id", ensureAuthenticated, (req, res) => {
+	CreditCard.findOne({where: {id: req.params.id}})
+	.then(card => {
+		if(card){
+			res.render("user/editCreditCard", {card})
+		}
+	})
+})
+
+router.post("/editCard/:id", (req, res) => {
+	let errors = [];
+	let success_msg = '';
+	
+	let {cardname, cardno, mm, yyyy, cvv} = req.body;
+
+	if(req.body.cardno.toString().length != 16){
+		errors.push({"text": "Card number should be 16 digits"});
+	}
+
+	if(req.body.cvv.toString().length != 3){
+		errors.push({"text": "Please enter valid card cvv"});
+	}
+
+	var numberValidation = valid.number(cardno.toString());
+
+	if(errors.length == 0){
+		CreditCard.update({
+			cardname: req.body.cardname,
+			cardno: req.body.cardno.toString(), 
+			mm: req.body.mm, 
+			yyyy: req.body.yyyy, 
+			cvv: req.body.cvv, 
+			cardtype: numberValidation.card.type
+		},
+		{where: {id: req.params.id}})
+		.then(card => {
+			if(card){
+				res.redirect("/user/profile");
+			}else{
+				errors.push({"text": "Card not found"});
+				res.render('user/profile', {errors});
+			}
+		})
+	}else{
+		res.render('user/profile', {errors})
+	}
 })
 
 module.exports = router;

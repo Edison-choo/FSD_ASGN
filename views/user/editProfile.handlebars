@@ -21,11 +21,9 @@
     {{else}}
     <!-- Restaurant Name input -->
     <div class="input-group mb-3">
-      <input type="text" id="name" name="name" value="{{splitstr user.fname 0}}" class="form-control"
-          aria-label="Restaurant Name" required />
+      <input type="text" id="name" value="{{splitstr user.fname 0}}" name="res_chain" class="form-control" aria-label="Restaurant Name" required />
       <span class="input-group-text" style="height: 35px;">@</span>
-      <input type="text" id="tag" class="form-control" value="{{splitstr user.fname 1}}" aria-label="Tag" required/>
-      <input type="hidden" id="res_name" name="res_name" class="form-control" value="{{user.fname}}" />
+      <input type="text" id="tag" name="res_tag" class="form-control" value="{{splitstr user.fname 1}}" aria-label="Tag" required/>
     </div>
     {{/ifEquals}}
 
@@ -82,18 +80,6 @@
   }
 </style>
 <script>
-  $("#restaurantIcon").on("change", function (){
-      $(".instr").css("display", "none")
-      $(".fileName").css("display", "block")
-      $(".fileName").html($("#restaurantIcon").val())
-  })
-  $("#name").on("change", function () {
-      $("#res_name").val($("#name").val() + "@" + $("#tag").val())
-  })
-  $("#tag").on("change", function () {
-      $("#res_name").val($("#name").val() + "@" + $("#tag").val())
-  })
-
   var cpi = document.getElementById("changePasswordInputs");
   var cp = document.getElementById("cp");
   function displayChangePassword(){

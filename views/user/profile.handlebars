@@ -97,6 +97,7 @@
   margin-right: 3%;
   font-size: 17px;
   margin-bottom: 10%;
+  padding: 2%;
 }
 
 #displayForm{
@@ -108,7 +109,6 @@
   min-width: 280px !important;
   min-height: 280px !important;
 }
-
 </style>
 
 <div class="FDefaultTab container emp-profile">
@@ -121,7 +121,7 @@
           {{else}}
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="profileimg" alt=""/>
           {{/if}}
-            <div class="file btn btn-lg btn-primary">
+            <div class="file btn btn-lg btn-primary" style="background-color: #35322d;">
                 Change Photo
                 <input type="file" id="userimg" name="userfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <input type="hidden" id="profileImg">
@@ -151,7 +151,7 @@
   <div id="About" class="tabcontent">
     <div class="rightCont">
       <div style="float: right;margin-bottom: 2%; display:flex;">
-        <a href="/user/editProfile"><button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
+        <a href="/user/editProfile"><button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="far fa-edit"></i>    Update</button></a>
         <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
           <input type="submit" class="FDefaultButtonRed btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
         </form>
@@ -171,7 +171,7 @@
           {{#ifEquals user.cust_type "staff"}}
           <tr>
             <td align="left">Phone No.</td>
-            <td align="right"></td>
+            <td align="right">{{restaurant.phone}}</td>
           </tr>
           <tr>
             <td align="left">Address</td>
@@ -189,23 +189,45 @@
 
   <div id="PD" class="tabcontent">
     <div class="rightCont">
-      <div style="float: right;margin-bottom: 2%; display:flex;">
-        <a href="/user/editProfile"><button class="btn btn-primary ripple-surface" style="background-color: #3b5998;">Update</button></a>
-        <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
-          <input type="submit" class="btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
-        </form>
+      <div style="float: right;margin-bottom: 2%; margin-right: -20%;">
+        <a href="/user/addCreditCard"><button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="fas fa-plus"></i>    Add Credit Card</button></a>
       </div>
-      <table width="100%" id="displayInfo">
-        <tbody>
-          <tr>
-            <td align="left">Email</td>
-            <td align="right">{{user.email}}</td>
+      <table width="120%" id="displayInfo">
+        <thead>
+          <tr align="center">
+            <th>Card Name</th>
+            <th>Card No.</th>
+            <th>MM/YYYY</th>
+            <th>CVV</th>
+            <th>Card Type</th>
+            <th></th>
           </tr>
-          <tr>
-            <td align="left">Phone No.</td>
-            <td align="right">{{user.phone}}</td>
+        </thead>
+        {{#if creditcard}}
+        {{#each creditcard}}
+        <tbody class="FDefaultTab creditcardbody">
+          <tr align="center">
+            <td>{{cardname}}</td>
+            <td>{{cardno}}</td>
+            {{#ifEquals mm.length 1}}
+            <td>0{{mm}}/{{yyyy}}</td>
+            {{else}}
+            <td>0{{mm}}/{{yyyy}}</td>
+            {{/ifEquals}}
+            <td>{{cvv}}</td>
+            <td>{{cardtype}}</td>
+            <td style="display:flex;">
+              <form method="GET" action="/user/editCreditCard/{{id}}">
+                <button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="far fa-edit"></i>    Update</button>
+              </form>
+              <form method="POST" action="/user/deleteCreditCard/{{id}}"> 
+                <input type="submit" class="FDefaultButtonRed btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+              </form>
+            </td>
           </tr>
         </tbody>
+        {{/each}}
+        {{/if}}
       </table>
     </div>
   </div>

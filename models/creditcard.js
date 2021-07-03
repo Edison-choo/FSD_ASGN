@@ -1,6 +1,10 @@
 const Sequelize = require("sequelize");
+const db = require("../config/DBConfig");
 
-const User = db.define('users', {
+const CreditCard = db.define('creditcards', {
+    cardname: {
+        type: Sequelize.STRING
+    },
     cardno: {
         type: Sequelize.STRING
     },
@@ -10,12 +14,18 @@ const User = db.define('users', {
     yyyy: {
         type: Sequelize.INTEGER
     },
-    CVV: {
+    cvv: {
+        type: Sequelize.INTEGER
+    },
+    cardtype: {
+        type: Sequelize.STRING
+    },
+    userid: {
         type: Sequelize.INTEGER
     }
 });
 
-module.exports = User;
+module.exports = CreditCard;
 
 
 

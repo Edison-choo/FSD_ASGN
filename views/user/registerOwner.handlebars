@@ -3,12 +3,11 @@
   <form method="POST" action="/user/registeringOwner">
     <!-- Restaurant Name input -->
     <div class="input-group mb-3">
-      <input type="text" id="name" name="name" class="form-control" placeholder="Restaurant Name"
-          aria-label="Restaurant Name" />
+      <input type="text" id="res_chain" name="res_chain" class="form-control" placeholder="Restaurant Name" aria-label="Restaurant Name" />
       <span class="input-group-text" style="height: 35px;">@</span>
-      <input type="text" id="tag" class="form-control" placeholder="Tag (e.g. Northpoint)" aria-label="Tag" />
-      <input type="hidden" id="res_name" name="res_name" class="form-control" />
+      <input type="text" id="res_tag" class="form-control" placeholder="Tag (e.g. Northpoint)" name="res_tag" aria-label="Tag" />
     </div>
+
 
     <!-- Email input -->
     <div class="form-outline mb-4">
@@ -50,17 +49,6 @@
 </div>
 
 <script>
-  $("#restaurantIcon").on("change", function (){
-      $(".instr").css("display", "none")
-      $(".fileName").css("display", "block")
-      $(".fileName").html($("#restaurantIcon").val())
-  })
-  $("#name").on("change", function () {
-      $("#res_name").val($("#name").val() + "@" + $("#tag").val())
-  })
-  $("#tag").on("change", function () {
-      $("#res_name").val($("#name").val() + "@" + $("#tag").val())
-  })
 
 
   let input = document.getElementById("uen");

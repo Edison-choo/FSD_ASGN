@@ -1,4 +1,4 @@
-.loginForm, .regForm, .cpForm, .editProfileForm {
+.loginForm, .regForm, .cpForm, .editProfileForm, .addCCForm {
   width: 100%;
   padding: 20px 20px;
   margin: 8px 0;
@@ -12,7 +12,8 @@
 .loginBtn, .loginBtn:hover,
 .regBtn, .regBtn:hover,
 .cpBtn, .cpBtn:hover,
-.editProfileBtn, .editProfileBtn:hover{
+.editProfileBtn, .editProfileBtn:hover,
+.addCCBtn, .addCCBtn:hover{
   background-color:#433f39; 
   border-color:#433f39
 }
