@@ -30,6 +30,9 @@ const User = db.define('users', {
     },
     uen: {
         type: Sequelize.STRING
+    },
+    date: {
+        type: Sequelize.STRING
     }
 });
 

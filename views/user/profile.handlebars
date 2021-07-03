@@ -162,16 +162,26 @@
             <td align="left">Email</td>
             <td align="right">{{user.email}}</td>
           </tr>
+          {{#ifEquals user.cust_type "customer"}}
           <tr>
             <td align="left">Phone No.</td>
             <td align="right">{{user.phone}}</td>
           </tr>
+          {{/ifEquals}}
           {{#ifEquals user.cust_type "staff"}}
           <tr>
+            <td align="left">Phone No.</td>
+            <td align="right"></td>
+          </tr>
+          <tr>
             <td align="left">Address</td>
-            <td align="right">{{user.address}}</td>
+            <td align="right">{{restaurant.address}}</td>
           </tr>
           {{/ifEquals}}
+          <tr>
+            <td align="left">Date Created</td>
+            <td align="right">{{user.date}}</td>
+          </tr>
         </tbody>
       </table>
     </div>

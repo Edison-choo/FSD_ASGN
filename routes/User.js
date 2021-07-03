@@ -89,7 +89,18 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 	let errors = []
     let success_msg = ''; 
 
-    let {restname, email, phone, address, password, cpassword, uen} = req.body;	
+    let {res_name, email, password, cpassword, uen} = req.body;	
+
+	// current timestamp in milliseconds
+	let ts = Date.now();
+
+	let date_ob = new Date(ts);
+	let date = date_ob.getDate();
+	let month = date_ob.getMonth() + 1;
+	let year = date_ob.getFullYear();
+
+	// prints date & time in YYYY-MM-DD format
+	let fulldate = year + "-" + month + "-" + date;
 
     if(req.body.password != req.body.cpassword){
         errors.push({"text": "Password do not match"});
@@ -103,10 +114,6 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 	if(!emailValidate){
 		errors.push({"text": "Email is not valid"});
 	}
-
-	if(String(req.body.phone).length != 8){
-		errors.push({"text": "Phone number must have at least 8 digit"});
-	}
 		
 
     if(errors.length == 0){
@@ -119,8 +126,8 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
  			// Create new user record
 			 bcrypt.genSalt(10, function(err, salt) {
 				bcrypt.hash(req.body.password, salt, function(err, hash) {
-				User.create({fname: req.body.restname, phone: req.body.phone, email:req.body.email, address: req.body.address, password:hash, uen: req.body.uen, cust_type:"staff"}),
-				Restaurant.create({email:email, address:address})
+				User.create({fname: req.body.res_name, email:req.body.email, password:hash, uen: req.body.uen, cust_type:"staff", date: fulldate}),
+				Restaurant.create({email:email, res_name: res_name})
 				.then(
 					user => {
 					success_msg = email + " registered successfully";
@@ -205,7 +212,12 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 });
 
 router.get('/profile', urlencodedParser, ensureAuthenticated, (req,res) => {
-	res.render("user/profile");
+	Restaurant.findOne({where: {email: req.user.email}})
+	.then(restaurant => {
+		if(restaurant){
+			res.render("user/profile", {restaurant});
+		}
+	})
 });
 
 router.get('/editProfile', urlencodedParser, ensureAuthenticated, (req, res) => {
@@ -217,7 +229,13 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 		where: {
 			id: req.params.id
 		}
-	}).then(() => {
+	}),
+	Restaurant.destroy({
+		where: {
+			email: req.user.email
+		}
+	})
+	.then(() => {
 		req.logout();
 
 		req.flash("success_msg", "Account have been successfully removed.");
@@ -260,10 +278,13 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	if(!emailValidate){
 		errors.push({"text": "Email is not valid"});
 	}
-
-	if(String(phone).length != 8){
-		errors.push({"text": "Phone number must have at least 8 digit"});
+	
+	if(req.user.cust_type == "customer"){
+		if(String(phone).length != 8){
+			errors.push({"text": "Phone number must have at least 8 digit"});
+		}
 	}
+	
 
 	if(errors.length == 0){
 		if(req.user.cust_type == "customer"){
@@ -286,9 +307,7 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 		}else{
 			User.update({
 				fname: req.body.restname,
-				phone: req.body.phone,
-				email: req.body.email,
-				address: req.body.address
+				email: req.body.email
 			},
 			{where:{id: req.params.id}}
 			)

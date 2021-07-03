@@ -31,20 +31,13 @@
       <input type="email" id="email" class="form-control" name="email" value="{{user.email}}" required />
       <label class="form-label" for="email">Email address</label>
     </div>
-
+    {{#ifEquals user.cust_type "customer"}}
     <!-- Phone number input -->
     <div class="form-outline mb-4">
       <input type="number" id="phone" class="form-control" name="phone" value="{{user.phone}}" required />
       <label class="form-label" for="phone">Phone No.</label>
     </div>
-
-    {{#ifEquals user.cust_type "staff"}}
-    <!-- Address input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="address" class="form-control" value="{{user.address}}" name="address" required />
-      <label class="form-label" for="addressl1">Address</label>
-    </div>
-    {{/ifEquals}}
+  {{/ifEquals}}
 
     <div id="changePasswordInputs">
       <!-- Password input -->
