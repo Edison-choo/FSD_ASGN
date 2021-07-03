@@ -12,9 +12,9 @@ router.get('/reviews', (req, res) => {
             }
             totalaverage = totalaverage / reviews.length;
             console.log(totalaverage);
-            res.setHeader("Content-Type", "application/json");
-            res.json({testing : "testing"});
-            res.send();
+            // res.setHeader("Content-Type", "application/json");
+            // res.json({testing : "testing"});
+            // res.send();
             res.render('reviews/reviews', {reviews: reviews, totalaverage: totalaverage.toFixed(1)});
         }).catch(err => console.log(err));
 });

@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>My Reviews</h2>
+    <hr>
+    {{#if reviews}}
+    {{#each reviews}}
+    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
+                    alt="..." class="img-fluid" style="max-height: 250px; " />
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <p class="card-text" style="color: white;">{{average}} stars</p>
+                    <p class="card-text" style="color: white;">Comments: {{comments}}</p>
+                <div class="buttons">
+                    <div class="action_btn">
+                        <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="#" role="button">Delete</a>
+                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="#" data-mdb-toggle="modal" data-mdb-target="#" role="button">Update</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/if}}
+</div>
