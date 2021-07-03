@@ -24,18 +24,18 @@ router.get("/createRestaurant", (req, res) => {
 
 //View Restaurant Page
 router.get("/viewRestaurant", (req, res) => {
-  let email = req.user.email;
-  Restaurant.findOne({ where: { email: email } }).then((restaurant) => {
+  let res_name = req.user.fname;
+  Restaurant.findOne({ where: { res_name: res_name } }).then((restaurant) => {
     res.render("staffRestaurant/viewRestaurant", { restaurant });
   });
 });
 
 //Edit Restaurant Page
 router.get("/editRestaurant", (req, res) => {
-  let email = req.user.email;
+  let res_name = req.user.fname;
   Restaurant.findOne({
     where: {
-      email: email,
+      res_name: res_name,
     },
   })
     .then((restaurant) => {
@@ -49,13 +49,14 @@ router.get("/editRestaurant", (req, res) => {
 
 //Post for Create Restaurant Page
 router.post("/createRestaurant", urlencodedParser, (req, res) => {
-  let email = req.user.email;
+  let res_name = req.user.fname;
   let errors = [];
 
   // Retrieves fields from register page from request body
   let {
-    res_name,
+    address,
     comp_email,
+    phone,
     cuisine,
     open_time,
     close_time,
@@ -89,8 +90,9 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
   if (errors.length > 0) {
     res.render("staffRestaurant/createRestaurant", {
       errors,
-      res_name,
+      address,
       comp_email,
+      phone,
       cuisine,
       open_time,
       close_time,
@@ -103,14 +105,14 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
   } else {
     //Check if address is already used
     Restaurant.findOne({
-      where: {res_name:res_name},
+      where: { address: address },
     })
       .then((restaurant) => {
         if (restaurant) {
           res.render("staffRestaurant/createRestaurant", {
-            error: res_name + " is already in use...",
-            res_name,
+            error: address + " is already in use...",
             comp_email,
+            phone,
             cuisine,
             open_time,
             close_time,
@@ -123,8 +125,8 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
         } else {
           Restaurant.update(
             {
-              res_name: res_name,
               comp_email: comp_email,
+              phone:phone,
               cuisine: cuisine,
               open_time: open_time,
               close_time: close_time,
@@ -136,7 +138,7 @@ router.post("/createRestaurant", urlencodedParser, (req, res) => {
             },
             {
               where: {
-                email: email,
+                res_name: res_name,
               },
             }
           )
@@ -173,7 +175,7 @@ function checkOptions(restaurant) {
 
 //Put for edit restaurant
 router.post("/editRestaurant", urlencodedParser, (req, res) => {
-  email = req.user.email;
+  let res_name = req.user.fname;
   let {
     comp_name,
     address,
@@ -197,7 +199,7 @@ router.post("/editRestaurant", urlencodedParser, (req, res) => {
     },
     {
       where: {
-        email: email,
+        res_name: res_name,
       },
     }
   )
@@ -213,7 +215,7 @@ router.get("/createLayout", (req, res) => {
 });
 
 router.post("/createLayout", urlencodedParser, (req, res) => {
-  let email = req.user.email;
+  let res_name = req.user.fname;
   let errors = [];
   let { seat, square, tables } = req.body;
 
@@ -240,7 +242,7 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
       },
       {
         where: {
-          email: email,
+          res_name: res_name,
         },
       }
     )
@@ -252,14 +254,14 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
 });
 
 router.get("/seatManager", (req, res) => {
-  let email = req.user.email;
-  Restaurant.findOne({ where: { email: email } }).then((layouts) => {
+  let res_name = req.user.fname;
+  Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
     res.render("staffRestaurant/seatManager", { layouts });
   });
 });
 
 router.post("/seatManager", urlencodedParser, (req, res) => {
-  let email = req.user.email;
+  let res_name = req.user.fname;
   let { occupied } = req.body;
   Restaurant.update(
     {
@@ -267,7 +269,7 @@ router.post("/seatManager", urlencodedParser, (req, res) => {
     },
     {
       where: {
-        email: email,
+        res_name: res_name,
       },
     }
   )

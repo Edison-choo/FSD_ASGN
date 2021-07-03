@@ -47,8 +47,11 @@
     <form action="/staffRestaurant/editRestaurant" method="post">
         <h1 style="text-align: center;">{{restaurant.res_name}}</h1>
         <hr>
-        <img src="{{restaurant.image}}" alt="" style="width: 400px;"
-            class="center">
+        <img id="icon" src="{{restaurant.image}}" alt="" style="width: 400px;" class="center">
+        <input style="margin: auto;display: block;" type="file" id="restaurantIcon" name="restaurantIcon" accept="image/png,image/jpeg,image/jpg,image/gif">
+        <input id="iconURL" type="hidden" name="iconURL" value="{{restaurant.image}}">
+        <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
+        <br>
         <table class="table table-dark table-hover tblTheme">
             <tr>
                 <th>Location:</th>
@@ -108,7 +111,15 @@
                 <th>Email:</th>
                 <td>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="comp_email" value="{{restaurant.comp_email}}">
+                        <input type="email" class="form-control" name="comp_email" value="{{restaurant.comp_email}}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Phone:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="phone" value="{{restaurant.phone}}">
                     </div>
                 </td>
             </tr>
@@ -131,5 +142,27 @@
                 format: 'HH:MM',
                 uiLibrary: 'bootstrap4',
             });
+    });
+    $("#restaurantIcon").on("change", function () {
+        let image = $("#restaurantIcon")[0].files[0];
+        let formdata = new FormData();
+        formdata.append("restaurantIcon", image);
+        $.ajax({
+            url: "/staffRestaurant/upload",
+            type: "POST",
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+                $("#icon").attr("src", data.file);
+                $("#iconURL").val(data.file); // sets iconURL hidden field
+                if (data.err) {
+                    $("#iconErr").show();
+                    $("#iconErr").text(data.err.message);
+                } else {
+                    $("#iconErr").hide();
+                }
+            },
+        });
     });
 </script>

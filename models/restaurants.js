@@ -2,8 +2,8 @@ const Sequelize = require("sequelize");
 const db = require("../config/DBConfig");
 
 const Restaurants = db.define("restaurants", {
-  email: {
-    type: Sequelize.STRING,
+  staffid: {
+    type: Sequelize.INTEGER,
   },
   address: {
     type: Sequelize.STRING,
@@ -12,6 +12,9 @@ const Restaurants = db.define("restaurants", {
     type: Sequelize.STRING,
   },
   res_name: {
+    type: Sequelize.STRING,
+  },
+  phone:{
     type: Sequelize.STRING,
   },
   cuisine: {
@@ -25,7 +28,6 @@ const Restaurants = db.define("restaurants", {
   },
   halal: {
     type: Sequelize.BOOLEAN,
-    allowNull: false,
     defaultValue: false,
   },
   facebook: {

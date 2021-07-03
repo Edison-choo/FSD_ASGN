@@ -1,0 +1,172 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .checked {
+        color: orange;
+    }
+
+    .seat {
+        height: 25px;
+        width: 25px;
+        background-color: green;
+        border-radius: 50%;
+    }
+
+    .square {
+        height: 25px;
+        width: 25px;
+        background-color: green;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tableLayout {
+        border-collapse: collapse;
+    }
+
+    .tableLayout td {
+        padding: 0;
+        margin: 0;
+    }
+
+    .checkTD {
+        height: 25px;
+        width: 25px;
+    }
+
+    .taken {
+        background-color: red;
+    }
+
+    .default {
+        padding: 30px;
+        background-color: #f2f1ef;
+        border-radius: 25px;
+        webkit-box-shadow: 3px 3px 5px 6px #ccc;
+        -moz-box-shadow: 3px 3px 5px 6px #ccc;
+        box-shadow: 3px 3px 5px 6px #ccc;
+    }
+</style>
+<div class="media row default">
+    <img src="{{restaurant.image}}" class="align-self-start mr-3 col-md-4" alt="..."
+        style="max-height: 400px; max-width: 400px;">
+    <div class="media-body col-md-8">
+        <div class="media-body">
+            <h1 class="mt-0">{{restaurant.res_name}}</h1>
+            <div>
+                5.0
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                | 12 Ratings
+                <!-- Facebook -->
+                <a style="color: #3b5998;" href="{{restaurant.facebook}}" role="button"><i
+                        class="fab fa-facebook-f fa-lg"></i></a>
+                <!-- Twitter -->
+                <a style="color: #55acee;" href="{{restaurant.twitter}}" role="button"><i
+                        class="fab fa-twitter fa-lg"></i></a>
+                <!-- Instagram -->
+                <a style="color: #ac2bac;" href="{{restaurant.instagram}}" role="button"><i
+                        class="fab fa-instagram fa-lg"></i></a>
+            </div>
+            <hr>
+            <table class="table table-borderless">
+                <tr>
+                    <td>Location:</td>
+                    <td>{{restaurant.address}}</td>
+                </tr>
+                <tr>
+                    <td>Opening Hours:</td>
+                    <td>{{restaurant.open_time}} - {{restaurant.close_time}}</td>
+                </tr>
+                <tr>
+                    <td>Cuisine:</td>
+                    <td>{{restaurant.cuisine}}</td>
+                </tr>
+                <tr>
+                    <td>Halal <img src="https://img.icons8.com/ios/452/halal-sign.png" alt=""
+                            style="width: 25px; height: 25px;">:</td>
+                    {{#if restaurant.halal}}
+                    <td>Yes</td>
+                    {{/if}}
+                    {{#else}}
+                    <td>No</td>
+                    {{/else}}
+                </tr>
+                <tr>
+                    <td>Phone:</td>
+                    <td>6754 2644</td> <!-- Get from Cruz later on -->
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i
+                                class="fas fa-envelope"></i></a> </td>
+                </tr>
+            </table>
+            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn btn-primary btn-block">Book a
+                table</a>
+        </div>
+    </div>
+</div>
+<br>
+<div id="table-wrap" class="default">
+    <table id="drawing-table" class="center tableLayout">
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    function buildGrid(cols, rows) {
+
+        var tableMarkup = "";
+        vert = 'abcdefghijklmnopqr'
+        for (x = 0; x < rows; x++) {
+            tableMarkup += "<tr>";
+            for (y = 0; y < cols; y++) {
+                tableMarkup += "<td><div id ='" + y + vert[x] + "' class='checkTD'></div></td>";
+            }
+            tableMarkup += "</tr>";
+        }
+
+        $("#drawing-table").html(tableMarkup)
+
+    };
+
+    $(function () {
+
+        // Variable Setup
+        var cols = 32,
+            rows = 18,
+            seatList = "{{restaurant.seat}}".split(","),
+            squareList = "{{restaurant.square}}".split(","),
+            tblDic = JSON.parse('{{restaurant.tables}}'.replace(/&quot;/g, '"')),
+            occupied = "{{restaurant.occupied}}".split(","),
+            $el;
+        buildGrid(cols, rows);
+        for (i in seatList) {
+            $("#" + seatList[i]).removeClass("checkTD")
+            $("#" + seatList[i]).addClass("seat")
+        }
+        for (i in squareList) {
+            $("#" + squareList[i]).removeClass("checkTD")
+            $("#" + squareList[i]).addClass("square")
+        }
+        for (const [key, value] of Object.entries(tblDic)) {
+            for (i in value) {
+                $("#" + value[i]).addClass(key)
+            }
+        }
+        for (i in occupied) {
+            if (occupied[i].length > 0) {
+                $("." + occupied[i]).addClass("taken")
+            }
+        }
+    });
+</script>

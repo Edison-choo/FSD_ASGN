@@ -1,0 +1,522 @@
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+       <div class="menuNav">
+          <button class="btn" style="cursor: not-allowed;">Table View (Edit)</button>
+          <button class="btn" onclick="window.location.href='/menu'">User View</button>
+        </div>
+        
+        <div class="row"><div class="menu">
+          <div class="menuTitle">
+          <h2>MENU TABLE</h2>
+            
+        </div>
+        <table class="menuTable" id="menuTable">
+            <thead>
+                <tr>
+                  <th></th>
+                    <th onclick="sortTable(1)">#<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(2)">ID<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(3)">Name<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(4)">Type<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(5)">Price<i class="bi bi-filter"></i></th>
+                    <th onclick="sortTable(6)">Specification<i class="bi bi-filter"></i></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="foodRow">
+              {{#if menus }}
+              {{#each menus}}
+                <tr>
+                  <td></td>
+                    <td>{{inc @index}}</td>
+                    <td>{{this.foodNo}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.type}}</td>
+                    <td>${{#distanceFixed this.price}}{{/distanceFixed}}</td>
+                    <td>{{this.specifications}}</td>
+                    <td><button class="buttonIcon" onclick="editMenu({{id}})" data-bs-toggle="modal" data-bs-target="#edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </td>
+                    <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{this.id}}"></button></td>
+                    <td></td>
+                </tr>
+              {{/each}}
+              {{else}}
+                <tr>
+                  <td></td>
+                    <td>1</td>
+                    <td>E01</td>
+                    <td>Eg 1</td>
+                    <td>Eg Type</td>
+                    <td>$3.00</td>
+                    <td>eg1, eg2</td>
+                    <td><button class="buttonIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </td>
+                    <td><button type="button" class="btn-close" aria-label="Close"></button></td>
+                    <td></td>
+                </tr>
+              {{/if}}
+            </tbody>
+        </table>
+        <button class="buttonAdd"  data-bs-toggle="modal" data-bs-target="#addMenu1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Add An Item
+            </button>
+        </div></div>
+        <div class="row">
+          <div class="menu col-lg-7 ">
+            <div class="menuTitle">
+              <h5>SPECIFICATIONS</h5>
+            </div>
+            <div>
+              <table class="menuTable" id="menuTable">
+                <thead>
+                    <tr>
+                      <th></th>
+                        <th onclick="sortTable(1)">#<i class="bi bi-filter"></i></th>
+                        <th onclick="sortTable(2)">Name<i class="bi bi-filter"></i></th>
+                        <th onclick="sortTable(3)">Choices<i class="bi bi-filter"></i></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {{#each menuSpec}}
+                    <tr>
+                      <td></td>
+                        <td>{{inc @index}}</td>
+                        <td>{{@key}}</td>
+                        <td>{{this}}</td>
+                        <td>
+                        </td>
+                        <td><button type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete{{@key}}"></button></td>
+                        <td></td>
+                    </tr>
+                  {{/each}}
+                  
+                </tbody>
+            </table>
+              <button class="buttonAdd"  data-bs-toggle="modal" data-bs-target="#addSpecification1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg>
+                  Add A Spec
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-1"></div>
+          <div class="menu col-lg-4">
+            <div class="menuTitle">
+              <H5>TABLE DETAILS</H5>
+            </div>
+            <div style="height: 35px;"></div>
+            <table class="bookTable bookTable1">
+                    <tr>
+                        <td>Total food:</td>
+                        <td>{{menus.length}}</td>
+                    </tr>
+                    <tr>
+                        <td>Categories:</td>
+                        <td>{{types.length}}</td>
+                    </tr>
+                    <tr>
+                        <td>Specifications:</td>
+                        <td>{{#len menuSpec}}{{/len}}</td>
+                    </tr>
+
+                </table>
+          </div>
+        </div>
+        
+        
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<div class="modal fade modalMenu" id="addMenu1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
+        <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addMenuForm" action="/menu/addMenu" method="POST">
+      <div class="modal-body">
+        <div class="">
+            <div class="popUpImage">
+              <div class="menuImage">
+              <img src="/img/no-image.jpg" alt="" id="menuImg" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+              </div>
+              <input type="file" name="menuImageUpload" id="menuImageUpload" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
+              <input type="hidden" name="menuImage" id="menuImage">
+              <div class="font-weight-bold text-danger small" id="menuImageErr" style="display:none"></div>
+            </div>
+            <div class="popUpContent">
+                  <div class="popUpContentTitle">Food Details</div>
+                    {{!-- <div class="form-outline">
+                      <input type="text" id="foodId" name='foodId' value="{{#if foodId}}{{foodId}}{{/if}}" class="form-control" required/>
+                      <label class="form-label" for="foodId">Food ID</label>
+                    </div> --}}
+                    <div class="form-outline">
+                      <input type="text" id="foodName" name='foodName' value="{{#if foodName}}{{foodName}}{{/if}}" class="form-control" required/>
+                      <label class="form-label" for="foodName">Food Name</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="text" id="foodType" name='foodType' value="{{#if foodType}}{{foodType}}{{/if}}" class="form-control" required/>
+                      <label class="form-label" for="foodType">Food Type </label>
+                    </div>
+                    {{!-- <a href="#" class="d-inline-block" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks" data-bs-placement="bottom" data-bs-original-title="Default tooltip">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                      </svg>
+                    </a> --}}
+                    <div class="form-outline">
+                      <input type="number" id="foodPrice" name='foodPrice' value="{{#if foodPrice}}{{#distanceFixed foodPrice}}{{/distanceFixed}}{{/if}}" class="form-control" required/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
+                    </div>
+                    
+                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    {{#each menuSpec}}
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="specifications" type="checkbox" value="{{@key}}" id="flexCheckDefault{{@index}}"/>
+                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}} <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="It will give user options {{this}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
+                    </div>
+                    {{/each}}
+                    {{!-- <div class="form-check specification">
+                      <input class="form-check-input" name='temperature' type="checkbox" {{#if temperature}}checked{{/if}} value="true" id="flexCheckDefault2"/>
+                      <label class="form-check-label" for="flexCheckDefault2">Temperature <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="portion" type="checkbox" {{#if portion}}checked{{/if}} value="true" id="flexCheckDefault3"/>
+                      <label class="form-check-label" for="flexCheckDefault3">Portion <a href="#" style="z-index: 100;" data-bs-toggle="tooltip" title="Each type value add a section to the menu. Eg. Appetizer, Dessert or Drinks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg></a></label>
+                    </div> --}}
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="addMenu()" class="btn btn-dark">Done</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modalMenu" id="addSpecification1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Add New Specification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+            <div class="popUpContent" style="width: 425px;">
+                <form action="/menu/addSpec" method="POST">
+                  <div class="popUpContentTitle">Specification</div>
+                    <div class="form-outline">
+                      <input type="text" id="name" name='name' class="form-control" required/>
+                      <label class="form-label" for="name">Name</label>
+                    </div>
+                    <hr>
+                    <div class="popUpContentTitle" style="font-size: 1em; font-weight:400;">Options of the Specifications</div>
+                    <ol style="padding-left: 10px;">
+                      <li>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="text" id="option1" name='option1' value="" class="form-control" required/>
+                              <label class="form-label" for="option1">Option</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="number" step="0.01" id="addPrice1" name='addPrice1' value="" class="form-control" required/>
+                              <label class="form-label" for="addPrice1">Additional Cost</label>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row">
+                      <div class="col">
+                        <div class="form-outline">
+                          <input type="text" id="option2" name='option2' value="" class="form-control" required/>
+                          <label class="form-label" for="option2">Option</label>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-outline">
+                          <input type="number" step="0.01" id="addPrice2" name='addPrice2' value="" class="form-control" required/>
+                          <label class="form-label" for="addPrice2">Additional Cost</label>
+                        </div>
+                      </div>
+                    </div>
+
+                      </li>
+                    </ol>
+                    <button class="btn addOption" type="button" style="margin-top: 10px; background-color:#ffb03b;width:200px;">
+                      Add An Option
+                  </button>
+                  <button class="btn removeOption" type="button" style="margin-top: 10px; background-color:#ffb03b;width:200px;margin-left:20px;">
+                      Remove Last Option
+                  </button>
+                  <div id="hidden" style="display: none; color:red;margin-top:20px;"></div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark">Done</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{!-- {{#each menus}} --}}
+{{!-- <div class="modal fade modalMenu" id="edit{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Update New Food</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/menu/update/{{this.id}}" method="POST">
+      <div class="modal-body">
+        <div class="">
+            <div class="popUpImage">
+              <div class="menuImage">
+              <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+              </div>
+              <input onchange="uploadImg({{this.id}})" type="file" name="menuImageUpload" id="menuImageUpload{{id}}" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
+              <input type="hidden" name="menuImage" id="menuImage{{id}}" value="{{this.image}}">
+              <div class="font-weight-bold text-danger small" id="menuImageErr{{id}}" style="display:none"></div>
+            </div>
+            <div class="popUpContent">
+                
+                    <div class="popUpContentTitle">Food Details</div>
+
+                  <div class="form-outline">
+                      <input type="text" id="foodNo" name='foodId' value="{{this.foodNo}}" class="form-control" required/>
+                      <label class="form-label" for="foodId">Food ID</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="text" id="foodName" name='foodName' value="{{this.name}}" class="form-control" required/>
+                      <label class="form-label" for="foodName">Food Name</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="text" id="foodType" name='foodType' value="{{this.type}}" class="form-control" required/>
+                      <label class="form-label" for="foodType">Food Type</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="number" id="foodPrice" name='foodPrice' value="{{#distanceFixed this.price}}{{/distanceFixed}}" class="form-control" required/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
+                    </div>
+
+                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    {{#each ../menuSpec}}
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="specifications" type="checkbox" {{#ifIn @key ../this.specifications}}checked{{/ifIn}}  value="{{@key}}" id="flexCheckDefault{{@index}}"/>
+                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
+                    </div>
+                    {{/each}}
+                    {{!-- <div class="form-check specification">
+                      <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="true" id="flexCheckDefault2"/>
+                      <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault3"/>
+                      <label class="form-check-label" for="flexCheckDefault3">Portion</label>
+                    </div>--}}
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-dark">Done</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div> --}}
+{{!-- {{/each}} --}}
+
+<div class="modal fade modalMenu" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Update New Food</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/menu/update/{{this.id}}" method="POST">
+      <div class="modal-body">
+        <div class="">
+            <div class="popUpImage">
+              <div class="menuImage">
+              <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+              </div>
+              <input type="file" name="menuImageUpload" id="menuImageUpload{{id}}" accept="image/png,image/jpeg,image/jpg,image/gif" style="font-size: 0.6em; width: 140px; margin-top:10px;">
+              <input type="hidden" name="menuImage" id="menuImage{{id}}" value="{{this.image}}">
+              <div class="font-weight-bold text-danger small" id="menuImageErr{{id}}" style="display:none"></div>
+            </div>
+            <div class="popUpContent">
+                
+                    <div class="popUpContentTitle">Food Details</div>
+
+                  <div class="form-outline">
+                      <input type="text" id="foodNo" name='foodId' value="{{this.foodNo}}" class="form-control" required/>
+                      <label class="form-label" for="foodId">Food ID</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="text" id="foodName" name='foodName' value="{{this.name}}" class="form-control" required/>
+                      <label class="form-label" for="foodName">Food Name</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="text" id="foodType" name='foodType' value="{{this.type}}" class="form-control" required/>
+                      <label class="form-label" for="foodType">Food Type</label>
+                    </div>
+                    <div class="form-outline">
+                      <input type="number" id="foodPrice" name='foodPrice' value="{{#distanceFixed this.price}}{{/distanceFixed}}" class="form-control" required/>
+                      <label class="form-label" for="foodPrice">Food Price</label>
+                    </div>
+
+                    <div class="popUpContentTitle" style="font-size: 1.0em; margin-top: 20px; margin-bottom: 10px;">Specification: </div>
+                    {{#each menuSpec}}
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="specifications" type="checkbox"  value="{{@key}}" id="flexCheckDefault{{@index}}"/>
+                      <label class="form-check-label" for="flexCheckDefault{{@index}}">{{@key}}</label>
+                    </div>
+                    {{/each}}
+                    {{!-- <div class="form-check specification">
+                      <input class="form-check-input" name="temperature" type="checkbox" {{#ifIn "temperature" this.specifications}}checked{{/ifIn}} value="true" id="flexCheckDefault2"/>
+                      <label class="form-check-label" for="flexCheckDefault2">Temperature</label>
+                    </div>
+                    <div class="form-check specification">
+                      <input class="form-check-input" name="portion" type="checkbox" {{#ifIn "portion" this.specifications}}checked{{/ifIn}}  value="true" id="flexCheckDefault3"/>
+                      <label class="form-check-label" for="flexCheckDefault3">Portion</label>
+                    </div>--}}
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-dark">Done</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#each menus}}
+<div class="modal fade popUpDelete" id="delete{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div style="clear: both; text-align:center; margin: 20px auto 10px;">
+            <div>Are you sure you want to delete the item?</div>
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='/menu/delete/{{this.id}}';">Delete</button>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+{{#each menuSpec}}
+<div class="modal fade popUpDelete" id="delete{{@key}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div style="clear: both; text-align:center; margin: 20px auto 10px;">
+            <div>Are you sure you want to delete the specifications?</div>
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">Back</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='/menu/deleteSpec/{{@key}}';">Delete</button>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="js/scripts.js"></script>
+
+<script>
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("menuTable");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>

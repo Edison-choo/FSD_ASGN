@@ -31,13 +31,11 @@
     .center {
         margin-left: auto;
         margin-right: auto;
-        margin-top: 9px;
     }
 
     .centerText {
         font-size: 25px;
         text-align: center;
-        padding-left: 9px;
         color: #bbb;
         cursor: pointer;
     }
@@ -74,15 +72,7 @@
     }
 
     .color {
-        float: left;
-        position: relative;
         border: 3px solid #ccc;
-        margin: 0 20px 40px 0;
-        width: 50px;
-        height: 50px;
-        -moz-border-radius: 30px;
-        -webkit-border-radius: 30px;
-        border-radius: 30px;
     }
 
     .color input {
@@ -92,6 +82,10 @@
         width: 14px;
         height: 14px;
         border: 0;
+    }
+
+    .colorpicker :hover {
+        border: 3px solid black;
     }
 
     .colorpicker_submit {
@@ -153,17 +147,21 @@
             </div>
             <br>
             <div class="legendBorder FDefaultTab">
-                <fieldset id="color-selector">
+                <div id="color-selector">
                     <div>Picker <i class="far fa-question-circle"></i></div>
                     <hr>
-                    <div class="color red selected" data-class="square">
-                        <div class="square center"></div><input type="text">
+                    <div class="row">
+                        <div class="color red selected col-4 btn" data-class="square">
+                            <div class="square center"></div><input type="text">
+                        </div>
+                        <div class="color green col-4 btn" data-class="seat">
+                            <div class="seat center"></div><input type="text">
+                        </div>
+                        <div class="color eraser col-4 btn" data-class="eraser"><div class="fas fa-eraser center centerText"></div>
+                        </div>
                     </div>
-                    <div class="color green" data-class="seat">
-                        <div class="seat center"></div><input type="text">
-                    </div>
-                    <div class="color eraser" data-class="eraser"><i class="fas fa-eraser center centerText"></i></div>
-                </fieldset>
+
+                </div>
             </div>
             <br>
             <div class="FDefaultTab legendBorder">
