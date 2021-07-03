@@ -292,57 +292,57 @@ router.post("/uploadEdit", urlencodedParser, (req, res) => {
 // });
 
 // add specifications
-router.post("/addSpec", urlencodedParser, (req, res) => {
-  let name = req.body.name;
-  let optionList = [];
-  for (i in req.body) {
-    // console.log(req.body[i]);
-    if (i !== "name" && i.slice(0, 1) === "o") {
-      optionList.push([req.body[i]]);
-    } else if (i !== "name" && i.slice(0, 1) === "a") {
-      optionList[optionList.length - 1] = optionList[
-        optionList.length - 1
-      ].concat([req.body[i]]);
-    }
-  }
-  console.log(optionList);
-  for (i = 0; i < optionList.length; i++) {
-    let option = optionList[i][0];
-    let addPrice = optionList[i][1];
-    MenuSpec.findOne({ where: { name: name } }).then((spec) => {
-      if (spec) {
-        alertMessage(
-          res,
-          "danger",
-          "Specification name is already registered",
-          "fas fa-ban",
-          true
-        );
-        res.redirect("/updateMenu");
-      } else {
-        let id = 1;
-        MenuSpec.create({
-          name: name,
-          option: option,
-          addPrice: addPrice,
-          restaurantId: id,
-        })
-          .then((specOption) => {
-            console.log(`Successfuly added ${option} to ${name}`);
-          })
-          .catch((err) => console.log(err));
-      }
-      // if (i === optionList.length - 1) {
-      //   if (check === true) {
-      //     alertMessage(res, "success",'Specification is successfully added', 'fas fa-check-circle', true);
-      //   } else {
-      //     alertMessage(res, "danger",'Error encountered. Pls retry', 'fas fa-ban', true);
-      //   }
-      // }
-    });
-  }
-  res.redirect("/menu/updateMenu");
-});
+// router.post("/addSpec", urlencodedParser, (req, res) => {
+//   let name = req.body.name;
+//   let optionList = [];
+//   for (i in req.body) {
+//     // console.log(req.body[i]);
+//     if (i !== "name" && i.slice(0, 1) === "o") {
+//       optionList.push([req.body[i]]);
+//     } else if (i !== "name" && i.slice(0, 1) === "a") {
+//       optionList[optionList.length - 1] = optionList[
+//         optionList.length - 1
+//       ].concat([req.body[i]]);
+//     }
+//   }
+//   console.log(optionList);
+//   for (i = 0; i < optionList.length; i++) {
+//     let option = optionList[i][0];
+//     let addPrice = optionList[i][1];
+//     MenuSpec.findOne({ where: { name: name } }).then((spec) => {
+//       if (spec) {
+//         alertMessage(
+//           res,
+//           "danger",
+//           "Specification name is already registered",
+//           "fas fa-ban",
+//           true
+//         );
+//         res.redirect("/updateMenu");
+//       } else {
+//         let id = 1;
+//         MenuSpec.create({
+//           name: name,
+//           option: option,
+//           addPrice: addPrice,
+//           restaurantId: id,
+//         })
+//           .then((specOption) => {
+//             console.log(`Successfuly added ${option} to ${name}`);
+//           })
+//           .catch((err) => console.log(err));
+//       }
+//       // if (i === optionList.length - 1) {
+//       //   if (check === true) {
+//       //     alertMessage(res, "success",'Specification is successfully added', 'fas fa-check-circle', true);
+//       //   } else {
+//       //     alertMessage(res, "danger",'Error encountered. Pls retry', 'fas fa-ban', true);
+//       //   }
+//       // }
+//     });
+//   }
+//   res.redirect("/menu/updateMenu");
+// });
 
 //delete specifications
 // router.get("/deleteSpec/:name", (req, res) => {
@@ -366,6 +366,7 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
 //     .catch((err) => console.log(err));
 // });
 
+// ajax get data
 router.get("/getMenu", (req, res) => {
   let types = [];
   Menu.findAll({
@@ -508,6 +509,72 @@ router.post("/update/:id", urlencodedParser, (req, res) => {
         }).catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
+});
+
+// ajax get new specifications
+router.get("/getNewSpec/:name", (req, res) => {
+  let name = req.params.name;
+  console.log(name);
+  MenuSpec.findOne({ where: { name: name } })
+    .then((specs) => {
+      console.log(specs);
+      let menuSpec = {};
+      specs.forEach((option) => {
+        if (option.name in menuSpec) {
+          menuSpec[option.name] = menuSpec[option.name].concat([
+            { option: option.option, addPrice: option.addPrice },
+          ]);
+        } else {
+          console.log("test1");
+          menuSpec[option.name] = [
+            { option: option.option, addPrice: option.addPrice },
+          ];
+        }
+      });
+      res.json({menuSpec});
+    })
+    .catch((err) => console.log(err));
+});
+
+// ajax add specifications
+router.post("/addSpec", urlencodedParser, (req, res) => {
+  let name = req.body.name;
+  let optionList = [];
+  for (i in req.body) {
+    // console.log(req.body[i]);
+    if (i !== "name" && i.slice(0, 1) === "o") {
+      optionList.push([req.body[i]]);
+    } else if (i !== "name" && i.slice(0, 1) === "a") {
+      optionList[optionList.length - 1] = optionList[
+        optionList.length - 1
+      ].concat([req.body[i]]);
+    }
+  }
+  console.log(optionList);
+  MenuSpec.findOne({ where: { name: name } })
+    .then((spec) => {
+      if (spec) {
+        res.json({error:"Specification name is already registered!"});
+      } else {
+        for (i = 0; i < optionList.length; i++) {
+          let option = optionList[i][0];
+          let addPrice = optionList[i][1];
+          let id = 1;
+          MenuSpec.create({
+            name: name,
+            option: option,
+            addPrice: addPrice,
+            restaurant_id: id,
+          })
+            .then((specOption) => {
+              console.log(`Successfuly added ${option} to ${name}`);
+            })
+            .catch((err) => console.log(err));
+        }
+      res.json({success:`new spec is successfully added!`, optionList:optionList.map(m=>m[0])});
+      }
+    }).catch((err) => console.log(err));
+  
 });
 
 // ajax delete specifications

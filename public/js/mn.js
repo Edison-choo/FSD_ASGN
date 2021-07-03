@@ -288,6 +288,71 @@ $(function() {
   
 });
 
+// add specifications
+$(function() {
+  $("#addSpecificationForm").on('submit', function(e) {
+    e.preventDefault();
+    console.log("adding specifications...");
+    let formdata = $("#addSpecificationForm").serializeArray();
+    var $form = $(this);
+    if (!$form.valid) return false;
+    // $(".successMsg").hide();
+    let name = $("#addSpecificationForm #name").val();
+    console.log(name);
+    $.ajax({
+        url: "/menu/addSpec",
+        type: "POST",
+        data: formdata,
+        dataType: 'json',
+        success: (data) => {
+          console.log(data, name);
+          if ('success' in data) {
+            console.log(data.optionList);
+            console.log(name+" is successfully added");
+            let last = parseInt($(".specRow tr").last().find('td').eq(1).text());
+            $(".specRow tr").last().after("<tr></tr>");
+            $(".specRow tr").last().append($(".specRow tr").first().html());
+            $(".specRow tr").last().find('td').eq(1).text(last + 1);
+            $(".specRow tr").last().find('td').eq(2).text(name);
+            $(".specRow tr").last().find('td').eq(3).text(data.optionList);
+            $(".specRow tr").last().find('td').eq(4)
+            $(".specRow tr").last().find('td').eq(5).find("button").attr("onclick", `triggerDeleteSpec(${name})`);
+            $(".successMsg").text(data.success);
+            $(".successMsg").show();
+            $("#addSpecification1 #closeSpec").trigger("click");
+            $("#addSpecification1 #error").hide();
+            cleanInput();
+          } else {
+            $("#addSpecification1 #error").hide();
+            $("#addSpecification1 #error").text(data.error);
+            $("#addSpecification1 #error").show();
+          }
+        }
+    });
+  })
+  
+});
+
+function getNewSpec(name) {
+  console.log("retrieving new spec..." + name);
+  $.ajax({
+    url: "/menu/getNewSpec/" + name,
+    type: "GET",
+    dataType: 'json',
+    success: (data) => {
+      console.log(data.menuSpec[0].name+" is successfully added");
+      let last = parseInt($(".specRow tr").last().find('td').eq(1).text());
+      $(".specRow tr").last().after("<tr></tr>");
+      $(".specRow tr").last().append($(".specRow tr").first().html());
+      $(".specRow tr").last().find('td').eq(1).text(last + 1);
+      $(".specRow tr").last().find('td').eq(2).text(data.menuSpec.keys[0]);
+      $(".specRow tr").last().find('td').eq(3).text(data.menuSpec.option);
+      $(".specRow tr").last().find('td').eq(4)
+      $(".specRow tr").last().find('td').eq(5).find("button").attr("onclick", `triggerDeleteSpec(${data.menuSpec.keys[0]})`);
+    }
+  });
+};
+
 // delete specifications
 function triggerDeleteSpec(name) {
   console.log("triggering delete spec..." + name);

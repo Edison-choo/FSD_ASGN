@@ -103,8 +103,7 @@
                         <td>{{inc @index}}</td>
                         <td>{{@key}}</td>
                         <td>{{this}}</td>
-                        <td>
-                        </td>
+                        <td></td>
                         <td><button onclick="triggerDeleteSpec('{{@key}}')" type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#deleteSpec"></button></td>
                         <td></td>
                     </tr>
@@ -234,12 +233,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Add New Specification</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="closeSpec" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="">
             <div class="popUpContent" style="width: 425px;">
-                <form action="/menu/addSpec" method="POST">
+                <form id="addSpecificationForm" action="/menu/addSpec" method="POST">
                   <div class="popUpContentTitle">Specification</div>
                     <div class="form-outline">
                       <input type="text" id="name" name='name' class="form-control" required/>
@@ -289,6 +288,7 @@
                       Remove Last Option
                   </button>
                   <div id="hidden" style="display: none; color:red;margin-top:20px;"></div>
+                  <div class="font-weight-bold text-danger small" id="error" style="display:none; width: 250px; font-size:0.8em;margin-top:10px;"></div>
             </div>
         </div>
       </div>
