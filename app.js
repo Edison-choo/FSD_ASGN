@@ -241,3 +241,8 @@ Handlebars.registerHelper("idIfIn", function(elem, list, options) {
 Handlebars.registerHelper("len", function(dict) {
     return Object.keys(dict).length;
 });
+
+Handlebars.registerHelper("splitstr", function(str, value) {
+    var strArr = str.split("@");
+    return strArr[value]
+});

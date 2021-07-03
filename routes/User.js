@@ -4,6 +4,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const User = require("../models/user");
 const Restaurant = require("../models/restaurants");
+const Promotion = require("../models/promotions");
 const bcrypt = require("bcryptjs")
 const passport = require("passport");
 const { response } = require('express');
@@ -37,7 +38,16 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 	let phone = req.body.phone;
 	let usertype = "customer";
 
-	
+	// current timestamp in milliseconds
+	let ts = Date.now();
+
+	let date_ob = new Date(ts);
+	let date = date_ob.getDate();
+	let month = date_ob.getMonth() + 1;
+	let year = date_ob.getFullYear();
+
+	// prints date & time in YYYY-MM-DD format
+	let fulldate = year + "-" + month + "-" + date;
 
     if(password != cpassword){
         errors.push({"text": "Password do not match"});
@@ -56,10 +66,6 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 		errors.push({"text": "Phone number must have at least 8 digit"});
 	}
 
-	
-
-
-
     if(errors.length == 0){
         User.findOne({ where: {email: req.body.email} })
 		.then(user => {
@@ -70,7 +76,7 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
  			// Create new user record
 			 bcrypt.genSalt(10, function(err, salt) {
 				bcrypt.hash(password, salt, function(err, hash) {
-				User.create({fname:fname, lname:lname, phone:phone, email:email, password:hash, cust_type:"customer"})
+				User.create({fname:fname, lname:lname, phone:phone, email:email, password:hash, cust_type:"customer", date: fulldate})
 				.then(user => {
 					success_msg = email + " registered successfully";
 					res.render('user/login', {success_msg:success_msg});
@@ -212,12 +218,17 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 });
 
 router.get('/profile', urlencodedParser, ensureAuthenticated, (req,res) => {
-	Restaurant.findOne({where: {email: req.user.email}})
-	.then(restaurant => {
-		if(restaurant){
-			res.render("user/profile", {restaurant});
-		}
-	})
+	if(req.user.cust_type == "staff"){
+		Restaurant.findOne({where: {email: req.user.email}})
+		.then(restaurant => {
+			if(restaurant){
+				res.render("user/profile", {restaurant});
+			}
+		})
+	}else{
+		res.render("user/profile")
+	}
+	
 });
 
 router.get('/editProfile', urlencodedParser, ensureAuthenticated, (req, res) => {
@@ -234,6 +245,11 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 		where: {
 			email: req.user.email
 		}
+	}),
+	Promotion.destroy({
+		where: {
+			staffid: req.params.id
+		}
 	})
 	.then(() => {
 		req.logout();
@@ -247,7 +263,7 @@ router.post('/deleteProfile/:id', urlencodedParser, (req, res) => {
 router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	let errors = [];
 	let success_msg = '';
-	let {fname, lname, email, phone, passport, cpassword, address, restname} = req.body;
+	let {fname, lname, email, phone, passport, cpassword, address, res_name} = req.body;
 
 	User.findOne({ where: {id: req.params.id} })
 	.then(user => {
@@ -306,7 +322,13 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 			})
 		}else{
 			User.update({
-				fname: req.body.restname,
+				fname: req.body.res_name,
+				email: req.body.email
+			},
+			{where:{id: req.params.id}}
+			)
+			Restaurant.update({
+				res_name: req.body.res_name,
 				email: req.body.email
 			},
 			{where:{id: req.params.id}}
