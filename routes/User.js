@@ -15,6 +15,8 @@ var urlencodedParser = bodyParser.urlencoded({extended: false});
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 var valid = require("card-validator");
+const { Sequelize } = require('sequelize');
+const op = Sequelize.Op;
 
 router.get('/login', (req, res) => {
 	res.render('user/login');
@@ -127,11 +129,11 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 		
 
     if(errors.length == 0){
-        User.findOne({ where: {[Op.or]: [{ email: req.body.email }, { fname: res_name }]} })
+        User.findOne({ where: {[op.or]: [{ email: req.body.email }, { fname: res_name }]} })
 		.then(user => {
 			if (user) {
 		// If user is found, email has already been registered
-			res.render('user/registerOwner', {error: user.email + ' already registered'});
+			res.render('user/registerOwner', {error: 'User already registered'});
 			} else {
  			// Create new user record
 			 bcrypt.genSalt(10, function(err, salt) {
