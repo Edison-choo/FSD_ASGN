@@ -104,20 +104,27 @@
                                 class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
-            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Book a
+            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Book
+                a
                 table</a>
         </div>
     </div>
 </div>
 <br>
 <div id="table-wrap" class="default FDefaultTab">
+    {{#ifEquals restaurant.square undefined}}
+    <h1 style="text-align: center;">Layout in Progress...</h1>
+    {{else}}
     <table id="drawing-table" class="center tableLayout">
         <tr>
             <td></td>
         </tr>
     </table>
     <hr>
-    <div style="text-align: center;"><i class="fas fa-square-full" style="color: green;"></i> - Vacant <span style="padding-left: 45px;"></span> <i class="fas fa-square-full"  style="color: red;"></i> - Occupied</div>
+    <div style="text-align: center;"><i class="fas fa-square-full" style="color: green;"></i> - Vacant <span
+            style="padding-left: 45px;"></span> <i class="fas fa-square-full" style="color: red;"></i> - Occupied</div>
+
+    {{/ifEquals}}
 </div>
 
 <script>
