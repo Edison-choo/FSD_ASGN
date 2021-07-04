@@ -1,8 +1,13 @@
 <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+<script>
+  $(function() {
+    hideAll();
+  })
+</script>
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
+        <div class="alert alert-success successMsg" style="display: none;"></div>
         <h1 class="menuTitle">MENU</h1>
         {{#if types}}
         <div class="subNav">
@@ -18,7 +23,7 @@
           <div class="menuCat">
               {{#each ../menus}}
               {{#ifEquals this.type ../this}}
-                <div class="menuItem" {{#each ../../session.cart}}
+                <div id="{{id}}" class="menuItem" {{#each ../../session.cart}}
                     {{#ifEquals this.id ../this.id}}
                     style="margin-bottom: 40px;"
                     {{/ifEquals}}
@@ -33,23 +38,23 @@
                       <span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
                       </div>
                       
-                      <button type="button" name="" id="" class="btn btn-dark btn-block"  data-bs-toggle="modal" data-bs-target="#food{{this.id}}">
-                        {{#if ../../session.cart}}{{#each ../../session.cart}}
-                    {{/each}}
-                    {{else}}
-                    Order
-                    {{/if}}</button>
+                      <button type="button" name="" id="" class="btn btn-dark btn-block" onclick="getFood({{id}})"  data-bs-toggle="modal" data-bs-target="#food">
+                    Order</button>
                     </div>
                     {{#each ../../session.cart}}
                     {{#ifEqualsUser this.userId ../../../user}}
                     {{#ifEquals this.id ../this.id}}
                     <div id="menuOrdered">
                     Ordered
-                    <button type="button" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll{{this.id}}">Edit Order</button>
+                    <button type="button" onclick="editAll({{this.id}})" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll">Edit Order</button>
                     </div>
                     {{/ifEquals}}
                     {{/ifEqualsUser}}
                     {{/each}}
+                    <div id="menuOrdered" class="menuOrderedHidden" style="display: none; margin-bottom: 50px;">
+                    Ordered
+                    <button type="button" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll">Edit Order</button>
+                    </div>
                 </div>
               
               {{/ifEquals}}
@@ -72,15 +77,14 @@
     </div>
 </div>
 
-{{#each menus}}
-<div class="modal fade modalMenu" id="food{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+<div class="modal fade modalMenu" id="food" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Food Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="closeFood" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/book/add/{{this.id}}" method="post">
+      <form id="addFoodForm" action="/book/add/{{this.id}}" method="post">
       <div class="modal-body">
         <div class="">
             <div class="popUpImage">
@@ -97,26 +101,15 @@
                   <label style="display: block;" for="">Quantity:</label>
                   <div class="quantity buttons_added">
                     <input type="button" value="-" class="minus">
-                    <input type="number" step="1" min="1" max="" name="quantity" 
+                    <input id="quantity" type="number" step="1" min="1" max="" name="quantity" 
                     value="1" 
                     title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
                     <input type="button" value="+" class="plus">
                   </div>
-                  
-                  {{#each ../menuSpec}}
-                  {{#ifIn @key ../this.specifications}}
-                  <div>
-                    <label for="">{{@key}}:</label>
-                    <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example" required>  
-                      <option value="">Open this select menu</option>
-                      
-                      {{#each this}}
-                      <option value="{{this.option}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
-                      {{/each}}
-                    </select>
+                  <div id="foodSpec">
+                    <div>
+                    </div>
                   </div>
-                  {{/ifIn}}
-                  {{/each}}
                   <div class="">
                     <label for="remark">Remark:</label>
                     <input type="text" id="remark" value="{{#idIfIn this.id ../session.cart}}{{#each ../session.cart}}{{#ifEquals this.id ../this.id}}{{this.remark}}{{/ifEquals}}{{/each}}{{/idIfIn}}" name='remark' class="form-control"/>
@@ -133,9 +126,7 @@
     </div>
   </div>
 </div>
-{{/each}}
 
-{{#each session/cart}}
 <div class="modal fade modalMenu" id="updateAll{{this.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -161,18 +152,16 @@
     </div>
   </div>
 </div>
-{{/each}}
 
-{{#each session/cart}}
-{{#each orders}}
-<div class="modal fade modalMenu" id="editFood{{uniqueId}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+
+<div class="modal fade modalMenu" id="editFood" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Food Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="closeEdit" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/book/update/{{../this.id}}-{{uniqueId}}" method="post">
+      <form id="editFoodForm" action="/book/update/{{../this.id}}-{{uniqueId}}" method="post">
       <div class="modal-body">
         <div class="">
             <div class="popUpImage">
@@ -182,8 +171,6 @@
               </div>
             </div>
             <div class="popUpContent popUpContent2">
-              {{#each ../../menus}}
-              {{#ifEquals id ../../id}}
               <div class="popUpContentTitle">{{this.name}}
                 <br><span style="font-weight: 400;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
                 </div>
@@ -197,54 +184,26 @@
                     <input type="button" value="+" class="plus">
                   </div>
                   
-                  {{#each ../../../menuSpec}}
-                  {{#ifIn @key ../this.specifications}}
-                  <div>
-                    <label for="">{{@key}}:</label>
-                    <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example" required>  
-                      <option value="">Open this select menu</option>
-                      
-                      {{#each this}}
-                      {{!-- {{#idIfIn ../../this.id ../../../session.cart}}
-                      {{#each ../../../session.cart}} --}}
-                      {{!-- {{#ifEquals ../../../this.id this.id}} --}}
-                      {{!-- {{#each this.orders}} --}}
-                      {{#ifIn this.option ../../../this.specifications}}
-                      <option value="{{this.option}}" selected>{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
-                      {{else}}
-                      <option value="{{this.option}}">{{this.option}} +${{#distanceFixed this.addPrice}}{{/distanceFixed}}</option>
-                      {{/ifIn}}
-                      {{!-- {{/each}} --}}
-                      {{!-- {{/ifEquals}} --}}
-                      {{!-- {{/each}}
-                      {{!-- {{else}} --}}
-                      {{!-- <option value="{{this}}">{{this}}</option> --}}
-                      {{!-- {{/idIfIn}} --}} --}}
-                      {{/each}}
-                    </select>
+                  <div id="specificationsSelect">
                   </div>
-                  {{/ifIn}}
-                  {{/each}}
+
                   <div class="">
                     <label for="remark">Remark:</label>
                     <input type="text" id="remark" name="remark" value="{{../this.remark}}" class="form-control"/>
                   </div>
+                  
                 
             </div>
-            {{/ifEquals}}
-            {{/each}}
         </div>
       </div>
       
       <div class="modal-footer">
-        <button type="submit" class="btn btn-dark">Add To Cart</button>
+        <button type="submit" class="btn btn-dark">Update Cart</button>
       </div>
       </form>
     </div>
   </div>
 </div>
-{{/each}}
-{{/each}}
 
 <script>
   window.onscroll = function() {stickyNav()};

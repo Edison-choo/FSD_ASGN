@@ -69,6 +69,13 @@ function cleanInput() {
   $("#addMenu1 .popUpContent #foodName").val("");
   $("#addMenu1 .popUpContent #foodType").val("");
   $("#addMenu1 .popUpContent #foodPrice").val("");
+  $("#food .popUpContent #quantity").val(1);
+  $("#food .popUpContent #remark").val("");
+}
+
+function hideAll() {
+  console.log("hiding all...")
+  $(`#menuOrderedHidden`).hide();
 }
 
 $("#menuImageUpload").on("change", function () {
@@ -148,7 +155,7 @@ $(function() {
             $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
             $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
             $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
-            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price);
+            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price.toFixed(2));
             $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
             $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
             $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
@@ -384,3 +391,205 @@ function deleteMenuSpec(name) {
       },
   });
 };
+
+// booking food
+
+// retrieve food data
+function getFood(id) {
+  console.log("retrieving food details..." + id);
+  $.ajax({
+    url: "/book/getFood",
+    type: "GET",
+    dataType: 'json',
+    success: (data) => {
+      let menus = data.menus;
+      let types = data.types;
+      let menuSpec = data.menuSpec;
+      let menu = (menus.filter(f => f.id == id))[0];
+      let image = menu.image == '' ? '/img/no-image.jpg' : menu.image;
+      let specifications = menu.specifications.includes(",") ? menu.specifications.split(",") : [menu.specifications];
+      console.log(menu, specifications);
+      $("#food form").attr("action","/book/add/"+id);
+      $("#food .menuImage img").attr("src",image);
+      $("#food .popUpImage input").attr({"value":image});
+      $("#food .popUpImage foodSpec").attr({"id":'menuImageErr'+id});
+      $("#food .popUpContent .popUpContentTitle").html(`${menu.name}<br><span style="font-weight: 400;">$${menu.price.toFixed(2)}</span>`);
+      let specificationDiv = '';
+      for (i in menuSpec) {
+        if (specifications.includes(i) && specifications != [""]) {
+            specificationDiv += 
+              `<div>
+              <label for="">${i}:</label>
+              <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example" required>  
+                <option value="">Open this select menu</option>
+              `;
+            for (j=0;j<menuSpec[i].length;j++) {
+              specificationDiv += `<option value="${menuSpec[i][j]['option']}">${menuSpec[i][j]['option']} +$${menuSpec[i][j]['addPrice'].toFixed(2)}</option>`;
+            }
+            specificationDiv += `</select>
+            </div>`;
+        }
+      }
+      $("#food .popUpContent #foodSpec").html(specificationDiv);
+    },
+  });
+};
+
+// add food to cart
+$(function() {
+  $("#addFoodForm").on('submit', function(e) {
+    e.preventDefault();
+    console.log("adding food to cart...", $("#addFoodForm").attr("action").substring(10));
+    let formdata = $("#addFoodForm").serializeArray();
+    var $form = $(this);
+    let id = $("#addFoodForm").attr("action").substring(10);
+    console.log(id);
+    $.ajax({
+        url: "/book/add/"+id,
+        type: "POST",
+        data: formdata,
+        dataType: 'json',
+        success: (data) => {
+          if ('success' in data) {
+            $(`#${id} .menuOrderedHidden`).show();
+            $(`#${id} .menuOrderedHidden button`).attr('onclick', `editAll(${id})`);
+            $("#food #closeFood").trigger("click");
+            $("#error").hide();
+            $(".successMsg").text(data.success);
+            $(".successMsg").show()
+            cleanInput();
+          }
+        }
+    });
+  })
+  
+});
+
+// get cart data
+function editAll(id) {
+  console.log("retrieving all cart details..." + id);
+  $.ajax({
+    url: "/book/getCart",
+    type: "GET",
+    dataType: 'json',
+    success: (data) => {
+      console.log(data.cart);
+      let cart = data.cart;
+      let menus = data.menus;
+      let menuSpec = data.menuSpec;
+      let foodList = cart.filter((f) => f.id == id)[0].orders;
+      $("#updateAll h5").text(menus.filter(f => f.id == id)[0].name);
+      let addingHtml = '';
+      for (i in foodList) {
+        addingHtml += `<button style="margin-bottom: 20px;" id="selectOrder" type="button" onclick="edit(${id},${foodList[i].uniqueId})" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editFood">Order ${foodList[i].uniqueId}&nbsp; X${foodList[i].quantity}</button>`;
+      }
+      $("#updateAll .modal-body div").html(addingHtml);
+    },
+  });
+};
+
+function edit(id, uniqueId) {
+  console.log("retrieving cart details..." + uniqueId);
+  $("#updateAll button").first().trigger("click");
+  $.ajax({
+    url: "/book/getCart",
+    type: "GET",
+    dataType: 'json',
+    success: (data) => {
+      console.log(data.cart);
+      let cart = data.cart;
+      let menus = data.menus;
+      let menuSpec = data.menuSpec;
+      let foodList = cart.filter((f) => f.id == id)[0].orders;
+      let foodDetail = menus.filter(f => f.id == id)[0];
+      let food = foodList.filter(f => f.uniqueId == uniqueId)[0];
+      foodDetail.specifications = foodDetail.specifications.includes(",") ? foodDetail.specifications.split(",") : [foodDetail.specifications];
+      $("#editFood form").attr("action", `/book/update/${id}-${uniqueId}`);
+      $("#editFood img").attr("src", food.image);
+      $("#editFood .menuImage input").attr("value", food.image);
+      $("#editFood .popUpContentTitle").html(`${foodDetail.name}
+      <br><span style="font-weight: 400;">$${foodDetail.price.toFixed(2)}`);
+      $("#editFood .quantity input").eq(1).attr("value", food.quantity);
+      let addingHtml = '<option value="">Open this select menu</option>';
+      let addingHtml2 = '';
+      let index = 0;
+      for (spec in menuSpec) {
+        if (foodDetail.specifications.includes(spec)) {
+          addingHtml2 += `<div>
+          <label for="">${spec}:</label>
+          <select name="specifications" class="form-select form-select-sm" aria-label=".form-select-sm example" required>  
+          </select>
+          </div>`;
+        }
+      }
+      $("#editFood #specificationsSelect").html(addingHtml2);
+      for (spec in menuSpec) {
+        if (foodDetail.specifications.includes(spec)) {
+          for (i in menuSpec[spec]) {
+            if (food.specifications.includes(menuSpec[spec][i].option)) {
+              addingHtml += `<option value="${menuSpec[spec][i].option}" selected>${menuSpec[spec][i].option} +$${menuSpec[spec][i].addPrice.toFixed(2)}</option>`;
+            } else {
+              addingHtml += `<option value="${menuSpec[spec][i].option}">${menuSpec[spec][i].option} +$${menuSpec[spec][i].addPrice.toFixed(2)}</option>`;
+            }
+          }
+          $("#editFood select").eq(index).html(addingHtml);
+          index += 1;
+          addingHtml = '<option value="">Open this select menu</option>';
+        }
+      }
+      $("#editFood #remark").attr("value", food.remark);
+    },
+  });
+};
+
+// add food to cart
+$(function() {
+  $("#editFoodForm").on('submit', function(e) {
+    e.preventDefault();
+    console.log("updating food to cart...");
+    let formdata = $("#editFoodForm").serializeArray();
+    var $form = $(this);
+    let id = $("#editFoodForm").attr("action").substring(14);
+    console.log(id);
+    $.ajax({
+        url: $("#editFoodForm").attr('action'),
+        type: "POST",
+        data: formdata,
+        dataType: 'json',
+        success: (data) => {
+          if ('success' in data) {
+            $("#editFood #closeEdit").trigger("click");
+            $("#error").hide();
+            $(".successMsg").text(data.success);
+            $(".successMsg").show()
+            cleanInput();
+          }
+        }
+    });
+  })
+  
+});
+
+// delete food from cart
+$(function() {
+  $("#deleteFood").on('click', function(e) {
+    e.preventDefault();
+    console.log("deleting food to cart...");
+    let id = $("#deleteFood").attr("href").substring(13);
+    console.log(id);
+    $.ajax({
+        url: $("#deleteFood").attr('href'),
+        type: "GET",
+        dataType: 'json',
+        success: (data) => {
+          if ('success' in data) {
+            $(`#${id}`).remove();
+            $("#error").hide();
+            $(".successMsg").text(data.success);
+            $(".successMsg").show()
+          }
+        }
+    });
+  })
+  
+});
