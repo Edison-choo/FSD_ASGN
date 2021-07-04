@@ -14,16 +14,34 @@ router.get('/userReviews', (req, res) => {
     }).catch(err => console.log(err));
 });
 
+router.get('/editReviews/:id', ensureAuthenticated, (req, res) =>{
+    Reviews.findOne( {where: {id : req.params.id}}).then((reviews) =>{
+        if (reviews){
+            res.render('reviews/editReviews', {reviews: reviews})
+        }
+    }).catch(err => console.log(err));
+})
+
 router.post('/updateReviews/:id', urlencodedParser,(req, res) => {
     let{FoodOption, CustOption, EnvOption, comments} = req.body;
     let Average = (parseInt(FoodOption) + parseInt(CustOption) + parseInt(EnvOption))/ 3
     Reviews.update({food: FoodOption, service: CustOption, environment: EnvOption, average: Average, comments: comments},
         {where: {id:req.params.id} })
     .then(() => {
-                res.redirect('/userReviews');
+                res.redirect('/userReviews/userReviews');
             })
             .catch(err => console.log(err));
         });
+
+router.post('/deleteReviews/:id', (req, res) => {
+    Reviews.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(() => {
+        res.redirect('/userReviews/userReviews');
+    }).catch(err => console.log(err));
+});
 
 
 module.exports = router;

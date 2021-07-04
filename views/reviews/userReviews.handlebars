@@ -15,8 +15,12 @@
                     <p class="card-text" style="color: white;">Comments: {{comments}}</p>
                 <div class="buttons">
                     <div class="action_btn">
-                        <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="#" role="button">Delete</a>
-                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="#" data-mdb-toggle="modal" data-mdb-target="#" role="button">Update</a>
+                        <form action="/userReviews/deleteReviews/{{id}}" method="POST">
+                            <button class="btn btn-primary" style="background-color: #BB4450; float: right;  margin-left: 5px;">Delete</button>
+                        </form>
+                        <form action="/userReviews/editReviews/{{id}}" method="GET" >
+                        <button class="btn btn-primary" style="background-color: #3b5998; float: right;">Edit</button>
+                        </form>
                     </div>
                 </div>
                 </div>
@@ -24,5 +28,8 @@
         </div>
     </div>
     {{/each}}
+    {{else}}
+    <h3 style="text-align: center;">You have yet to review a restaurant</h3>
     {{/if}}
+
 </div>
