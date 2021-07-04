@@ -31,7 +31,7 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
         Reviews.findOne({ where: {userid: req.user.id} })
         .then(reviews => {
             if (reviews){
-                res.render('/review/createReviews', {
+                res.render('reviews/createReviews', {
                     error: reviews.name + 'already exist',
                     FoodOption,
                     CustOption,

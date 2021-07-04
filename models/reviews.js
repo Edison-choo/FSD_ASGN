@@ -19,6 +19,9 @@ const Reviews = db.define('reviews', {
     },
     userid:{
         type: Sequelize.INTEGER
+    },
+    restaurant: {
+        type: Sequelize.STRING
     }
 });
 
