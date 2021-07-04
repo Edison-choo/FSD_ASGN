@@ -127,7 +127,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 		
 
     if(errors.length == 0){
-        User.findOne({ where: {email: req.body.email} })
+        User.findOne({ where: {[Op.or]: [{ email: req.body.email }, { fname: res_name }]} })
 		.then(user => {
 			if (user) {
 		// If user is found, email has already been registered
@@ -140,7 +140,7 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 				Restaurant.create({res_name: res_name})
 				.then(
 					user => {
-					success_msg = email + " registered successfully";
+					success_msg = "User registered successfully";
 					res.render('user/login', {success_msg:success_msg});
 				})
 				.catch(err => console.log(err));
