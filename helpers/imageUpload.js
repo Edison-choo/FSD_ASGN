@@ -32,6 +32,15 @@ const userStorage = multer.diskStorage({
   },
 });
 
+const bannerStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "./public/uploads/bannerimg/" + req.user.id + "/");
+  },
+  filename: (req, file, callback) => {
+    callback(null, req.user.id + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 
 // Initialise Upload
 const menuUpload = multer({
@@ -54,6 +63,16 @@ const userUpload = multer({
     checkFileType(file, callback);
   },
 }).single("userfile"); // Must be the name as the HTML file upload input
+
+const bannerUpload = multer({
+  storage: bannerStorage,
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter: (req, file, callback) => {
+    checkFileType(file, callback);
+  },
+}).single("banner"); // Must be the name as the HTML file upload input
 
 // Initialise Upload
 const menuUploadEdit = multer({
