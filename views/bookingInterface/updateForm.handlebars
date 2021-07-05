@@ -35,7 +35,8 @@
 </div>
 <br>
 <div class="bookingForm">
-    <form method="POST" action="/bookingInterface/bookForm">
+    <form method="POST" action="/updateForm/{{booking.email}}/{{booking.res_name}}?_method=PUT">
+    <input type="hidden" name="_method" value="PUT">
         <div class="container base restab">
             <h3 class="title">Restaurant Booking:</h3>
             <hr>

@@ -6,6 +6,7 @@ const alertMessage = require('../helpers/messenger');
 const Promotions = require('../models/promotions');
 const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
+const upload = require('../helpers/imageUpload');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -91,4 +92,26 @@ router.post('/updatePromotions/:id', urlencodedParser,(req, res) => {
                 .catch(err => console.log(err));
             });
 
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/bannerimg/' + req.user.id)){
+        fs.mkdirSync('./public/uploads/bannerimg/' + req.user.id);
+    }
+    upload.bannerUpload(req, res, (err) => {
+    if (err) {
+        res.json({file: '/img/no-image.jpg', err: err});
+    } else {
+        if (req.file === undefined) {
+            res.json({file: '/img/no-image.jpg', err: err});
+        } else {
+            User.update({
+                profilepic: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`
+            },
+            {where:{id:req.user.id}}
+            )
+            res.json({file: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`});
+        }
+    }
+    });
+})
 module.exports = router;

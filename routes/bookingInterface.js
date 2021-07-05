@@ -35,6 +35,21 @@ router.get('/updateForm/:email/:res_name', (req, res) => {
     })
 })
 
+router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
+    Booking.update({
+        timing: timing,
+        date: date,
+        pax: pax,
+        confirm: false
+    }, {
+        where: {
+            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+        }
+    }).then(booking => {
+        res.redirect('/bookingInterface/bookingDetails/' + email);
+    })
+});
+
 
 router.get('/bookingDetailsEmailInsert', (req, res) => {
     res.render('bookingInterface/bookingDetailsEmailInsert');

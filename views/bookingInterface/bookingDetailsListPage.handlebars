@@ -62,6 +62,8 @@
     </div>
     <br>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+
+    {{#ifEquals user.cust_type "customer"}}
     <div>
         <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button style="display: inline-block; background-color:#433f39; border-color:#433f39"
                 class="btn btn-primary btn-lg btn-block">Update Booking</button></a>
@@ -70,4 +72,14 @@
         <a href=""><button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
                 class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
     </div>
+    {{else}}
+    <div>
+        <a href=""><button style="display: inline-block; background-color:#433f39; border-color:#433f39"
+                class="btn btn-primary btn-lg btn-block" name = "confirm" value= 1>Accept Booking</button></a>
+                <br>
+                <br>
+        <a href=""><button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
+                class="btn btn-primary btn-lg btn-block">Reject Booking</button></a>
+    </div>
+    {{/ifEquals}}
 </div>
