@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require("../config/DBConfig");
 
 const Booking = db.define('booking', {
-    res_name:{
+    res_name: {
         type: Sequelize.STRING
     },
     firstName: {
@@ -11,7 +11,7 @@ const Booking = db.define('booking', {
     lastName: {
         type: Sequelize.STRING
     },
-    email:{
+    email: {
         type: Sequelize.STRING
     },
     timing: {
@@ -22,6 +22,10 @@ const Booking = db.define('booking', {
     },
     pax: {
         type: Sequelize.INTEGER
+    },
+    confirm: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     },
 });
 

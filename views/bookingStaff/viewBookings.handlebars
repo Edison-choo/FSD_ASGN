@@ -10,14 +10,14 @@
 
 <body>
   <div class="container" style="">
-    <h1 style="text-align: center;">Customer Bookings</h1>
+    <h1 style="text-align: center;">Bookings for {{user.fname}}</h1>
     {{#each booking}}
     <br>
     <div class="card">
       <div class="card-body">
         Booking at {{this.res_name}}
         <div style="float:right;">
-          <a href="../bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to view</a>
+          <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to view</a>
         </div>
       </div>
     </div>
