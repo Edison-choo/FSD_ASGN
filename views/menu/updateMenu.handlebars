@@ -5,6 +5,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="alert alert-success successMsg" style="display: none;"></div>
+        
         <div class="menuNav">
           <button class="btn" style="cursor: not-allowed;">Table View (Edit)</button>
           <button class="btn" onclick="window.location.href='/menu'">User View</button>
@@ -31,6 +32,7 @@
                 </tr>
             </thead>
             <tbody class="foodRow">
+              <tr style="box-shadow: none;"></tr>
               {{#if menus }}
               {{#each menus}}
                 <tr>
@@ -67,7 +69,7 @@
                     <td><button type="button" class="btn-close" aria-label="Close"></button></td>
                     <td></td>
                 </tr>
-              {{/if}}
+                {{/if}}
             </tbody>
         </table>
         <button class="buttonAdd"  data-bs-toggle="modal" data-bs-target="#addMenu1">
@@ -97,6 +99,7 @@
                     </tr>
                 </thead>
                 <tbody class="specRow">
+                  <tr style="box-shadow: none;"></tr>
                   {{#each menuSpec}}
                     <tr>
                       <td></td>
@@ -154,7 +157,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Add New Food</h5>
-        <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="closeAddMenu" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form id="addMenuForm" action="/menu/addMenu" method="post">
       <div class="modal-body">
@@ -305,7 +308,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdrop1Label">Update New Food</h5>
-        <button type="button" id="close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="closeEditMenu" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form id="updateMenuForm" action="/menu/update/{{this.id}}" method="POST">
       <div class="modal-body">

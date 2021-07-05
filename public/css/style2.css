@@ -555,3 +555,21 @@
 #selectOrder {
   width: 100%;
 }
+
+.successNoti {
+  height:60px;
+  top: 70px;
+  position: fixed;
+  background-color: #ccf1db;
+  color:#006e2c;
+  display: none;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.successNoti i {
+  margin-right: 10px;
+}

@@ -147,21 +147,36 @@ $(function() {
         success: (data) => {
           if ('menu' in data) {
             console.log(data.menu.name+" successfully updated");
-            let last = parseInt($(".foodRow tr").last().find('td').eq(1).text());
-            console.log(last);
-            $(".foodRow tr").last().after("<tr></tr>");
-            $(".foodRow tr").last().append($(".foodRow tr").first().html());
-            $(".foodRow tr").last().find('td').eq(1).text(last + 1);
-            $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
-            $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
-            $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
-            $(".foodRow tr").last().find('td').eq(5).text("$"+data.menu.price.toFixed(2));
-            $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
-            $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
-            $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
+            let last = $(".foodRow tr").last().find('td').eq(1).text() != '' ? parseInt($(".foodRow tr").last().find('td').eq(1).text()) : 0;
+            console.log(data.menu.specifications);
+            $(".foodRow tr").last().after(`<tr>
+            <td></td>
+              <td>${last + 1}</td>
+              <td>${data.menu.foodNo }</td>
+              <td>${data.menu.name}</td>
+              <td>${data.menu.type}</td>
+              <td>${"$"+parseInt(data.menu.price).toFixed(2)}</td>
+              <td>${data.menu.specifications}</td>
+              <td><button class="buttonIcon" onclick="editMenu(${data.menu.id})" data-bs-toggle="modal" data-bs-target="#edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              </td>
+              <td><button onclick="triggerDelete(${data.menu.id})" type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#delete"></button></td>
+              <td></td>
+          </tr>`);
+            // $(".foodRow tr").last().append($(".foodRow tr").first().html());
+            // $(".foodRow tr").last().find('td').eq(1).text(last + 1);
+            // $(".foodRow tr").last().find('td').eq(2).text(data.menu.foodNo);
+            // $(".foodRow tr").last().find('td').eq(3).text(data.menu.name);
+            // $(".foodRow tr").last().find('td').eq(4).text(data.menu.type);
+            // $(".foodRow tr").last().find('td').eq(5).text("$"+parseInt(data.menu.price).toFixed(2));
+            // $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
+            // $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
+            // $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
             $(".successMsg").text(data.success);
             $(".successMsg").show();
-            $("#close").trigger("click");
+            $("#closeAddMenu").trigger("click");
             $("#error").hide();
             cleanInput();
           } else if ('errors' in data) {
@@ -250,6 +265,8 @@ function editMenu(id) {
       $("#edit .popUpContent .specification").each(function(i, item){
         if (specifications.includes($("#edit .popUpContent .specification").eq(i).find("input").val())) {
           $("#edit .popUpContent .specification").eq(i).find("input").prop('checked', true);
+        } else {
+          $("#edit .popUpContent .specification").eq(i).find("input").prop('checked', false);
         }
       })
     },
@@ -282,11 +299,11 @@ $(function() {
             $(".foodRow tr").eq(updatedID).find('td').eq(2).text(data.menu.foodNo);
             $(".foodRow tr").eq(updatedID).find('td').eq(3).text(data.menu.name);
             $(".foodRow tr").eq(updatedID).find('td').eq(4).text(data.menu.type);
-            $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+data.menu.price);
+            $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+parseInt(data.menu.price).toFixed(2));
             $(".foodRow tr").eq(updatedID).find('td').eq(6).text(data.menu.specifications);
             $(".successMsg").text(data.success);
             $(".successMsg").show();
-            $("#edit #close").trigger("click");
+            $("#edit #closeEditMenu").trigger("click");
             $("#error").hide();
           }
         }
@@ -316,14 +333,22 @@ $(function() {
           if ('success' in data) {
             console.log(data.optionList);
             console.log(name+" is successfully added");
-            let last = parseInt($(".specRow tr").last().find('td').eq(1).text());
-            $(".specRow tr").last().after("<tr></tr>");
-            $(".specRow tr").last().append($(".specRow tr").first().html());
-            $(".specRow tr").last().find('td').eq(1).text(last + 1);
-            $(".specRow tr").last().find('td').eq(2).text(name);
-            $(".specRow tr").last().find('td').eq(3).text(data.optionList);
-            $(".specRow tr").last().find('td').eq(4)
-            $(".specRow tr").last().find('td').eq(5).find("button").attr("onclick", `triggerDeleteSpec(${name})`);
+            let last = $(".specRow tr").last().find('td').eq(1).text() != '' ? parseInt($(".specRow tr").last().find('td').eq(1).text()) : 0;
+            $(".specRow tr").last().after(`<tr>
+            <td></td>
+              <td>${last+1}</td>
+              <td>${name}</td>
+              <td>${data.optionList}</td>
+              <td></td>
+              <td><button onclick="triggerDeleteSpec('${name}')" type="button" class="btn-close" aria-label="Close" data-bs-toggle="modal" data-bs-target="#deleteSpec"></button></td>
+              <td></td>
+          </tr>`);
+            // $(".specRow tr").last().append($(".specRow tr").first().html());
+            // $(".specRow tr").last().find('td').eq(1).text(last + 1);
+            // $(".specRow tr").last().find('td').eq(2).text(name);
+            // $(".specRow tr").last().find('td').eq(3).text(data.optionList);
+            // $(".specRow tr").last().find('td').eq(4)
+            // $(".specRow tr").last().find('td').eq(5).find("button").attr("onclick", `triggerDeleteSpec(${name})`);
             $(".successMsg").text(data.success);
             $(".successMsg").show();
             $("#addSpecification1 #closeSpec").trigger("click");
@@ -591,5 +616,4 @@ $(function() {
         }
     });
   })
-  
 });
