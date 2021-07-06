@@ -41,11 +41,11 @@
 {{#ifEquals this.image undefined}}
 {{else}}
 <a href="restaurant/restaurant_1/{{this.id}}">
-    <div class="card defaultSize" style="width: 300px; height:400px;">
-        <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 300px; height:300px;" />
-        <div class="card-body" style="width: 300px;">
-            <h4 class="card-title titleCard" style="overflow: hidden; height: 25px;">{{this.res_name}}</h4>
-            <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
+    <div class="card defaultSize" style="width: 200px; height:300px;">
+        <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 200px; height:200px;" />
+        <div class="card-body" style="width: 200px; ">
+            <p class="card-title titleCard" style="text-overflow: ellipsis; overflow: hidden;white-space: nowrap; height: 33px;">{{this.res_name}}<p>
+            <p class="card-text">5.0 <i class="fa fa-star"></i><c style="float: right;">5023 Reviews</c></p>
         </div>
     </div>
 </a>

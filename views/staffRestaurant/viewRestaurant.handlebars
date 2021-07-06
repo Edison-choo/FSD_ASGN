@@ -3,7 +3,7 @@
         background-color: #35322d;
         color: #FFFFFF;
         padding: 20px;
-        border-radius: 15px;
+        border-radius: 7px;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -14,7 +14,7 @@
         background-color: #35322d;
         color: #FFFFFF;
         padding: 20px;
-        
+
     }
 
     th {
@@ -38,12 +38,21 @@
     }
 </style>
 
+{{#ifEquals restaurant.image undefined}}
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> You have not created your restaurant tab!
+</div>
+<div class="FDefaultTab standardPad" style="margin: 100px;">
+    <a href="/staffRestaurant/createRestaurant" class="btn btn-lg btn-block FDefaultButton"
+        style="margin: 0px; display:block;">Click here to make your restaurant tab</a>
+</div>
+{{else}}
 <div class="backTheme">
     <h1 style="text-align: center;">{{restaurant.res_name}}</h1>
     <hr>
     <img src="{{restaurant.image}}" alt="" style="width: 400px;" class="center">
-    
-    <table class="table table-dark table-hover tblTheme center" >
+
+    <table class="table table-dark table-hover tblTheme center">
         <tr>
             <th>Location:</th>
             <td>{{restaurant.address}}</td>
@@ -63,8 +72,7 @@
         <tr>
             <th>Halal:</th>
             <td>
-                {{#if restaurant.halal}}Yes{{/if}}
-                {{#else}}No{{/else}}
+                {{#if restaurant.halal}}Yes {{else}}No{{/if}}
             </td>
         </tr>
         <tr>
@@ -78,3 +86,4 @@
     </table>
     <a href="/staffRestaurant/editRestaurant" class="btn btn-light btn-rounded center">Edit Restaurant</a>
 </div>
+{{/ifEquals}}

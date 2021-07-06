@@ -126,6 +126,7 @@ router.post("/createRestaurant", urlencodedParser, ensureAuthenticated, (req, re
           Restaurant.update(
             {
               comp_email: comp_email,
+              staffid: req.user.id,
               address:address,
               phone:phone,
               cuisine: cuisine,
