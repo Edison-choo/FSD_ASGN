@@ -257,3 +257,8 @@ Handlebars.registerHelper("splitstr", function(str, value) {
     var strArr = str.split("@");
     return strArr[value]
 });
+
+Handlebars.registerHelper("ccdigit", function(value) {
+    var last4 = value.substr(value.toString().length - 4);
+    return last4
+})

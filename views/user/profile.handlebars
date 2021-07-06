@@ -116,6 +116,7 @@
   border-bottom: 1px solid grey;
   padding: 3%;
 }
+ 
 </style>
 
 <div class="FDefaultTab container emp-profile">
@@ -128,7 +129,7 @@
           {{else}}
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="profileimg" alt=""/>
           {{/if}}
-            <div class="file btn btn-lg btn-primary" style="background-color: #35322d;">
+            <div class="file filestyle btn btn-lg btn-primary" style="background-color: #35322d; color: #ffb03b">
                 Change Photo
                 <input type="file" id="userimg" name="userfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <input type="hidden" id="profileImg">
@@ -191,11 +192,13 @@
           </tr>
         </tbody>
       </table>
+      {{#ifEquals user.cust_type "customer"}}
       <a href="/userReviews/userReviews">
       <div id="myReviewsContainer">
         Check All My Reviews >>>
       </div>
       </a>
+      {{/ifEquals}}
     </div>
   </div>
 
@@ -205,12 +208,11 @@
         <a href="/user/addCreditCard"><button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="fas fa-plus"></i>    Add Credit Card</button></a>
       </div>
       <table width="120%" id="displayInfo">
-        <thead>
+        <thead style="border-top: 1px solid black; border-bottom: 1px solid black;">
           <tr align="center">
             <th>Card Name</th>
             <th>Card No.</th>
             <th>MM/YYYY</th>
-            <th>CVV</th>
             <th>Card Type</th>
             <th></th>
           </tr>
@@ -220,13 +222,12 @@
         <tbody class="FDefaultTab creditcardbody">
           <tr align="center">
             <td>{{cardname}}</td>
-            <td>{{cardno}}</td>
+            <td>*{{#ccdigit cardno}}{{/ccdigit}}</td>
             {{#ifEquals mm.length 1}}
             <td>0{{mm}}/{{yyyy}}</td>
             {{else}}
             <td>0{{mm}}/{{yyyy}}</td>
             {{/ifEquals}}
-            <td>{{cvv}}</td>
             <td>{{cardtype}}</td>
             <td style="display:flex;">
               <form method="GET" action="/user/editCreditCard/{{id}}">
