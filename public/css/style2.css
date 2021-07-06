@@ -567,9 +567,28 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  z-index: 100;
+  z-index: 101;
 }
 
-.successNoti i {
+.successNoti i, .dangerNoti i {
   margin-right: 10px;
+}
+
+.dangerNoti {
+  height:60px;
+  top: 70px;
+  position: fixed;
+  background-color: #f8d7da;
+  color:#842029;
+  display: none;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  z-index: 101;
+}
+
+.disableda {
+  pointer-events: none;
+  cursor: default;
 }

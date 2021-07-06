@@ -55,7 +55,7 @@
                 {{#if ../remark}}<br><span style="font-size: 0.8em;">Remark: {{../remark}}</span>{{/if}}</td>
                 <td>{{../this.quantity}}</td>
                 <td>{{#distanceFixedCost price ../this.additional ../this.quantity}}{{/distanceFixedCost}}</td>
-                <td><a id="deleteFood" href="/book/delete/{{id}}-{{../uniqueId}}">delete</a></td>
+                <td><a id="deleteFood" href="/book/delete/{{id}}/{{../uniqueId}}">delete</a></td>
                 </tr>
                 {{/ifEquals}}
                 {{/each}}

@@ -1,10 +1,57 @@
-<div class="successNoti">
-    <div><i class="fas fa-check-circle"></i><span>test</span></div>
+{{#if success_msg }}
+<div class="successNoti" style="display: flex;">
+    <div><i class="fas fa-check-circle"></i><span>{{success_msg}}</span></div>
     <button id="closeNoti" onclick="HideNoti()" type="button" class="btn-close"></button>
+</div>
+{{/if}}
+
+<div class="successNoti">
+    <div><i class="fas fa-check-circle"></i><span></span></div>
+    <button id="closeNoti" onclick="HideNoti()" type="button" class="btn-close"></button>
+</div>
+
+{{#if error_msg}}
+<div class="dangerNoti" style="display: flex;">
+    <div><i class="fas fa-check-circle"></i><span>{{error_msg}}</span></div>
+    <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
+</div>
+{{/if}}
+
+{{#if error}}
+<div class="dangerNoti" style="display: flex;">
+    <div><i class="fas fa-check-circle"></i><span>{{error}}</span></div>
+    <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
+</div>
+{{/if}}
+
+{{!-- {{#each errors}}
+<div class="dangerNoti errors" style="display: flex;">
+    <div><i class="fas fa-check-circle"></i><span>{{text}}</span></div>
+    <button id="closeNoti" onclick="HideNotErrors({{@index}})" type="button" class="btn-close"></button>
+</div>
+{{/each}} --}}
+
+<div class="dangerNoti">
+    <div><i class="fas fa-check-circle"></i><span></span></div>
+    <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
 </div>
 
 <script>
     function HideNoti() {
-        $(".successNoti").hide(500);
+        $(".successNoti").hide();
     }
+    function HideNotiD() {
+        $(".dangerNoti").hide();
+    }
+    function HideNotErrors(i) {
+        $(".errors").eq(i).hide();
+    }
+    $(function() {
+        if ($(".errors").length) {
+            for (i=0;i<$(".errors").length;i++) {
+                let top = parseInt($(".dangerNoti").eq(i).css('top').slice(0, -2)) + 60;
+                $(".dangerNoti").eq(i+1).css('top', top+"px");
+            }
+        }
+    })
 </script>

@@ -174,8 +174,8 @@ $(function() {
             // $(".foodRow tr").last().find('td').eq(6).text(data.menu.specifications);
             // $(".foodRow tr").last().find('td').eq(7).find("button").attr("onclick", "editMenu("+data.menu.id+")");
             // $(".foodRow tr").last().find('td').eq(8).find("button").attr("onclick", `triggerDelete(${data.menu.id})`);
-            $(".successMsg").text(data.success);
-            $(".successMsg").show();
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
             $("#closeAddMenu").trigger("click");
             $("#error").hide();
             cleanInput();
@@ -186,7 +186,7 @@ $(function() {
             // $(".row").first().before(errorHtml);
             console.log(data.errors)
             $("#addMenu1 #error").text(data.errors[0].text);
-            $("#addMenu1 #error").show();
+            $("#addMenu1 #error").css('display', 'flex');
             // $(".addMenu1 #menuImage").val(data.menuImage);
             // $(".addMenu1 #foodName").val(data.foodName);
             // $(".addMenu1 #foodType").val(data.foodType);
@@ -233,8 +233,8 @@ function deleteMenu(id) {
           }
         });
         $(".foodRow tr").eq(updatedId).remove();
-        $(".successMsg").text(data.success);
-        $(".successMsg").show()
+        $(".successNoti span").text(data.success);
+        $(".successNoti").css('display', 'flex');
       },
   });
 };
@@ -301,8 +301,8 @@ $(function() {
             $(".foodRow tr").eq(updatedID).find('td').eq(4).text(data.menu.type);
             $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+parseInt(data.menu.price).toFixed(2));
             $(".foodRow tr").eq(updatedID).find('td').eq(6).text(data.menu.specifications);
-            $(".successMsg").text(data.success);
-            $(".successMsg").show();
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
             $("#edit #closeEditMenu").trigger("click");
             $("#error").hide();
           }
@@ -349,8 +349,8 @@ $(function() {
             // $(".specRow tr").last().find('td').eq(3).text(data.optionList);
             // $(".specRow tr").last().find('td').eq(4)
             // $(".specRow tr").last().find('td').eq(5).find("button").attr("onclick", `triggerDeleteSpec(${name})`);
-            $(".successMsg").text(data.success);
-            $(".successMsg").show();
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
             $("#addSpecification1 #closeSpec").trigger("click");
             $("#addSpecification1 #error").hide();
             cleanInput();
@@ -411,8 +411,8 @@ function deleteMenuSpec(name) {
           }
         });
         $(".specRow tr").eq(deleted).remove();
-        $(".successMsg").text(data.success);
-        $(".successMsg").show()
+        $(".successNoti span").text(data.success);
+        $(".successNoti").css('display', 'flex');
       },
   });
 };
@@ -476,12 +476,16 @@ $(function() {
         dataType: 'json',
         success: (data) => {
           if ('success' in data) {
-            $(`#${id} .menuOrderedHidden`).show();
-            $(`#${id} .menuOrderedHidden button`).attr('onclick', `editAll(${id})`);
+            if ($(`#${id} .menuOrdered`).length) {
+              // pass
+            } else {
+              $(`#${id} .menuOrderedHidden`).show();
+              $(`#${id} .menuOrderedHidden button`).attr('onclick', `editAll(${id})`);
+            }
             $("#food #closeFood").trigger("click");
             $("#error").hide();
-            $(".successMsg").text(data.success);
-            $(".successMsg").show()
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
             cleanInput();
           }
         }
@@ -529,7 +533,7 @@ function edit(id, uniqueId) {
       let foodDetail = menus.filter(f => f.id == id)[0];
       let food = foodList.filter(f => f.uniqueId == uniqueId)[0];
       foodDetail.specifications = foodDetail.specifications.includes(",") ? foodDetail.specifications.split(",") : [foodDetail.specifications];
-      $("#editFood form").attr("action", `/book/update/${id}-${uniqueId}`);
+      $("#editFood form").attr("action", `/book/update/${id}/${uniqueId}`);
       $("#editFood img").attr("src", food.image);
       $("#editFood .menuImage input").attr("value", food.image);
       $("#editFood .popUpContentTitle").html(`${foodDetail.name}
@@ -567,7 +571,7 @@ function edit(id, uniqueId) {
   });
 };
 
-// add food to cart
+// edit food to cart
 $(function() {
   $("#editFoodForm").on('submit', function(e) {
     e.preventDefault();
@@ -585,8 +589,8 @@ $(function() {
           if ('success' in data) {
             $("#editFood #closeEdit").trigger("click");
             $("#error").hide();
-            $(".successMsg").text(data.success);
-            $(".successMsg").show()
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
             cleanInput();
           }
         }
@@ -601,6 +605,7 @@ $(function() {
     e.preventDefault();
     console.log("deleting food to cart...");
     let id = $("#deleteFood").attr("href").substring(13);
+    id = id.replace('/', '-');
     console.log(id);
     $.ajax({
         url: $("#deleteFood").attr('href'),
@@ -610,8 +615,8 @@ $(function() {
           if ('success' in data) {
             $(`#${id}`).remove();
             $("#error").hide();
-            $(".successMsg").text(data.success);
-            $(".successMsg").show()
+            $(".successNoti span").text(data.success);
+            $(".successNoti").css('display', 'flex');
           }
         }
     });
