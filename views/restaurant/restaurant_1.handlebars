@@ -49,6 +49,7 @@
 <div class="media row default FDefaultTab">
     <img src="{{restaurant.image}}" class="align-self-start mr-3 col-md-4" alt="..."
         style="max-height: 400px; max-width: 400px;">
+        
     <div class="media-body col-md-8">
         <div class="media-body">
             <h1 class="mt-0">{{restaurant.res_name}}</h1>
@@ -89,14 +90,13 @@
                             style="width: 25px; height: 25px;">:</td>
                     {{#if restaurant.halal}}
                     <td>Yes</td>
-                    {{/if}}
-                    {{#else}}
+                    {{else}}
                     <td>No</td>
-                    {{/else}}
+                    {{/if}}
                 </tr>
                 <tr>
                     <td>Phone:</td>
-                    <td>6754 2644</td> <!-- Get from Cruz later on -->
+                    <td>{{restaurant.phone}}</td> <!-- Get from Cruz later on -->
                 </tr>
                 <tr>
                     <td>Email:</td>
@@ -104,13 +104,20 @@
                                 class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
-            <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Book
-                a
-                table</a>
+            <div class="row">
+                <div class="col-6">
+                    <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Book a table</a>
+                </div>
+                <div class="col-6">
+                    <a href="../../bookingInterface/bookForm/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Menu</a>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
 <br>
+
 <div id="table-wrap" class="default FDefaultTab">
     {{#ifEquals restaurant.square undefined}}
     <h1 style="text-align: center;">Layout in Progress...</h1>
