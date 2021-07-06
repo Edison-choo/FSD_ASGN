@@ -13,17 +13,17 @@ const ensureAuthenticated = require("../helpers/auth");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Page if restaurant page not created
-router.get("/", (req, res) => {
+router.get("/", ensureAuthenticated, (req, res) => {
   res.render("staffRestaurant/start");
 });
 
 //Create Restaurant Page
-router.get("/createRestaurant", (req, res) => {
+router.get("/createRestaurant", ensureAuthenticated, (req, res) => {
   res.render("staffRestaurant/createRestaurant");
 });
 
 //View Restaurant Page
-router.get("/viewRestaurant", (req, res) => {
+router.get("/viewRestaurant", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({ where: { res_name: res_name } }).then((restaurant) => {
     res.render("staffRestaurant/viewRestaurant", { restaurant });
@@ -31,7 +31,7 @@ router.get("/viewRestaurant", (req, res) => {
 });
 
 //Edit Restaurant Page
-router.get("/editRestaurant", (req, res) => {
+router.get("/editRestaurant", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({
     where: {
@@ -48,7 +48,7 @@ router.get("/editRestaurant", (req, res) => {
 });
 
 //Post for Create Restaurant Page
-router.post("/createRestaurant", urlencodedParser, (req, res) => {
+router.post("/createRestaurant", urlencodedParser, ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   let errors = [];
 
@@ -175,7 +175,7 @@ function checkOptions(restaurant) {
 }
 
 //Put for edit restaurant
-router.post("/editRestaurant", urlencodedParser, (req, res) => {
+router.post("/editRestaurant", urlencodedParser, ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   let {
     comp_name,
@@ -215,7 +215,7 @@ router.get("/createLayout", (req, res) => {
   res.render("staffRestaurant/createLayout");
 });
 
-router.post("/createLayout", urlencodedParser, (req, res) => {
+router.post("/createLayout", urlencodedParser, ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   let errors = [];
   let { seat, square, tables } = req.body;
@@ -254,14 +254,14 @@ router.post("/createLayout", urlencodedParser, (req, res) => {
   }
 });
 
-router.get("/seatManager", (req, res) => {
+router.get("/seatManager", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
     res.render("staffRestaurant/seatManager", { layouts });
   });
 });
 
-router.post("/seatManager", urlencodedParser, (req, res) => {
+router.post("/seatManager", urlencodedParser, ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   let { occupied } = req.body;
   Restaurant.update(
@@ -279,7 +279,7 @@ router.post("/seatManager", urlencodedParser, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-router.post("/upload", urlencodedParser, (req, res) => {
+router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
   if (!fs.existsSync("./public/uploads/" + 1)) {
     fs.mkdirSync("./public/uploads/" + 1);
