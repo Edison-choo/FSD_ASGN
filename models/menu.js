@@ -17,12 +17,12 @@ const Menu = db.define('menu', {
     specifications: {
         type: Sequelize.STRING
     },
-    // restaurantId: {
-    //     type: Sequelize.INTEGER
-    // }
     image: {
         type: Sequelize.STRING
     },
+    userId: {
+        type: Sequelize.INTEGER
+    }
 });
 
 module.exports = Menu;

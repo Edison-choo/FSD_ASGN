@@ -21,9 +21,9 @@ Defines the relationship where a user has many videos.
 In this case the primary key from user will be a foreign key
 in video.
 */
-      restaurantMenu.hasMany(menu, { foreignKey: 'restaurant_id', allowNull: false });
-      restaurantMenu.hasMany(menuSpec, { foreignKey: 'restaurant_id', allowNull: false });
-      restaurantMenu.hasMany(order, { foreignKey: 'restaurant_id', allowNull: false });
+      // restaurantMenu.hasMany(menu, { foreignKey: 'restaurant_id', allowNull: false });
+      // restaurantMenu.hasMany(menuSpec, { foreignKey: 'restaurant_id', allowNull: false });
+      // restaurantMenu.hasMany(order, { foreignKey: 'restaurant_id', allowNull: false });
       
 
       mySQLDB.sync({

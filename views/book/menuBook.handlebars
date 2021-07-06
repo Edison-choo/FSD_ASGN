@@ -44,7 +44,7 @@
                     {{#each ../../session.cart}}
                     {{#ifEqualsUser this.userId ../../../user}}
                     {{#ifEquals this.id ../this.id}}
-                    <div id="menuOrdered">
+                    <div id="menuOrdered" class="menuOrdered">
                     Ordered
                     <button type="button" onclick="editAll({{this.id}})" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll">Edit Order</button>
                     </div>

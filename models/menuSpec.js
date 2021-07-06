@@ -11,9 +11,9 @@ const MenuSpec = db.define('menuSpec', {
     addPrice: {
         type: Sequelize.FLOAT
     },
-    // restaurantId: {
-    //     type: Sequelize.INTEGER
-    // }
+    userId: {
+        type: Sequelize.INTEGER
+    }
 });
 
 module.exports = MenuSpec;
