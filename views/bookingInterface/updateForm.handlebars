@@ -1,105 +1,69 @@
-<style>
-    .bookingForm {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    input[type=email] {
-        width: 400px;
-    }
-
-    input[type=time] {
-        width: 400px;
-    }
-
-    input[type=number] {
-        width: 400px;
-    }
-
-    input[type=date] {
-        width: 400px;
-    }
-
-    input[type=text] {
-        width: 400px;
-    }
-</style>
-
 <div class="container base restab">
-    <h1>Complete your booking:</h1>
+    <h1>Update your booking:</h1>
 </div>
 <br>
-<div class="bookingForm">
+
+
+
+
+<div class="FDefaultTab" style="padding: 20px;">
     <form method="POST" action="/bookingInterface/updateForm/{{booking.email}}/{{booking.res_name}}">
-        <div class="container base restab">
+        <div class="">
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
-            <h5 style="padding-left: 3px;">Select Date:</h5>
-            <input type="date" name="bookingDate" id="datefield" min="" max=""  required value="{{booking.date}}">
-            <script>
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                    dd = '0' + dd
-                }
-                if (mm < 10) {
-                    mm = '0' + mm
-                }
 
-                today = yyyy + '-' + mm + '-' + dd;
-                document.getElementById("datefield").setAttribute("min", today);
-
-                var today = new Date();
-                var dd = today.getDate() + 14;
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                    dd = '0' + dd
-                }
-                if (mm < 10) {
-                    mm = '0' + mm
-                }
-
-                twoWeeks = yyyy + '-' + mm + '-' + dd;
-                document.getElementById("datefield").setAttribute("max", twoWeeks);
-
-                document.querySelector("#datefield").valueAsDate = new Date();
-            </script>
+            
+            <div class="form-outline mb-4">
+                <input type="date" id="datefield" name="bookingDate" class="form-control"
+                    value="{{booking.date}}" required />
+                <label class="form-label" for="bookingDate">Select Date:</label>
+            </div>
             <br>
-            <br>
-            <h5 style="padding-left: 3px;">Select Time:</h5>
-
-            <input type="time" min="9:00" max="22:00" name="bookingTime" value="{{booking.time}}" required>
+            
+            <div class="form-group">
+                <label for="open_time">Select Time:</label>
+                <input type='text' name="open_time" class="form-control" id="open_time" step="3600" required
+                    value="{{booking.time}}" />
+            </div>
 
             <br>
             <br>
 
-            <h5 style="padding-left: 3px;">Name:</h5>
             <div class="form-group">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="bookingFName" placeholder="First name" value="{{booking.firstName}}" readonly>
+                        <div class="form-outline mb-4">
+                            <input type="text" id="bookingFName" name="bookingFName" class="form-control"
+                                value="{{booking.firstName}}" readonly />
+                            <label class="form-label" for="bookingFName">First Name:</label>
+                        </div>
+
                     </div>
                     <div class="col">
-                        <input type="text" name="bookingLName" placeholder="Last name" value="{{booking.lastName}}" readonly>
+                        <div class="form-outline mb-4">
+                            <input type="text" id="bookingLName" name="bookingLName" class="form-control"
+                                value="{{booking.lastName}}" readonly />
+                            <label class="form-label" for="bookingLName">Last Name:</label>
+                        </div>
                     </div>
                 </div>
             </div>
             <br>
-            <h5 style="padding-left: 3px;">Email:</h5>
-            <input type="email" name="bookingEmail" placeholder="example@example.com" value="{{booking.email}}" readonly>
+
+            <div class="form-outline mb-4">
+                <input type="email" id="bookingEmail" name="bookingEmail" class="form-control" value="{{booking.email}}"
+                    readonly />
+                <label class="form-label" for="bookingEmail">Email:</label>
+            </div>
+
             <br>
-            <br>
-            <h5 style="padding-left: 3px; padding-top: 10px;">Pax:</h5>
-            <input type="number" name="bookingPax" min="1" max="10" placeholder="Number of People" value="{{booking.pax}}"
-                oninvalid="PLease enter pax" required>
+
+            <div class="form-outline mb-4">
+                <input type="number" id="bookingPax" name="bookingPax" class="form-control" value="{{booking.pax}}"
+                    min=1 max=10 />
+                <label class="form-label" for="bookingPax">Pax:</label>
+            </div>
+
             <br>
             <br>
 
@@ -110,3 +74,56 @@
     </form>
 </div>
 <br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+    type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"
+    type="text/javascript"></script>
+
+<script>
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("datefield").setAttribute("min", today);
+
+    var today = new Date();
+    var dd = today.getDate() + 14;
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    twoWeeks = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("datefield").setAttribute("max", twoWeeks);
+
+    document.querySelector("datefield").valueAsDate = new Date();
+
+
+
+    $(function () {
+        $('#open_time').timepicker
+            ({
+                format: 'HH:MM',
+                uiLibrary: 'bootstrap4',
+            });
+    });
+</script>
