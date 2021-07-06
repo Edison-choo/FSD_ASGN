@@ -48,6 +48,15 @@
     }
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
+{{#ifEquals layouts.square undefined}}
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> You have not created your restaurant layout!
+</div>
+<div class="FDefaultTab standardPad" style="margin: 100px;">
+    <a href="/staffRestaurant/createLayout" class="btn btn-lg btn-block FDefaultButton"
+        style="margin: 0px; display:block;">Click here to make your restaurant layout</a>
+</div>
+{{else}}
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
     <div class="row">
         <div id="table-wrap" class="col-md-8 FDefaultTab standardPad">
@@ -72,6 +81,7 @@
         <input type="hidden" name="occupied" id="occupied">
     </div>
 </form>
+{{/ifEquals}}
 <script>
     function remove(array, n) {
         const index = array.indexOf(n)
@@ -96,7 +106,6 @@
 
     };
     $(function () {
-
         // Variable Setup
         var cols = 32,
             rows = 18,

@@ -43,8 +43,8 @@
 <a href="restaurant/restaurant_1/{{this.id}}">
     <div class="card defaultSize" style="width: 300px; height:400px;">
         <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 300px; height:300px;" />
-        <div class="card-body">
-            <h4 class="card-title titleCard">{{this.res_name}}</h4>
+        <div class="card-body" style="width: 300px;">
+            <h4 class="card-title titleCard" style="overflow: hidden; height: 25px;">{{this.res_name}}</h4>
             <p class="card-text">{{this.address}}{{#if this.halal}}·Halal{{/if}}</p>
         </div>
     </div>
