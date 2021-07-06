@@ -72,7 +72,7 @@ const bannerUpload = multer({
   fileFilter: (req, file, callback) => {
     checkFileType(file, callback);
   },
-}).single("banner"); // Must be the name as the HTML file upload input
+}).single("bannerfile"); // Must be the name as the HTML file upload input
 
 // Initialise Upload
 const menuUploadEdit = multer({
@@ -111,4 +111,4 @@ function checkFileType(file, callback) {
   }
 }
 
-module.exports = { menuUpload, menuUploadEdit, restUpload, userUpload };
+module.exports = { menuUpload, menuUploadEdit, restUpload, userUpload, bannerUpload };

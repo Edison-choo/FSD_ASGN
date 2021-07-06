@@ -604,11 +604,11 @@ $(function() {
   $("#deleteFood").on('click', function(e) {
     e.preventDefault();
     console.log("deleting food to cart...");
-    let id = $("#deleteFood").attr("href").substring(13);
-    id = id.replace('/', '-');
-    console.log(id);
+    let paraId = $("#deleteFood").attr("href").substring(13);
+    id = paraId.replace('/', '-');
+    console.log(paraId);
     $.ajax({
-        url: $("#deleteFood").attr('href'),
+        url: '/book/delete/'+paraId,
         type: "GET",
         dataType: 'json',
         success: (data) => {

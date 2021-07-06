@@ -65,21 +65,46 @@
 
     {{#ifEquals user.cust_type "customer"}}
     <div>
-        <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button style="display: inline-block; background-color:#433f39; border-color:#433f39"
+        <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button
+                style="display: inline-block; background-color:#433f39; border-color:#433f39"
                 class="btn btn-primary btn-lg btn-block">Update Booking</button></a>
-                <br>
-                <br>
-        <a href=""><button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
-    </div>
-    {{else}}
-    <div>
-        <a href=""><button style="display: inline-block; background-color:#433f39; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block" name = "confirm" value= 1>Accept Booking</button></a>
-                <br>
-                <br>
-        <a href=""><button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block">Reject Booking</button></a>
+        <br>
+        <br>
+        <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
+        <button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
+            class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
+        </form>
     </div>
     {{/ifEquals}}
+
+
+    {{#ifEquals booking.confirm "0"}}
+    {{#ifEquals user.cust_type "staff"}}
+    <div>
+        <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{user.email}}/{{user.fname}}">
+            
+            <input type="hidden" id="confirm" name="bookingConfirm" value=1>
+            
+            <input type="submit" value="Accept Booking"
+                style="display: inline-block; background-color:#433f39; border-color:#433f39"
+                class="btn btn-primary btn-lg btn-block"></input></a>
+
+            <br>
+            <br>
+        </form>
+
+        <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
+            <button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
+                class="btn btn-primary btn-lg btn-block">Reject Booking</button></a>
+        </form>
+
+    </div>
+    {{/ifEquals}}
+    {{/ifEquals}}
 </div>
+
+<script>
+    function set_confirm() {
+        document.getElementById("confirm").value = 1
+    }
+</script>

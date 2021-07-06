@@ -9,50 +9,55 @@ const { session } = require("passport");
 // const { Sequelize } = require("sequelize/types");
 const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
+const User = require("../models/user");
 const ensureAuthenticated = require('../helpers/auth');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get("/menuBook", (req, res) => {
+router.get("/menuBook/:resName", (req, res) => {
   var types = [];
   // req.session.cart = undefined;
   // req.session.total = undefined;
+  req.session.resName = req.params.resName;
   console.log(req.session.cart);
-  Menu.findAll({
-    attributes: { exclude: ["restaurantId"] },
-  })
-    .then((menus) => {
-      if (menus) {
-        // menus.specifications = JSON.parse(menus.specifications);
-        menus.forEach((menu) => {
-          if (types.includes(menu.type) === false) {
-            types.push(menu.type);
-          }
-        });
-        types.sort();
-        MenuSpec.findAll().then((specs) => {
-          let menuSpec = {};
-          specs.forEach((option) => {
-            if (option.name in menuSpec) {
-              menuSpec[option.name] = menuSpec[option.name].concat([
-                {option:option.option, addPrice:option.addPrice}
-              ]);
-            } else {
-              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+  User.findOne({ where: { fname: req.params.resName }})
+  .then((resUser) => {
+    Menu.findAll({
+      where: { userId: resUser.id },
+    })
+      .then((menus) => {
+        if (menus) {
+          // menus.specifications = JSON.parse(menus.specifications);
+          menus.forEach((menu) => {
+            if (types.includes(menu.type) === false) {
+              types.push(menu.type);
             }
           });
-          console.log(menuSpec);
-          res.render("book/menuBook", {
-            menus,
-            menuSpecification,
-            types,
-            menuSpec,
+          types.sort();
+          MenuSpec.findAll({ where: { userId: resUser.id }}).then((specs) => {
+            let menuSpec = {};
+            specs.forEach((option) => {
+              if (option.name in menuSpec) {
+                menuSpec[option.name] = menuSpec[option.name].concat([
+                  {option:option.option, addPrice:option.addPrice}
+                ]);
+              } else {
+                menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+              }
+            });
+            console.log(menuSpec);
+            res.render("book/menuBook", {
+              menus,
+              menuSpecification,
+              types,
+              menuSpec,
+            });
           });
-        });
-        // res.render("book/menuBook", { menus, types, menuSpecification });
-      }
-    })
-    .catch((err) => console.log(err));
+          // res.render("book/menuBook", { menus, types, menuSpecification });
+        }
+      })
+      .catch((err) => console.log(err));
+  })
 });
 
 router.get("/foodCart", (req, res) => {
@@ -165,40 +170,43 @@ router.post('/createOrder', urlencodedParser, (req, res) => {
 });
 
 // ajax get food detail
-router.get('/getfood', (req, res) => {
+router.get('/getFood', (req, res) => {
   var types = [];
-  Menu.findAll({
-    attributes: { exclude: ["restaurantId"] },
-  })
-    .then((menus) => {
-      if (menus) {
-        menus.forEach((menu) => {
-          if (types.includes(menu.type) === false) {
-            types.push(menu.type);
-          }
-        });
-        types.sort();
-        MenuSpec.findAll().then((specs) => {
-          let menuSpec = {};
-          specs.forEach((option) => {
-            if (option.name in menuSpec) {
-              menuSpec[option.name] = menuSpec[option.name].concat([
-                {option:option.option, addPrice:option.addPrice}
-              ]);
-            } else {
-              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+  User.findOne({ where: { fname: req.session.resName }})
+  .then((resUser) => {
+    Menu.findAll({
+      where: { userId: resUser.id },
+    })
+      .then((menus) => {
+        if (menus) {
+          menus.forEach((menu) => {
+            if (types.includes(menu.type) === false) {
+              types.push(menu.type);
             }
           });
-          console.log(menuSpec);
-          res.json({
-            menus,
-            types,
-            menuSpec
+          types.sort();
+          MenuSpec.findAll({ where: { userId: resUser.id }}).then((specs) => {
+            let menuSpec = {};
+            specs.forEach((option) => {
+              if (option.name in menuSpec) {
+                menuSpec[option.name] = menuSpec[option.name].concat([
+                  {option:option.option, addPrice:option.addPrice}
+                ]);
+              } else {
+                menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+              }
+            });
+            console.log(menuSpec);
+            res.json({
+              menus,
+              types,
+              menuSpec
+            });
           });
-        });
-      }
-    })
-    .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  })
 });
 
 // ajax add item to session
@@ -221,72 +229,79 @@ router.post("/add/:id", urlencodedParser, (req, res) => {
     existCart = (tempCart.map((food) => food.id));
   }
   console.log(existCart);
-  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
-    // , restaurant_id:1
-  }})
-  .then((specs) => {
-    let additional = 0;
-    specs.forEach(spec => {
-      additional += parseFloat(spec.addPrice)
-      console.log(spec.addPrice);
+  User.findOne({ where: { fname: req.session.resName }})
+  .then((resUser) => {
+    MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
+      , userId: resUser.id
+    }})
+    .then((specs) => {
+      let additional = 0;
+      specs.forEach(spec => {
+        additional += parseFloat(spec.addPrice)
+        console.log(spec.addPrice);
+      });
+      console.log(additional);
+      cart.push({
+        id: req.params.id,
+        userId: userId,
+        orders: [{
+        uniqueId: 1,
+        image: menuImage,
+        quantity: quantity,
+        specifications: specifications,
+        additional: additional,
+        remark: remark,
+        }]
+      });
+      if (existCart.indexOf(req.params.id) > -1) {
+        //tbr
+        cart[0].orders[0].uniqueId = tempCart[existCart.indexOf(req.params.id)].orders.length + 1;
+        tempCart[existCart.indexOf(req.params.id)].orders = tempCart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
+      } else if (tempCart) {
+        tempCart = tempCart.concat(cart);
+      } else {
+        tempCart = cart;
+      }
+      console.log(tempCart);
+      sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
+      res.json({cart:sess.cart, success:`food is added to cart`});
     });
-    console.log(additional);
-    cart.push({
-      id: req.params.id,
-      userId: userId,
-      orders: [{
-      uniqueId: 1,
-      image: menuImage,
-      quantity: quantity,
-      specifications: specifications,
-      additional: additional,
-      remark: remark,
-      }]
-    });
-    if (existCart.indexOf(req.params.id) > -1) {
-      //tbr
-      cart[0].orders[0].uniqueId = tempCart[existCart.indexOf(req.params.id)].orders.length + 1;
-      tempCart[existCart.indexOf(req.params.id)].orders = tempCart[existCart.indexOf(req.params.id)].orders.concat(cart[0].orders);
-    } else if (tempCart) {
-      tempCart = tempCart.concat(cart);
-    } else {
-      tempCart = cart;
-    }
-    console.log(tempCart);
-    sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
-    res.json({cart:sess.cart, success:`food is added to cart`});
-  });
+  })
+  
 });
 
 // ajax get session cart data
 router.get('/getCart', (req, res) => {
   let sess = req.session;
-  Menu.findAll({
-    attributes: { exclude: ["restaurantId"] },
-  })
-    .then((menus) => {
-      if (menus) {
-        MenuSpec.findAll().then((specs) => {
-          let menuSpec = {};
-          specs.forEach((option) => {
-            if (option.name in menuSpec) {
-              menuSpec[option.name] = menuSpec[option.name].concat([
-                {option:option.option, addPrice:option.addPrice}
-              ]);
-            } else {
-              menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
-            }
-          });
-          console.log(menuSpec);
-          res.json({
-            menus,
-            cart:sess.cart,
-            menuSpec
-          });
-        });
-      }
+  User.findOne({ where: { fname: req.session.resName }})
+  .then((resUser) => {
+    Menu.findAll({
+      where: { userId: resUser.id },
     })
-    .catch((err) => console.log(err));
+      .then((menus) => {
+        if (menus) {
+          MenuSpec.findAll({ where: { userId: resUser.id }}).then((specs) => {
+            let menuSpec = {};
+            specs.forEach((option) => {
+              if (option.name in menuSpec) {
+                menuSpec[option.name] = menuSpec[option.name].concat([
+                  {option:option.option, addPrice:option.addPrice}
+                ]);
+              } else {
+                menuSpec[option.name] = [{option:option.option, addPrice:option.addPrice}];
+              }
+            });
+            console.log(menuSpec);
+            res.json({
+              menus,
+              cart:sess.cart,
+              menuSpec
+            });
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  })
 });
 
 // ajax update session cart
@@ -305,33 +320,37 @@ router.post("/update/:id/:uniqueId", urlencodedParser, (req, res) => {
   if (tempCart) {
     existCart = (tempCart.map((food) => food.id));
   }
-  MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
-    // , restaurant_id:1
-  }})
-  .then((specs) => {
-    let additional = 0;
-    specs.forEach(spec => {
-      additional += parseFloat(spec.addPrice)
+  User.findOne({ where: { fname: req.session.resName }})
+  .then((resUser) => {
+    MenuSpec.findAll({ where: { option: { [Op.in] : specifications }
+      , userId: resUser.id
+    }})
+    .then((specs) => {
+      let additional = 0;
+      specs.forEach(spec => {
+        additional += parseFloat(spec.addPrice)
+      });
+      cart.push({
+        id: foodId,
+        userId: userId,
+        orders: [{
+        uniqueId: uniqueId,
+        image: menuImage,
+        quantity: quantity,
+        specifications: specifications,
+        additional: additional,
+        remark: remark,
+        }]
+      });
+      console.log(cart[0].orders)
+      if (existCart.indexOf(foodId) > -1) {
+        tempCart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
+      }
+      sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
+      res.json({cart:session.cart, success: "Cart is updated"});
     });
-    cart.push({
-      id: foodId,
-      userId: userId,
-      orders: [{
-      uniqueId: uniqueId,
-      image: menuImage,
-      quantity: quantity,
-      specifications: specifications,
-      additional: additional,
-      remark: remark,
-      }]
-    });
-    console.log(cart[0].orders)
-    if (existCart.indexOf(foodId) > -1) {
-      tempCart[existCart.indexOf(foodId)].orders[uniqueId-1] = cart[0].orders[0];
-    }
-    sess.cart = tempCart.concat(sess.cart.filter((food) => food.userId !== userId));
-    res.json({cart:session.cart, success: "Cart is updated"});
-  });
+  })
+  
 });
 
 // ajax delete food from cart

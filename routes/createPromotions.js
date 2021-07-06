@@ -7,6 +7,8 @@ const Promotions = require('../models/promotions');
 const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const upload = require('../helpers/imageUpload');
+const fs = require('fs');
+const Restaurants = require('../models/restaurants');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -25,8 +27,6 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
 
     let{name, startdate, enddate, discount, details, banner, staffid} = req.body;
-    // startdate = moment(req.body.startdate, "DD/MM/YYYY");
-    // enddate = moment(req.body.enddate, "DD/MM/YYYY");
 
     if(errors.length > 0){
         res.render('promotion/createPromotions', {
@@ -99,17 +99,17 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
     }
     upload.bannerUpload(req, res, (err) => {
     if (err) {
-        res.json({file: '/img/no-image.jpg', err: err});
+        res.json({err})
     } else {
         if (req.file === undefined) {
-            res.json({file: '/img/no-image.jpg', err: err});
+            res.json({err})
         } else {
-            User.update({
-                profilepic: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`
+            console.log("test")
+            Promotions.update({
+                banner: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`
             },
-            {where:{id:req.user.id}}
+            {where:{staffId:req.user.id}}
             )
-            res.json({file: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`});
         }
     }
     });

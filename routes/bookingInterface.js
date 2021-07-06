@@ -11,6 +11,7 @@ const alertMessage = require('../helpers/messenger');
 const Restaurant = require('../models/restaurants')
 const { Op } = require("sequelize");
 const ensureAuthenticated = require('../helpers/auth');
+const { username } = require('../config/db');
 
 var res_name
 var email
@@ -36,56 +37,26 @@ router.get('/updateForm/:email/:res_name', (req, res) => {
 })
 
 router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
+    let email = req.params.email;
+    let date = req.body.bookingDate;
+    let timing = req.body.bookingTime;
+    let pax = req.body.bookingPax;
+    let confirm = req.body.bookingConfirm
+
+    console.log(date, timing, email, pax)
+
     Booking.update({
         timing: timing,
         date: date,
         pax: pax,
-        confirm: false
+        confirm: confirm
     }, {
         where: {
             [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
         }
     }).then(booking => {
-        res.redirect('/bookingInterface/bookingDetails/' + email);
+        res.redirect('/bookingInterface/bookingDetails/' + email + '/' + req.params.res_name);
     })
-});
-
-
-router.get('/bookingDetailsEmailInsert', (req, res) => {
-    res.render('bookingInterface/bookingDetailsEmailInsert');
-});
-
-router.post('/bookingDetailsEmailInsert', urlencodedParser, (req, res) => {
-    let errors = [];
-    email = req.body.email
-
-    if (!emailValidator.validate(email)) {
-        errors.push({ text: "Email is invalid!" })
-    }
-
-    if (errors.length > 0) {
-        res.render('bookingInterface/bookingDetailsEmailInsert', {
-            errors,
-            email
-        });
-    } else {
-        Booking.findOne({ where: { email: req.body.email } })
-            .then((booking) => {
-                console.log(booking);
-                if (booking == null) {
-                    res.render('bookingInterface/bookingDetailsEmailInsert', {
-                        error: "There are no bookings under " + email,
-                        email
-                    })
-                } else {
-                    return res.redirect('/bookingInterface/bookingDetailsList/' + email)
-                }
-
-            })
-            .catch((err) => console.log(err));
-    }
-
-    // res.render('bookingInterface/bookingDetailsEmailInsert'); useless code
 });
 
 router.get('/bookingDetailsList/:email', (req, res) => {
@@ -113,10 +84,42 @@ router.get('/bookingDetailsListPage/:email/:res_name', (req, res) => {
     })
 });
 
-router.get('/bookingDetails/:email', (req, res) => {
+router.post('/deleteBooking/:email/:res_name', (req, res) => {
+
+    Booking.destroy({
+        where: {
+            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+        }
+    }).then(() =>
+        res.redirect('/')
+    ).catch(err => console.log(err));
+
+});
+
+router.post('/bookingDetailsListPage/:email/:res_name', (req, res) => {
+
+    let confirm = req.params.bookingConfirm
+
+    Booking.update({
+        confirm: confirm
+    }, {
+        where: {
+            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+        }
+    }).then(booking => {
+        console.log(booking)
+        res.redirect('/bookingStaff/viewBookings/' + req.user.fname);
+    })
+
+});
+
+router.get('/bookingDetails/:email/:res_name', (req, res) => {
     email = req.params.email;
+    res_name = req.params.res_name;
     Booking.findOne({
-            where: { email: email },
+            where: {
+                [Op.and]: [{ email: email }, { res_name: res_name }]
+            },
             order: [
                 ['id', 'DESC']
             ]

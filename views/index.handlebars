@@ -38,29 +38,21 @@
   <div class="carousel-inner">
     <!-- Single item -->
     <div class="carousel-item active">
+      {{#if promotions}}
+      {{#each promotions}}
       <img
-        src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg"
+        src="{{banner}}"
         class="d-block w-100"
         alt="..."
       />
-    </div>
-
-    <!-- Single item -->
-    <div class="carousel-item">
-      <img
-        src="https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg"
-        class="d-block w-100"
-        alt="..."
-      />
-    </div>
-
-    <!-- Single item -->
-    <div class="carousel-item">
+      {{/each}}
+      {{else}}
       <img
         src="https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg"
         class="d-block w-100"
         alt="..."
       />
+      {{/if}}
     </div>
   </div>
   <!-- Inner -->
@@ -179,8 +171,8 @@
             <div class="col-md-10">
                 <div class="card-body">
                     <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">{{discount}}%</c> </h4>
-                    <p class="card-text" style="color: white;">Start Date: {{startdate}}</p>
-                    <p class="card-text" style="color: white;">End Date: {{enddate}}</p>
+                    <p class="card-text" style="color: white;">Start Date: {{formatDate startdate 'DD/MM/YYYY'}}</p>
+                    <p class="card-text" style="color: white;">End Date: {{formatDate enddate 'DD/MM/YYYY'}}</p>
                     <p class="card-text" style="color: white;">Details: {{details}}</p>
                 </div>
             </div>
