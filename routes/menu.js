@@ -6,6 +6,7 @@ const Menu = require("../models/menu");
 const MenuSpec = require("../models/menuSpec");
 const menuSpecification = require("../models/menuSpecification");
 const User = require("../models/user");
+const { Op, STRING } = require("sequelize");
 const e = require("connect-flash");
 const ensureAuthenticated = require('../helpers/auth');
 const Restaurant = require("../models/restaurants");
@@ -77,7 +78,9 @@ router.get("/updateMenu", ensureAuthenticated, (req, res) => {
           types.push(menu.type);
         }
       });
-      MenuSpec.findAll().then((specs) => {
+      MenuSpec.findAll({
+        where: { userId: req.user.id},
+      }).then((specs) => {
         let menuSpec = {};
         specs.forEach((option) => {
           if (option.name in menuSpec) {
@@ -154,7 +157,9 @@ router.get("/getMenu", ensureAuthenticated, (req, res) => {
           types.push(menu.type);
         }
       });
-      MenuSpec.findAll().then((specs) => {
+      MenuSpec.findAll({
+        where: { userId: req.user.id},
+      }).then((specs) => {
         let menuSpec = {};
         specs.forEach((option) => {
           if (option.name in menuSpec) {
@@ -201,7 +206,11 @@ router.post("/addMenu", urlencodedParser, ensureAuthenticated, (req, res) => {
             errors,
           });
         } else {
-          Menu.findOne({ where: { name: foodName } })
+          Menu.findOne({ where: { 
+            [Op.and]: [
+              { name: foodName },
+              { userId: req.user.id }
+            ]} })
             .then((menu) => {
               if (menu) {
                 res.json({
@@ -291,7 +300,12 @@ router.post("/update/:id", urlencodedParser, ensureAuthenticated, (req, res) => 
 router.get("/getNewSpec/:name", (req, res) => {
   let name = req.params.name;
   console.log(name);
-  MenuSpec.findOne({ where: { name: name } })
+  MenuSpec.findOne({ 
+    where: { 
+      [Op.and]: [
+        { name: name },
+        { userId: req.user.id }
+      ]} })
     .then((specs) => {
       console.log(specs);
       let menuSpec = {};
@@ -327,7 +341,12 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
     }
   }
   console.log(optionList);
-  MenuSpec.findOne({ where: { name: name } })
+  MenuSpec.findOne({ 
+    where: { 
+      [Op.and]: [
+        { name: name },
+        { userId: req.user.id }
+      ]} })
     .then((spec) => {
       if (spec) {
         res.json({error:"Specification name is already registered!"});
@@ -335,12 +354,11 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
         for (i = 0; i < optionList.length; i++) {
           let option = optionList[i][0];
           let addPrice = optionList[i][1];
-          let id = 1;
           MenuSpec.create({
             name: name,
             option: option,
             addPrice: addPrice,
-            restaurant_id: id,
+            userId: req.user.id,
           })
             .then((specOption) => {
               console.log(`Successfuly added ${option} to ${name}`);
@@ -356,7 +374,12 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
 // ajax delete specifications
 router.get("/deleteSpec/:name", (req, res) => {
   let name = req.params.name;
-  MenuSpec.destroy({ where: { name: name } })
+  MenuSpec.destroy({ 
+    where: { 
+      [Op.and]: [
+        { name: name },
+        { userId: req.user.id }
+      ]} })
     .then((n) => {
       if (n) {
         console.log(`${n} number of rows have been deleted...`);
