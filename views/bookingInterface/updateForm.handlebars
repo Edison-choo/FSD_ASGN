@@ -35,8 +35,7 @@
 </div>
 <br>
 <div class="bookingForm">
-    <form method="POST" action="/updateForm/{{booking.email}}/{{booking.res_name}}?_method=PUT">
-    <input type="hidden" name="_method" value="PUT">
+    <form method="POST" action="/bookingInterface/updateForm/{{booking.email}}/{{booking.res_name}}">
         <div class="container base restab">
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
@@ -103,8 +102,10 @@
                 oninvalid="PLease enter pax" required>
             <br>
             <br>
+
+            <input type="hidden" name="bookingConfirm" id="bookingConfirm" value=0>
             <button type="submit" style="background-color:#433f39; border-color:#894242"
-                class="btn btn-primary btn-lg btn-block">Book!</button>
+                class="btn btn-primary btn-lg btn-block">Update!</button>
         </div>
     </form>
 </div>
