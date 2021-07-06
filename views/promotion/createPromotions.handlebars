@@ -79,8 +79,9 @@
                     <p class="card-text" style="color: white;">End Date: {{formatDate enddate 'DD/MM/YYYY'}}</p>
                     <p class="card-text" style="color: white;">Details: {{details}}</p>
                 <div class="buttons">
+                    <div class="file filestyle btn btn-lg btn-primary" style="background-color: #ffb03b; color:#35322d">Add a banner!
                     <input type="file" id="bannerfile" name="bannerfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
-                    <input type="hidden" id="bannerhidden">
+                    <input type="hidden" id="bannerhidden"></div>
                     <div class="action_btn">
                         <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/createPromotions/{{id}}" role="button">Delete</a>
                         <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" data-mdb-toggle="modal" data-mdb-target="#update{{id}}" role="button">Update</a>
