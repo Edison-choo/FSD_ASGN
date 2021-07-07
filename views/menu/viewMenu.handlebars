@@ -1,0 +1,61 @@
+<script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="alert alert-success successMsg" style="display: none;"></div>
+        <h1 class="menuTitle">MENU</h1>
+        {{#if types}}
+        <div class="subNav">
+          {{#each types}}
+          <div class="subNavItem" style="font-weight: 500;"><a href="#{{this}}">{{this}}</a></div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if types}}
+        {{#each types}}
+        <div class="menuType">
+            <div class="menuSubTitle" id="#{{this}}"><h2>{{this}}</h2></div>
+          <div class="menuCat">
+              {{#each ../menus}}
+              {{#ifEquals this.type ../this}}
+                <div id="{{id}}" class="menuItem">
+                    <div class="popUpImage">
+                      <div class="menuImage">
+                        <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                      </div>
+                    </div>
+                    <div class="menuContent">
+                      <div>{{this.name}}<br>
+                      <span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
+                      </div>
+                    </div>
+                </div>
+              
+              {{/ifEquals}}
+              {{/each}}
+          </div>
+
+        </div>
+        {{/each}}
+        {{else}}
+        <div style="margin-top: 60px; text-align:center;"><h2>Menu empty...</h2></div>
+        {{/if}}
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+
+<script>
+  window.onscroll = function() {stickyNav()};
+  var navbar = document.getElementsByClassName("subNav");
+  var sticky = navbar[0].offsetTop;
+  console.log(sticky);
+  function stickyNav() {
+    if (window.pageYOffset >= sticky) {
+      navbar[0].classList.add("sticky")
+    } else {
+      navbar[0].classList.remove("sticky");
+    }
+  }
+</script>
