@@ -1,5 +1,5 @@
-<div class="container base restab">
-    <h1>Update your booking:</h1>
+<div class="container base restab" style="text-align: center;">
+    <h1 style="font-family: Satisfy;">Update your booking</h1>
 </div>
 <br>
 
@@ -9,10 +9,7 @@
 <div class="FDefaultTab" style="padding: 20px;">
     <form method="POST" action="/bookingInterface/updateForm/{{booking.email}}/{{booking.res_name}}">
         <div class="">
-            <h3 class="title">Restaurant Booking:</h3>
             <hr>
-
-            
             <div class="form-outline mb-4">
                 <input type="date" id="datefield" name="bookingDate" class="form-control"
                     value="{{booking.date}}" required />
@@ -65,11 +62,11 @@
             </div>
 
             <br>
-            <br>
+            
 
             <input type="hidden" name="bookingConfirm" id="bookingConfirm" value=0>
-            <button type="submit" style="background-color:#433f39; border-color:#894242"
-                class="btn btn-primary btn-lg btn-block">Update!</button>
+            <button type="submit" style="font-family: Roboto; font-size:14px; font-weight:bold; padding: 12px 27px 11px; background-color:#433f39; border-color:#894242"
+                class="btn btn-primary btn-lg btn-block">Update</button>
         </div>
     </form>
 </div>

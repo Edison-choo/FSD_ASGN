@@ -8,7 +8,7 @@ const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const upload = require('../helpers/imageUpload');
 const fs = require('fs');
-const Restaurants = require('../models/restaurants');
+const Restaurant = require('../models/restaurants');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -16,7 +16,11 @@ router.get('/', (req, res) => {
     Promotions.findAll( {where: {staffid: req.user.id}}
     ).then((promotions) => {
         console.log(promotions)
-        res.render('promotion/createPromotions', {promotions: promotions})
+        Restaurant.findOne({where: {staffid: req.user.id}}
+            ).then((restaurants) => {
+                console.log(restaurants.image)
+                res.render('promotion/createPromotions', {restaurants: restaurants, promotions: promotions});
+            })
     }).catch(err => console.log(err));
 });
 // router.get('/', (req, res) => {

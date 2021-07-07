@@ -10,17 +10,16 @@
     }
 </style>
 
-<div class="container base restab">
-    <h1>Booking Information:</h1>
+<div class="container base restab" style="text-align: center;">
+    <h1>Here's Your Order Summary</h1>
 </div>
 
 <br>
-<div class="FDefaultTab" style="padding: 20px;">
-    <h2 style="text-align: center; margin:auto;">Here's your order summary</h2>
-    <br>
-    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+<div class="FDefaultTab" style="padding: 20px 150px 20px 150px;">
     <br>
     <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
+    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+
     <div style="">
         <div style="display: inline-block;">Restaurant:</div>
         <span style="display: inline-block; float: right;">
@@ -46,8 +45,9 @@
         </div>
     </div>
     <br>
-    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
     <h3 style="text-align: center; margin:auto;">Personal Details</h3>
+    <br>
+    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
     <div style="">
         <div style="display: inline-block;">Name:</div>
         <div style="display: inline-block; float: right;">
@@ -60,51 +60,18 @@
             {{booking.email}}
         </div>
     </div>
-    
+
 
     <br>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
-
-    {{#ifEquals user.cust_type "customer"}}
+    <br>
     <div class="form-group">
-
-        <div>
-            <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button
-                    style="display: inline-block; background-color:#433f39; border-color:#433f39"
-                    class="btn btn-primary btn-lg btn-block">Update Booking</button></a>
-        </div>
-        <br>
-        <div>
-            <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
-                <button style="display: inline-block; background-color:#BB4450; border-color:#433f39"
-                    class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
-            </form>
+        <div style="display: inline;">
+            <a href="/"><button
+                    style="background-color:#433f39; border-color:#433f39 "
+                    class="btn btn-primary btn-lg">Return to home</button></a>
         </div>
     </div>
-    {{/ifEquals}}
-
-
-    {{#ifEquals booking.confirm "0"}}
-    {{#ifEquals user.cust_type "staff"}}
-    <div class="form-group">
-        <div>
-            <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{booking.email}}/{{user.fname}}">
-
-                <input type="hidden" id="bookingConfirm" name="bookingConfirm" value=1>
-                <button type="submit" style="display: inline-block; background-color:#433f39;"
-                    class="btn btn-primary btn-lg btn-block">Accept Booking</button>
-            </form>
-        </div>
-        <br>
-        <div>
-            <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
-                <button style="display: inline-block; background-color:#BB4450;"
-                    class="btn btn-primary btn-lg btn-block">Reject Booking</button>
-            </form>
-        </div>
-    </div>
-    {{/ifEquals}}
-    {{/ifEquals}}
 </div>
 
 <script>

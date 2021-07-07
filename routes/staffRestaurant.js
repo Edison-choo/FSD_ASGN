@@ -282,8 +282,8 @@ router.post("/seatManager", urlencodedParser, ensureAuthenticated, (req, res) =>
 });
 router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/" + 1)) {
-    fs.mkdirSync("./public/uploads/" + 1);
+  if (!fs.existsSync("./public/uploads/resIcon/" + req.user.id)) {
+    fs.mkdirSync("./public/uploads/resIcon/" + req.user.id);
   }
   upload.restUpload(req, res, (err) => {
     if (err) {
@@ -292,7 +292,7 @@ router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/1/${req.file.filename}` });
+        res.json({ file: `/uploads/resIcon/${req.user.id}/${req.file.filename}` });
       }
     }
   });

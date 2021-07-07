@@ -10,17 +10,17 @@
     }
 </style>
 
-<div class="container base restab">
-    <h1>Order Confirmation:</h1>
+<div class="container base restab" style="text-align: center;">
+    <h1>Here's your order summary</h1>
 </div>
 
 <br>
-<div class="confirmList">
-    <h2 style="text-align: center; margin:auto;">Here's your order summary</h2>
+<div class="FDefaultTab" style="padding: 20px 150px 20px 150px;">
+    <h2 style="text-align: center; margin:auto;"></h2>
+
+    <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
     <br>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
-    <br>
-    <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
     <div style="">
         <div style="display: inline-block;">Restaurant:</div>
         <span style="display: inline-block; float: right;">
@@ -46,9 +46,10 @@
         </div>
     </div>
     <br>
+    <h3 style="text-align: center; margin:auto;">Personal Details</h3>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
     <br>
-    <h3 style="text-align: center; margin:auto;">Personal Details</h3>
+
     <div style="">
         <div style="display: inline-block;">Name:</div>
         <div style="display: inline-block; float: right;">
@@ -61,4 +62,10 @@
             {{booking.email}}
         </div>
     </div>
+    <br>
+    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+    <br>
+
+    <a href="/"><button style="display: inline-block; background-color:#433f39; border-color:#433f39"
+            class="btn btn-primary btn-lg btn-block">Return to Home</button></a>
 </div>

@@ -7,10 +7,10 @@ const path = require("path");
 // Set The Storage Engine
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "./public/uploads/" + 1 + "/");
+    callback(null, "./public/uploads/resIcon/" + req.user.id + "/");
   },
   filename: (req, file, callback) => {
-    callback(null, 1 + "-" + Date.now() + path.extname(file.originalname));
+    callback(null, req.user.id + "-" + Date.now() + path.extname(file.originalname));
   },
 });
 

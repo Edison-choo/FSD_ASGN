@@ -29,11 +29,11 @@
 
 </style>
 <div class="media row" style="box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px; border-radius: 6px; padding: 10px;">
-    <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
+    <img src="{{restaurants.image}}"
         class="align-self-start mr-3 col-md-4" alt="..." style="max-height: 400px; max-width: 400px;">
     <div class="media-body col-md-8">
         <div class="media-body col-md-8">
-            <h1 class="mt-0">McDonald's</h1>
+            <h1 class="mt-0">{{restaurants.res_name}}</h1>
             <div>
                 {{#if reviews}}
                 {{totalaverage}}
@@ -47,19 +47,19 @@
             <table class="table table-borderless">
                 <tr>
                     <td>Location:</td>
-                    <td>30 Sembawang Dr, #01 - 16 / 17 Sun Plaza </td>
+                    <td>{{restaurants.address}}</td>
                 </tr>
                 <tr>
                     <td>Opening Hours:</td>
-                    <td>08:00am - 10:00pm</td>
+                    <td>{{restaurants.open_time}} - {{restaurants.close_time}}</td>
                 </tr>
                 <tr>
                     <td>Cuisine:</td>
-                    <td>Western</td>
+                    <td>{{restaurants.cuisine}}</td>
                 </tr>
                 <tr>
                     <td>Phone:</td>
-                    <td>6754 2644</td>
+                    <td>{{restaurants.phone}}</td>
                 </tr>
             </table>
         </div>
@@ -84,7 +84,7 @@
             {{#each reviews}}
             <tr>
                 <td>
-                    {{average}}
+                    {{average}} <span class="fa fa-star checked"></span>
                 </td>
                 <td>
                     <p>{{comments}}</p>
@@ -94,51 +94,3 @@
             {{/if}}
         </tbody>
     </table>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination" style="display:flex; justify-content:center;">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    {{!-- <div class="inner-left preview" >
-        <div id="data-container"></div>
-        <div id="pagination-container"></div>
-    </div> --}}
-    {{!-- <script>
-        //var reviews = [];
-
-        //$(document).ready(function(){
-{{!--                 //var reviewObj = { userId : , comments : };
-                reviews.push(reviewObj); --}}
-        })
-
-        //function simpleTemplating(data) {
-            //var html = '<ul>';
-            //$.each(data, function(index, item){
-                html += '<li>'+ item +'</li>';
-            });
-            html += '</ul>';
-            return html;
-        }
-
-        //$("#pagination-container").pagination({
-            dataSource: [1, 2, 3, 4, 5, 6, 7, 8],
-            pageSize: 5,
-            //callback: function (data, pagination) {
-                // template method of yourself
-                //var html = simpleTemplating(data);
-                //$('#data-container').html(html);
-            }
-        })
-    </script> --}}

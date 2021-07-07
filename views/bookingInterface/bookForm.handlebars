@@ -9,15 +9,15 @@
     type="text/javascript"></script>
 
 
-<div class="container base restab">
-    <h1>Complete your booking:</h1>
+<div class="container base restab" style="text-align: center; " >
+    <h1 style="font-family:Satisfy;">Book at a restaurant</h1>
 </div>
 <br>
 <div class="FDefaultTab" style="padding: 20px;">
 
     {{#if user}}
     <form method="POST" action="/bookingInterface/bookForm/{{res_name}}">
-        <h3 class="title">Restaurant Booking:</h3>
+        
         <hr>
         <div class="form-outline mb-4">
             <input type="date" id="datefield" name="date" class="form-control" value="2021-07-01" required />
@@ -66,10 +66,10 @@
             <label class="form-label" for="pax">Pax:</label>
         </div>
         <br>
-        <br>
-        <button type="submit" style="background-color:#433f39; border-color:#433f39"
-            class="btn btn-primary btn-lg btn-block">Book!</button>
-    </form>
+        
+        <button type="submit" style="font-family: Roboto; font-size:14px; padding: 12px 27px 11px; font-weight:bold; background-color:#433f39; border-color:#433f39"
+            class="btn btn-primary btn-lg btn-block">BOOK</button>
+    </form> 
 
     {{else}}
     <h2 style="text-align: center;">Please login before trying to book</h2>

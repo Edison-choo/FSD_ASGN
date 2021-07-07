@@ -15,7 +15,11 @@ router.get('/', (req, res) => {
 	Promotions.findAll(
 		).then((promotions) => {
 			console.log(promotions)
-			res.render('index', {promotions: promotions, title : title})
+			Restaurant.findAll(
+				).then((restaurants) => {
+					console.log(promotions[0].restaurant)
+					res.render('index', {restaurants: restaurants, promotions: promotions, title : title});
+				})
 		}).catch(err => console.log(err));
 	
 });
