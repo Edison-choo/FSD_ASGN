@@ -29,8 +29,8 @@ const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
 const bookingStaffRoute = require("./routes/bookingStaff");
 const userReviewsRoute = require("./routes/userReviews");
-    // Bring in database connection
-const {formatDate} = require('./helpers/hbs');
+// Bring in database connection
+const { formatDate } = require('./helpers/hbs');
 // Bring in database connection
 const DB = require("./config/DBConnection");
 
@@ -63,10 +63,10 @@ authenticate.localStrategy(passport);
  * */
 
 app.engine('handlebars', exphbs({
-	helpers: {
-	formatDate: formatDate
-	},
-	defaultLayout: 'main' // Specify default template views/layout/main.handlebar
+    helpers: {
+        formatDate: formatDate
+    },
+    defaultLayout: 'main' // Specify default template views/layout/main.handlebar
 }));
 
 app.set("view engine", "handlebars");
@@ -261,4 +261,22 @@ Handlebars.registerHelper("splitstr", function(str, value) {
 Handlebars.registerHelper("ccdigit", function(value) {
     var last4 = value.substr(value.toString().length - 4);
     return last4
+})
+
+Handlebars.registerHelper("dateDiff", function(a, options) {
+    var a_Date = new Date(a)
+    var today = new Date();
+    const dateInPast = function(firstDate) {
+        if (firstDate.setHours(0, 0, 0, 0) <= today.setHours(0, 0, 0, 0)) {
+            return true;
+        }
+
+        return false;
+    };
+
+
+    if (dateInPast(a_Date)) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
 })
