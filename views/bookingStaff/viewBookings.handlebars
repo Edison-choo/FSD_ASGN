@@ -13,29 +13,33 @@
     <h1 style="text-align: center;">Bookings for {{user.fname}}</h1>
     {{#each booking}}
     <br>
-    
 
-      {{#ifEquals booking.confirm false}}
-      <div class="card" style="background-color: #ffb03b;">
+
+    {{#ifEquals this.confirm false}}
+    <div class="card" style="background-color: #ffb03b;">
       <div class="card-body">
-        Booking at {{this.res_name}} is still pending confirmation
-        <div style="float:right;"  >
-          <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to view</a>
+        Reservation by {{this.firstName}} {{this.lastName}} is still pending confirmation
+        <div style="float:right;">
+          <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to
+            view</a>
         </div>
       </div>
-      </div>
-      {{else}}
-      <div class="card" style="background-color:aquamarine;">
+    </div>
+    
+    {{else}}
+    <div class="card" style="background-color:aquamarine;">
       <div class="card-body">
-        Booking at {{this.res_name}} has been confirmed
-        <div style="float:right;"  >
-          <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to view</a>
+        Reservation by {{this.firstName}} {{this.lastName}} has been confirmed
+        <div style="float:right;">
+          <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to
+            view</a>
         </div>
       </div>
-      </div>
-      {{/ifEquals}}
-
+    </div>
     
+    {{/ifEquals}}
+
+
     {{/each}}
     <br>
   </div>

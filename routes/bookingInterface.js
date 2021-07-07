@@ -184,7 +184,7 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
                             date: date,
                             pax: pax
                         }).then(booking => {
-                            res.redirect('/bookingInterface/bookingDetails/' + email);
+                            res.redirect('/bookingInterface/bookingDetails/' + email + '/' + res_name);
                         })
                         .catch(err => console.log(err));
                 }

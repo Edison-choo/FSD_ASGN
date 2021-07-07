@@ -15,7 +15,7 @@
 </div>
 
 <br>
-<div class="confirmList">
+<div class="FDefaultTab" style="padding: 20px;">
     <h2 style="text-align: center; margin:auto;">Here's your order summary</h2>
     <br>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
@@ -64,40 +64,43 @@
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
 
     {{#ifEquals user.cust_type "customer"}}
-    <div>
-        <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button
-                style="display: inline-block; background-color:#433f39; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block">Update Booking</button></a>
+    <div class="form-group">
+
+        <div>
+            <a href="../../updateForm/{{booking.email}}/{{booking.res_name}}"><button
+                    style="display: inline-block; background-color:#433f39; border-color:#433f39"
+                    class="btn btn-primary btn-lg btn-block">Update Booking</button></a>
+        </div>
         <br>
-        <br>
-        <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
-        <button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
-            class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
-        </form>
+        <div>
+            <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
+                <button style="display: inline-block; background-color:#BB4450; border-color:#433f39"
+                    class="btn btn-primary btn-lg btn-block">Delete Booking</button></a>
+            </form>
+        </div>
     </div>
     {{/ifEquals}}
 
 
     {{#ifEquals booking.confirm "0"}}
     {{#ifEquals user.cust_type "staff"}}
-    <div>
-        <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{user.email}}/{{user.fname}}">
-            
-            <input type="hidden" id="confirm" name="bookingConfirm" value=1>
-            
-            <input type="submit" value="Accept Booking"
-                style="display: inline-block; background-color:#433f39; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block"></input></a>
+    <div class="form-group">
+        <div>
+            <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{user.email}}/{{user.fname}}">
 
-            <br>
-            <br>
-        </form>
+                <input type="hidden" id="confirm" name="bookingConfirm" value=1>
 
-        <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
-            <button style="display: inline-block; float:right; background-color:#BB4450; border-color:#433f39"
-                class="btn btn-primary btn-lg btn-block">Reject Booking</button></a>
-        </form>
-
+                <input type="submit" value="Accept Booking" style="display: inline-block; background-color:#433f39;"
+                    class="btn btn-primary btn-lg btn-block"></input>
+            </form>
+        </div>
+        <br>
+        <div>
+            <form method="POST" action="/bookingInterface/deleteBooking/{{booking.email}}/{{booking.res_name}}">
+                <button style="display: inline-block; background-color:#BB4450;"
+                    class="btn btn-primary btn-lg btn-block">Reject Booking</button>
+            </form>
+        </div>
     </div>
     {{/ifEquals}}
     {{/ifEquals}}

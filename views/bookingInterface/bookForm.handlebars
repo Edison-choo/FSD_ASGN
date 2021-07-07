@@ -10,14 +10,14 @@
             <h3 class="title">Restaurant Booking:</h3>
             <hr>
             <div class="form-outline mb-4">
-                <input type="date" id="datefield" name="bookingDate" class="form-control" value="2021-07-01" required />
-                <label class="form-label" for="bookingDate">Select Date:</label>
+                <input type="date" id="datefield" name="date" class="form-control" value="2021-07-01" required />
+                <label class="form-label" for="datefield">Select Date:</label>
             </div>
             <br>
 
             <div class="form-group">
-                <label for="open_time">Select Time:</label>
-                <input type='text' name="open_time" class="form-control" id="open_time" step="3600" required
+                <label for="timing">Select Time:</label>
+                <input type='time' name="timing" class="form-control" id="timing" step="3600" required
                     value="{{booking.time}}" min="{{restaurant.open_time}}" max="{{restaurant.close_time}}" />
             </div>
 
@@ -28,17 +28,17 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-outline mb-4">
-                            <input type="text" id="bookingFName" name="bookingFName" class="form-control"
-                             required />
-                            <label class="form-label" for="bookingFName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control"
+                             required  value="{{user.fname}}"/>
+                            <label class="form-label" for="firstName">First Name:</label>
                         </div>
 
                     </div>
                     <div class="col">
                         <div class="form-outline mb-4">
-                            <input type="text" id="bookingLName" name="bookingLName" class="form-control"
-                             required />
-                            <label class="form-label" for="bookingLName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control"
+                             required value="{{user.lname}}" />
+                            <label class="form-label" for="lastName">Last Name:</label>
                         </div>
                     </div>
                 </div>
@@ -46,17 +46,17 @@
             <br>
 
             <div class="form-outline mb-4">
-                <input type="email" id="bookingEmail" name="bookingEmail" class="form-control"
-                    required />
-                <label class="form-label" for="bookingEmail">Email:</label>
+                <input type="email" id="email" name="email" class="form-control"
+                    required value="{{user.email}}" />
+                <label class="form-label" for="email">Email:</label>
             </div>
 
             <br>
 
             <div class="form-outline mb-4">
-                <input type="number" id="bookingPax" name="bookingPax" class="form-control" 
+                <input type="number" id="pax" name="pax" class="form-control" 
                     min=1 max=10  required/>
-                <label class="form-label" for="bookingPax">Pax:</label>
+                <label class="form-label" for="pax">Pax:</label>
             </div>
             <br>
             <br>
@@ -118,7 +118,7 @@
 
 
     $(function () {
-        $('#open_time').timepicker
+        $('timing').timepicker
             ({
                 format: 'HH:MM',
                 uiLibrary: 'bootstrap4',
