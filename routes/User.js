@@ -411,6 +411,10 @@ router.post('/addCard', (req, res) => {
 	}
 
 	var numberValidation = valid.number(cardno.toString());
+	if(numberValidation.isPotentiallyValid == false){
+		errors.push({"text": "Please enter valid card number"});
+	}
+
 
 	if(errors.length == 0){
 		CreditCard.findOne({where: {cardno: req.body.cardno.toString()}})
@@ -464,6 +468,9 @@ router.post("/editCard/:id", (req, res) => {
 	}
 
 	var numberValidation = valid.number(cardno.toString());
+	if(numberValidation.isPotentiallyValid == false) {
+		errors.push({"text": "Please enter valid card number"});
+	}
 
 	if(errors.length == 0){
 		CreditCard.update({
@@ -484,7 +491,14 @@ router.post("/editCard/:id", (req, res) => {
 			}
 		})
 	}else{
-		res.render('user/profile', {errors})
+		CreditCard.findAll({where: {userid: req.user.id}})
+		.then(creditcard => {
+			if(creditcard){
+				res.render("user/profile", {creditcard, errors});
+			}else{
+				res.render("user/profile", {errors})
+			}
+		})
 	}
 })
 
