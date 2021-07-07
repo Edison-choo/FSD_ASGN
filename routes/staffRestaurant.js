@@ -292,7 +292,7 @@ router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/1/${req.file.filename}` });
+        res.json({ file: `/uploads/resIcon/${req.user.id}/${req.file.filename}` });
       }
     }
   });
