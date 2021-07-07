@@ -1,0 +1,119 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    .checked {
+        color: orange;
+    }
+
+    .seat {
+        height: 25px;
+        width: 25px;
+        background-color: #35322d;
+        border-radius: 50%;
+    }
+
+    .square {
+        height: 25px;
+        width: 25px;
+        background-color: #35322d;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tableLayout {
+        border-collapse: collapse;
+    }
+
+    .tableLayout td {
+        padding: 0;
+        margin: 0;
+    }
+
+    .checkTD {
+        height: 25px;
+        width: 25px;
+        background-color: white;
+    }
+
+    .standardPad {
+        padding: 10px;
+    }
+</style>
+<h1>{{layouts.res_name}} Seat Manager</h1>
+{{#ifEquals layouts.square undefined}}
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> You have not created your restaurant layout!
+</div>
+<div class="FDefaultTab standardPad" style="margin: 100px;">
+    <a href="/staffRestaurant/createLayout" class="btn btn-lg btn-block FDefaultButton"
+        style="margin: 0px; display:block;">Click here to make your restaurant layout</a>
+</div>
+{{else}}
+        <div id="table-wrap" class="col-md-8 FDefaultTab standardPad center" style="margin-top: 70px;">
+            <table id="drawing-table" class="tableLayout" style="margin: 10px;">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="center" style="text-align: center;">
+            <a href="/staffRestaurant/edit" class="btn FDefaultButton btn-rounded center">Edit Restaurant</a>
+        </div>
+        
+{{/ifEquals}}
+<script>
+    function remove(array, n) {
+        const index = array.indexOf(n)
+        if (index > -1) {
+            array.splice(index, 1)
+        }
+        return array
+    }
+    function buildGrid(cols, rows) {
+
+        var tableMarkup = "";
+        vert = 'abcdefghijklmnopqr'
+        for (x = 0; x < rows; x++) {
+            tableMarkup += "<tr>";
+            for (y = 0; y < cols; y++) {
+                tableMarkup += "<td><div id ='" + y + vert[x] + "' class='checkTD'></div></td>";
+            }
+            tableMarkup += "</tr>";
+        }
+
+        $("#drawing-table").html(tableMarkup)
+
+    };
+    $(function () {
+        // Variable Setup
+        var cols = 32,
+            rows = 18,
+            seatList = "{{layouts.seat}}".split(","),
+            squareList = "{{layouts.square}}".split(","),
+            tblDic = JSON.parse('{{layouts.tables}}'.replace(/&quot;/g, '"')),
+            occupied = "{{layouts.occupied}}".split(","),
+            $el;
+        buildGrid(cols, rows);
+        for (i in seatList) {
+            $("#" + seatList[i]).removeClass("checkTD")
+            $("#" + seatList[i]).addClass("seat")
+        }
+        for (i in squareList) {
+            $("#" + squareList[i]).removeClass("checkTD")
+            $("#" + squareList[i]).addClass("square")
+        }
+        for (const [key, value] of Object.entries(tblDic)) {
+            for (i in value) {
+                $("#" + value[i]).addClass(key)
+            }
+        }
+        for (i in occupied) {
+            if (occupied[i].length > 0) {
+                $("." + occupied[i]).addClass("taken")
+            }
+        }
+    });
+</script>

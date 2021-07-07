@@ -297,4 +297,11 @@ router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
     }
   });
 });
+
+router.get("/viewLayout", ensureAuthenticated, (req, res) => {
+  let res_name = req.user.fname;
+  Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
+    res.render("staffRestaurant/viewLayout", { layouts });
+  });
+});
 module.exports = router;
