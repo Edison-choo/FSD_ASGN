@@ -89,7 +89,7 @@
 
 <script>
   $(document).ready(function() {
-    $("form#ratingForm").submit(function(e) 
+    $("form#ratingForm").on("change", function(e) 
     {
         e.preventDefault(); // prevent the default click action from being performed
         if ($("#ratingForm :radio:checked").length == 0) {
@@ -101,7 +101,7 @@
     });
 });
   $(document).ready(function() {
-    $("form#ratingForm").submit(function(e) 
+    $("form#ratingForm").on("change",function(e) 
     {
         e.preventDefault(); // prevent the default click action from being performed
         if ($("#ratingForm :radio:checked").length == 0) {
@@ -113,7 +113,7 @@
     });
 });
   $(document).ready(function() {
-    $("form#ratingForm").submit(function(e) 
+    $("form#ratingForm").on("change",function(e) 
     {
         e.preventDefault(); // prevent the default click action from being performed
         if ($("#ratingForm :radio:checked").length == 0) {

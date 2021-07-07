@@ -84,11 +84,9 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/updatePromotions/:id', urlencodedParser,(req, res) => {
-    let{name, startdate, enddate, discount, details, banner} = req.body;
-    // startdate = moment(req.body.startdate, "DD/MM/YYYY");
-    // enddate = moment(req.body.enddate, "DD/MM/YYYY");
+    let{name, startdate, enddate, discount, details} = req.body;
 
-        Promotions.update({ name, startdate, enddate, discount, details, banner},
+        Promotions.update({ name, startdate, enddate, discount, details},
             {where: {id:req.params.id} })
         .then(() => {
                     res.redirect('/createPromotions');

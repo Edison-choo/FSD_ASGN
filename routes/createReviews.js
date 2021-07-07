@@ -10,21 +10,21 @@ const { username } = require('../config/db');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get('/', (req, res) => {
-    // let id = req.params.id
-    // Booking.findAll({
-    //     where: { id: id }
-    // }).then(booking => {
-    //     console.log(booking);
-    //     res.render('reviews/createReviews', { booking });
-    // })
-    res.render('reviews/createReviews');
+router.get('/:restaurant', (req, res) => {
+    let restaurant = req.params.restaurant
+    Booking.findOne({
+        where: { id: req.user.id }
+    }).then(booking => {
+        res.render('reviews/createReviews', { booking, restaurant });
+    })
 });
 
-router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
+router.post('/reviews/createReviews/:restaurant', urlencodedParser,(req,res) => {
+    console.log("test")
     let errors = [];
     let{FoodOption, CustOption, EnvOption, comments} = req.body;
     let Average = (parseInt(FoodOption) + parseInt(CustOption) + parseInt(EnvOption))/ 3
+    let res_name = req.params.restaurant
     console.log(FoodOption);
     console.log(CustOption);
     if(errors.length > 0){
@@ -44,7 +44,8 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
                     environment: EnvOption,
                     average: Average,
                     comments: comments,
-                    userid: req.user.id
+                    userid: req.user.id,
+                    restaurant: res_name
                 }).then(reviews => {
                     res.redirect('/')
                 })
@@ -53,4 +54,6 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
         });
     }
 });
+
+
 module.exports = router;
