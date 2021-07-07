@@ -5,21 +5,18 @@
     {{#each reviews}}
     <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
         <div class="row g-0">
-            <div class="col-md-2">
-                <img src="https://d1nqx6es26drid.cloudfront.net/app/uploads/2019/11/05175538/McD_TheToken%C2%AE_1235_RGB.png"
-                    alt="..." class="img-fluid" style="max-height: 250px; " />
-            </div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card-body">
-                    <p class="card-text" style="color: white;">{{average}} stars</p>
+                    <p>hi</p>
+                    <p class="card-text" style="color: white;">{{average}} <span class="fa fa-star checked"></span></p> 
                     <p class="card-text" style="color: white;">Comments: {{comments}}</p>
                 <div class="buttons">
                     <div class="action_btn">
                         <form action="/userReviews/deleteReviews/{{id}}" method="POST">
-                            <button class="btn btn-primary" style="background-color: #BB4450; float: right;  margin-left: 5px;">Delete</button>
+                            <button class="btn btn-primary" style="background-color: #BB4450; float: right;  margin-left: 5px; margin-bottom: 5px;">Delete</button>
                         </form>
                         <form action="/userReviews/editReviews/{{id}}" method="GET" >
-                        <button class="btn btn-primary" style="background-color: #3b5998; float: right;">Edit</button>
+                        <button class="btn btn-primary" style="background-color: #3b5998; float: right; margin-bottom: 5px;">Edit</button>
                         </form>
                     </div>
                 </div>
@@ -33,3 +30,10 @@
     {{/if}}
 
 </div>
+
+<style>
+    .checked {
+        color: orange;
+        text-align: :;
+    }
+</style>

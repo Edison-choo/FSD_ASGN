@@ -4,12 +4,20 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const alertMessage = require('../helpers/messenger');
 const Reviews = require('../models/reviews');
+const Booking = require("../models/booking")
 const ensureAuthenticated = require('../helpers/auth');
 const { username } = require('../config/db');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', (req, res) => {
+    // let id = req.params.id
+    // Booking.findAll({
+    //     where: { id: id }
+    // }).then(booking => {
+    //     console.log(booking);
+    //     res.render('reviews/createReviews', { booking });
+    // })
     res.render('reviews/createReviews');
 });
 
@@ -30,16 +38,6 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
     } else{
         Reviews.findOne({ where: {userid: req.user.id} })
         .then(reviews => {
-            if (reviews){
-                res.render('reviews/createReviews', {
-                    error: reviews.name + 'already exist',
-                    FoodOption,
-                    CustOption,
-                    EnvOption,
-                    Average,
-                    comments
-                });
-            } else{
                 Reviews.create({
                     food: FoodOption,
                     service: CustOption,
@@ -51,7 +49,7 @@ router.post('/reviews/createReviews', urlencodedParser,(req,res) => {
                     res.redirect('/')
                 })
                 .catch(err => console.log(err));
-            }
+            
         });
     }
 });
