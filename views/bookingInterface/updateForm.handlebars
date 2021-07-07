@@ -21,8 +21,8 @@
             <br>
             
             <div class="form-group">
-                <label for="open_time">Select Time:</label>
-                <input type='time' name="open_time" class="form-control" id="open_time" step="3600" required
+                <label for="bookingTime">Select Time:</label>
+                <input type='time' name="bookingTime" class="form-control" id="bookingTime" step="3600" required
                     value="{{booking.time}}" />
             </div>
 
@@ -33,17 +33,17 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-outline mb-4">
-                            <input type="text" id="bookingFName" name="bookingFName" class="form-control"
+                            <input type="text" id="firstName" name="firstName" class="form-control"
                                 value="{{booking.firstName}}" readonly />
-                            <label class="form-label" for="bookingFName">First Name:</label>
+                            <label class="form-label" for="firstName">First Name:</label>
                         </div>
 
                     </div>
                     <div class="col">
                         <div class="form-outline mb-4">
-                            <input type="text" id="bookingLName" name="bookingLName" class="form-control"
+                            <input type="text" id="lastName" name="lastName" class="form-control"
                                 value="{{booking.lastName}}" readonly />
-                            <label class="form-label" for="bookingLName">Last Name:</label>
+                            <label class="form-label" for="lastName">Last Name:</label>
                         </div>
                     </div>
                 </div>
@@ -51,9 +51,9 @@
             <br>
 
             <div class="form-outline mb-4">
-                <input type="email" id="bookingEmail" name="bookingEmail" class="form-control" value="{{booking.email}}"
+                <input type="email" id="email" name="email" class="form-control" value="{{booking.email}}"
                     readonly />
-                <label class="form-label" for="bookingEmail">Email:</label>
+                <label class="form-label" for="email">Email:</label>
             </div>
 
             <br>

@@ -60,6 +60,8 @@
             {{booking.email}}
         </div>
     </div>
+    
+
     <br>
     <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
 
@@ -86,12 +88,11 @@
     {{#ifEquals user.cust_type "staff"}}
     <div class="form-group">
         <div>
-            <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{user.email}}/{{user.fname}}">
+            <form method="POST" action="/bookingInterface/bookingDetailsListPage/{{booking.email}}/{{user.fname}}">
 
-                <input type="hidden" id="confirm" name="bookingConfirm" value=1>
-
-                <input type="submit" value="Accept Booking" style="display: inline-block; background-color:#433f39;"
-                    class="btn btn-primary btn-lg btn-block"></input>
+                <input type="hidden" id="bookingConfirm" name="bookingConfirm" value=1>
+                <button type="submit" style="display: inline-block; background-color:#433f39;"
+                    class="btn btn-primary btn-lg btn-block">Accept Booking</button>
             </form>
         </div>
         <br>

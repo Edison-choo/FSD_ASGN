@@ -13,10 +13,6 @@ const { Op } = require("sequelize");
 const ensureAuthenticated = require('../helpers/auth');
 const { username } = require('../config/db');
 
-var res_name
-var email
-var email_id
-
 router.get('/bookForm/:res_name', (req, res) => {
     res_name = req.params.res_name;
     Restaurant.findOne({ where: { res_name: res_name } });
@@ -96,15 +92,17 @@ router.post('/deleteBooking/:email/:res_name', (req, res) => {
 
 });
 
-router.post('/bookingDetailsListPage/:email/:res_name', (req, res) => {
+router.post('/bookingDetailsListPage/:email/:res_name', urlencodedParser, (req, res) => {
 
-    let confirm = req.params.bookingConfirm
+    let confirm = req.body.bookingConfirm
+    let email_id = req.params.email
+    console.log(confirm, req.params.email)
 
     Booking.update({
         confirm: confirm
     }, {
         where: {
-            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+            [Op.and]: [{ email: email_id }, { res_name: req.params.res_name }]
         }
     }).then(booking => {
         console.log(booking)
