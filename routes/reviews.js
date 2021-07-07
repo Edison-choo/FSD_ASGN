@@ -4,8 +4,9 @@ const ensureAuthenticated = require('../helpers/auth');
 const Reviews = require('../models/reviews');
 const Restaurant = require('../models/restaurants');
 
-router.get('/reviews', (req, res) => {
-    // let restaurant = req.params.restaurant
+
+router.get('/reviews/:restaurant', ensureAuthenticated, (req, res) => {
+    let restaurant = req.params.restaurant
     Reviews.findAll(
         ).then((reviews) => {
             let totalaverage = 0;
@@ -14,7 +15,7 @@ router.get('/reviews', (req, res) => {
             }
             totalaverage = totalaverage / reviews.length;
             console.log(totalaverage);
-            Restaurant.findOne({where: {staffid: req.user.id}}
+            Restaurant.findOne({where: {res_name: restaurant}}
                 ).then((restaurants) => {
                     res.render('reviews/reviews', {restaurants: restaurants, reviews: reviews, totalaverage: totalaverage.toFixed(1)});
                 })
