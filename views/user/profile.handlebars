@@ -161,7 +161,7 @@
       <div style="float: right;margin-bottom: 2%; display:flex;">
         <a href="/user/editProfile"><button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="far fa-edit"></i>    Update</button></a>
         <form method="POST" action="/user/deleteProfile/{{user.id}}"> 
-          <input type="submit" class="FDefaultButtonRed btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+          <input type="submit" class="FDefaultButtonRed btn btn-secondary" onclick="return confirm('Are you sure you want to delete account?')" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
         </form>
       </div>
       <table width="100%" id="displayInfo">
@@ -234,7 +234,7 @@
                 <button class="FDefaultButtonBlue btn btn-primary ripple-surface" style="background-color: #3b5998;"><i class="far fa-edit"></i>    Update</button>
               </form>
               <form method="POST" action="/user/deleteCreditCard/{{id}}"> 
-                <input type="submit" class="FDefaultButtonRed btn btn-secondary" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
+                <input type="submit" class="FDefaultButtonRed btn btn-secondary" onclick="return confirm('Are you sure you want to delete credit card?')" data-mdb-dismiss="modal" value="Delete" style="background-color:#BB4450;">
               </form>
             </td>
           </tr>
