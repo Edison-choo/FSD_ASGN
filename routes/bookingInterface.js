@@ -13,13 +13,13 @@ const { Op } = require("sequelize");
 const ensureAuthenticated = require('../helpers/auth');
 const { username } = require('../config/db');
 
-router.get('/bookForm/:res_name', (req, res) => {
+router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
     res_name = req.params.res_name;
     Restaurant.findOne({ where: { res_name: res_name } });
     res.render('bookingInterface/bookForm', { res_name });
 });
 
-router.get('/updateForm/:email/:res_name', (req, res) => {
+router.get('/updateForm/:email/:res_name', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name;
     Booking.findOne({
@@ -55,7 +55,7 @@ router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
     })
 });
 
-router.get('/bookingDetailsList/:email', (req, res) => {
+router.get('/bookingDetailsList/:email', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     Booking.findAll({
             where: { email: email_id }
@@ -67,7 +67,7 @@ router.get('/bookingDetailsList/:email', (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.get('/bookingDetailsListPage/:email/:res_name', (req, res) => {
+router.get('/bookingDetailsListPage/:email/:res_name', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name
     Booking.findOne({
@@ -80,14 +80,14 @@ router.get('/bookingDetailsListPage/:email/:res_name', (req, res) => {
     })
 });
 
-router.post('/deleteBooking/:email/:res_name', (req, res) => {
+router.get('/deleteBooking/:email/:res_name', (req, res) => {
 
     Booking.destroy({
         where: {
             [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
         }
     }).then(() =>
-        res.redirect('/')
+        res.redirect('/bookingInterface/bookingDetailsList/' + req.user.email)
     ).catch(err => console.log(err));
 
 });
@@ -111,7 +111,7 @@ router.post('/bookingDetailsListPage/:email/:res_name', urlencodedParser, (req, 
 
 });
 
-router.get('/bookingDetails/:email/:res_name', (req, res) => {
+router.get('/bookingDetails/:email/:res_name', ensureAuthenticated, (req, res) => {
     email = req.params.email;
     res_name = req.params.res_name;
     Booking.findOne({
