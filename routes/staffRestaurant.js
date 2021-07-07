@@ -282,8 +282,8 @@ router.post("/seatManager", urlencodedParser, ensureAuthenticated, (req, res) =>
 });
 router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
-  if (!fs.existsSync("./public/uploads/" + 1)) {
-    fs.mkdirSync("./public/uploads/" + 1);
+  if (!fs.existsSync("./public/uploads/resIcon/" + req.user.id)) {
+    fs.mkdirSync("./public/uploads/resIcon/" + req.user.id);
   }
   upload.restUpload(req, res, (err) => {
     if (err) {

@@ -120,8 +120,8 @@
     }
 </style>
 
-<div style="font-weight: bold; font-size: 30px">Create your restaurant layout:</div>
-
+<div style="font-weight: bold; font-size: 30px">Restaurant layout creator</div>
+<hr>
 <form action="/staffRestaurant/createLayout" method="post" id="layoutForm">
     <div class="row">
         <div id="table-wrap" class="col-md-9 FDefaultTab tableTab" style="overflow-x:auto;">
@@ -134,7 +134,9 @@
         <div class="col-md-3">
             <div class="legendBorder FDefaultTab">
                 <fieldset>
-                    <div>Table Select <div title="Each table should be a single colour!" class="far fa-question-circle"></div></div>
+                    <div>Table Select <div title="Each table should be a single colour!" class="far fa-question-circle">
+                        </div>
+                    </div>
                     <hr>
                     <span id="table-selector">
                         <button class="btn btn-sm selected tblClass" style="background-color: #00ffff;" type="button"
@@ -148,7 +150,9 @@
             <br>
             <div class="legendBorder FDefaultTab">
                 <div id="color-selector">
-                    <div>Layout Picker <div title="Select from table, seat or eraser to create your layout!" class="far fa-question-circle"></div></div>
+                    <div>Layout Picker <div title="Select from table, seat or eraser to create your layout!"
+                            class="far fa-question-circle"></div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div title="Table" class="color red selected col-4 btn" data-class="square">
@@ -157,7 +161,8 @@
                         <div title="Seat" class="color green col-4 btn" data-class="seat">
                             <div class="seat center"></div><input type="text">
                         </div>
-                        <div title="Eraser" class="color eraser col-4 btn" data-class="eraser"><div class="fas fa-eraser center centerText"></div>
+                        <div title="Eraser" class="color eraser col-4 btn" data-class="eraser">
+                            <div class="fas fa-eraser center centerText"></div>
                         </div>
                     </div>
 
@@ -165,8 +170,30 @@
             </div>
             <br>
             <div class="FDefaultTab legendBorder">
-                <button class="btn btn-danger btn-block" type="button" id="clear">Clear All<i
-                        class="fas fa-trash-alt"></i></button>
+                <!-- Button trigger modal -->
+                <button class="btn btn-danger btn-block" type="button" data-mdb-toggle="modal"
+                    data-mdb-target="#clearAllModal">Clear All<i class="fas fa-trash-alt"></i></button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="clearAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Clear All</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">Are you sure?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="button" class="btn btn-danger" id="clear">Clear All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="FDefaultTab legendBorder">
