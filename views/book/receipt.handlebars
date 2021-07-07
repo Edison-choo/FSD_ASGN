@@ -49,7 +49,7 @@
                     <tr style="padding-bottom: 10px">
                     <td>{{inc @index}}</td>
                     <td>{{name}}
-                    {{#if ../specifications}}<br><span style="font-size: 0.8em;">Spec: {{../specifications}}</span>{{/if}}
+                    {{#ifEquals ../specifications ''}}{{else}}<br><span style="font-size: 0.8em;">Spec: {{../specifications}}</span>{{/ifEquals}}
                     {{#if ../remark}}<br><span style="font-size: 0.8em;">Remark: {{../remark}}</span>{{/if}}</td>
                     <td>{{../this.quantity}}</td>
                     <td>{{#distanceFixedCost price ../this.additional ../this.quantity}}{{/distanceFixedCost}}</td>
@@ -60,7 +60,8 @@
                     {{/each}}
                 </tbody>
                 </table>
-                <div style="float:right;margin-right:20px;">Total: ${{#distanceFixed order.total}}{{/distanceFixed}}</div>
+                <div style="margin-left:10px; font-size:0.95em;">Total: ${{#distanceFixed order.total}}{{/distanceFixed}}</div>
+                <div style="margin-left:10px; font-size:0.95em;">Remarks: {{order.remarks}}</div>
             </div>
         </div>
         <button type="button" name="" id="" class="btn btn-block homeButton" onclick="window.location.href='/'">Back To Home</button>
