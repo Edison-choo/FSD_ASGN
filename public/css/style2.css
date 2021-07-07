@@ -80,7 +80,7 @@
   margin-top:175px;
   color: #eeeeee;
   padding: 10px 10px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   border-radius: 0px 0px 3px 3px;
 }
@@ -555,6 +555,7 @@
 #selectOrder {
   width: 100%;
 }
+
 
 .successNoti {
   height:60px;

@@ -1,3 +1,6 @@
+<script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
 {{#if success_msg }}
 <div class="successNoti" style="display: flex;">
     <div><i class="fas fa-check-circle"></i><span>{{success_msg}}</span></div>
@@ -12,27 +15,27 @@
 
 {{#if error_msg}}
 <div class="dangerNoti" style="display: flex;">
-    <div><i class="fas fa-check-circle"></i><span>{{error_msg}}</span></div>
+    <div><i class="fas fa-ban"></i><span>{{error_msg}}</span></div>
     <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
 </div>
 {{/if}}
 
 {{#if error}}
 <div class="dangerNoti" style="display: flex;">
-    <div><i class="fas fa-check-circle"></i><span>{{error}}</span></div>
+    <div><i class="fas fa-ban"></i><span>{{error}}</span></div>
     <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
 </div>
 {{/if}}
 
-{{!-- {{#each errors}}
+{{#each errors}}
 <div class="dangerNoti errors" style="display: flex;">
-    <div><i class="fas fa-check-circle"></i><span>{{text}}</span></div>
+    <div><i class="fas fa-ban"></i><span>{{text}}</span></div>
     <button id="closeNoti" onclick="HideNotErrors({{@index}})" type="button" class="btn-close"></button>
 </div>
-{{/each}} --}}
+{{/each}}
 
 <div class="dangerNoti">
-    <div><i class="fas fa-check-circle"></i><span></span></div>
+    <div><i class="fas fa-ban"></i><span></span></div>
     <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
 </div>
 

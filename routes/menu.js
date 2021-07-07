@@ -32,7 +32,9 @@ router.get("/", ensureAuthenticated, (req, res) => {
           }
         });
         types.sort();
-        MenuSpec.findAll().then((specs) => {
+        MenuSpec.findAll({
+          where: { userId: req.user.id},
+        }).then((specs) => {
           let menuSpec = {};
           specs.forEach((option) => {
             if (option.name in menuSpec) {
@@ -62,6 +64,52 @@ router.get("/", ensureAuthenticated, (req, res) => {
 // router.get("/addMenu", (req, res) => {
 //   res.render("menu/addMenu");
 // });
+
+// view menu in user side
+router.get("/view/:resName", (req, res) => {
+  var types = [];
+  User.findOne({ where: { fname: req.params.resName } })
+    .then(resUser => {
+      Menu.findAll({
+        where: { userId: resUser.id},
+      })
+        .then((menus) => {
+          if (menus) {
+            menus.forEach((menu) => {
+              if (types.includes(menu.type) === false) {
+                types.push(menu.type);
+              }
+            });
+            types.sort();
+            MenuSpec.findAll({
+              where: { userId: resUser.id},
+            }).then((specs) => {
+              let menuSpec = {};
+              specs.forEach((option) => {
+                if (option.name in menuSpec) {
+                  menuSpec[option.name] = menuSpec[option.name].concat([
+                    { option: option.option, addPrice: option.addPrice },
+                  ]);
+                } else {
+                  console.log("test1");
+                  menuSpec[option.name] = [
+                    { option: option.option, addPrice: option.addPrice },
+                  ];
+                }
+              });
+              console.log(menuSpec);
+              res.render("menu/viewMenu", {
+                menus,
+                menuSpecification,
+                types,
+                menuSpec,
+              });
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    });
+});
 
 //page of menu table
 router.get("/updateMenu", ensureAuthenticated, (req, res) => {
@@ -179,6 +227,7 @@ router.get("/getMenu", ensureAuthenticated, (req, res) => {
 // ajax add food to menu
 router.post("/addMenu", urlencodedParser, ensureAuthenticated, (req, res) => {
   let errors = [];
+  let types = [];
   let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
   menuImage = menuImage === undefined ? '' : menuImage;
   specifications = specifications === undefined ? "" : specifications.toString();
@@ -191,6 +240,11 @@ router.post("/addMenu", urlencodedParser, ensureAuthenticated, (req, res) => {
   })
     .then((menus) => {
       if (menus) {
+        menus.forEach((menu) => {
+          if (types.includes(menu.type) === false) {
+            types.push(menu.type);
+          }
+        });
         let menuOrder = menus
           .filter((f) => f.type == foodType)
           .sort((f1, f2) => (f1.foodNo > f2.foodNo ? 1 : -1));
@@ -232,7 +286,7 @@ router.post("/addMenu", urlencodedParser, ensureAuthenticated, (req, res) => {
                   userId: req.user.id,
                 })
                   .then((menu) => {
-                    res.json({menu, success:`${menu.name} successfully added to menu!`});
+                    res.json({menu, types, success:`${menu.name} successfully added to menu!`});
                   })
                   .catch((err) => console.log(err));
               }
