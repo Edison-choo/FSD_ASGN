@@ -49,7 +49,6 @@
           {{#each booking}}
           {{#ifEquals this.confirm false}}
           <tr>
-
             <td>{{this.date}}</td>
             <td>{{this.timing}}</td>
             <td>{{this.firstName}}</td>
@@ -59,11 +58,15 @@
             <td><a class="btn btn-primary" style="background-color: #25d366;"
                 href="/bookingStaff/acceptBooking/{{this.email}}/{{this.res_name}}" role="button"><i
                   class="fas fa-check"></i></a></td>
-            <td><a class="btn btn-primary" style="background-color: #894242;" href="/bookingStaff/deleteBooking/{{this.email}}/{{this.res_name}}" role="button"
-                data-toggle="confirmation" data-title="Confirm delete?"><i class="fas fa-ban"></i></a></td>
+            <td><a class="btn btn-primary" style="background-color: #894242;"
+                href="/bookingStaff/deleteBooking/{{this.email}}/{{this.res_name}}" role="button"
+                data-toggle="confirmation" data-title="Confirm delete?" onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a></td>
           </tr>
           {{/ifEquals}}
           {{/each}}
+          {{#ifEquals booking null}}
+          <p>There are no bookings pending</p>
+          {{/ifEquals}}
         </tbody>
 
       </table>
@@ -89,6 +92,8 @@
         <tbody>
           {{#each booking}}
           {{#ifEquals this.confirm true}}
+          {{#dateDiff this.date}}
+          {{else}}
           <tr>
 
             <td>{{this.date}}</td>
@@ -98,6 +103,7 @@
             <td>{{this.pax}}</td>
             <td>{{this.email}}</td>
           </tr>
+          {{/dateDiff}}
           {{/ifEquals}}
           {{/each}}
         </tbody>
@@ -105,75 +111,5 @@
       </table>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  {{!-- {{#each booking}}
-  <br>
-
-
-  {{#ifEquals this.confirm false}}
-  <div class="card" style="background-color: #ffb03b;">
-    <div class="card-body">
-      Reservation by {{this.firstName}} {{this.lastName}} is still pending confirmation
-      <div style="float:right;">
-        <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to
-          view</a>
-      </div>
-    </div>
-  </div>
-
-  {{else}}
-  <div class="card" style="background-color:aquamarine;">
-    <div class="card-body">
-      Reservation by {{this.firstName}} {{this.lastName}} has been confirmed
-      <div style="float:right;">
-        <a href="../../bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}">Click here to
-          view</a>
-      </div>
-    </div>
-  </div>
-
-  {{/ifEquals}}
-
-
-  {{/each}} --}}
 </div>
+
