@@ -304,4 +304,50 @@ router.get("/viewLayout", ensureAuthenticated, (req, res) => {
     res.render("staffRestaurant/viewLayout", { layouts });
   });
 });
+
+router.get("/editLayout", ensureAuthenticated, (req, res) => {
+  let res_name = req.user.fname;
+  Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
+    res.render("staffRestaurant/editLayout", { layouts });
+  });
+});
+
+router.post("/editLayout", urlencodedParser, ensureAuthenticated, (req, res) => {
+  let res_name = req.user.fname;
+  let errors = [];
+  let { seat, square, tables } = req.body;
+
+  if (seat.length == 0) {
+    errors.push({ text: "No Seat!" });
+  }
+  if (square.length == 0) {
+    errors.push({ text: "No Tables!" });
+  }
+  if (errors.length > 0) {
+    res.render("staffRestaurant/createLayout", {
+      errors,
+      seat,
+      square,
+      tables,
+    });
+  } else {
+    Restaurant.update(
+      {
+        seat: seat,
+        square: square,
+        tables: tables,
+        occupied: "",
+      },
+      {
+        where: {
+          res_name: res_name,
+        },
+      }
+    )
+      .then((layout) => {
+        res.redirect("/staffRestaurant/viewLayout");
+      })
+      .catch((err) => console.log(err));
+  }
+});
 module.exports = router;
