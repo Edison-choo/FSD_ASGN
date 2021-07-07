@@ -297,7 +297,7 @@
             if (tblLen == colors.length) {
                 $("#add-button").remove()
             }
-            $("#table-"+i).css("background-color", colors[i-2])
+            $("#table-" + i).css("background-color", colors[i - 2])
         }
         // Adding the correct colours for each table
         $(".table-1").css("background-color", "#00ffff")
@@ -379,6 +379,11 @@
             }
         });
         $("#next").click(function () {
+            for (const [key, value] of Object.entries(tblDic)) {
+                if (value.length == 0){
+                    delete tblDic[key]
+                }
+            }
             $("#seatList").val(seatList)
             $("#squareList").val(squareList)
             tblDicFormat = JSON.stringify(tblDic)
