@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
 			console.log(promotions)
 			Restaurant.findAll(
 				).then((restaurants) => {
-					console.log(promotions[0].restaurant)
 					res.render('index', {restaurants: restaurants, promotions: promotions, title : title});
 				})
 		}).catch(err => console.log(err));

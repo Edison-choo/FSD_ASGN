@@ -16,38 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `restaurants`
+-- Table structure for table `bookings`
 --
 
-DROP TABLE IF EXISTS `restaurants`;
+DROP TABLE IF EXISTS `bookings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `restaurants` (
+CREATE TABLE `bookings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `comp_name` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `comp_email` varchar(255) DEFAULT NULL,
-  `uen` varchar(255) DEFAULT NULL,
   `res_name` varchar(255) DEFAULT NULL,
-  `cuisine` varchar(255) DEFAULT NULL,
-  `open_time` varchar(255) DEFAULT NULL,
-  `close_time` varchar(255) DEFAULT NULL,
-  `halal` tinyint(1) DEFAULT NULL,
-  `facebook` varchar(255) DEFAULT NULL,
-  `twitter` varchar(255) DEFAULT NULL,
-  `instagram` varchar(255) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `timing` time DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `pax` int DEFAULT NULL,
+  `confirm` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `restaurants`
+-- Dumping data for table `bookings`
 --
 
-LOCK TABLES `restaurants` WRITE;
-/*!40000 ALTER TABLE `restaurants` DISABLE KEYS */;
-INSERT INTO `restaurants` VALUES (11,'Subway Pte Ltd','930 Yishun Ave 2, Northpoint City North Wing, #B2-03/07, Singapore 769098','agnes_g@subway.com.sg','1234567X','Subway','Western','10:00','22:00',1,'https://www.facebook.com/subway','https://www.twitter.com/subway','https://www.instagram.com/subway.singapore/'),(12,'Saizeriya Pte Ltd','30 Sembawang Dr, #03-18/19 Sun Plaza, Singapore 757713','saizeriya@gmail.com','2323233X','Saizeriya','Italian','11:00','22:00',1,'https://www.facebook.com/SaizeriyaSingapore/','https://twitter.com/saizeriyasg','https://www.instagram.com/saizeriyasg/');
-/*!40000 ALTER TABLE `restaurants` ENABLE KEYS */;
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+INSERT INTO `bookings` VALUES (1,'Popeyes@Northpoint','Edison','Choo','edisonchoo234@gmail.com','14:00:00','2021-07-08',1,1),(2,'Popeyes@Northpoint','Yu Zheng','Lim','yuzhenglim2510@gmai.com','13:00:00','2021-07-09',3,1),(3,'Popeyes@Northpoint','Xuan Wei','Lim','joshualim2122@gmail.com','12:00:00','2021-07-10',10,0),(4,'Popeyes@Northpoint','Wye Keong','Wee','notweewyekeong@gmail.com','14:00:00','2021-07-09',1,0);
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -59,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-19 16:29:39
+-- Dump completed on 2021-07-08  0:10:45

@@ -191,7 +191,7 @@
                       </svg>
                     </a> --}}
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" name='foodPrice' value="{{#if foodPrice}}{{#distanceFixed foodPrice}}{{/distanceFixed}}{{/if}}" class="form-control" required/>
+                      <input type="number" step="0.01" id="foodPrice" name='foodPrice' value="{{#if foodPrice}}{{#distanceFixed foodPrice}}{{/distanceFixed}}{{/if}}" class="form-control" required/>
                       <label class="form-label" for="foodPrice">Food Price</label>
                     </div>
                     
@@ -250,7 +250,7 @@
                     <hr>
                     <div class="popUpContentTitle" style="font-size: 1em; font-weight:400;">Options of the Specifications</div>
                     <ol style="padding-left: 10px;">
-                      <li>
+                      <li class="toClean">
                         <div class="row">
                           <div class="col">
                             <div class="form-outline">
@@ -266,7 +266,7 @@
                           </div>
                         </div>
                       </li>
-                      <li>
+                      <li class="toClean">
                         <div class="row">
                       <div class="col">
                         <div class="form-outline">
@@ -338,7 +338,7 @@
                       <label class="form-label" for="foodType">Food Type</label>
                     </div>
                     <div class="form-outline">
-                      <input type="number" id="foodPrice" name='foodPrice' value="{{#distanceFixed this.price}}{{/distanceFixed}}" class="form-control" required/>
+                      <input type="number" step="0.01" id="foodPrice" name='foodPrice' value="{{#distanceFixed this.price}}{{/distanceFixed}}" class="form-control" required/>
                       <label class="form-label" for="foodPrice">Food Price</label>
                     </div>
 
