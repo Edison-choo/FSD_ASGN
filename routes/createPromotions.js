@@ -94,7 +94,7 @@ router.post('/updatePromotions/:id', urlencodedParser,(req, res) => {
                 .catch(err => console.log(err));
             });
 
-router.post('/upload', ensureAuthenticated, (req, res) => {
+router.post('/upload/:id', ensureAuthenticated, (req, res) => {
     // Creates user id directory for upload if not exist
     if (!fs.existsSync('./public/uploads/bannerimg/' + req.user.id)){
         fs.mkdirSync('./public/uploads/bannerimg/' + req.user.id);
@@ -110,7 +110,7 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
             Promotions.update({
                 banner: `/uploads/bannerimg/${req.user.id}/${req.file.filename}`
             },
-            {where:{staffId:req.user.id}}
+            {where:{id:req.params.id}}
             )
         }
     }
