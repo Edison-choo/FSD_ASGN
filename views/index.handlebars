@@ -37,14 +37,25 @@
   <!-- Inner -->
   <div class="carousel-inner">
     <!-- Single item -->
-    <div class="carousel-item active">
       {{#if promotions}}
       {{#each promotions}}
+      {{#ifEquals @index 0}}
+    <div class="carousel-item active">
       <img
         src="{{banner}}"
         class="d-block w-100"
         alt="..."
       />
+          </div>
+          {{else}}
+          <div class="carousel-item">
+      <img
+        src="{{banner}}"
+        class="d-block w-100"
+        alt="..."
+      />
+          </div>
+          {{/ifEquals}}
       {{/each}}
       {{else}}
       <img
@@ -53,7 +64,7 @@
         alt="..."
       />
       {{/if}}
-    </div>
+
   </div>
   <!-- Inner -->
 
