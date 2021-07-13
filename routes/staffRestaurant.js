@@ -186,6 +186,9 @@ router.post("/editRestaurant", urlencodedParser, ensureAuthenticated, (req, res)
     cuisine,
     halal,
     comp_email,
+    facebook,
+    twitter,
+    instagram,
     iconURL,
   } = req.body;
   Restaurant.update(
@@ -197,6 +200,9 @@ router.post("/editRestaurant", urlencodedParser, ensureAuthenticated, (req, res)
       cuisine: cuisine,
       halal: halal,
       comp_email: comp_email,
+      facebook: facebook,
+      twitter:twitter,
+      instagram:instagram,
       image: iconURL,
     },
     {

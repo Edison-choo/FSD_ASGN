@@ -36,6 +36,12 @@
         margin-right: auto;
         width: 50%;
     }
+    .linkTheme{
+        color: #ffb03b;
+    }
+    .linkTheme:hover{
+        color: #ffb13bb7;
+    }
 </style>
 
 {{#ifEquals restaurant.image undefined}}
@@ -82,6 +88,18 @@
         <tr>
             <th>Phone:</th>
             <td>{{restaurant.phone}}</td>
+        </tr>
+        <tr>
+            <th>Facebook:</th>
+            <td>{{#if restaurant.facebook}}<a class="linkTheme" href="{{restaurant.facebook}}">{{restaurant.facebook}}</a>{{else}}None{{/if}}</td>
+        </tr>
+        <tr>
+            <th>Twitter:</th>
+            <td>{{#if restaurant.twitter}}<a class="linkTheme" href="{{restaurant.twitter}}">{{restaurant.twitter}}</a>{{else}}None{{/if}}</td>
+        </tr>
+        <tr>
+            <th>Instagram:</th>
+            <td>{{#if restaurant.instagram}}<a class="linkTheme" href="{{restaurant.instagram}}">{{restaurant.instagram}}</a>{{else}}None{{/if}}</td>
         </tr>
     </table>
     <a href="/staffRestaurant/editRestaurant" class="btn FDefaultButton btn-rounded center">Edit Restaurant</a>
