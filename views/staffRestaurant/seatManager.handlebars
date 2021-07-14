@@ -19,6 +19,14 @@
         cursor: pointer;
     }
 
+    .seat:hover {
+        border: 2px solid orange;
+    }
+
+    .square:hover {
+        border: 2px solid orange;
+    }
+
     .center {
         margin-left: auto;
         margin-right: auto;
@@ -48,15 +56,7 @@
     }
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
-{{#ifEquals layouts.square undefined}}
-<div class="alert alert-warning" role="alert">
-    <i class="fas fa-exclamation-triangle"></i> You have not created your restaurant layout!
-</div>
-<div class="FDefaultTab standardPad" style="margin: 100px;">
-    <a href="/staffRestaurant/createLayout" class="btn btn-lg btn-block FDefaultButton"
-        style="margin: 0px; display:block;">Click here to make your restaurant layout</a>
-</div>
-{{else}}
+{{#if layouts.square}}
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
     <div class="row">
         <div id="table-wrap" class="col-md-8 FDefaultTab standardPad" style="overflow-x:auto;">
@@ -81,7 +81,16 @@
         <input type="hidden" name="occupied" id="occupied">
     </div>
 </form>
-{{/ifEquals}}
+{{else}}
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> You have not created your restaurant layout!
+</div>
+<div class="FDefaultTab standardPad" style="margin: 100px;">
+    <a href="/staffRestaurant/createLayout" class="btn btn-lg btn-block FDefaultButton"
+        style="margin: 0px; display:block;">Click here to make your restaurant layout</a>
+</div>
+
+{{/if}}
 <script>
     function remove(array, n) {
         const index = array.indexOf(n)
@@ -136,6 +145,7 @@
 
         for (const [key, value] of Object.entries(tblDic)) {
             for (i in value) {
+
                 $("#" + value[i]).click(function () {
                     if ($("." + key).hasClass("taken")) {
                         $("." + key).removeClass("taken")
@@ -168,5 +178,10 @@
                 }
             }
         })
+
+        for (table in tblDic) {
+
+        }
+
     });
 </script>

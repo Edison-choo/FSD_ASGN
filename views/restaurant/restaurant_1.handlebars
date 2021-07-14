@@ -62,14 +62,20 @@
                 <span class="fa fa-star checked"></span>
                 | 12 Ratings
                 <!-- Facebook -->
+                {{#if restaurant.facebook}}
                 <a style="color: #3b5998;" href="{{restaurant.facebook}}" role="button"><i
                         class="fab fa-facebook-f fa-lg"></i></a>
+                {{else}}{{/if}}
                 <!-- Twitter -->
+                {{#if restaurant.twitter}}
                 <a style="color: #55acee;" href="{{restaurant.twitter}}" role="button"><i
                         class="fab fa-twitter fa-lg"></i></a>
+                {{else}}{{/if}}
                 <!-- Instagram -->
+                {{#if restaurant.instagram}}
                 <a style="color: #ac2bac;" href="{{restaurant.instagram}}" role="button"><i
                         class="fab fa-instagram fa-lg"></i></a>
+                {{else}}{{/if}}
             </div>
             <hr>
             <table class="table table-borderless">
