@@ -11,6 +11,15 @@ const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
 const User = require("../models/user");
 const ensureAuthenticated = require('../helpers/auth');
+const stripe = require('stripe')('pk_test_51JE5hbAlVdHui4tw2KBqHHsXvSwykR4HwI9zksrVoUNyjCg4Do5DtqIiCsrJbJcEXXfQAplLk7qIRtgPeB7wc60Y00hCS9bXiM');
+const uuid = require('uuid/v4');
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripePublicKey = 'pk_test_51JE5hbAlVdHui4tw2KBqHHsXvSwykR4HwI9zksrVoUNyjCg4Do5DtqIiCsrJbJcEXXfQAplLk7qIRtgPeB7wc60Y00hCS9bXiM';
+console.log(stripeSecretKey, stripePublicKey);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -61,6 +70,7 @@ router.get("/menuBook/:resName", (req, res) => {
 });
 
 router.get("/foodCart", (req, res) => {
+  console.log(stripeSecretKey, stripePublicKey);
   let sess = req.session;
   let userId = req.user ? req.user.id : 0;
   let tempCart = undefined;
@@ -94,12 +104,12 @@ router.get("/foodCart", (req, res) => {
           } else {
             req.session.total = [{userId: userId, count: count}];
           }
-          res.render("book/foodCart", {menus, count});
+          res.render("book/foodCart", {menus, count, stripeSecretKey, stripePublicKey});
         }
       })
       .catch((err) => console.log(err))
   } else {
-    res.render("book/foodCart");
+    res.render("book/foodCart", {count:0,stripeSecretKey, stripePublicKey});
   }
   
 });
@@ -131,10 +141,60 @@ router.get("/payment", (req, res) => {
   res.render("book/payment");
 });
 
+// payment
+router.post('/checkout', (req, res) => {
+
+  let {remark, count, token} = req.body;
+  console.log(remark, count, token);
+  let idempontencyKey = uuid();
+
+  return stripe.customers
+  .create({
+    email: token.email,
+    source: token.id
+  })
+  .then((customer) => {
+    // have access to the customer object
+    return stripe.charges
+      .create({
+        customer: token.id,
+        amount: count,
+        currency: 'sgd',
+        description: 'preorder food',
+      }, {idempontencyKey})
+      .then((result) => {
+        console.log(result);
+        res.redirect('/book/receipt/'+1);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  });
+});
+
+// router.post('/create-checkout-session', async (req, res) => {
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ['card'],
+//     line_items: [
+//       {
+//         price_data: {
+//           currency: 'sgd',
+//           unit_amount: 2000,
+//         }
+//       },
+//     ],
+//     mode: 'payment',
+//     success_url: `https://127.0.0.1:5000/book/receipt/1`,
+//     cancel_url: `https://127.0.0.1:5000/book/receipt/1`,
+//   });
+//   res.redirect(303, session.url)
+// });
+
 //create order
 router.post('/createOrder', urlencodedParser, (req, res) => {
   let sess = req.session;
-  let {remark} = req.body;
+  let remark = req.body.remark;
+  console.log(req.body);
   let userId = req.user ? req.user.id : 0;
   if (sess.cart) {
     let total = 0;
@@ -163,9 +223,10 @@ router.post('/createOrder', urlencodedParser, (req, res) => {
       sess.total = sess.total.filter((f) => f.userId !== userId);
       res.redirect('/book/receipt/'+order.id);
     }).catch((err) => console.log(err));
+    res.redirect('/book/receipt/'+1);
   } else {
     console.log("test")
-    res.redirect('/book/foodCart');
+    res.redirect('/book/receipt/'+1);
   }
 });
 

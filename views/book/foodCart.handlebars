@@ -1,4 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
 
 <div class="row">
     <div class="col-md-2"></div>
@@ -65,7 +67,8 @@
             </tbody>
             </table>
         </div>
-        <form action="/book/createOrder" method="post">
+        {{!-- <form action="/book/createOrder" method="post"> --}}
+        <form action="/book/create-checkout-session" method="post">
         <div class="remarks">
             <div class="form-outline mb-4" style="margin-bottom:0px;">
                 <textarea name="remark" class="form-control" id="form4Example3" rows="2"></textarea>
@@ -73,7 +76,7 @@
             </div>
         </div>
         <div class="checkout">
-            <button type="submit" name="" id="" class="btn btn-block bookButton" onclick="window.location.href='/book/receipt'">Checkout</button>
+            <button type="button" name="" id="" class="btn btn-block bookButton" {{#if session.cart}}{{else}}disabled{{/if}}>Checkout</button>
             <div>
                 Total: ${{#distanceFixed count}}{{/distanceFixed}}
             </div>
@@ -84,3 +87,39 @@
     <div class="col-md-2">
     </div>
 </div>
+
+<script>
+    var stripePublicKey = '{{stripePublicKey}}';
+    console.log(stripePublicKey);
+
+    var stripeHandler = StripeCheckout.configure({
+        key: stripePublicKey,
+        locale: 'en',
+        token: function(token) {
+            var remark = $('form textarea').text()
+            var count = parseFloat('{{count}}')
+            console.log(remark, token)
+            fetch('/book/createOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    remark: 'test',
+                    count:count,
+                    token:token
+                }),
+            }).then(response => {
+                console.log(response);
+                window.location.assign(response.url);
+            })
+        }
+    })
+
+    $('.checkout button').on('click', function() {
+        stripeHandler.open({
+            amount: parseFloat('{{count}}')
+        })
+    })
+</script>

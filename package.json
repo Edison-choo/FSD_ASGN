@@ -16,6 +16,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
+    "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
@@ -36,6 +37,7 @@
     "querystring": "^0.2.1",
     "sequelize": "^4.44.4",
     "smartwizard": "^5.1.1",
+    "stripe": "^8.163.0",
     "valid-url": "^1.0.9",
     "validator": "^13.6.0"
   }

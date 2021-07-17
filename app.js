@@ -267,7 +267,7 @@ Handlebars.registerHelper("dateDiff", function(a, options) {
     var a_Date = new Date(a)
     var today = new Date();
     const dateInPast = function(firstDate) {
-        if (firstDate.setHours(0, 0, 0, 0) <= today.setHours(0, 0, 0, 0)) {
+        if (firstDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
             return true;
         }
 

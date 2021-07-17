@@ -78,6 +78,9 @@ function cleanInput() {
   $(".toClean").each((i, item) => {
     $(".toClean").eq(i).find("input").val("");
   })
+  $("#addMenu1 .specification").each((i, item) => {
+    $("#addMenu1 .specification").eq(i).find("input").prop('checked', false);
+  })
 }
 
 function hideAll() {
