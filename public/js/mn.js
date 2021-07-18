@@ -662,3 +662,78 @@ $(function() {
     });
   })
 });
+
+
+// create data table for menu
+$(function() {
+  let count = 0;
+  let addingHtml = '';
+  $(".foodRow tr").each((i, item) => {
+    if (i !== 0) {
+      count += 1
+    }
+    if (i > 5) {
+      $(".foodRow tr").eq(i).css('display', 'none');
+    }
+  })
+  console.log(count);
+  for (i=0;i<count/5;i++) {
+    if (i == 0){
+      addingHtml += `
+      <li class="page-item active" aria-current="page"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+      `
+    } else if (i == 1 || i == 2) {
+      addingHtml += `
+      <li class="page-item"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+      `;
+      $(".pagination .next").removeClass('disabled');
+    } else {
+      addingHtml += `
+      <li class="page-item" ><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+      `;
+    }
+  }
+  $(".page-inside").html(addingHtml);
+})
+
+// change page button
+function changePage(id) {
+  $(".foodRow tr").each((i, item) => {
+    if (i != 0) {
+      // console.log(i, (id-1)*5, i, id*5);
+      if (i> (id-1)*5 && i <= id*5) {
+        $(".foodRow tr").eq(i).css('display', 'table-row');
+      } else {
+        $(".foodRow tr").eq(i).css('display', 'none');
+      }
+    }
+  })
+  $(".page-inside .active").removeClass('active');
+  $(".page-inside .page-item").eq(id-1).addClass('active');
+  if (id == 1) {
+    $(".pagination .previous").addClass('disabled');
+    $(".pagination .next").removeClass('disabled');
+  }else if (id == parseInt($(".page-inside .page-item").length)) {
+    $(".pagination .next").addClass('disabled');
+    $(".pagination .previous").removeClass('disabled');
+  } else {
+    $(".pagination .previous").removeClass('disabled');
+    $(".pagination .next").removeClass('disabled');
+  }
+}
+
+$(".pagination .previous a").on('click', function(){
+  if ($(".page-inside .active a").text() == '2') {
+    $(".pagination .previous").addClass('disabled');
+  }
+  changePage(parseInt($(".page-inside .active a").text()) - 1);
+  $(".pagination .next").removeClass('disabled');
+})
+
+$(".pagination .next a").on('click', function(){
+  changePage(parseInt($(".page-inside .active a").text()) + 1);
+  if ($(".page-inside .active a").text() == parseInt($(".page-inside .page-item").length)) {
+    $(".pagination .next").addClass('disabled');
+  }
+  $(".pagination .previous").removeClass('disabled');
+})
