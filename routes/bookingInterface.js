@@ -12,6 +12,8 @@ const Restaurant = require('../models/restaurants')
 const { Op } = require("sequelize");
 const ensureAuthenticated = require('../helpers/auth');
 const { username } = require('../config/db');
+const Order = require("../models/order");
+const Menu = require("../models/menu");
 
 router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
     res_name = req.params.res_name;
@@ -51,7 +53,7 @@ router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
             [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
         }
     }).then(booking => {
-        res.redirect('/bookingInterface/bookingDetails/' + email + '/' + req.params.res_name);
+        res.redirect('/bookingInterface/bookingDetailsListPage/' + email + '/' + req.params.res_name);
     })
 });
 
@@ -67,6 +69,41 @@ router.get('/bookingDetailsList/:email', ensureAuthenticated, (req, res) => {
         .catch((err) => console.log(err));
 });
 
+router.get('/bookingConfirmed/:email/:res_name', ensureAuthenticated, (req, res) => {
+    email_id = req.params.email;
+    res_name_id = req.params.res_name
+    Booking.findOne({
+        where: {
+            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+        }
+    }).then(booking => {
+        Order.findOne({ where: { bookingId: booking.id } })
+            .then((order) => {
+                if (order) {
+                    order.food = JSON.parse(order.food);
+                    if (order.food) {
+                        let cart = order.food.map((c) => parseInt(c.id));
+                        Menu.findAll({
+                                where: {
+                                    id: {
+                                        [Op.in]: cart
+                                    }
+                                },
+                            })
+                            .then((menus) => {
+                                if (menus) {
+                                    res.render('bookingInterface/bookingConfirmed', { booking, order, menus });
+
+                                }
+                            })
+                            .catch((err) => console.log(err))
+                    }
+                }
+                console.log(booking);
+            })
+    })
+});
+
 router.get('/bookingDetailsListPage/:email/:res_name', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name
@@ -75,8 +112,33 @@ router.get('/bookingDetailsListPage/:email/:res_name', ensureAuthenticated, (req
             [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
         }
     }).then(booking => {
-        console.log(booking);
-        res.render('bookingInterface/bookingDetailsListPage', { booking });
+        Order.findOne({ where: { bookingId: booking.id } })
+            .then((order) => {
+                if (order) {
+                    order.food = JSON.parse(order.food);
+                    if (order.food) {
+                        let cart = order.food.map((c) => parseInt(c.id));
+                        Menu.findAll({
+                                where: {
+                                    id: {
+                                        [Op.in]: cart
+                                    }
+                                },
+                            })
+                            .then((menus) => {
+                                if (menus) {
+                                    res.render('bookingInterface/bookingDetailsListPage', { booking, order, menus });
+
+                                }
+                            })
+                            .catch((err) => console.log(err))
+                    }
+                } else {
+                    console.log("test")
+                    res.render('bookingInterface/bookingDetailsListPage', { booking })
+                }
+                console.log(booking);
+            })
     })
 });
 
@@ -89,25 +151,6 @@ router.get('/deleteBooking/:email/:res_name', (req, res) => {
     }).then(() =>
         res.redirect('/bookingInterface/bookingDetailsList/' + req.user.email)
     ).catch(err => console.log(err));
-
-});
-
-router.post('/bookingDetailsListPage/:email/:res_name', urlencodedParser, (req, res) => {
-
-    let confirm = req.body.bookingConfirm
-    let email_id = req.params.email
-    console.log(confirm, req.params.email)
-
-    Booking.update({
-        confirm: confirm
-    }, {
-        where: {
-            [Op.and]: [{ email: email_id }, { res_name: req.params.res_name }]
-        }
-    }).then(booking => {
-        console.log(booking)
-        res.redirect('/bookingStaff/viewBookings/' + req.user.fname);
-    })
 
 });
 
@@ -182,6 +225,7 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
                             date: date,
                             pax: pax
                         }).then(booking => {
+                            req.session.booking = booking
                             res.redirect('/bookingInterface/bookingDetails/' + email + '/' + res_name);
                         })
                         .catch(err => console.log(err));

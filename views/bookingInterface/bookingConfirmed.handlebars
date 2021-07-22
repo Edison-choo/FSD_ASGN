@@ -11,7 +11,7 @@
 </style>
 
 <div class="container base restab" style="text-align: center;">
-    <h1>Here's your order summary</h1>
+    <h1>Here's Your Order Summary</h1>
 </div>
 
 <br>
@@ -66,10 +66,50 @@
                 </div>
             </div>
         </div>
+        {{#if order}}
+        <div>
+            <div class="receiptSubTitle">Order details</div>
+            <table class="bookTable bookTable2">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Food</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each order.food}}
+                    {{#each orders}}
+                    {{#each ../../menus}}
+                    {{#ifEquals ../../id id}}
+                    <tr style="padding-bottom: 10px">
+                        <td>{{inc @index}}</td>
+                        <td>{{name}}
+                            {{#ifEquals ../specifications ''}}{{else}}<br><span style="font-size: 0.8em;">Spec:
+                                {{../specifications}}</span>{{/ifEquals}}
+                            {{#if ../remark}}<br><span style="font-size: 0.8em;">Remark: {{../remark}}</span>{{/if}}
+                        </td>
+                        <td>{{../this.quantity}}</td>
+                        <td>{{#distanceFixedCost price ../this.additional ../this.quantity}}{{/distanceFixedCost}}
+                        </td>
+                    </tr>
+                    {{/ifEquals}}
+                    {{/each}}
+                    {{/each}}
+                    {{/each}}
+                </tbody>
+            </table>
+            <div style="margin-left:10px; font-size:0.95em;">Total: ${{#distanceFixed
+                order.total}}{{/distanceFixed}}</div>
+            <div style="margin-left:10px; font-size:0.95em;">Remarks: {{order.remarks}}</div>
+        </div>
+        {{/if}}
+
         <button type="button" name="" id="" class="btn btn-block homeButton" onclick="window.location.href='/'">Back
             To Home</button>
-        <button type="button" name="" id="" class="btn btn-block homeButton"
-            onclick="window.location.href='/book/menuBook/{{booking.res_name}}'">Proceed to Order Food</button>
+
+
         <div class="col-md-2">
         </div>
     </div>

@@ -15,67 +15,111 @@
 </div>
 
 <br>
-<div class="FDefaultTab" style="padding: 20px 150px 20px 150px;">
-    <br>
-    <h3 style="text-align: center; margin:auto;">Restaurant Details</h3>
-    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="receipt">
+            <div>
+                <h2 style="text-align: center; margin:auto;"></h2>
 
-    <div style="">
-        <div style="display: inline-block;">Restaurant:</div>
-        <span style="display: inline-block; float: right;">
-            {{booking.res_name}}
-        </span>
-    </div>
-    <div style="">
-        <div style="display: inline-block;">Date:</div>
-        <div style="display: inline-block; float: right;">
-            {{booking.date}}
-        </div>
-    </div>
-    <div style="">
-        <div style="display: inline-block;">Time:</div>
-        <div style="display: inline-block; float: right;">
-            {{booking.timing}}
-        </div>
-    </div>
-    <div style="">
-        <div style="display: inline-block;">Pax:</div>
-        <div style="display: inline-block; float: right;">
-            {{booking.pax}}
-        </div>
-    </div>
-    <br>
-    <h3 style="text-align: center; margin:auto;">Personal Details</h3>
-    <br>
-    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
-    <div style="">
-        <div style="display: inline-block;">Name:</div>
-        <div style="display: inline-block; float: right;">
-            {{booking.firstName}} {{booking.lastName}}
-        </div>
-    </div>
-    <div style="">
-        <div style="display: inline-block;">Email:</div>
-        <div style="display: inline-block; float: right;">
-            {{booking.email}}
-        </div>
-    </div>
+                <h3 style="text-align: center; margin:auto; border-bottom: #35322d solid 2px;">Restaurant Details</h3>
+                <br>
+                <div style="">
+                    <div style="display: inline-block;">Restaurant:</div>
+                    <span style="display: inline-block; float: right;">
+                        {{booking.res_name}}
+                    </span>
+                </div>
+                <div style="">
+                    <div style="display: inline-block;">Date:</div>
+                    <div style="display: inline-block; float: right;">
+                        {{booking.date}}
+                    </div>
+                </div>
+                <div style="">
+                    <div style="display: inline-block;">Time:</div>
+                    <div style="display: inline-block; float: right;">
+                        {{booking.timing}}
+                    </div>
+                </div>
+                <div style="">
+                    <div style="display: inline-block;">Pax:</div>
+                    <div style="display: inline-block; float: right;">
+                        {{booking.pax}}
+                    </div>
+                </div>
+                <br>
+                <h3 style="text-align: center; margin:auto; border-bottom: #35322d solid 2px;">Personal Details</h3>
+                <br>
 
+                <div style="">
+                    <div style="display: inline-block;">Name:</div>
+                    <div style="display: inline-block; float: right;">
+                        {{booking.firstName}} {{booking.lastName}}
+                    </div>
+                </div>
+                <div style="">
+                    <div style="display: inline-block;">Email:</div>
+                    <div style="display: inline-block; float: right;">
+                        {{booking.email}}
+                    </div>
+                </div>
+            </div>
+            {{#if order}}
+            <div>
+                <div class="receiptSubTitle">Order details</div>
+                <table class="bookTable bookTable2">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Food</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each order.food}}
+                        {{#each orders}}
+                        {{#each ../../menus}}
+                        {{#ifEquals ../../id id}}
+                        <tr style="padding-bottom: 10px">
+                            <td>{{inc @index}}</td>
+                            <td>{{name}}
+                                {{#ifEquals ../specifications ''}}{{else}}<br><span style="font-size: 0.8em;">Spec:
+                                    {{../specifications}}</span>{{/ifEquals}}
+                                {{#if ../remark}}<br><span style="font-size: 0.8em;">Remark: {{../remark}}</span>{{/if}}
+                            </td>
+                            <td>{{../this.quantity}}</td>
+                            <td>{{#distanceFixedCost price ../this.additional ../this.quantity}}{{/distanceFixedCost}}
+                            </td>
+                        </tr>
+                        {{/ifEquals}}
+                        {{/each}}
+                        {{/each}}
+                        {{/each}}
+                    </tbody>
+                </table>
+                <div style="margin-left:10px; font-size:0.95em;">Total: ${{#distanceFixed
+                    order.total}}{{/distanceFixed}}</div>
+                <div style="margin-left:10px; font-size:0.95em;">Remarks: {{order.remarks}}</div>
+            </div>
+            {{/if}}
 
-    <br>
-    <h1 style="border-top: 8px solid #433f39; border-radius: 5px;"></h1>
-    <br>
-    <div class="form-group">
-        <div style="display: inline;">
-            <a href="/"><button
-                    style="background-color:#433f39; border-color:#433f39 "
-                    class="btn btn-primary btn-lg">Return to home</button></a>
+        </div>
+        <div class="row">
+            <div class="col col-sm-12 col-lg-6">
+                <button type="button" name="" id="" class="btn btn-block homeButton"
+                    onclick="window.location.href='/'">Back
+                    To Home</button>
+            </div>
+            <div class="col col-sm-12 col-lg-6">
+                <button type="button" name="" id="" class="btn btn-block homeButton"
+                    onclick="window.location.href='/bookingInterface/updateForm/{{booking.email}}/{{booking.res_name}}'">Update
+                    Booking</button>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
         </div>
     </div>
-</div>
-
-<script>
-    function set_confirm() {
-        document.getElementById("confirm").value = 1
-    }
-</script>

@@ -17,9 +17,9 @@ const Order = db.define('order', {
     remarks: {
         type: Sequelize.STRING
     },
-    // bookingId: {
-    //     type: Sequelize.INTEGER
-    // }
+    bookingId: {
+        type: Sequelize.INTEGER
+    }
 });
 
 module.exports = Order;

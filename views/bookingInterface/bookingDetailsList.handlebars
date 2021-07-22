@@ -72,7 +72,9 @@
         </td>
         <td><a class="btn btn-primary" style="background-color: #894242;"
             href="/bookingInterface/deleteBooking/{{this.email}}/{{this.res_name}}" role="button"
-            data-toggle="confirmation" data-title="Confirm delete?" onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a></td>
+            data-toggle="confirmation" data-title="Confirm delete?"
+            onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a>
+        </td>
       </tr>
 
       {{else}}
@@ -84,11 +86,15 @@
 
         <td>{{this.pax}}</td>
         <td>{{this.email}}</td>
-        <td>
+        <td><a class="btn btn-primary" style="background-color: #3b5998;"
+            href="/bookingInterface/bookingConfirmed/{{this.email}}/{{this.res_name}}" role="button"><i
+              class="fas fa-edit"></i></a>
         </td>
         <td><a class="btn btn-primary" style="background-color: #894242;"
             href="/bookingInterface/deleteBooking/{{this.email}}/{{this.res_name}}" role="button"
-            data-toggle="confirmation" data-title="Confirm delete?" onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a></td>
+            data-toggle="confirmation" data-title="Confirm delete?"
+            onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a>
+        </td>
       </tr>
       {{else}}
       <tr class="table-warning">
@@ -99,12 +105,14 @@
         <td>{{this.pax}}</td>
         <td>{{this.email}}</td>
         <td><a class="btn btn-primary" style="background-color: #3b5998;"
-            href="/bookingInterface/updateForm/{{this.email}}/{{this.res_name}}" role="button"><i
+            href="/bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}" role="button"><i
               class="fas fa-edit"></i></a>
         </td>
         <td><a class="btn btn-primary" style="background-color: #894242;"
             href="/bookingInterface/deleteBooking/{{this.email}}/{{this.res_name}}" role="button"
-            data-toggle="confirmation" data-title="Confirm delete?" onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a></td>
+            data-toggle="confirmation" data-title="Confirm delete?"
+            onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a>
+        </td>
       </tr>
       {{/if}}
       {{/dateDiff}}
