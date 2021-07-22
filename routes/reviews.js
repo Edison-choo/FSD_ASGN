@@ -5,9 +5,9 @@ const Reviews = require('../models/reviews');
 const Restaurant = require('../models/restaurants');
 
 
-router.get('/reviews/:restaurant', ensureAuthenticated, (req, res) => {
+router.get('/reviews/:restaurant', (req, res) => {
     let restaurant = req.params.restaurant
-    Reviews.findAll(
+    Reviews.findAll({where: {restaurant: restaurant}}
         ).then((reviews) => {
             let totalaverage = 0;
             for(i in reviews){
