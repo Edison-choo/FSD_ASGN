@@ -49,6 +49,7 @@
     table:hover .btn-floating {
         display: block;
     }
+    
 </style>
 <div class="media row default FDefaultTab">
     <img src="{{restaurant.image}}" class="align-self-start mr-3 col-md-4" alt="..."
@@ -84,40 +85,40 @@
             <hr>
             <table class="table table-borderless table-hover">
                 <tr>
-                    <td><i class="fas fa-map-marker-alt"></i></td>
-                    <td><span id="address">{{restaurant.address}}<span /><span style="float: right;"><a title="Copy"
+                    <td><i class="fas fa-map-marker-alt"></i><span style="padding-left: 50px;"></span><span
+                            id="address">{{restaurant.address}}<span /><span style="float: right;"><a title="Copy"
                                     role="button" onclick="copyToClipboard('#address')"> <i
-                                        class="far fa-clone"></i></a></span></td>
-                </tr>
-                <tr>
-                    <td><i class="far fa-clock"></i></td>
-                    <td>{{restaurant.open_time}} - {{restaurant.close_time}}</td>
-                </tr>
-                <tr>
-                    <td><i class="fas fa-utensils"></i></td>
-                    <td>{{restaurant.cuisine}}</td>
-                </tr>
-                <tr>
-                    <td><img src="https://img.icons8.com/ios/452/halal-sign.png" alt=""
-                            style="width: 24px; height: 24px;"></td>
-                    {{#if restaurant.halal}}
-                    <td>Yes</td>
-                    {{else}}
-                    <td>No</td>
-                    {{/if}}
-                </tr>
-                <tr>
-                    <td><i class="fas fa-phone"></i></td>
-                    <td><span id="phone">{{restaurant.phone}}<span /><span style="float: right;"><a title="Copy"
-                                    role="button" onclick="copyToClipboard('#phone')"> <i
                                         class="far fa-clone"></i></a></span>
+                        </span></td>
+                </tr>
+                <tr>
+                    <td><i class="far fa-clock"></i><span style="padding-left: 50px;"></span>{{restaurant.open_time}} -
+                        {{restaurant.close_time}}</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-utensils"></i><span style="padding-left: 50px;"></span>{{restaurant.cuisine}}
                     </td>
                 </tr>
                 <tr>
-                    <td><i class="fas fa-envelope"></i></td>
-                    <td><span id="email"><a href="{{restaurant.comp_email}}">{{restaurant.comp_email}}</a><span/><span style="float: right;"><a title="Copy"
-                                    role="button" onclick="copyToClipboard('#email')"> <i
+                    <td><img src="https://static.thenounproject.com/png/509419-200.png" alt=""
+                            style="width: 15px; height: 15px;"><span style="padding-left: 45px;"></span>
+                        {{#if restaurant.halal}}
+                        Halal
+                        {{else}}
+                        Not Halal
+                        {{/if}}
+                    </td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-phone"></i><span style="padding-left: 50px;"></span><span
+                            id="phone">{{restaurant.phone}}<span /><span style="float: right;"><a title="Copy"
+                                    role="button" onclick="copyToClipboard('#phone')"> <i
                                         class="far fa-clone"></i></a></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-envelope"></i><span style="padding-left: 50px;"></span><span id="email"><a href="mailto:{{restaurant.comp_email}}">{{restaurant.comp_email}}</a><span /><span
+                                style="float: right;"><a title="Copy" role="button" onclick="copyToClipboard('#email')">
+                                    <i class="far fa-clone"></i></a></span></td>
                 </tr>
             </table>
             <div class="row">
@@ -171,7 +172,10 @@
         </div>
     </div>
 </div>
-
+<br>
+<iframe class="FDefaultTab" width="100%" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAAILFYex9lS_h9Pk3xXmBzfCidfoLNuXU
+    &q={{restaurant.res_name}},Sinagpore">
+</iframe>
 <script>
     function copyToClipboard(element) {
         var $temp = $("<input>");
