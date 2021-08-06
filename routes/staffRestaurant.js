@@ -9,6 +9,7 @@ const urlValidator = require("valid-url");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 const ensureAuthenticated = require("../helpers/auth");
+const moment = require("moment");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -207,7 +208,7 @@ router.post(
       instagram,
       iconURL,
     } = req.body;
-    
+
     //Email validator
     if (!emailValidator.validate(comp_email)) {
       errors.push({ text: "Email is invalid!" });
@@ -217,7 +218,7 @@ router.post(
     if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
       errors.push({ text: "Phone is invalid!" });
     }
-
+    
     //Facebook url validation
     if (!urlValidator.isUri(facebook) && facebook !== "") {
       errors.push({ text: "Facebook url is formatted incorrectly!" });
@@ -233,19 +234,23 @@ router.post(
       errors.push({ text: "Instagram url is formatted incorrectly!" });
     }
     if (errors.length > 0) {
+      restaurant = {
+        comp_name: comp_name,
+        address: address,
+        open_time: open_time,
+        close_time: close_time,
+        cuisine: cuisine,
+        halal: halal,
+        comp_email: comp_email,
+        phone: phone,
+        facebook: facebook,
+        twitter: twitter,
+        instagram: instagram,
+        image: iconURL,
+      };
       res.render("staffRestaurant/editRestaurant", {
         errors,
-        address,
-        comp_email,
-        phone,
-        cuisine,
-        open_time,
-        close_time,
-        halal,
-        facebook,
-        twitter,
-        instagram,
-        iconURL,
+        restaurant,
       });
     } else {
       Restaurant.update(
@@ -257,6 +262,7 @@ router.post(
           cuisine: cuisine,
           halal: halal,
           comp_email: comp_email,
+          phone: phone,
           facebook: facebook,
           twitter: twitter,
           instagram: instagram,

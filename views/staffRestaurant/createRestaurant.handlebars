@@ -59,17 +59,17 @@
             <div id="step-1" class="tab-pane" role="tabpanel">
                 <!-- Company Phone -->
                 <div class="form-outline mb-4">
-                    <input type="tel" id="phone" name="phone" class="form-control" pattern="/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g" required />
+                    <input type="tel" id="phone" name="phone" class="form-control" pattern="/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g" value="{{phone}}" required />
                     <label class="form-label" for="phone">Public Company Phone Number</label>
                 </div>
                 <!-- Company Email -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="comp_email" name="comp_email" class="form-control" required />
+                    <input type="email" id="comp_email" name="comp_email" class="form-control" value="{{comp_email}}" required />
                     <label class="form-label" for="comp_email">Public Company Email</label>
                 </div>
                 <!-- Address -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="address" name="address" class="form-control" required/>
+                    <input type="text" id="address" name="address" class="form-control" value="{{address}}" required/>
                     <label class="form-label" for="phone">Address</label>
                 </div>
                 <!-- Cuisine -->
@@ -90,12 +90,12 @@
                 <!-- Opening and Closing Hours -->
                 <div class="form_group">
                     <label for="open_time">Opening Hours:</label>
-                    <input type='time' name="open_time" class="form-control"/>
+                    <input type='time' name="open_time" class="form-control" value="{{open_time}}" />
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="close_time">Closing Hours:</label>
-                    <input type='time' name="close_time" class="form-control"/>
+                    <input type='time' name="close_time" class="form-control" value="{{close_time}}" />
                 </div>
                 <br>
                 <!-- Halal -->
@@ -109,15 +109,15 @@
             <div id="step-2" class="tab-pane" role="tabpanel">
                 <!-- Facebook Link -->
                 <div class="form-outline mb-4">
-                    <input type="url" id="facebook" name="facebook" class="form-control" />
+                    <input type="url" id="facebook" name="facebook" class="form-control" value="{{facebook}}" />
                     <label class="form-label" for="facebook">Facebook account url</label>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="url" id="twitter" name="twitter" class="form-control" />
+                    <input type="url" id="twitter" name="twitter" class="form-control" value="{{twitter}}" />
                     <label class="form-label" for="twitter">Twitter account url</label>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="url" id="instagram" name="instagram" class="form-control" />
+                    <input type="url" id="instagram" name="instagram" class="form-control" value="{{instagram}}" />
                     <label class="form-label" for="instagram">Instagram account url</label>
                 </div>
                 <p>*Leave blank if not applicable</p>
@@ -126,7 +126,7 @@
                 <div>
                     <input type="file" id="restaurantIcon" name="restaurantIcon"
                         accept="image/png,image/jpeg,image/jpg,image/gif" style="display: none;">
-                    <input id="iconURL" type="hidden" name="iconURL">
+                    <input id="iconURL" type="hidden" name="iconURL" required>
                     <label for="restaurantIcon" class="FDefaultTab imageUpload">
                         <div>
                             <img id="icon" src="/img/UploadFile.png" alt="" style="width: 300px;">

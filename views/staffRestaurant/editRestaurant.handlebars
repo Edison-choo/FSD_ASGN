@@ -1,6 +1,4 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <style>
@@ -65,8 +63,7 @@
                 <th>Opening Time:</th>
                 <td>
                     <div class="form_group">
-                        <label for="open_time">Opening:</label>
-                        <input type='text' name="open_time" class="form-control" id="open_time"
+                        <input type='time' name="open_time" class="form-control" id="open_time"
                             value="{{restaurant.open_time}}" />
                     </div>
                 </td>
@@ -75,8 +72,7 @@
                 <th>Closing Time:</th>
                 <td>
                     <div class="form-group">
-                        <label for="close_time">Closing:</label>
-                        <input type='text' name="close_time" class="form-control" id="close_time"
+                        <input type='time' name="close_time" class="form-control" id="close_time"
                             value="{{restaurant.close_time}}" />
                     </div>
                 </td>
@@ -165,16 +161,6 @@
                 $("#halal").val(0)
             }
         })
-        $('#open_time').timepicker
-            ({
-                format: 'HH:MM',
-                uiLibrary: 'bootstrap4',
-            });
-        $('#close_time').timepicker
-            ({
-                format: 'HH:MM',
-                uiLibrary: 'bootstrap4',
-            });
     });
     $("#restaurantIcon").on("change", function () {
         let image = $("#restaurantIcon")[0].files[0];
