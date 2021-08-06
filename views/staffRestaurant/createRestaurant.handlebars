@@ -59,21 +59,21 @@
             <div id="step-1" class="tab-pane" role="tabpanel">
                 <!-- Company Phone -->
                 <div class="form-outline mb-4">
-                    <input type="number" id="phone" name="phone" class="form-control" />
+                    <input type="tel" id="phone" name="phone" class="form-control" pattern="/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g" required />
                     <label class="form-label" for="phone">Public Company Phone Number</label>
                 </div>
                 <!-- Company Email -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="comp_email" name="comp_email" class="form-control" />
+                    <input type="email" id="comp_email" name="comp_email" class="form-control" required />
                     <label class="form-label" for="comp_email">Public Company Email</label>
                 </div>
                 <!-- Address -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="address" name="address" class="form-control" />
+                    <input type="text" id="address" name="address" class="form-control" required/>
                     <label class="form-label" for="phone">Address</label>
                 </div>
                 <!-- Cuisine -->
-                <select class="form-select" id="cuisine" name="cuisine">
+                <select class="form-select" id="cuisine" name="cuisine" required>
                     <option value="" disabled selected>Cuisine</option>
                     <option value="Western">Western</option>
                     <option value="Mexican">Mexican</option>
@@ -90,12 +90,12 @@
                 <!-- Opening and Closing Hours -->
                 <div class="form_group">
                     <label for="open_time">Opening Hours:</label>
-                    <input type='text' name="open_time" class="form-control" id="open_time" />
+                    <input type='time' name="open_time" class="form-control"/>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="close_time">Closing Hours:</label>
-                    <input type='text' name="close_time" class="form-control" id="close_time" />
+                    <input type='time' name="close_time" class="form-control"/>
                 </div>
                 <br>
                 <!-- Halal -->
@@ -145,7 +145,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet"
@@ -189,16 +188,6 @@
     });
 
     $(function () {
-        $('#open_time').timepicker
-            ({
-                format: 'HH:MM',
-                uiLibrary: 'bootstrap4',
-            });
-        $('#close_time').timepicker
-            ({
-                format: 'HH:MM',
-                uiLibrary: 'bootstrap4',
-            });
         $('#smartwizard').smartWizard({
             theme: "dots",
             transition: {

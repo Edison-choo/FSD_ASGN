@@ -45,6 +45,10 @@
         padding: 40px;
         margin: auto;
     }
+
+    table:hover .btn-floating {
+        display: block;
+    }
 </style>
 <div class="media row default FDefaultTab">
     <img src="{{restaurant.image}}" class="align-self-start mr-3 col-md-4" alt="..."
@@ -78,22 +82,22 @@
                 {{else}}{{/if}}
             </div>
             <hr>
-            <table class="table table-borderless">
+            <table class="table table-borderless table-hover">
                 <tr>
-                    <td>Location:</td>
-                    <td>{{restaurant.address}}</td>
+                    <td><i class="fas fa-map-marker-alt"></i></td>
+                    <td id="address">{{restaurant.address}}</td>
                 </tr>
                 <tr>
-                    <td>Opening Hours:</td>
+                    <td><i class="far fa-clock"></i></td>
                     <td>{{restaurant.open_time}} - {{restaurant.close_time}}</td>
                 </tr>
                 <tr>
-                    <td>Cuisine:</td>
+                    <td><i class="fas fa-utensils"></i></td>
                     <td>{{restaurant.cuisine}}</td>
                 </tr>
                 <tr>
-                    <td>Halal <img src="https://img.icons8.com/ios/452/halal-sign.png" alt=""
-                            style="width: 25px; height: 25px;">:</td>
+                    <td><img src="https://img.icons8.com/ios/452/halal-sign.png" alt=""
+                            style="width: 24px; height: 24px;"></td>
                     {{#if restaurant.halal}}
                     <td>Yes</td>
                     {{else}}
@@ -101,12 +105,14 @@
                     {{/if}}
                 </tr>
                 <tr>
-                    <td>Phone:</td>
-                    <td>{{restaurant.phone}}</td> <!-- Get from Cruz later on -->
+                    <td><i class="fas fa-phone"></i></td>
+                    <td id="phone">{{restaurant.phone}}</td>
+                    <td><a title="Copy" role="button" onclick="copyToClipboard('#phone')"> <i class="far fa-clone"></i></a>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Email:</td>
-                    <td>{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i
+                    <td><i class="fas fa-envelope"></i></td>
+                    <td id="email">{{restaurant.comp_email}} <a href="mailto:{{restaurant.comp_email}}"><i
                                 class="fas fa-envelope"></i></a> </td>
                 </tr>
             </table>
@@ -146,7 +152,7 @@
         <div class="col-2">
             <div style="font-size: 30px;">
                 {{totalaverage}} out of 5
-            </div> 
+            </div>
             <div>
                 <span class="fa fa-star checked" style="font-size: 20px;"></span>
                 <span class="fa fa-star checked" style="font-size: 20px;"></span>
@@ -156,12 +162,20 @@
             </div>
         </div>
         <div class="col-10">
-            <a href="../../reviews/reviews/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Click here to see all the reviews!</a>
+            <a href="../../reviews/reviews/{{restaurant.res_name}}" class="btn FDefaultButton btn-block">Click here to
+                see all the reviews!</a>
         </div>
     </div>
 </div>
 
 <script>
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
     function buildGrid(cols, rows) {
 
         var tableMarkup = "";
