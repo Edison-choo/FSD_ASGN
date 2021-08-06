@@ -13,6 +13,7 @@ const passport = require("passport");
 const Handlebars = require("handlebars");
 const queryString = require("querystring");
 const cookieSession = require("cookie-session");
+const axios = require('axios');
 /*
  * Loads routes file main.js in routes directory. The main.js determines which function
  * will be called based on the HTTP request and URL.
@@ -61,6 +62,8 @@ authenticate.localStrategy(passport);
  * 3. 'defaultLayout' specifies the main.handlebars file under views/layouts as the main template
  *
  * */
+
+axios.defaults.withCredentials = true;
 
 app.engine('handlebars', exphbs({
     helpers: {
@@ -218,6 +221,14 @@ Handlebars.registerHelper("distanceFixed", function(distance) {
         return distance.toFixed(2);
     } else if (Number.isFinite(distance)) {
         return distance.toFixed(2);
+    }
+});
+
+Handlebars.registerHelper("distanceFixedStripe", function(distance) {
+    if (Number.isInteger(distance)) {
+        return distance * 100;
+    } else if (Number.isFinite(distance)) {
+        return distance * 100;
     }
 });
 

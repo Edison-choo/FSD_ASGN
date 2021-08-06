@@ -11,14 +11,19 @@ const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
 const User = require("../models/user");
 const ensureAuthenticated = require('../helpers/auth');
-const stripe = require('stripe')('pk_test_51JE5hbAlVdHui4tw2KBqHHsXvSwykR4HwI9zksrVoUNyjCg4Do5DtqIiCsrJbJcEXXfQAplLk7qIRtgPeB7wc60Y00hCS9bXiM');
 const uuid = require('uuid/v4');
+const axios = require('axios');
+const http = require('http');
+const queryString = require("querystring");
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripePublicKey = 'pk_test_51JE5hbAlVdHui4tw2KBqHHsXvSwykR4HwI9zksrVoUNyjCg4Do5DtqIiCsrJbJcEXXfQAplLk7qIRtgPeB7wc60Y00hCS9bXiM';
+const stripe = require('stripe')(stripeSecretKey);
+
 console.log(stripeSecretKey, stripePublicKey);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -117,6 +122,10 @@ router.get("/foodCart", (req, res) => {
 });
 
 router.get("/receipt/:id", (req, res) => {
+    if (req.session) {
+      req.session.cart = req.session.cart.filter((f) => f.userId !== req.user.id);
+      req.session.total = req.session.total.filter((f) => f.userId !== req.user.id);
+    }
     Order.findOne({ where: { id: req.params.id } })
         .then((order) => {
             if (order) {
@@ -146,29 +155,44 @@ router.get("/payment", (req, res) => {
 });
 
 // payment
-router.post('/checkout', (req, res) => {
+router.post('/charge', (req, res) => {
 
-    let { remark, count, token } = req.body;
-    console.log(remark, count, token);
-    let idempontencyKey = uuid();
+    // let { remark, count, token } = req.body;
+    // console.log(remark, count, token);
+    // let idempontencyKey = uuid();
+    let remark = req.body.remark;
 
-    return stripe.customers
-        .create({
-            email: token.email,
-            source: token.id
+    console.log(req.body);
+    console.log((req.session.total.filter(t => t.userId == req.user.id)[0].count*100).toFixed(0));
+
+    return stripe.customers.create({
+            email: req.body.stripeEmail,
+            source: req.body.stripeToken
         })
         .then((customer) => {
             // have access to the customer object
-            return stripe.charges
-                .create({
-                    customer: token.id,
-                    amount: count,
+            return stripe.charges.create({
+                    amount: (req.session.total.filter(t => t.userId == req.user.id)[0].count*100).toFixed(0),
                     currency: 'sgd',
-                    description: 'preorder food',
-                }, { idempontencyKey })
+                    description: 'Food Ordering',
+                    customer: customer.id,
+                })
                 .then((result) => {
                     console.log(result);
-                    res.redirect('/book/receipt/' + 1);
+                    axios.post('http://localhost:5000/book/createOrder', {
+                        remark:req.body.remark,
+                        session:req.session,
+                        user:req.user
+                      },
+                      {withCredentials: true}
+                    )
+                    .then(function(response){
+                      console.log("Booking food...", response);
+                      res.redirect("/book/receipt/"+response.data.orderId)
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                    });
                 })
                 .catch((err) => {
                     console.log(err)
@@ -176,59 +200,26 @@ router.post('/checkout', (req, res) => {
         });
 });
 
-// router.post('/create-checkout-session', async (req, res) => {
-//   const session = await stripe.checkout.sessions.create({
-//     payment_method_types: ['card'],
-//     line_items: [
-//       {
-//         price_data: {
-//           currency: 'sgd',
-//           unit_amount: 2000,
-//         }
-//       },
-//     ],
-//     mode: 'payment',
-//     success_url: `https://127.0.0.1:5000/book/receipt/1`,
-//     cancel_url: `https://127.0.0.1:5000/book/receipt/1`,
-//   });
-//   res.redirect(303, session.url)
-// });
-
 //create order
-router.post('/createOrder', urlencodedParser, (req, res) => {
-    let sess = req.session;
+router.post('/createOrder', (req, res) => {
+    let sess = req.body.session;
     let remark = req.body.remark;
     console.log(req.body);
-    let userId = req.user ? req.user.id : 0;
+    let userId = req.body.user ? req.body.user.id : 0;
     if (sess.cart) {
         let total = 0;
-        // let cart = sess.cart.map((c) => parseInt(c.id));
-        // Menu.findAll({
-        //   where: {
-        //     id: { [Op.in] : cart }
-        //   },
-        // })
-        //   .then((menus) => {
-        //     if (menus) {
-        //       menus.forEach((food) => {
-        //         $scope.total += parseFloat(food.price) * sess.cart[cart.indexOf(food.id)].quantity;
-        //       })
-        //     }
-        //   })
-        //   .catch((err) => console.log(err))
         Order.create({
             userId: userId,
             food: JSON.stringify(sess.cart.filter((food) => food.userId === userId)),
             date: new Date(),
-            total: (req.session.total.filter((t) => t.userId === userId).map((t) => t.count))[0],
+            total: (req.body.session.total.filter((t) => t.userId === userId).map((t) => t.count))[0],
             remarks: remark,
-            bookingId: req.session.booking.id
+            bookingId: req.body.session.booking.id
         }).then((order) => {
             sess.cart = sess.cart.filter((f) => f.userId !== userId);
             sess.total = sess.total.filter((f) => f.userId !== userId);
-            res.redirect('/book/receipt/' + order.id);
+            res.send({orderId:order.id});
         }).catch((err) => console.log(err));
-        res.redirect('/book/receipt/' + 1);
     } else {
         console.log("test")
         res.redirect('/book/receipt/' + 1);

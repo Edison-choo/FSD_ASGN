@@ -68,7 +68,8 @@
             </table>
         </div>
         {{!-- <form action="/book/createOrder" method="post"> --}}
-        <form action="/book/create-checkout-session" method="post">
+        {{!-- <form action="/book/create-checkout-session" method="post"> --}}
+        <form action="/book/charge" method="POST">
         <div class="remarks">
             <div class="form-outline mb-4" style="margin-bottom:0px;">
                 <textarea name="remark" class="form-control" id="form4Example3" rows="2"></textarea>
@@ -76,11 +77,27 @@
             </div>
         </div>
         <div class="checkout">
-            <button type="button" name="" id="" class="btn btn-block bookButton" {{#if session.cart}}{{else}}disabled{{/if}}>Checkout</button>
+            <button type="submit" name="" id="" class="btn btn-block bookButton" {{#if session.cart}}{{else}}disabled{{/if}}>Checkout</button>
+            
             <div>
                 Total: ${{#distanceFixed count}}{{/distanceFixed}}
             </div>
         </div>
+        {{!-- </form> --}}
+        {{!-- <form action="/book/charge" method="POST"> --}}
+            <script
+                src="https://checkout.stripe.com/checkout.js"
+                class="stripe-button"
+                data-key="{{stripePublicKey}}"
+                data-name="Food Ordering"
+                data-description="From Restaurant"
+                data-amount="{{#distanceFixedStripe count}}{{/distanceFixedStripe}}"
+                data-currency="sgd">
+            </script>
+            <script>
+                // Hide default stripe button
+                $(".stripe-button-el").css('display', 'none');
+            </script>
         </form>
         <div class="clear"></div>
     </div>
@@ -117,9 +134,9 @@
         }
     })
 
-    $('.checkout button').on('click', function() {
+    {{!-- $('.checkout button').on('click', function() {
         stripeHandler.open({
             amount: parseFloat('{{count}}')
         })
-    })
+    }) --}}
 </script>
