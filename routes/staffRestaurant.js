@@ -48,48 +48,16 @@ router.get("/editRestaurant", ensureAuthenticated, (req, res) => {
 });
 
 //Post for Create Restaurant Page
-router.post("/createRestaurant", urlencodedParser, ensureAuthenticated, (req, res) => {
-  let res_name = req.user.fname;
-  let errors = [];
+router.post(
+  "/createRestaurant",
+  urlencodedParser,
+  ensureAuthenticated,
+  (req, res) => {
+    let res_name = req.user.fname;
+    let errors = [];
 
-  // Retrieves fields from register page from request body
-  let {
-    address,
-    comp_email,
-    phone,
-    cuisine,
-    open_time,
-    close_time,
-    halal,
-    facebook,
-    twitter,
-    instagram,
-    iconURL,
-  } = req.body;
-
-  //Email validation
-  if (!emailValidator.validate(comp_email)) {
-    errors.push({ text: "Email is invalid!" });
-  }
-
-  //Facebook url validation
-  if (!urlValidator.isUri(facebook) && facebook !== "") {
-    errors.push({ text: "Facebook url is formatted incorrectly!" });
-  }
-
-  //Twitter url validation
-  if (!urlValidator.isUri(twitter) && twitter !== "") {
-    errors.push({ text: "Twitter url is formatted incorrectly!" });
-  }
-
-  //Instagram url validation
-  if (!urlValidator.isUri(instagram) && instagram !== "") {
-    errors.push({ text: "Instagram url is formatted incorrectly!" });
-  }
-
-  if (errors.length > 0) {
-    res.render("staffRestaurant/createRestaurant", {
-      errors,
+    // Retrieves fields from register page from request body
+    let {
       address,
       comp_email,
       phone,
@@ -101,58 +69,100 @@ router.post("/createRestaurant", urlencodedParser, ensureAuthenticated, (req, re
       twitter,
       instagram,
       iconURL,
-    });
-  } else {
-    //Check if address is already used
-    Restaurant.findOne({
-      where: { address: address },
-    })
-      .then((restaurant) => {
-        if (restaurant) {
-          res.render("staffRestaurant/createRestaurant", {
-            error: address + " is already in use...",
-            comp_email,
-            phone,
-            cuisine,
-            open_time,
-            close_time,
-            halal,
-            facebook,
-            twitter,
-            instagram,
-            iconURL,
-          });
-        } else {
-          Restaurant.update(
-            {
-              comp_email: comp_email,
-              staffid: req.user.id,
-              address:address,
-              phone:phone,
-              cuisine: cuisine,
-              open_time: open_time,
-              close_time: close_time,
-              halal: halal,
-              facebook: facebook,
-              twitter: twitter,
-              instagram: instagram,
-              image: iconURL,
-            },
-            {
-              where: {
-                res_name: res_name,
-              },
-            }
-          )
-            .then((restaurant) => {
-              res.redirect("/staffRestaurant");
-            })
-            .catch((err) => console.log(err));
-        }
+    } = req.body;
+
+    //Email validation
+    if (!emailValidator.validate(comp_email)) {
+      errors.push({ text: "Email is invalid!" });
+    }
+
+    //Phone validation
+    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
+      errors.push({ text: "Phone is invalid!" });
+    }
+
+    //Facebook url validation
+    if (!urlValidator.isUri(facebook) && facebook !== "") {
+      errors.push({ text: "Facebook url is formatted incorrectly!" });
+    }
+
+    //Twitter url validation
+    if (!urlValidator.isUri(twitter) && twitter !== "") {
+      errors.push({ text: "Twitter url is formatted incorrectly!" });
+    }
+
+    //Instagram url validation
+    if (!urlValidator.isUri(instagram) && instagram !== "") {
+      errors.push({ text: "Instagram url is formatted incorrectly!" });
+    }
+
+    if (errors.length > 0) {
+      res.render("staffRestaurant/createRestaurant", {
+        errors,
+        address,
+        comp_email,
+        phone,
+        cuisine,
+        open_time,
+        close_time,
+        halal,
+        facebook,
+        twitter,
+        instagram,
+        iconURL,
+      });
+    } else {
+      //Check if address is already used
+      Restaurant.findOne({
+        where: { address: address },
       })
-      .catch((err) => console.log(err));
+        .then((restaurant) => {
+          if (restaurant) {
+            res.render("staffRestaurant/createRestaurant", {
+              error: address + " is already in use...",
+              comp_email,
+              phone,
+              cuisine,
+              open_time,
+              close_time,
+              halal,
+              facebook,
+              twitter,
+              instagram,
+              iconURL,
+            });
+          } else {
+            Restaurant.update(
+              {
+                comp_email: comp_email,
+                staffid: req.user.id,
+                address: address,
+                phone: phone,
+                cuisine: cuisine,
+                open_time: open_time,
+                close_time: close_time,
+                halal: halal,
+                facebook: facebook,
+                twitter: twitter,
+                instagram: instagram,
+                image: iconURL,
+              },
+              {
+                where: {
+                  res_name: res_name,
+                },
+              }
+            )
+              .then((restaurant) => {
+                res.redirect("/staffRestaurant");
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
-});
+);
 
 function checkOptions(restaurant) {
   restaurant.western =
@@ -176,90 +186,144 @@ function checkOptions(restaurant) {
 }
 
 //Put for edit restaurant
-router.post("/editRestaurant", urlencodedParser, ensureAuthenticated, (req, res) => {
-  let res_name = req.user.fname;
-  let {
-    comp_name,
-    address,
-    open_time,
-    close_time,
-    cuisine,
-    halal,
-    comp_email,
-    facebook,
-    twitter,
-    instagram,
-    iconURL,
-  } = req.body;
-  Restaurant.update(
-    {
-      comp_name: comp_name,
-      address: address,
-      open_time: open_time,
-      close_time: close_time,
-      cuisine: cuisine,
-      halal: halal,
-      comp_email: comp_email,
-      facebook: facebook,
-      twitter:twitter,
-      instagram:instagram,
-      image: iconURL,
-    },
-    {
-      where: {
-        res_name: res_name,
-      },
+router.post(
+  "/editRestaurant",
+  urlencodedParser,
+  ensureAuthenticated,
+  (req, res) => {
+    let errors = [];
+    let res_name = req.user.fname;
+    let {
+      comp_name,
+      address,
+      open_time,
+      close_time,
+      cuisine,
+      halal,
+      comp_email,
+      phone,
+      facebook,
+      twitter,
+      instagram,
+      iconURL,
+    } = req.body;
+    
+    //Email validator
+    if (!emailValidator.validate(comp_email)) {
+      errors.push({ text: "Email is invalid!" });
     }
-  )
-    .then(() => {
-      res.redirect("/staffRestaurant/viewRestaurant");
-    })
-    .catch((err) => console.log(err));
-});
+
+    //Phone validation
+    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
+      errors.push({ text: "Phone is invalid!" });
+    }
+
+    //Facebook url validation
+    if (!urlValidator.isUri(facebook) && facebook !== "") {
+      errors.push({ text: "Facebook url is formatted incorrectly!" });
+    }
+
+    //Twitter url validation
+    if (!urlValidator.isUri(twitter) && twitter !== "") {
+      errors.push({ text: "Twitter url is formatted incorrectly!" });
+    }
+
+    //Instagram url validation
+    if (!urlValidator.isUri(instagram) && instagram !== "") {
+      errors.push({ text: "Instagram url is formatted incorrectly!" });
+    }
+    if (errors.length > 0) {
+      res.render("staffRestaurant/editRestaurant", {
+        errors,
+        address,
+        comp_email,
+        phone,
+        cuisine,
+        open_time,
+        close_time,
+        halal,
+        facebook,
+        twitter,
+        instagram,
+        iconURL,
+      });
+    } else {
+      Restaurant.update(
+        {
+          comp_name: comp_name,
+          address: address,
+          open_time: open_time,
+          close_time: close_time,
+          cuisine: cuisine,
+          halal: halal,
+          comp_email: comp_email,
+          facebook: facebook,
+          twitter: twitter,
+          instagram: instagram,
+          image: iconURL,
+        },
+        {
+          where: {
+            res_name: res_name,
+          },
+        }
+      )
+        .then(() => {
+          res.redirect("/staffRestaurant/viewRestaurant");
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+);
 
 //Get create table layout page
 router.get("/createLayout", (req, res) => {
   res.render("staffRestaurant/createLayout");
 });
 
-router.post("/createLayout", urlencodedParser, ensureAuthenticated, (req, res) => {
-  let res_name = req.user.fname;
-  let errors = [];
-  let { seat, square, tables } = req.body;
+router.post(
+  "/createLayout",
+  urlencodedParser,
+  ensureAuthenticated,
+  (req, res) => {
+    let res_name = req.user.fname;
+    let errors = [];
+    let { seat, square, tables } = req.body;
 
-  if (seat.length == 0) {
-    errors.push({ text: "No Seat!" });
-  }
-  if (square.length == 0) {
-    errors.push({ text: "No Tables!" });
-  }
-  if (errors.length > 0) {
-    res.render("staffRestaurant/createLayout", {
-      errors,
-      seat,
-      square,
-      tables,
-    });
-  } else {
-    Restaurant.update(
-      {
-        seat: seat,
-        square: square,
-        tables: tables,
-        occupied: "",
-      },
-      {
-        where: {
-          res_name: res_name,
+    if (seat.length == 0) {
+      errors.push({ text: "No Seat!" });
+    }
+    if (square.length == 0) {
+      errors.push({ text: "No Tables!" });
+    }
+    if (errors.length > 0) {
+      res.render("staffRestaurant/createLayout", {
+        errors,
+        seat,
+        square,
+        tables,
+      });
+    } else {
+      Restaurant.update(
+        {
+          seat: seat,
+          square: square,
+          tables: tables,
+          occupied: "",
         },
-      }
-    )
-      .then((layout) => {
-        res.redirect("/staffRestaurant");
-      })
-      .catch((err) => console.log(err));
+        {
+          where: {
+            res_name: res_name,
+          },
+        }
+      )
+        .then((layout) => {
+          res.redirect("/staffRestaurant");
+        })
+        .catch((err) => console.log(err));
+    }
   }
-});
+);
 
 router.get("/seatManager", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
@@ -268,24 +332,29 @@ router.get("/seatManager", ensureAuthenticated, (req, res) => {
   });
 });
 
-router.post("/seatManager", urlencodedParser, ensureAuthenticated, (req, res) => {
-  let res_name = req.user.fname;
-  let { occupied } = req.body;
-  Restaurant.update(
-    {
-      occupied: occupied,
-    },
-    {
-      where: {
-        res_name: res_name,
+router.post(
+  "/seatManager",
+  urlencodedParser,
+  ensureAuthenticated,
+  (req, res) => {
+    let res_name = req.user.fname;
+    let { occupied } = req.body;
+    Restaurant.update(
+      {
+        occupied: occupied,
       },
-    }
-  )
-    .then(() => {
-      res.redirect("/staffRestaurant/seatManager");
-    })
-    .catch((err) => console.log(err));
-});
+      {
+        where: {
+          res_name: res_name,
+        },
+      }
+    )
+      .then(() => {
+        res.redirect("/staffRestaurant/seatManager");
+      })
+      .catch((err) => console.log(err));
+  }
+);
 router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
   if (!fs.existsSync("./public/uploads/resIcon/" + req.user.id)) {
@@ -298,7 +367,9 @@ router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
       if (req.file === undefined) {
         res.json({ file: "/img/no-image.jpg", err: err });
       } else {
-        res.json({ file: `/uploads/resIcon/${req.user.id}/${req.file.filename}` });
+        res.json({
+          file: `/uploads/resIcon/${req.user.id}/${req.file.filename}`,
+        });
       }
     }
   });
@@ -318,42 +389,47 @@ router.get("/editLayout", ensureAuthenticated, (req, res) => {
   });
 });
 
-router.post("/editLayout", urlencodedParser, ensureAuthenticated, (req, res) => {
-  let res_name = req.user.fname;
-  let errors = [];
-  let { seat, square, tables } = req.body;
+router.post(
+  "/editLayout",
+  urlencodedParser,
+  ensureAuthenticated,
+  (req, res) => {
+    let res_name = req.user.fname;
+    let errors = [];
+    let { seat, square, tables } = req.body;
 
-  if (seat.length == 0) {
-    errors.push({ text: "No Seat!" });
-  }
-  if (square.length == 0) {
-    errors.push({ text: "No Tables!" });
-  }
-  if (errors.length > 0) {
-    res.render("staffRestaurant/createLayout", {
-      errors,
-      seat,
-      square,
-      tables,
-    });
-  } else {
-    Restaurant.update(
-      {
-        seat: seat,
-        square: square,
-        tables: tables,
-        occupied: "",
-      },
-      {
-        where: {
-          res_name: res_name,
+    if (seat.length == 0) {
+      errors.push({ text: "No Seat!" });
+    }
+    if (square.length == 0) {
+      errors.push({ text: "No Tables!" });
+    }
+    if (errors.length > 0) {
+      res.render("staffRestaurant/createLayout", {
+        errors,
+        seat,
+        square,
+        tables,
+      });
+    } else {
+      Restaurant.update(
+        {
+          seat: seat,
+          square: square,
+          tables: tables,
+          occupied: "",
         },
-      }
-    )
-      .then((layout) => {
-        res.redirect("/staffRestaurant/viewLayout");
-      })
-      .catch((err) => console.log(err));
+        {
+          where: {
+            res_name: res_name,
+          },
+        }
+      )
+        .then((layout) => {
+          res.redirect("/staffRestaurant/viewLayout");
+        })
+        .catch((err) => console.log(err));
+    }
   }
-});
+);
 module.exports = router;
