@@ -39,6 +39,22 @@
     <button id="closeNoti" onclick="HideNotiD()" type="button" class="btn-close"></button>
 </div>
 
+{{!-- {{#if flashMessenger }}
+    {{#each flashMessenger.alertsBeforeFlush}}
+        <div class="{{#ifEquals this.type danger}}dangerNoti{{else}}successNoti{{/ifEquals}}" style="display: flex;" >
+            <div><i class="{{this.titleIcon}}"></i><span>
+                {{this.messages}}
+                {{#if this.messages}}
+                {{#each this.messages}}
+                {{this}}
+                {{/each}}
+                {{/if}}</span>
+            </div>
+            {{#if this.canBeDismissed}}<button id="closeNoti" onclick="HideNotiF()" type="button" class="btn-close"></button>{{/if}}
+        </div>
+    {{/each}}
+{{/if}} --}}
+
 <script>
     function HideNoti() {
         $(".successNoti").hide();
@@ -48,6 +64,10 @@
     }
     function HideNotErrors(i) {
         $(".errors").eq(i).hide();
+    }
+    function HideNotiF() {
+        $(".dangerNoti").hide();
+        $(".successNoti").hide();
     }
     $(function() {
         if ($(".errors").length) {

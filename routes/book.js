@@ -13,8 +13,8 @@ const User = require("../models/user");
 const ensureAuthenticated = require('../helpers/auth');
 const uuid = require('uuid/v4');
 const axios = require('axios');
-const http = require('http');
 const queryString = require("querystring");
+const CreditCard = require("../models/creditcard");
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -28,7 +28,11 @@ console.log(stripeSecretKey, stripePublicKey);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get("/menuBook/:resName", (req, res) => {
+router.get("/menuBook/:resName", ensureAuthenticated, (req, res) => {
+    if (!(req.session.booking)) {
+        alertMessage(res, 'danger', 'Cannot access page without booking', 'fas fa-exclamation-circle', true);
+        res.redirect('/');
+    } else {
     var types = [];
     // req.session.cart = undefined;
     // req.session.total = undefined;
@@ -72,9 +76,14 @@ router.get("/menuBook/:resName", (req, res) => {
                 })
                 .catch((err) => console.log(err));
         })
+    }
 });
 
-router.get("/foodCart", (req, res) => {
+router.get("/foodCart", ensureAuthenticated, (req, res) => {
+    if (!(req.session.booking)) {
+        alertMessage(res, 'danger', 'Cannot access page without booking', 'fas fa-exclamation-circle', true);
+        res.redirect('/');
+    } else {
     console.log(stripeSecretKey, stripePublicKey);
     let sess = req.session;
     let userId = req.user ? req.user.id : 0;
@@ -111,17 +120,37 @@ router.get("/foodCart", (req, res) => {
                     } else {
                         req.session.total = [{ userId: userId, count: count }];
                     }
-                    res.render("book/foodCart", { menus, count, stripeSecretKey, stripePublicKey });
+                    // res.render("book/foodCart", { menus, count, stripeSecretKey, stripePublicKey });
+                    CreditCard.findAll({where: {userid: req.user.id}})
+                    .then(creditcard => {
+                        if(creditcard){
+                            res.render("book/foodCart", { count, menus, creditcard, stripeSecretKey, stripePublicKey });
+                        }else{
+                            res.render("book/foodCart", { count, menus, stripeSecretKey, stripePublicKey })
+                        }
+                    })
+                    
                 }
             })
             .catch((err) => console.log(err))
     } else {
-        res.render("book/foodCart", { count: 0, stripeSecretKey, stripePublicKey });
+        CreditCard.findAll({where: {userid: req.user.id}})
+        .then(creditcard => {
+            if(creditcard){
+                res.render("book/foodCart", { count: 0, creditcard, stripeSecretKey, stripePublicKey });
+            }else{
+                res.render("book/foodCart", { count: 0, stripeSecretKey, stripePublicKey })
+            }
+        })
     }
-
+}
 });
 
-router.get("/receipt/:id", (req, res) => {
+router.get("/receipt/:id", ensureAuthenticated, (req, res) => {
+    if (!(req.session.booking)) {
+        alertMessage(res, 'danger', 'Cannot access page without booking', 'fas fa-exclamation-circle', true);
+        res.redirect('/');
+    } else {
     if (req.session) {
       req.session.cart = req.session.cart.filter((f) => f.userId !== req.user.id);
       req.session.total = req.session.total.filter((f) => f.userId !== req.user.id);
@@ -148,6 +177,7 @@ router.get("/receipt/:id", (req, res) => {
                 }
             }
         }).catch((err) => console.log(err));
+    }
 });
 
 router.get("/payment", (req, res) => {
@@ -161,50 +191,64 @@ router.post('/charge', (req, res) => {
     // console.log(remark, count, token);
     // let idempontencyKey = uuid();
     let remark = req.body.remark;
-
-    console.log(req.body);
-    console.log((req.session.total.filter(t => t.userId == req.user.id)[0].count*100).toFixed(0));
-
-    return stripe.customers.create({
+    let token = req.body.stripeToken;
+    stripe.tokens.create({
+        card: {
+            number: '4242424242424242',
+            exp_month: 8,
+            exp_year: 2022,
+            cvc: '314',
+        },
+    }).then(newToken => {
+        console.log(req.body);
+        // console.log(newToken);
+        console.log((req.session.total.filter(t => t.userId == req.user.id)[0].count*100).toFixed(0));
+        token = token == '' ? newToken.id : token;
+        stripe.customers.create({
             email: req.body.stripeEmail,
-            source: req.body.stripeToken
+            source: token
         })
         .then((customer) => {
             // have access to the customer object
-            return stripe.charges.create({
+            stripe.charges.create({
                     amount: (req.session.total.filter(t => t.userId == req.user.id)[0].count*100).toFixed(0),
                     currency: 'sgd',
                     description: 'Food Ordering',
                     customer: customer.id,
                 })
                 .then((result) => {
-                    console.log(result);
+                    // console.log(result);
                     axios.post('http://localhost:5000/book/createOrder', {
                         remark:req.body.remark,
                         session:req.session,
                         user:req.user
-                      },
-                      {withCredentials: true}
+                    },
+                    {withCredentials: true}
                     )
                     .then(function(response){
-                      console.log("Booking food...", response);
-                      res.redirect("/book/receipt/"+response.data.orderId)
+                        console.log("Booking food...");
+                        if (response.data.error) {
+                            res.redirect('/book/foodCart');
+                        } else {
+                            res.redirect("/book/receipt/"+response.data.orderId);
+                        }
                     })
                     .catch((err) => {
-                      console.log(err)
+                        console.log(err)
                     });
                 })
                 .catch((err) => {
                     console.log(err)
                 });
         });
+    })
 });
 
 //create order
 router.post('/createOrder', (req, res) => {
     let sess = req.body.session;
     let remark = req.body.remark;
-    console.log(req.body);
+    // console.log(req.body);
     let userId = req.body.user ? req.body.user.id : 0;
     if (sess.cart) {
         let total = 0;
@@ -222,7 +266,7 @@ router.post('/createOrder', (req, res) => {
         }).catch((err) => console.log(err));
     } else {
         console.log("test")
-        res.redirect('/book/receipt/' + 1);
+        res.send({error:'Not successful payment, Please try again'});
     }
 });
 

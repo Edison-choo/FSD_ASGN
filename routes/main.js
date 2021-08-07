@@ -11,6 +11,7 @@ const ensureAuthenticated = require('../helpers/auth');
 router.get('/', (req, res) => {
 	const title = "FooDecent Home";
 	//Login 
+	req.session.booking = undefined;
 	
 	Promotions.findAll(
 		).then((promotions) => {
