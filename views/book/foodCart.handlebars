@@ -1,6 +1,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
+<script>
+    $(function() {
+        console.log("Inserting card details...");
+        console.log($("#formSubmit").html())
+        {{#each creditcard}}
+        {{#ifEquals @index 0}}
+        $(".stripe_checkout_app .Modal-animationwrapper .Fieldset-input").eq(0).val("{{../session.booking.email}}");
+        $(".stripe_checkout_app .Modal-animationwrapper .Fieldset-input").eq(1).val({{cardno}});
+        $(".stripe_checkout_app .Modal-animationwrapper .Fieldset-input").eq(2).val({{#ifEquals mm.length 1}}0{{/ifEquals}}{{mm}}/{{yyyy}});
+        $(".stripe_checkout_app .Modal-animationwrapper .Fieldset-input").eq(3).val({{cvv}});
+        $("#formSubmit input").eq(2).val('card');
+        $("#formSubmit input").eq(3).val("{{../session.booking.email}}");
+        {{/ifEquals}}
+        {{/each}}
+    });
+</script>
 
 <div class="row">
     <div class="col-md-2"></div>
@@ -11,28 +27,28 @@
         <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
         </svg></a></div>
         <h1 class="menuTitle">Food Cart</h1>
-        <div class="bookInfo">
+        <div class="bookInfo FDefaultTab">
             
             <table class="bookTable bookTable1">
                 <tr> 
                     <td>Restaurant:</td>
-                    <td>Restaurant 1</td>
+                    <td>{{session.booking.res_name}}</td>
                 </tr>
                 <tr>
                     <td>Booking Date:</td>
-                    <td>01/01/2021</td>
+                    <td>{{session.booking.date}}</td>
                 </tr>
                 <tr>
                     <td>Booking Time:</td>
-                    <td>4:00pm</td>
+                    <td>{{session.booking.timing}}</td>
                 </tr>
                 <tr>
                     <td>Pax:</td>
-                    <td>2</td>
+                    <td>{{session.booking.pax}}</td>
                 </tr>
             </table>
         </div> 
-        <div class="cart">
+        <div class="cart FDefaultTab">
 
             <table class="bookTable bookTable2">
             <thead>
@@ -69,16 +85,27 @@
         </div>
         {{!-- <form action="/book/createOrder" method="post"> --}}
         {{!-- <form action="/book/create-checkout-session" method="post"> --}}
+        {{#if creditcard}}
+        <div class="bookInfo FDefaultTab">
+            <table class="bookTable bookTable1">
+                {{#each creditcard}}
+                <tr> 
+                    <td>Payment method {{inc @index}} {{#ifEquals @index 0}}(Using){{/ifEquals}}:</td>
+                    <td>Credit/Debit card *{{#ccdigit cardno}}{{/ccdigit}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+        {{/if}}
         <form action="/book/charge" method="POST">
-        <div class="remarks">
+        <div class="remarks FDefaultTab">
             <div class="form-outline mb-4" style="margin-bottom:0px;">
                 <textarea name="remark" class="form-control" id="form4Example3" rows="2"></textarea>
                 <label class="form-label" for="form4Example3">Remarks</label>
             </div>
         </div>
-        <div class="checkout">
-            <button type="submit" name="" id="" class="btn btn-block bookButton" {{#if session.cart}}{{else}}disabled{{/if}}>Checkout</button>
-            
+        <div class="checkout FDefaultTab">
+            <button type="{{#if creditcard}}button{{else}}submit{{/if}}" name="" id="" class="btn btn-block bookButton" {{#if session.cart}}{{else}}disabled{{/if}}>Checkout</button>
             <div>
                 Total: ${{#distanceFixed count}}{{/distanceFixed}}
             </div>
@@ -133,6 +160,28 @@
             })
         }
     })
+
+    {{#if creditcard}}
+    $('.checkout button').on('click', function(e){
+        console.log('Paying...')
+        fetch('/book/charge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    remark: $(".remarks textarea").val(),
+                    stripeEmail:"{{session.booking.email}}",
+                    stripeTokenType: 'card',
+                    stripeToken:''
+                }),
+            }).then(response => {
+                console.log(response);
+                window.location.assign(response.url);
+            })
+    })
+    {{/if}}
 
     {{!-- $('.checkout button').on('click', function() {
         stripeHandler.open({
