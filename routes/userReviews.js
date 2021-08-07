@@ -33,7 +33,7 @@ router.post('/updateReviews/:id', urlencodedParser,(req, res) => {
             .catch(err => console.log(err));
         });
 
-router.post('/deleteReviews/:id', (req, res) => {
+router.post('/:id', (req, res) => {
     Reviews.destroy({
         where: {
             id: req.params.id
