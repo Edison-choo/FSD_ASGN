@@ -10,6 +10,7 @@ const { Op, STRING } = require("sequelize");
 const e = require("connect-flash");
 const ensureAuthenticated = require('../helpers/auth');
 const Restaurant = require("../models/restaurants");
+const Order = require("../models/order");
 
 // Required for file upload
 const fs = require("fs");
@@ -151,6 +152,10 @@ router.get("/updateMenu", ensureAuthenticated, (req, res) => {
     }
   });
 });
+
+router.get('/statistics', ensureAuthenticated, (req, res) => {
+  res.render('menu/menuStat');
+})
 
 //fix
 //i change req.user.id to 1
@@ -443,6 +448,48 @@ router.get("/deleteSpec/:name", (req, res) => {
       res.json({success: `${name} is successfully deleted from the menu`});
     })
     .catch((err) => console.log(err));
+});
+
+// ajax get order data and menu data
+router.get('/getStatData', (req, res) => {
+  let types = [];
+  Menu.findAll({
+    where: {userId: req.user.id}
+  }).then((menus) => {
+    if (menus) {
+      menus.forEach((menu) => {
+        if (types.includes(menu.type) === false) {
+          types.push(menu.type);
+        }
+      });
+      MenuSpec.findAll({
+        where: { userId: req.user.id},
+      }).then((specs) => {
+        let menuSpec = {};
+        specs.forEach((option) => {
+          if (option.name in menuSpec) {
+            menuSpec[option.name] = menuSpec[option.name].concat([
+              option.option,
+            ]);
+          } else {
+            menuSpec[option.name] = [option.option];
+          }
+        });
+        Restaurant.findOne({
+          where: { staffId: req.user.id }
+        }).then(restaurant => {
+          Order.findAll({ 
+            where: { res_name: restaurant.res_name},
+          }).then((orders) => {
+            orders.forEach((order) => {
+              order.food = JSON.parse(order.food);
+            })
+            res.json({menus, menuSpec, orders});
+          });
+        });
+      });
+    }
+  });
 });
 
 module.exports = router;

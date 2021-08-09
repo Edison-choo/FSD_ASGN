@@ -42,8 +42,9 @@
 
 .menuCat {
   display: flex;
-  justify-content: flex-start;
+  justify-content:space-around;
   flex-wrap: wrap;
+  padding: 10px 30px;
 }
 
 .menuItem {
@@ -52,7 +53,7 @@
   height: 175px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   margin-top: 40px;
-  margin-left: 30px;
+  /* margin-left: 40px; */
 }
 
 .popUpImage {
@@ -506,6 +507,8 @@
 
 .menuNav {
   margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .menuNav button {
@@ -519,21 +522,8 @@
   color: #35322d;
 }
 
-.menuNav button:first-child {
-  width: 49%;
-  /* border-radius: 10px 0px 0px 10px; */
-  /* background-color: #fff;
-    border: #35322d solid 2px;
-    color: #35322d; */
-}
-
-.menuNav button:last-child {
-  width: 49%;
-  /* border-radius: 0 10px 10px 0; */
-  float: right;
-  /* background-color: #fff;
-    border: #35322d solid 2px;
-    color: #35322d; */
+.menuNav button {
+  width: 31%;
 }
 
 .modalMenu .modal-header,
@@ -596,4 +586,9 @@
 .disableda {
   pointer-events: none;
   cursor: default;
+}
+
+.menuGraph {
+  padding: 30px;
+  margin-bottom: 50px;
 }
