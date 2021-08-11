@@ -19,6 +19,9 @@ const Order = db.define('order', {
     },
     bookingId: {
         type: Sequelize.INTEGER
+    },
+    res_name: {
+        type: Sequelize.STRING
     }
 });
 

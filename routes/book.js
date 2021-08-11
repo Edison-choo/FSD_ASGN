@@ -258,7 +258,8 @@ router.post('/createOrder', (req, res) => {
             date: new Date(),
             total: (req.body.session.total.filter((t) => t.userId === userId).map((t) => t.count))[0],
             remarks: remark,
-            bookingId: req.body.session.booking.id
+            bookingId: req.body.session.booking.id,
+            res_name: req.body.session.booking.res_name
         }).then((order) => {
             sess.cart = sess.cart.filter((f) => f.userId !== userId);
             sess.total = sess.total.filter((f) => f.userId !== userId);
