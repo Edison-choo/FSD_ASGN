@@ -7,21 +7,22 @@ const ensureAuthenticated = require("../helpers/auth");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
+
 //Restaurants Page
 router.get("/", (req, res) => {
-  const { search } = req.query;
-  if (search) {
+  const { search, sort } = req.query;
+  if (search || sort) {
     Restaurant.findAll({
       where: { res_name: { [Op.like]: "%" + search + "%" } },
+      order: [[sort, "ASC"]],
     }).then((restaurant) => {
-      res.render("restaurant/restaurants", { restaurant, search });
+      res.render("restaurant/restaurants", { restaurant, search, sort });
     });
-  }
-  else{
-      Restaurant.findAll({
-      }).then((restaurant) => {
-          res.render("restaurant/restaurants", {restaurant})
-      })
+  } else {
+    Restaurant.findAll({
+    }).then((restaurant) => {
+      res.render("restaurant/restaurants", { restaurant });
+    });
   }
 });
 

@@ -37,122 +37,130 @@
     }
 </style>
 <!-- Cards -->
-<form action="/restaurant">
+<form action="/restaurant" id="formSearch">
     <div class="input-group rounded">
-        <input type="search" class="form-control rounded" placeholder="Search for Restaurants, Location, ..."
-            aria-label="Search" aria-describedby="search-addon" name="search" value="{{search}}" />
+        <input type="search" id="search" class="form-control rounded"
+            placeholder="Search for Restaurants, Location, ..." aria-label="Search" aria-describedby="search-addon"
+            name="search" value="{{search}}" />
         <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
         </span>
     </div>
     <br>
 
-</form>
-<hr>
-<div class="row">
-    <div class="col-2">
-        <!-- div: Sidebar -->
-        <div>
-            <!-- div: Filters -->
+
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <!-- div: Sidebar -->
             <div>
+                <!-- div: Filters -->
                 <div>
-                    <p class="font-weight-bold mb-3">Sort By</p>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>None</option>
-                        <option value="alphabetical">Alphabetical</option>
-                        <option value="low2high">Price low to high</option>
-                        <option value="high2low">Price high to low</option>
-                        <option value="review">Customer review</option>
-                    </select>
-                </div>
-                <hr>
-                <!-- div: Condition -->
-                <div>
+                    <div>
+                        <p class="font-weight-bold mb-3">Sort By</p>
+                        <select class="form-select" aria-label="Default select example" name="sort" id="sort">
+                            <option value="res_name">Alphabetical</option>
+                            <option value="low2high">Price low to high</option>
+                            <option value="high2low">Price high to low</option>
+                            <option value="review">Customer review</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <!-- div: Condition -->
+                    <div>
 
-                    <p class="font-weight-bold mb-3">Cuisine</p>
+                        <p class="font-weight-bold mb-3">Cuisine</p>
 
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="western">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="western">Western</label>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="western">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="western">Western</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="mexican">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="mexican">Mexican</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="thai">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="thai">Thai</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="indian">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="indian">Indian</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="japanese">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="japanese">Japanese</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="french">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="french">French</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="chinese">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="chinese">Chinese</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="italian">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="italian">Italian</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="seafood">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="seafood">Seafood</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked class="form-check-input filled-in" id="local">
+                            <label class="form-check-label small text-uppercase card-link-secondary"
+                                for="local">Local</label>
+                        </div>
+                        <hr>
+                        <button class="btn btn-primary">Submit</button>
                     </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="mexican">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="mexican">Mexican</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="thai">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="thai">Thai</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="indian">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="indian">Indian</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="japanese">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="japanese">Japanese</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="french">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="french">French</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="chinese">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="chinese">Chinese</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="italian">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="italian">Italian</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="seafood">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="seafood">Seafood</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked class="form-check-input filled-in" id="local">
-                        <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="local">Local</label>
-                    </div>
+                    <!-- div: Condition -->
                 </div>
-                <!-- div: Condition -->
+                <!-- div: Filters -->
             </div>
-            <!-- div: Filters -->
+            <!-- div: Sidebar -->
         </div>
-        <!-- div: Sidebar -->
-    </div>
-    <div class="col-10">
-        {{#each restaurant}}
-        {{#if this.image}}
-        <a href="restaurant/restaurant_1/{{this.res_name}}">
-            <div class="card defaultSize" style="width: 250px; height:300px;">
-                <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 250px; height:250px;" />
-                <div class="card-body" style="width: 250px; ">
-                    <p class="card-title titleCard"
-                        style="text-overflow: ellipsis; overflow: hidden;white-space: nowrap; height: 33px;">
-                        {{this.res_name}}
-                    <p>
-                    <p class="card-text">{{this.cuisine}}{{#if this.halal}} • Halal{{/if}}</p>
-                    <p class="card-text">{{../totalaverage}} <i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                        <c style="float: right;">{{# if ../reviews.length}}{{../reviews.length}}{{else}}No
-                            {{/if}}Reviews
-                        </c>
-                    </p>
-                </div>
+</form>
+<div class="col-10">
+    {{#each restaurant}}
+    {{#if this.image}}
+    <a href="restaurant/restaurant_1/{{this.res_name}}">
+        <div class="card defaultSize" style="width: 250px; height:300px;">
+            <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 250px; height:250px;" />
+            <div class="card-body" style="width: 250px; ">
+                <p class="card-title titleCard"
+                    style="text-overflow: ellipsis; overflow: hidden;white-space: nowrap; height: 33px;">
+                    {{this.res_name}}
+                <p>
+                <p class="card-text">{{this.cuisine}}{{#if this.halal}} • Halal{{/if}}</p>
+                <p class="card-text">{{../totalaverage}} <i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                        class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    <c style="float: right;">{{# if ../reviews.length}}{{../reviews.length}}{{else}}No
+                        {{/if}}Reviews
+                    </c>
+                </p>
             </div>
-        </a>
-        {{else}}
+        </div>
+    </a>
+    {{else}}
 
-        {{/if}}
+    {{/if}}
 
-        {{/each}}
-    </div>
+    {{/each}}
 </div>
+</div>
+
+<script>
+    console.log($("#sort").val())
+    
+</script>

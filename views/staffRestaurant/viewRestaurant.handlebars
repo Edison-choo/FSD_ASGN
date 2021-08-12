@@ -14,11 +14,16 @@
         background-color: #35322d;
         color: #FFFFFF;
         padding: 20px;
-
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
     }
 
     th {
         color: #ffb03b;
+    }
+    td{
+        text-align: right;
     }
 
     img {
@@ -34,12 +39,13 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 50%;
     }
-    .linkTheme{
+
+    .linkTheme {
         color: #ffb03b;
     }
-    .linkTheme:hover{
+
+    .linkTheme:hover {
         color: #ffb13bb7;
     }
 </style>
@@ -58,7 +64,7 @@
     <hr>
     <img src="{{restaurant.image}}" alt="" style="width: 400px;" class="center">
 
-    <table class="table table-dark table-hover tblTheme center">
+    <table class="table table-dark table-hover tblTheme">
         <tr>
             <th>Location:</th>
             <td>{{restaurant.address}}</td>
@@ -91,15 +97,18 @@
         </tr>
         <tr>
             <th>Facebook:</th>
-            <td>{{#if restaurant.facebook}}<a class="linkTheme" href="{{restaurant.facebook}}">{{restaurant.facebook}}</a>{{else}}None{{/if}}</td>
+            <td>{{#if restaurant.facebook}}<a class="linkTheme"
+                    href="{{restaurant.facebook}}">{{restaurant.facebook}}</a>{{else}}None{{/if}}</td>
         </tr>
         <tr>
             <th>Twitter:</th>
-            <td>{{#if restaurant.twitter}}<a class="linkTheme" href="{{restaurant.twitter}}">{{restaurant.twitter}}</a>{{else}}None{{/if}}</td>
+            <td>{{#if restaurant.twitter}}<a class="linkTheme"
+                    href="{{restaurant.twitter}}">{{restaurant.twitter}}</a>{{else}}None{{/if}}</td>
         </tr>
         <tr>
             <th>Instagram:</th>
-            <td>{{#if restaurant.instagram}}<a class="linkTheme" href="{{restaurant.instagram}}">{{restaurant.instagram}}</a>{{else}}None{{/if}}</td>
+            <td>{{#if restaurant.instagram}}<a class="linkTheme"
+                    href="{{restaurant.instagram}}">{{restaurant.instagram}}</a>{{else}}None{{/if}}</td>
         </tr>
     </table>
     <a href="/staffRestaurant/editRestaurant" class="btn FDefaultButton btn-rounded center">Edit Restaurant</a>
