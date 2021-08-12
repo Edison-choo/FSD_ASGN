@@ -1,86 +1,65 @@
-<button
-  type="button"
-  class="btn btn-primary"
-  data-mdb-toggle="modal"
-  data-mdb-target="#exampleModal"
-  style="background-color: #ffb03b; font-size: 20px;"
->
+<button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal"
+  style="background-color: #ffb03b; font-size: 20px;">
   Create A Promotion
 </button>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-<div class="modal-dialog">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <form method="POST" action="/createPromotions/createPromotions">
         <table id="form-table">
-            <tr>
-                <td align="right"><label for="">Title: </label></td>
-                <td><input type="text" name="name"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Start Date: </label></td>
-                <td><input type="date" name="startdate"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">End Date:</label></td>
-                <td><input type="date" name="enddate"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Discount: </label></td>
-                <td><input type="numbers" name="discount"> %</td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Details: </label></td>
-                <td><textarea name="details" id="" cols="30" rows="2"></textarea></td>
-                <td></td>
-            </tr>
+          <tr>
+            <td align="right"><label for="">Title: </label></td>
+            <td><input type="text" name="name"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Start Date: </label></td>
+            <td><input type="date" name="startdate"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">End Date:</label></td>
+            <td><input type="date" name="enddate"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Discount: </label></td>
+            <td><input type="numbers" name="discount"> %</td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Details: </label></td>
+            <td><textarea name="details" id="" cols="30" rows="2"></textarea></td>
+            <td></td>
+          </tr>
         </table>
         <div style="float: right;">
-            <input class="btn btn-primary" type="submit" value="Submit"/ style="background-color: #3b5998;">
-                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
-          Close
-        </button>
+          <input class="btn btn-primary" type="submit" value="Submit" / style="background-color: #3b5998;">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
+            Close
+          </button>
         </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 <!-- Modal -->
 {{#each promotions}}
-<div
-  class="modal fade"
-  id="confirmDelete{{id}}"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="confirmDelete{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          data-mdb-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">Confirm Delete?</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color: #3b5998;">
           Cancel
         </button>
-        <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/createPromotions/{{id}}" role="button">Delete</a>
+        <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;"
+          href="/createPromotions/{{id}}" role="button">Delete</a>
       </div>
     </div>
   </div>
@@ -88,105 +67,107 @@
 {{/each}}
 
 <div class="container">
-    <h2>Promotions</h2>
-    <hr>
-    {{#if promotions}}
-    {{#each promotions}}
-    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
-        <div class="row g-0">
-            <div class="col-md-2">
-                 {{#if banner}}
-                <img src="{{banner}}"
-                    alt="..." class="img-fluid" style="max-height: 300px; " id="bannerimg" />
-                {{else}}
-                <img src="{{../restaurants.image}}"
-                    alt="..." class="img-fluid" style="max-height: 300px; " />
-                {{/if}}       
-            </div>
-            <div class="col-md-10">
-                <div class="card-body">
-                    <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">{{discount}}%</c> </h4>
-                    <p class="card-text" style="color: white;">Start Date: {{formatDate startdate 'DD/MM/YYYY'}}</p>
-                    <p class="card-text" style="color: white;">End Date: {{formatDate enddate 'DD/MM/YYYY'}}</p>
-                    <p class="card-text" style="color: white;">Details: {{details}}</p>
-                <div class="buttons">
-                    <div class="file filestyle btn btn-lg btn-primary" style="background-color: #ffb03b; color:#35322d">Add a banner!
-                    <input type="file" onchange="bannerUpload({{id}})" id="bannerfile{{id}}" name="bannerfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
-                    <input type="hidden" id="bannerhidden"></div>
-                    <div class="action_btn">
-                        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#confirmDelete{{id}}" style="background-color: #BB4450; float: right; margin-left: 5px;">Delete</button>
-                        {{!-- <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/createPromotions/{{id}}" role="button">Delete</a> --}}
-                        <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" data-mdb-toggle="modal" data-mdb-target="#update{{id}}" role="button">Update</a>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
+  <h2>Promotions</h2>
+  <hr>
+  {{#if promotions}}
+  {{#each promotions}}
+  <div class="card FDefaultTab"
+    style="margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; background-color: rgba(26, 24, 22, 0.8);">
+    <div style="margin-left: auto; margin-right:auto; margin-top: 20px; max-width: 550px;">
+      {{#if banner}}
+      <img src="{{banner}}" alt="..." class="img-fluid" style="max-height: 300px;" id="bannerimg" />
+      {{else}}
+      <img src="{{../restaurants.image}}" alt="..." class="img-fluid" style="max-height: 300px;" />
+      {{/if}}
     </div>
-    {{/each}}
+    <div class="card-body">
+      <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">
+          {{discount}}%</c>
+      </h4>
+      <p class="card-text" style="color: white;">Start Date: {{formatDate startdate 'DD/MM/YYYY'}}</p>
+      <p class="card-text" style="color: white;">End Date: {{formatDate enddate 'DD/MM/YYYY'}}</p>
+      <p class="card-text" style="color: white;">Details: {{details}}</p>
+      <div class="buttons">
+        <div class="file filestyle btn btn-lg btn-primary"
+          style="background-color: #ffb03b; color:#35322d; font-size: 9px;">
+          <input type="file" onchange="bannerUpload({{id}})" id="bannerfile{{id}}" name="bannerfile"
+            accept="image/png, image/jpeg, image/jpg, image/gif" />
+          <input type="hidden" id="bannerhidden">
+        </div>
+        <div class="action_btn">
+          <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#confirmDelete{{id}}"
+            style="background-color: #BB4450; float: right; margin-left: 5px;">Delete</button>
+          {{!-- <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;"
+            href="/createPromotions/{{id}}" role="button">Delete</a> --}}
+          <a class="btn btn-primary" style="background-color: #3b5998; float: right" href="" data-mdb-toggle="modal"
+            data-mdb-target="#update{{id}}" role="button">Update</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  {{/each}}
 </div>
 {{/if}}
 
 {{#each promotions}}
-<div
-  class="modal fade"
-  id="update{{id}}"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-<div class="modal-dialog">
+<div class="modal fade" id="update{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <form method="POST" action="/createPromotions/updatePromotions/{{id}}">
         <table id="form-table">
-            <tr>
-                <td align="right"><label for="">Title: </label></td>
-                <td><input type="text" name="name" value="{{name}}"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Start Date: </label></td>
-                <td><input type="date" name="startdate" value="{{formatDate startdate 'DD/MM/YYYY'}}"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">End Date:</label></td>
-                <td><input type="date" name="enddate" value="{{formatDate enddate 'DD/MM/YYYY'}}"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Discount: </label></td>
-                <td><input type="numbers" name="discount" value="{{discount}}"> %</td>
-            </tr>
-            <tr>
-                <td align="right"><label for="">Details: </label></td>
-                <td><textarea name="details" id="" cols="30" rows="2">{{details}}</textarea></td>
-                <td></td>
-            </tr>
+          <tr>
+            <td align="right"><label for="">Title: </label></td>
+            <td><input type="text" name="name" value="{{name}}"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Start Date: </label></td>
+            <td><input type="date" name="startdate" value="{{formatDate startdate 'DD/MM/YYYY'}}"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">End Date:</label></td>
+            <td><input type="date" name="enddate" value="{{formatDate enddate 'DD/MM/YYYY'}}"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Discount: </label></td>
+            <td><input type="numbers" name="discount" value="{{discount}}"> %</td>
+          </tr>
+          <tr>
+            <td align="right"><label for="">Details: </label></td>
+            <td><textarea name="details" id="" cols="30" rows="2">{{details}}</textarea></td>
+            <td></td>
+          </tr>
         </table>
         <div style="float: right;">
-            <input class="btn btn-primary" type="submit" value="Submit"/ style="background-color: #3b5998;">
-                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
-          Close
-        </button>
+          <input class="btn btn-primary" type="submit" value="Submit" / style="background-color: #3b5998;">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color:#BB4450;">
+            Close
+          </button>
         </div>
       </form>
+    </div>
   </div>
-</div>
 </div>
 {{/each}}
 
 
 <style>
-    .modal-content {
-        padding: 5%;
-    }
-    #form-table {
-        border-collapse: separate;
-        border-spacing: 5px;
-    }
-    .container {
-        margin-top: 2%;
-    }
+  .modal-content {
+    padding: 5%;
+  }
+
+  #form-table {
+    border-collapse: separate;
+    border-spacing: 5px;
+  }
+
+  .container {
+    margin-top: 2%;
+  }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

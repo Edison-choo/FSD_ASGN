@@ -4,7 +4,7 @@
   </div>
   <br>
 </div>
-<!-- Carousel wrapper -->
+{{!-- <!-- Carousel wrapper -->
 <div id="carouselBasicExample" class="carousel slide carousel-fade" data-mdb-ride="carousel">
 
   <!-- Inner -->
@@ -129,9 +129,9 @@
         <h3 style="text-align: center;">No Ongoing Promotions</h3>
       {{/if}}
     </div>
-</div>
+</div> --}}
 
-    <style>
+    {{!-- <style>
       #ex3-tab-1,
       #ex3-tab-2,
       #ex3-tab-3 {
@@ -148,4 +148,48 @@
       .checked {
         color: orange;
     }
-    </style>
+    </style> --}}
+
+
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-8">
+    {{#if promotions}}
+    {{#each promotions}}
+    <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px;;">
+      <h2>{{restaurant.res_name}}</h2>
+      <img
+        src="{{banner}}"
+        class="card-img-top"
+        alt="..."
+        style="max-height: 700px;"
+      />
+      <div class="card-body">
+        <h2>{{name}}</h2>
+        <h3 style="color: #ffb03b;">{{discount}} %</h3>
+            <p class="card-text">Duration: {{formatDate startdate 'DD/MM/YYYY'}} - {{formatDate enddate 'DD/MM/YYYY'}}</p>
+        <p class="card-text">
+          {{details}}
+        </p>
+        <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
+      </div>
+    </div>
+    {{/each}}
+    {{/if}}
+  </div>
+  <div class="col-md-4">
+    <div class="card" style="margin-left: 20px;">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the bulk of the
+          card's content.
+        </p>
+        <button type="button" class="btn btn-primary">Button</button>
+      </div>
+  </div>
+  </div>
+  </div>
+
+</div>
