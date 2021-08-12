@@ -17,11 +17,8 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">Confirm Delete?</div>
+      <div class="modal-body"><h2 style="text-align: center; font-size: 30px;">Are you sure you want to delete?</h2></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" style="background-color: #3b5998;">
-          Cancel
-        </button>
         <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;" href="/userReviews/{{id}}" role="button">Delete</a>
       </div>
     </div>
@@ -55,27 +52,7 @@
     <br>
     <hr>
 
-    <div class="card mb-3 resTab" style="background-color: rgba(26, 24, 22, 0.8); max-height: 250px; border-radius:15px;">
-        <div class="row g-0">
-            <div class="col-md-12">
-                <div class="card-body">
-                    <h2 style="color: #ffa012;">{{restaurant}}</h2>
-                    <p class="card-text" style="color: white;">{{average}} <span class="fa fa-star checked"></span></p> 
-                    <p class="card-text" style="color: white;">Comments: {{comments}}</p>
-                <div class="buttons">
-                    <div class="action_btn">
-                      <form action="">
-                        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal{{id}}" style="background-color: #BB4450; float:right; margin-left: 5px;">Delete</button>
-                      </form>
-                        <form action="/userReviews/editReviews/{{id}}" method="GET" >
-                        <button class="btn btn-primary" style="background-color: #3b5998; float: right; margin-bottom: 5px;">Edit</button>
-                        </form>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     {{/each}}
     {{else}}
     <h3 style="text-align: center;">You have yet to review a restaurant</h3>

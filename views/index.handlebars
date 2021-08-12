@@ -157,6 +157,7 @@
       <div class="col-md-8">
     {{#if promotions}}
     {{#each promotions}}
+    {{#if banner}}
     <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px;;">
       <h2>{{restaurant.res_name}}</h2>
       <img
@@ -175,6 +176,20 @@
         <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
       </div>
     </div>
+    {{else}}
+    <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px;;">
+      <h2>{{restaurant.res_name}}</h2>
+      <div class="card-body">
+        <h2>{{name}}</h2>
+        <h3 style="color: #ffb03b;">{{discount}} %</h3>
+            <p class="card-text">Duration: {{formatDate startdate 'DD/MM/YYYY'}} - {{formatDate enddate 'DD/MM/YYYY'}}</p>
+        <p class="card-text">
+          {{details}}
+        </p>
+        <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
+      </div>
+    </div>
+    {{/if}}
     {{/each}}
     {{/if}}
   </div>
