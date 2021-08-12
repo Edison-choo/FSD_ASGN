@@ -49,7 +49,10 @@
     table:hover .btn-floating {
         display: block;
     }
-    
+
+    .icon_padding {
+        padding-right: 50px;
+    }
 </style>
 <div class="media row default FDefaultTab">
     <img src="{{restaurant.image}}" class="align-self-start mr-3 col-md-4" alt="..."
@@ -65,7 +68,7 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-                | {{reviews.length}} Ratings
+                | {{reviews.length}} Reviews
                 <!-- Facebook -->
                 {{#if restaurant.facebook}}
                 <a style="color: #3b5998;" href="{{restaurant.facebook}}" role="button"><i
@@ -85,18 +88,18 @@
             <hr>
             <table class="table table-borderless table-hover">
                 <tr>
-                    <td><i class="fas fa-map-marker-alt"></i><span style="padding-left: 50px;"></span><span
+                    <td><i class="fas fa-map-marker-alt icon_padding"></i><span
                             id="address">{{restaurant.address}}<span /><span style="float: right;"><a title="Copy"
                                     role="button" onclick="copyToClipboard('#address')"> <i
                                         class="far fa-clone"></i></a></span>
                         </span></td>
                 </tr>
                 <tr>
-                    <td><i class="far fa-clock"></i><span style="padding-left: 50px;"></span>{{restaurant.open_time}} -
+                    <td><i class="far fa-clock icon_padding"></i>{{restaurant.open_time}} -
                         {{restaurant.close_time}}</td>
                 </tr>
                 <tr>
-                    <td><i class="fas fa-utensils"></i><span style="padding-left: 50px;"></span>{{restaurant.cuisine}}
+                    <td><i class="fas fa-utensils icon_padding"></i>{{restaurant.cuisine}}
                     </td>
                 </tr>
                 <tr>
@@ -110,13 +113,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><i class="fas fa-phone"></i><span style="padding-left: 50px;"></span><span
-                            id="phone">{{restaurant.phone}}<span /><span style="float: right;"><a title="Copy"
-                                    role="button" onclick="copyToClipboard('#phone')"> <i
-                                        class="far fa-clone"></i></a></span></td>
+                    <td><i class="fas fa-phone icon_padding"></i><span id="phone">{{restaurant.phone}}<span /><span
+                                style="float: right;"><a title="Copy" role="button" onclick="copyToClipboard('#phone')">
+                                    <i class="far fa-clone"></i></a></span></td>
                 </tr>
                 <tr>
-                    <td><i class="fas fa-envelope"></i><span style="padding-left: 50px;"></span><span id="email"><a href="mailto:{{restaurant.comp_email}}">{{restaurant.comp_email}}</a><span /><span
+                    <td><i class="fas fa-envelope icon_padding"></i><span id="email"><a
+                                href="mailto:{{restaurant.comp_email}}">{{restaurant.comp_email}}</a><span /><span
                                 style="float: right;"><a title="Copy" role="button" onclick="copyToClipboard('#email')">
                                     <i class="far fa-clone"></i></a></span></td>
                 </tr>
@@ -137,9 +140,8 @@
 <br>
 
 <div id="table-wrap" class="default FDefaultTab" style="overflow-x:auto;">
-    {{#ifEquals restaurant.square undefined}}
-    <h1 style="text-align: center;">Layout in Progress...</h1>
-    {{else}}
+    {{#if restaurant.square}}
+
     <table id="drawing-table" class="center tableLayout">
         <tr>
             <td></td>
@@ -149,10 +151,17 @@
     <div style="text-align: center;"><i class="fas fa-square-full" style="color: green;"></i> - Vacant <span
             style="padding-left: 45px;"></span> <i class="fas fa-square-full" style="color: red;"></i> - Occupied</div>
 
-    {{/ifEquals}}
+    {{else}}
+    <h1 style="text-align: center;">Layout in Progress...</h1>
+    {{/if}}
 </div>
 <br>
+<iframe class="FDefaultTab" width="100%" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAAILFYex9lS_h9Pk3xXmBzfCidfoLNuXU
+    &q={{restaurant.res_name}},Sinagpore">
+</iframe>
+<br><br>
 <div class="default FDefaultTab">
+    {{#if reviews}}
     <div class="row">
         <div class="col-2">
             <div style="font-size: 30px;">
@@ -171,11 +180,14 @@
                 see all the reviews!</a>
         </div>
     </div>
+    {{else}}
+    <p style="font-size: 25px; font-weight: bold;" >Be the first one to review this restaurant!</p>
+    <hr>
+    <p>Currently, {{restaurant.res_name}} has no reviews. Please leave a review after your dining experience to help others make a decision about where to eat</p>
+    {{/if}}
 </div>
-<br>
-<iframe class="FDefaultTab" width="100%" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAAILFYex9lS_h9Pk3xXmBzfCidfoLNuXU
-    &q={{restaurant.res_name}},Sinagpore">
-</iframe>
+
+
 <script>
     function copyToClipboard(element) {
         var $temp = $("<input>");

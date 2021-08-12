@@ -9,12 +9,12 @@ const Op = Sequelize.Op;
 
 //Restaurants Page
 router.get("/", (req, res) => {
-  const { term } = req.query;
-  if (term) {
+  const { search } = req.query;
+  if (search) {
     Restaurant.findAll({
-      where: { res_name: { [Op.like]: "%" + term + "%" } },
+      where: { res_name: { [Op.like]: "%" + search + "%" } },
     }).then((restaurant) => {
-      res.render("restaurant/restaurants", { restaurant, term });
+      res.render("restaurant/restaurants", { restaurant, search });
     });
   }
   else{
