@@ -154,7 +154,47 @@ router.get("/updateMenu", ensureAuthenticated, (req, res) => {
 });
 
 router.get('/statistics', ensureAuthenticated, (req, res) => {
-  res.render('menu/menuStat');
+  var types = [];
+  Menu.findAll({
+    where: { userId: req.user.id},
+  })
+    .then((menus) => {
+      if (menus) {
+        // menus.specifications = JSON.parse(menus.specifications);
+        menus.forEach((menu) => {
+          if (types.includes(menu.type) === false) {
+            types.push(menu.type);
+          }
+        });
+        types.sort();
+        MenuSpec.findAll({
+          where: { userId: req.user.id},
+        }).then((specs) => {
+          let menuSpec = {};
+          specs.forEach((option) => {
+            if (option.name in menuSpec) {
+              menuSpec[option.name] = menuSpec[option.name].concat([
+                { option: option.option, addPrice: option.addPrice },
+              ]);
+            } else {
+              console.log("test1");
+              menuSpec[option.name] = [
+                { option: option.option, addPrice: option.addPrice },
+              ];
+            }
+          });
+          console.log(menuSpec);
+          res.render('menu/menuStat', {
+            menus,
+            menuSpecification,
+            types,
+            menuSpec,
+          });
+        });
+      }
+    })
+    .catch((err) => console.log(err));
+  
 })
 
 //fix

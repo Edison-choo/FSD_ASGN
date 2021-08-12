@@ -590,5 +590,17 @@
 
 .menuGraph {
   padding: 30px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+.menuSubGraph {
+  padding: 25px;
+  margin-top: 25px;
+  font-size: 0.9em;
+}
+
+#graphSubTitle {
+  font-size: 1.3em;
+  font-weight: 500;
+  margin-bottom: 20px;
 }

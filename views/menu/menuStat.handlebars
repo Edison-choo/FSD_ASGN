@@ -9,18 +9,91 @@
             <button class="btn" onclick="window.location.href='/menu'" >User View</button>
             <button class="btn" style="cursor: not-allowed;">Menu Statistics</button>
         </div>
-        <div class="FDefaultTab menuGraph">
-            <canvas id="myChart"></canvas>
+        <h1 class="menuTitle">STATISTICS</h1>
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-8">
+                <div class="FDefaultTab menuGraph">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="FDefaultTab menuSubGraph">
+                    <div id="graphSubTitle">Top 5 ordered food</div>
+                    <ol class="list-group list-group-flush list-group-numbered">
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item"></li>
+                    </ol>
+                </div>
+                <div class="FDefaultTab menuSubGraph">
+                    <div id="graphSubTitle">Type Picker</div>
+                    <div class="form-group">
+                        <div class="form-check">
+                        <input class="form-check-input" onclick="graph1('')" type="radio" name="flexRadioDefault1" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            All type
+                        </label>
+                    </div>
+                    {{#each types}}
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph1('{{this}}')" type="radio" name="flexRadioDefault1" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            {{this}}
+                        </label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
         </div>
-        <div class="FDefaultTab menuGraph">
-            <canvas id="myChart2"></canvas>
+        <hr style="margin-top: 50px;">
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-8">
+                <div class="FDefaultTab menuGraph">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="FDefaultTab menuSubGraph">
+                    <div id="graphSubTitle">Year Picker</div>
+                    <div class="form-group">
+                        <div class="form-check">
+                        <input class="form-check-input" onclick="graph2('')" type="radio" name="flexRadioDefault2" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            All time
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph2('2021')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            2021
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph2('2022')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            2022
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph2('2023')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            2023
+                        </label>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
     </div>
     <div class="col-md-1">
     </div>
 </div>
 
 <script>
+    var myChart, myChart2;
     $(function() {
         fetch('/menu/getStatData', {
             headers: {
@@ -53,8 +126,8 @@
                 labels: labels,
                 datasets: [{
                     label: 'Orders',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
                     data: dataList,
                 }]
             };
@@ -71,21 +144,23 @@
                     }
                 }
             };
-            var myChart = new Chart(
+            myChart = new Chart(
                 document.getElementById('myChart'),
                 config
             );
             const dataList2 = []
             for (i=1;i<13;i++) {
-                dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).length);
+                dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                    return x + y.total
+                },0));
             }
             console.log(dataList2)
             const dataStat2 = {
-                labels: [1,2,3,4,5,6,7,8,9,10,11,12],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                    label: 'Orders',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    label: '$',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
                     data: dataList2,
                 }]
             };
@@ -97,17 +172,128 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Amount of monthly orders'
+                            text: 'Money earned montly'
                         }
                     }
                 }
             };
-            var myChart2 = new Chart(
+            myChart2 = new Chart(
                 document.getElementById('myChart2'),
                 config2
             );
         })
         .catch(err => console.error(err));
     })
+    
+    function graph1(type) {
+        myChart.destroy();
+        fetch('/menu/getStatData', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const labels = type == '' ? data.menus.map(f => f.name) : data.menus.filter(d => d.type == type).map(f => f.name);
+            const orderList = data.orders.map(f => f.food.map(o => o.id));
+            const newList = [];
+            for (i=0; i<orderList.length;i++) {
+                for (j=0; j<orderList[i].length;j++) {
+                    newList.push(orderList[i].pop())
+                }
+            }
+            const dataList = []
+            data.menus.forEach((menu) => {
+                if (newList.indexOf(menu.id.toString()) >= 0) {
+                    dataList.push(newList.map(n => n == menu.id).length);
+                } else {
+                    dataList.push(0)
+                }
+            })
+            const dataStat = {
+                labels: labels,
+                datasets: [{
+                    label: 'Orders',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
+                    data: dataList,
+                }]
+            };
+            const config = {
+                type: 'line',
+                data:dataStat,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: { weigth: 'bold', size: 20 },
+                            text: 'Amount of orders for each food'
+                        }
+                    }
+                }
+            };
+            myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        })
+        .catch(err => console.error(err));
+    }
+
+    function graph2(year) {
+        myChart2.destroy();
+        fetch('/menu/getStatData', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const dataList2 = []
+            for (i=1;i<13;i++) {
+                if (year != '') {
+                    dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == year && parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                        return x + y.total
+                    },0));
+                } else {
+                    dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                        return x + y.total
+                    },0));
+                }
+            }
+            const dataStat2 = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: '$',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
+                    data: dataList2,
+                }]
+            };
+            const config2 = {
+                type: 'line',
+                data: dataStat2,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: { weigth: 'bold', size: 20 },
+                            text: 'Money earned montly'
+                        }
+                    }
+                }
+            };
+            myChart2 = new Chart(
+                document.getElementById('myChart2'),
+                config2
+            );
+        })
+        .catch(err => console.error(err));
+    }
+
 
 </script>

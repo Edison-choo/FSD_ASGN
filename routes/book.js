@@ -24,7 +24,7 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripePublicKey = 'pk_test_51JE5hbAlVdHui4tw2KBqHHsXvSwykR4HwI9zksrVoUNyjCg4Do5DtqIiCsrJbJcEXXfQAplLk7qIRtgPeB7wc60Y00hCS9bXiM';
 const stripe = require('stripe')(stripeSecretKey);
 
-console.log(stripeSecretKey, stripePublicKey);
+// console.log(stripeSecretKey, stripePublicKey);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
