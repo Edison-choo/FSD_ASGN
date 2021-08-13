@@ -60,15 +60,7 @@
 
     <div class="media-body col-md-8">
         <div class="media-body">
-            <h1 class="mt-0">{{restaurant.res_name}}</h1>
-            <div>
-                {{totalaverage}}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                | {{reviews.length}} Reviews
+            <h1 class="mt-0">{{restaurant.res_name}} |
                 <!-- Facebook -->
                 {{#if restaurant.facebook}}
                 <a style="color: #3b5998;" href="{{restaurant.facebook}}" role="button"><i
@@ -84,6 +76,17 @@
                 <a style="color: #ac2bac;" href="{{restaurant.instagram}}" role="button"><i
                         class="fab fa-instagram fa-lg"></i></a>
                 {{else}}{{/if}}
+            </h1>
+            <div>
+                {{totalaverage}}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                | {{reviews.length}} Reviews
+                | <i class="fas fa-money-bill"></i> ${{priceFormat restaurant.price}} | {{restaurant.queue}} Queueing...
+
             </div>
             <hr>
             <table class="table table-borderless table-hover">
@@ -95,8 +98,8 @@
                         </span></td>
                 </tr>
                 <tr>
-                    <td><i class="far fa-clock icon_padding"></i>{{restaurant.open_time}} -
-                        {{restaurant.close_time}}</td>
+                    <td><i class="far fa-clock icon_padding"></i>{{timeFormat restaurant.open_time}} -
+                        {{timeFormat restaurant.close_time}}</td>
                 </tr>
                 <tr>
                     <td><i class="fas fa-utensils icon_padding"></i>{{restaurant.cuisine}}
@@ -181,9 +184,10 @@
         </div>
     </div>
     {{else}}
-    <p style="font-size: 25px; font-weight: bold;" >Be the first one to review this restaurant!</p>
+    <p style="font-size: 25px; font-weight: bold;">Be the first one to review this restaurant!</p>
     <hr>
-    <p>Currently, {{restaurant.res_name}} has no reviews. Please leave a review after your dining experience to help others make a decision about where to eat</p>
+    <p>Currently, {{restaurant.res_name}} has no reviews. Please leave a review after your dining experience to help
+        others make a decision about where to eat</p>
     {{/if}}
 </div>
 

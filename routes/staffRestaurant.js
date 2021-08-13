@@ -10,6 +10,7 @@ const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 const ensureAuthenticated = require("../helpers/auth");
 const moment = require("moment");
+const { queue } = require("jquery");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -65,6 +66,7 @@ router.post(
       cuisine,
       open_time,
       close_time,
+      price,
       halal,
       facebook,
       twitter,
@@ -106,6 +108,7 @@ router.post(
         cuisine,
         open_time,
         close_time,
+        price,
         halal,
         facebook,
         twitter,
@@ -126,6 +129,7 @@ router.post(
               cuisine,
               open_time,
               close_time,
+              price,
               halal,
               facebook,
               twitter,
@@ -142,6 +146,7 @@ router.post(
                 cuisine: cuisine,
                 open_time: open_time,
                 close_time: close_time,
+                price: price,
                 halal: halal,
                 facebook: facebook,
                 twitter: twitter,
@@ -200,6 +205,7 @@ router.post(
       open_time,
       close_time,
       cuisine,
+      price,
       halal,
       comp_email,
       phone,
@@ -240,6 +246,7 @@ router.post(
         open_time: open_time,
         close_time: close_time,
         cuisine: cuisine,
+        price: price,
         halal: halal,
         comp_email: comp_email,
         phone: phone,
@@ -344,10 +351,11 @@ router.post(
   ensureAuthenticated,
   (req, res) => {
     let res_name = req.user.fname;
-    let { occupied } = req.body;
+    let { occupied, queue } = req.body;
     Restaurant.update(
       {
         occupied: occupied,
+        queue: queue,
       },
       {
         where: {

@@ -46,33 +46,8 @@
 </div>
 <br>
 
-    <div class="" id="matchList">
-        {{#each restaurant}}
-        {{#if this.image}}
-        <a href="restaurant/restaurant_1/{{this.res_name}}">
-            <div class="card defaultSize" style="width: 225px; height:300px;">
-                <img src="{{this.image}}" alt="..." class="card-img-top " style="width: 225px; height:225px;" />
-                <div class="card-body" style="width: 225px; ">
-                    <p class="card-title titleCard"
-                        style="text-overflow: ellipsis; overflow: hidden;white-space: nowrap; height: 33px;">
-                        {{this.res_name}}
-                    <p>
-                    <p class="card-text">{{this.cuisine}}{{#if this.halal}} • Halal{{/if}}</p>
-                    <p class="card-text">{{../totalaverage}} <i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                        <c style="float: right;">{{# if ../reviews.length}}{{../reviews.length}}{{else}}No
-                            {{/if}}Reviews
-                        </c>
-                    </p>
-                </div>
-            </div>
-        </a>
-        {{else}}
-
-        {{/if}}
-
-        {{/each}}
-    </div>
+<div class="" id="matchList">
+</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -118,20 +93,23 @@
                     if (matches.length > 0) {
                         const html = matches.map(match => `
                         <a href="restaurant/restaurant_1/${match.res_name}">
-        <div class="card defaultSize" style="width: 250px; height:300px;">
-            <img src="${match.image}" alt="..." class="card-img-top " style="width: 250px; height:250px;" />
-            <div class="card-body" style="width: 250px; ">
+        <div class="card defaultSize" style="width: 225px; height:300px;">
+            <img src="${match.image}" alt="..." class="card-img-top " style="width: 225px; height:225px;" />
+            <div class="card-body" style="width: 225px; ">
                 <p class="card-title titleCard"
                     style="text-overflow: ellipsis; overflow: hidden;white-space: nowrap; height: 33px;">
                     ${match.res_name}
                 <p>
-                <p class="card-text">${match.cuisine} | ${match.halal ? "Halal" : "Not Halal"}</p>
+                <p class="card-text">${match.cuisine} | ${match.halal ? "Halal" : "Not Halal"} | $${match.price}</p>
                 <p class="card-text"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                         class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                     <c style="float: right;">No
                         Reviews
                     </c>
                 </p>
+            </div>
+            <div class="card-img-overlay">
+                <i class="fas fa-circle" style="color:${match.queue > 0 && match.queue <=10 ? "green" : "red"}"></i>
             </div>
         </div>
     </a>

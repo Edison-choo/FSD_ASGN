@@ -14,17 +14,20 @@ const Restaurants = db.define("restaurants", {
   res_name: {
     type: Sequelize.STRING,
   },
-  phone:{
+  phone: {
     type: Sequelize.STRING,
   },
   cuisine: {
     type: Sequelize.STRING,
   },
   open_time: {
-    type: Sequelize.STRING,
+    type: Sequelize.TIME,
   },
   close_time: {
-    type: Sequelize.STRING,
+    type: Sequelize.TIME,
+  },
+  price: {
+    type: Sequelize.INTEGER,
   },
   halal: {
     type: Sequelize.BOOLEAN,
@@ -53,6 +56,22 @@ const Restaurants = db.define("restaurants", {
   },
   occupied: {
     type: Sequelize.STRING(400),
+  },
+  queue: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  tablesCount: {
+    type: Sequelize.INTEGER,
+  },
+  occupiedCount: {
+    type: Sequelize.INTEGER,
+  },
+  reviewCount: {
+    type: Sequelize.INTEGER,
+  },
+  avgReview: {
+    type: Sequelize.INTEGER,
   },
 });
 

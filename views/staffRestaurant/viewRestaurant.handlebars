@@ -71,11 +71,11 @@
         </tr>
         <tr>
             <th>Opening Time:</th>
-            <td>{{restaurant.open_time}}</td>
+            <td>{{{timeFormat restaurant.open_time}}}</td>
         </tr>
         <tr>
             <th>Closing Time:</th>
-            <td>{{restaurant.close_time}}</td>
+            <td>{{timeFormat restaurant.close_time}}</td>
         </tr>
         <tr>
             <th>Cuisine:</th>
@@ -96,6 +96,10 @@
             <td>{{restaurant.phone}}</td>
         </tr>
         <tr>
+            <th>Average Price:</th>
+            <td>${{priceFormat restaurant.price}}</td>
+        </tr>
+        <tr>
             <th>Facebook:</th>
             <td>{{#if restaurant.facebook}}<a class="linkTheme"
                     href="{{restaurant.facebook}}">{{restaurant.facebook}}</a>{{else}}None{{/if}}</td>
@@ -110,6 +114,7 @@
             <td>{{#if restaurant.instagram}}<a class="linkTheme"
                     href="{{restaurant.instagram}}">{{restaurant.instagram}}</a>{{else}}None{{/if}}</td>
         </tr>
+        
     </table>
     <a href="/staffRestaurant/editRestaurant" class="btn FDefaultButton btn-rounded center">Edit Restaurant</a>
 </div>

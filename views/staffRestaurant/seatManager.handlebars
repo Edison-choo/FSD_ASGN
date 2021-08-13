@@ -56,20 +56,29 @@
     }
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
+<hr>
 {{#if layouts.square}}
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
     <div class="row">
-        <div id="table-wrap" class="col-md-8 FDefaultTab standardPad" style="overflow-x:auto;">
+        <div id="table-wrap" class="col-9 FDefaultTab standardPad" style="overflow-x:auto;">
             <table id="drawing-table" class="tableLayout">
                 <tr>
                     <td></td>
                 </tr>
             </table>
         </div>
-        <div class="col-md-4">
+        <div class="col-3">
+            <div class="FDefaultTab standardPad">
+                <div class="form-outline">
+                    <input type="number" id="queue" name="queue" class="form-control" value="{{layouts.queue}}" min="0" />
+                    <label class="form-label" for="typeNumber">Queue Count</label>
+                </div>
+            </div>
+            <br>
             <div class="FDefaultTab standardPad">
                 <button class="btn btn-success btn-block" type="button" id="allGreen">Vacant All</button>
             </div>
+            <br>
             <div class="FDefaultTab standardPad">
                 <button class="btn btn-danger btn-block" type="button" id="allRed">Occupied All</button>
             </div>
