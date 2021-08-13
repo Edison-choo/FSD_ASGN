@@ -48,7 +48,10 @@
             </div>
         </div>
         <hr style="margin-top: 50px;">
-        <div class="row" style="margin-top: 25px;">
+        
+        
+    </div>
+    <div class="row" style="margin-top: 25px;">
             <div class="col-md-8">
                 <div class="FDefaultTab menuGraph">
                     <canvas id="myChart2"></canvas>
@@ -83,11 +86,92 @@
                         </label>
                     </div>
                     </div>
+                    
+                </div>
+                <div class="FDefaultTab menuSubGraph">
+                    <div class="form-group">
+                        <div class="form-check">
+                        <input class="form-check-input" onclick="graph3('')" type="radio" name="flexRadioDefault3" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Whole year
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Jan')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Jan
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Feb')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Feb
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Mar')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Mar
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Apr')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Apr
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('May')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            May
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Jun')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Jun
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Jul')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Jul
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Aug')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Aug
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Sep')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Sep
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Oct')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Oct
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Nov')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Nov
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-top: 8px;">
+                        <input class="form-check-input" onclick="graph3('Dec')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Dec
+                        </label>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </div>
     <div class="col-md-1">
     </div>
 </div>
@@ -141,6 +225,11 @@
                             font: { weigth: 'bold', size: 20 },
                             text: 'Amount of orders for each food'
                         }
+                    },
+                    scale: {
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 }
             };
@@ -158,7 +247,7 @@
             const dataStat2 = {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                    label: '$',
+                    label: 'Earnings',
                     backgroundColor: '#ffb03b',
                     borderColor: '#ffb03b',
                     data: dataList2,
@@ -174,13 +263,16 @@
                             font: { weigth: 'bold', size: 20 },
                             text: 'Money earned montly'
                         }
-                    }
+                    },
                 }
             };
             myChart2 = new Chart(
                 document.getElementById('myChart2'),
                 config2
             );
+            data.topMenu.forEach((food, i) => {
+                $('.menuSubGraph .list-group .list-group-item').eq(i).text(`${food.name} ---> ${food.count} sold`);
+            });
         })
         .catch(err => console.error(err));
     })
@@ -230,6 +322,11 @@
                             display: true,
                             font: { weigth: 'bold', size: 20 },
                             text: 'Amount of orders for each food'
+                        }
+                    },
+                    scale: {
+                        ticks: {
+                            precision: 0
                         }
                     }
                 }
@@ -295,5 +392,63 @@
         .catch(err => console.error(err));
     }
 
-
+    function graph3(month) {
+        myChart2.destroy();
+        fetch('/menu/getStatData', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const dataList2 = []
+            const monthdays = {'Jan':31, 'Feb':28, "Mar":31, 'Apr':30, 'May':31, 'Jun':30, 'Jul':31, 'Aug':31, 'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31}
+            var days = []
+            if (month != '') {
+                for (i=1;i<monthdays[month]+1;i++) {
+                
+                    days.push(i)
+                    dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
+                        return x + y.total
+                    },0));
+                }
+            } else {
+                days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                for (i=1;i<13;i++) {
+                    dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                        return x + y.total
+                    },0));
+                }
+            }
+            const dataStat2 = {
+                labels: days,
+                datasets: [{
+                    label: '$',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
+                    data: dataList2,
+                }]
+            };
+            const config2 = {
+                type: 'line',
+                data: dataStat2,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: { weigth: 'bold', size: 20 },
+                            text: 'Money earned montly'
+                        }
+                    }
+                }
+            };
+            myChart2 = new Chart(
+                document.getElementById('myChart2'),
+                config2
+            );
+        })
+        .catch(err => console.error(err));
+    }
 </script>

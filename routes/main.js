@@ -18,14 +18,14 @@ router.get('/', (req, res) => {
 			console.log(promotions)
 			Restaurant.findAll(
 				).then((restaurants) => {
-					vacant = []
-					for (i in restaurants){
-						if(i.occupied ){
-							vacant.add(i)
+					new_res = []
+					for (i = restaurants.length - 1; i >= 0; i--){
+						if(new_res.length < 4 ){
+							new_res.push(restaurants[i])
 						}
 					}
-					
-					res.render('index', {restaurants: restaurants, promotions: promotions, title : title, vacant: vacant});
+					console.log(new_res)
+					res.render('index', {restaurants: restaurants, promotions: promotions, title : title, new_res: new_res});
 				})
 		}).catch(err => console.log(err));
 	
@@ -40,6 +40,17 @@ router.get('/', (req, res) => {
 // User Login Route
 router.get('/showLogin', (req, res) => {
 	res.render('user/login');
+});
+
+router.post('/getcounter/:res_name/:id', (req, res) =>{
+	let counters = parseInt(req.body.counter) + 1
+	console.log(req.params.id)
+	Promotions.update({
+		counter: counters
+	},
+		{where:{id: req.params.id}}
+	)
+	res.redirect(`/bookingInterface/bookForm/${req.params.res_name}`)
 });
 
 

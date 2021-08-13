@@ -11,15 +11,65 @@
         <h1 class="menuTitle">MENU</h1>
         {{#if types}}
         <div class="subNav">
+          {{#if topMenu}}
+          <div class="subNavItem" style="font-weight: 500;"><a href="#popular">Popular</a></div>
+          {{/if}}
           {{#each types}}
           <div class="subNavItem" style="font-weight: 500;"><a href="#{{this}}">{{this}}</a></div>
           {{/each}}
         </div>
         {{/if}}
+        {{#if topMenu}}
+        <div class="menuType"  style="border-color: #4f4f4f;">
+            <div  style="background-color: #4f4f4f;" class="menuSubTitle" id="popular"><h2>Top selling food</h2></div>
+          <div class="menuCat">
+              {{#each topMenu}}
+              {{#each ../menus}}
+              {{#ifEquals this.name ../name}}
+                <div id="{{id}}" class="menuItem" {{#each ../../session.cart}}
+                    {{#ifEquals this.id ../this.id}}
+                    style="margin-bottom: 40px;"
+                    {{/ifEquals}}
+                    {{/each}}>
+                    <div class="popUpImage">
+                      <div class="menuImage">
+                        <img src="{{#if this.image}}{{this.image}}{{else}}/img/no-image.jpg{{/if}}" alt="" id="menuImg{{id}}" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                      </div>
+                    </div>
+                    <div class="menuContent">
+                      <div>{{this.name}}<br>
+                      <span style="font-weight: 300;">${{#distanceFixed this.price}}{{/distanceFixed}}</span>
+                      </div>
+                      
+                      <button type="button" name="" id="" class="btn btn-dark btn-block" onclick="getFood({{id}})"  data-bs-toggle="modal" data-bs-target="#food">
+                    Order</button>
+                    </div>
+                    {{#each ../../session.cart}}
+                    {{#ifEqualsUser this.userId ../../../user}}
+                    {{#ifEquals this.id ../this.id}}
+                    <div id="menuOrdered" class="menuOrdered">
+                    Ordered
+                    <button type="button" onclick="editAll({{this.id}})" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll">Edit Order</button>
+                    </div>
+                    {{/ifEquals}}
+                    {{/ifEqualsUser}}
+                    {{/each}}
+                    <div id="menuOrdered" class="menuOrderedHidden" style="display: none;">
+                    Ordered
+                    <button type="button" name="" id="" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#updateAll">Edit Order</button>
+                    </div>
+                </div>
+              {{/ifEquals}}
+              {{/each}}
+              {{/each}}
+          </div>
+
+        </div>
+        {{/if}}
         {{#if types}}
         {{#each types}}
         <div class="menuType">
-            <div class="menuSubTitle" id="#{{this}}"><h2>{{this}}</h2></div>
+            <div class="menuSubTitle" id="{{this}}"><h2>{{this}}</h2></div>
           <div class="menuCat">
               {{#each ../menus}}
               {{#ifEquals this.type ../this}}

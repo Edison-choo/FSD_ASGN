@@ -22,6 +22,9 @@ const Promotions = db.define('promotions',{
     },
     staffid: {
         type: Sequelize.INTEGER
+    },
+    counter: {
+        type: Sequelize.INTEGER
     }
 });
 

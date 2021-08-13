@@ -677,23 +677,23 @@ $(function() {
     }
   })
   console.log(count);
-  for (i=0;i<count/5;i++) {
-    if (i == 0){
-      addingHtml += `
-      <li class="page-item active" aria-current="page"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
-      `
-    } else if (i == 1 || i == 2) {
-      addingHtml += `
-      <li class="page-item"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
-      `;
-      $(".pagination .next").removeClass('disabled');
-    } else {
-      addingHtml += `
-      <li class="page-item" ><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
-      `;
+    for (i=0;i<count/5;i++) {
+      if (i == 0){
+        addingHtml += `
+        <li class="page-item active" aria-current="page"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+        `
+      } else if (i == 1 || i == 2) {
+        addingHtml += `
+        <li class="page-item"><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+        `;
+        $(".pagination .next").removeClass('disabled');
+      } else {
+        addingHtml += `
+        <li class="page-item" ><a class="page-link" onclick="changePage(${i+1})">${i+1}</a></li>
+        `;
+      }
     }
-  }
-  $(".page-inside").html(addingHtml);
+    $(".page-inside").html(addingHtml);
 })
 
 // change page button

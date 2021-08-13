@@ -29,7 +29,6 @@ router.get('/', (req, res) => {
 
 router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
-
     let{name, startdate, enddate, discount, details, banner, staffid} = req.body;
 
     if(errors.length > 0){
@@ -63,7 +62,8 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
                     discount: discount,
                     details: details,
                     banner: banner,
-                    staffid: req.user.id
+                    staffid: req.user.id,
+                    counter: 0
                 }).then(promotions =>{
                     res.redirect('/createPromotions');
                 })

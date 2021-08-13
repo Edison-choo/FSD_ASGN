@@ -208,6 +208,13 @@ Handlebars.registerHelper("ifIn", function(elem, list, options) {
     return options.inverse(this);
 });
 
+Handlebars.registerHelper("ifInMenu", function(elem, options) {
+    if ([0,1,2,3,4].indexOf(elem) > -1) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
+
 Handlebars.registerHelper("checklength", function(v1, v2, options) {
     "use strict";
     if (v1.length > v2) {
