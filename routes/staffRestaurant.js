@@ -218,7 +218,7 @@ router.post(
     if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
       errors.push({ text: "Phone is invalid!" });
     }
-    
+
     //Facebook url validation
     if (!urlValidator.isUri(facebook) && facebook !== "") {
       errors.push({ text: "Facebook url is formatted incorrectly!" });

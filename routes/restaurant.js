@@ -5,26 +5,40 @@ const Reviews = require("../models/reviews");
 var sortSource = require("../public/js/res");
 const ensureAuthenticated = require("../helpers/auth");
 const Sequelize = require("sequelize");
+const { urlencoded } = require("body-parser");
 const Op = Sequelize.Op;
 
+const bodyParser = require("body-parser");
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Restaurants Page
+// router.get("/", (req, res) => {
+//   const { search, sort } = req.query;
+//   if (search || sort) {
+//     Restaurant.findAll({
+//       where: { res_name: { [Op.like]: "%" + search + "%" } },
+//       order: [[sort, "ASC"]],
+//     }).then((restaurant) => {
+//       res.render("restaurant/restaurants", { restaurant, search, sort });
+//     });
+//   } else {
+//     Restaurant.findAll({}).then((restaurant) => {
+//       res.render("restaurant/restaurants", { restaurant });
+//     });
+//   }
+// });
+
 router.get("/", (req, res) => {
-  const { search, sort } = req.query;
-  if (search || sort) {
-    Restaurant.findAll({
-      where: { res_name: { [Op.like]: "%" + search + "%" } },
-      order: [[sort, "ASC"]],
-    }).then((restaurant) => {
-      res.render("restaurant/restaurants", { restaurant, search, sort });
-    });
-  } else {
-    Restaurant.findAll({
-    }).then((restaurant) => {
-      res.render("restaurant/restaurants", { restaurant });
-    });
-  }
+  Restaurant.findAll().then((restaurant) => {
+    res.render("restaurant/restaurants");
+  });
 });
+
+router.get("/getRes", (req, res) => {
+  Restaurant.findAll().then((restaurant) => {
+    res.json(restaurant);
+  });
+})
 
 router.get("/restaurant_1/:restaurant", (req, res) => {
   let restaurantname = req.params.restaurant;
