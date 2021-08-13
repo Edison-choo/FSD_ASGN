@@ -270,8 +270,9 @@
                 document.getElementById('myChart2'),
                 config2
             );
-
-            {{!-- $('.menuSubGraph .list-group .list-group-item').eq() --}}
+            data.topMenu.forEach((food, i) => {
+                $('.menuSubGraph .list-group .list-group-item').eq(i).text(`${food.name} ---> ${food.count} sold`);
+            });
         })
         .catch(err => console.error(err));
     })
