@@ -154,56 +154,65 @@
 
 <div class="container">
   <div class="row">
-      <div class="col-md-8">
+    <div class="col-md-8">
     {{#if promotions}}
     {{#each promotions}}
     {{#if banner}}
-    <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px;;">
-      <h2>{{restaurant.res_name}}</h2>
+    <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px; border: 1px solid #DCDED9">
+    {{#each ../restaurants}}
+    {{#ifEquals ../staffid staffid}}
+      <h2 style="margin-top: 10px; margin-left: 10px;">{{res_name}}</h2>
       <img
-        src="{{banner}}"
+        src="{{../banner}}"
         class="card-img-top"
         alt="..."
         style="max-height: 700px;"
       />
       <div class="card-body">
-        <h2>{{name}}</h2>
-        <h3 style="color: #ffb03b;">{{discount}} %</h3>
-            <p class="card-text">Duration: {{formatDate startdate 'DD/MM/YYYY'}} - {{formatDate enddate 'DD/MM/YYYY'}}</p>
+        <h3 style="color: #ffb03b;">{{../discount}} %</h3>
+            <p class="card-text">Duration: {{formatDate ../startdate 'DD/MM/YYYY'}} - {{formatDate ../enddate 'DD/MM/YYYY'}}</p>
         <p class="card-text">
-          {{details}}
+          {{../details}}
         </p>
         <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
       </div>
     </div>
+    {{/ifEquals}}
+    {{/each}}
     {{else}}
     <div class="card FDefaultTab" style="margin-top: 10px; max-width: 700px; margin-left: 200px;;">
-      <h2>{{restaurant.res_name}}</h2>
+      {{#each ../restaurants}}
+      {{#ifEquals ../staffid staffid}}
+      <h2 style="margin-top: 10px; margin-left: 10px;">{{res_name}}</h2>
       <div class="card-body">
-        <h2>{{name}}</h2>
-        <h3 style="color: #ffb03b;">{{discount}} %</h3>
-            <p class="card-text">Duration: {{formatDate startdate 'DD/MM/YYYY'}} - {{formatDate enddate 'DD/MM/YYYY'}}</p>
+        <h3 style="color: #ffb03b;">{{../discount}} %</h3>
+            <p class="card-text">Duration: {{formatDate ../startdate 'DD/MM/YYYY'}} - {{formatDate ../enddate 'DD/MM/YYYY'}}</p>
         <p class="card-text">
-          {{details}}
+          {{../details}}
         </p>
         <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
       </div>
     </div>
+    {{/ifEquals}}
+    {{/each}}
     {{/if}}
     {{/each}}
     {{/if}}
   </div>
+  
   <div class="col-md-4">
-    <div class="card" style="margin-left: 20px;">
+    <h3 style="margin-left: 25px; color: #ffb03b;">Newly Added Restaurants</h3>
+    {{#each new_res}}
+    <div class="card" style="margin-left: 20px; margin-bottom: 10px; border: 1px solid #DCDED9">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
+        <img src="{{image}}" alt="" style="float: left; max-width: 50; max-height: 50px; margin-right: 10px;">
         <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the
-          card's content.
+        {{res_name}}
         </p>
-        <button type="button" class="btn btn-primary">Button</button>
+        <p><i class="far fa-clock icon_padding"></i> {{open_time}} - {{close_time}}  <a href="/restaurant/restaurant_1/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8); float: right;">Book!</a></p>
       </div>
   </div>
+      {{/each}}
   </div>
   </div>
 

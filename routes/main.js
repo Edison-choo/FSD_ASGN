@@ -18,14 +18,14 @@ router.get('/', (req, res) => {
 			console.log(promotions)
 			Restaurant.findAll(
 				).then((restaurants) => {
-					vacant = []
-					for (i in restaurants){
-						if(i.occupied ){
-							vacant.add(i)
+					new_res = []
+					for (i = restaurants.length - 1; i >= 0; i--){
+						if(new_res.length < 4 ){
+							new_res.push(restaurants[i])
 						}
 					}
-					
-					res.render('index', {restaurants: restaurants, promotions: promotions, title : title, vacant: vacant});
+					console.log(new_res)
+					res.render('index', {restaurants: restaurants, promotions: promotions, title : title, new_res: new_res});
 				})
 		}).catch(err => console.log(err));
 	
