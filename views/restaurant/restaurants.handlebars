@@ -36,32 +36,34 @@
         font-size: 21px;
     }
 </style>
-<div class="input-group rounded mt-1">
-    <input type="search" id="search" class="form-control rounded"
-        placeholder="Search for Restaurants, Address, Cuisine, ..." aria-label="Search" aria-describedby="search-addon"
-        name="search" value="{{search}}" />
-    <span class="input-group-text border-0" id="search-addon">
-        <i class="fas fa-search"></i>
-    </span>
+<div class="row mt-2">
+    <div class="col-2">
+        <select class="form-select">
+            <option selected disabled>Sort By</option>
+            <option value="res_name">Alphabetical</option>
+            <option value="price">Price</option>
+            <option value="avgReview">Reviews</option>
+            <option value="reviewCount">Popularity</option>
+            <option value="queue">Queue</option>
+        </select>
+    </div>
+    <div class="col-10">
+        <div class="input-group rounded">
+            <input type="search" id="search" class="form-control rounded"
+                placeholder="Search for Restaurants, Address, Cuisine, ..." aria-label="Search"
+                aria-describedby="search-addon" name="search" value="{{search}}" />
+            <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+            </span>
+        </div>
+    </div>
 </div>
-<br>
-
-<div class="" id="matchList">
-</div>
+<hr>
+<div class="mt-5" id="matchList">
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-    function sortRest(data, prop, asc) {
-        data.sort(function (a, b) {
-            if (asc) {
-                return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-            } else {
-                return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-            }
-        });
-    }
-
     $(function () {
         $search = ""
         $("#search").keyup(function () {
@@ -109,7 +111,7 @@
                 </p>
             </div>
             <div class="card-img-overlay">
-                <i class="fas fa-circle" style="color:${match.queue > 0 && match.queue <=10 ? "green" : "red"}"></i>
+                <i class="fas fa-circle" title="${match.queue > 0 && match.queue <= 10 ? "Short" : "Long"} Queue" style="color:${match.queue > 0 && match.queue <= 10 ? "green" : "red"}"></i>
             </div>
         </div>
     </a>

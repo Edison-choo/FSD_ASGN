@@ -315,3 +315,4 @@ Handlebars.registerHelper("priceFormat", function (price) {
   }
   return formatPrice;
 });
+
