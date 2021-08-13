@@ -174,7 +174,11 @@
         <p class="card-text">
           {{../details}}
         </p>
-        <a href="/bookingInterface/bookForm/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
+        <form action="/getcounter/{{res_name}}/{{../id}}" method="POST">
+        <input type="hidden" name="counter" value="{{../counter}}">
+        <button class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</button>
+        </form>
+        {{!-- <a href="/bookingInterface/bookForm/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a> --}}
       </div>
     </div>
     {{/ifEquals}}
@@ -190,7 +194,11 @@
         <p class="card-text">
           {{../details}}
         </p>
-        <a href="/bookingInterface/bookForm/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a>
+        <form action="/getcounter/{{res_name}}/{{../id}}" method="POST">
+        <input type="hidden" name="counter" value="{{../counter}}">
+        <button class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</button>
+        </form>
+        {{!-- <a href="/bookingInterface/bookForm/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8);">Book Now!</a> --}}
       </div>
     </div>
     {{/ifEquals}}
