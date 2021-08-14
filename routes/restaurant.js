@@ -63,6 +63,30 @@ router.get("/restaurant_1/:restaurant", (req, res) => {
       );
     }
   );
+})
+
+router.get("/restaurant_1/pagination/:restaurant", (req, res) => {
+  let restaurantname = req.params.restaurant;
+  Restaurant.findOne({ where: { res_name: restaurantname } }).then(
+    (restaurant) => {
+      Reviews.findAll({ where: { restaurant: restaurantname } }).then(
+        (reviews) => {
+          let totalaverage = 0;
+          if (reviews) {
+            for (i in reviews) {
+              totalaverage += reviews[i].average;
+            }
+            totalaverage = totalaverage / reviews.length;
+          }
+          console.log(totalaverage, "test");
+          res.json({
+            reviews,
+            totalaverage: totalaverage.toFixed(1)
+          });
+        }
+      );
+    }
+  );
 });
 
 module.exports = router;
