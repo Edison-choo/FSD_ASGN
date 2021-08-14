@@ -46,7 +46,8 @@
         <h1 style="text-align: center;">{{restaurant.res_name}}</h1>
         <hr>
         <img id="icon" src="{{restaurant.image}}" alt="" style="width: 400px;" class="center">
-        <input style="width: 50%" class="form-control center" type="file" id="restaurantIcon" name="restaurantIcon" accept="image/png,image/jpeg,image/jpg,image/gif">
+        <input style="width: 50%" class="form-control center" type="file" id="restaurantIcon" name="restaurantIcon"
+            accept="image/png,image/jpeg,image/jpg,image/gif">
         <input id="iconURL" type="hidden" name="iconURL" value="{{restaurant.image}}">
         <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
         <br>
@@ -92,6 +93,20 @@
                         <option value="Seafood" {{restaurant.seafood}}>Seafood</option>
                         <option value="Local" {{restaurant.local}}>Local</option>
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Average Price Per Pax. ($):</th>
+                <td>
+                    <label for="price" class="form-label"></label>
+                    <div class="row">
+                        <div class="col-1">Less than</div>
+                        <div class="range col-10">
+                            <input type="range" class="form-range" min="10" max="100" step="10" id="price"
+                                name="price" value="{{restaurant.price}}"/>
+                        </div>
+                        <div class="col-1" style="text-align: right;">More than</div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -145,7 +160,8 @@
                 </td>
             </tr>
         </table>
-        <button id="butAddVideo" class="btn-block book-a-table-btn scrollto center"><i class="far fa-share-square"></i> Save Changes </button>
+        <button id="butAddVideo" class="btn-block book-a-table-btn scrollto center"><i class="far fa-share-square"></i>
+            Save Changes </button>
     </form>
 </div>
 
@@ -153,11 +169,11 @@
 
 <script>
     $(function () {
-        $("#halalCheckBox").on("change", function(){
-            if (document.getElementById("halalCheckBox").checked ){
+        $("#halalCheckBox").on("change", function () {
+            if (document.getElementById("halalCheckBox").checked) {
                 $("#halal").val(1)
             }
-            else{
+            else {
                 $("#halal").val(0)
             }
         })

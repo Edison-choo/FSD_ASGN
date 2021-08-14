@@ -70,7 +70,8 @@
         <div class="col-3">
             <div class="FDefaultTab standardPad">
                 <div class="form-outline">
-                    <input type="number" id="queue" name="queue" class="form-control" value="{{layouts.queue}}" min="0" />
+                    <input type="number" id="queue" name="queue" class="form-control" value="{{layouts.queue}}"
+                        min="0" />
                     <label class="form-label" for="typeNumber">Queue Count</label>
                 </div>
             </div>
@@ -81,10 +82,6 @@
             <br>
             <div class="FDefaultTab standardPad">
                 <button class="btn btn-danger btn-block" type="button" id="allRed">Occupied All</button>
-            </div>
-            <br>
-            <div class="FDefaultTab standardPad">
-                <button type="button" id="apply" class="btn btn-lg btn-block FDefaultButton">Apply</button>
             </div>
         </div>
         <input type="hidden" name="occupied" id="occupied">
@@ -164,33 +161,43 @@
                         $("." + key).addClass("taken")
                         occupied.push(key)
                     }
+                    updateSeat()
                 })
             }
         }
-        $("#apply").click(function () {
-            $("#occupied").val(occupied)
-            $("#seatManager").submit()
-        })
-        $("#allGreen").click(function () {
-            for (const [key, value] of Object.entries(tblDic)) {
-                if ($("." + key).hasClass("taken")) {
-                    $("." + key).removeClass("taken")
-                    occupied = remove(occupied, key)
-                }
+    })
+    $("#allGreen").click(function () {
+        for (const [key, value] of Object.entries(tblDic)) {
+            if ($("." + key).hasClass("taken")) {
+                $("." + key).removeClass("taken")
+                occupied = remove(occupied, key)
             }
-        })
-        $("#allRed").click(function () {
-            for (const [key, value] of Object.entries(tblDic)) {
-                if (!($("." + key).hasClass("taken"))) {
-                    $("." + key).addClass("taken")
-                    occupied.push(key)
-                }
-            }
-        })
-
-        for (table in tblDic) {
-
         }
-
-    });
+        updateSeat()
+    })
+    $("#allRed").click(function () {
+        for (const [key, value] of Object.entries(tblDic)) {
+            if (!($("." + key).hasClass("taken"))) {
+                $("." + key).addClass("taken")
+                occupied.push(key)
+            }
+        }
+        updateSeat()
+    })
+    $("#queue").change(function () {
+        updateSeat()
+    })
+    function updateSeat() {
+        $("#occupied").val(occupied)
+        let formData = $("#seatManager").serializeArray();
+        $.ajax({
+            url: 'seatManager',
+            method: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: (data) => {
+                console.log(data)
+            }
+        })
+    };
 </script>

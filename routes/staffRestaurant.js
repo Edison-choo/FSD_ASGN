@@ -268,6 +268,7 @@ router.post(
           close_time: close_time,
           cuisine: cuisine,
           halal: halal,
+          price: price,
           comp_email: comp_email,
           phone: phone,
           facebook: facebook,
@@ -350,25 +351,36 @@ router.post(
   urlencodedParser,
   ensureAuthenticated,
   (req, res) => {
+    let errors = [];
     let res_name = req.user.fname;
     let { occupied, queue } = req.body;
-    Restaurant.update(
-      {
-        occupied: occupied,
-        queue: queue,
-      },
-      {
-        where: {
-          res_name: res_name,
+    if (queue < 0) {
+      errors.push({ text: "Please do not enter negative value for queue!" });
+    }
+    if (errors.length > 0) {
+      res.json({
+        errors,
+      });
+    } else {
+      Restaurant.update(
+        {
+          occupied: occupied,
+          queue: queue,
         },
-      }
-    )
-      .then(() => {
-        res.redirect("/staffRestaurant/seatManager");
-      })
-      .catch((err) => console.log(err));
+        {
+          where: {
+            res_name: res_name,
+          },
+        }
+      )
+        .then((restaurant) => {
+          res.json({restaurant});
+        })
+        .catch((err) => console.log(err));
+    }
   }
 );
+
 router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
   if (!fs.existsSync("./public/uploads/resIcon/" + req.user.id)) {
