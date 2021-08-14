@@ -1,5 +1,5 @@
 {
-  "name": "vidjot",
+  "name": "foodecent_chatbot",
   "version": "1.0.0",
   "description": "Video Jotter",
   "main": "app.js",
@@ -10,6 +10,8 @@
   "author": "Chew Phuay Hern",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/dialogflow": "^4.2.0",
+    "@sendgrid/mail": "^7.4.6",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -17,9 +19,10 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
+    "dialogflow": "^1.2.0",
     "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-handlebars": "^3.0.0",
     "express-mysql-session": "^2.1.6",
     "express-session": "^1.15.6",
@@ -39,7 +42,17 @@
     "sequelize": "^4.44.4",
     "smartwizard": "^5.1.1",
     "stripe": "^8.163.0",
+    "uuid": "^8.3.2",
     "valid-url": "^1.0.9",
     "validator": "^13.6.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edison-choo/FSD_ASGN.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Edison-choo/FSD_ASGN/issues"
+  },
+  "homepage": "https://github.com/Edison-choo/FSD_ASGN#readme"
 }

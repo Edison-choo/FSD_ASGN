@@ -11,7 +11,6 @@ const { Op, STRING } = require("sequelize");
 const Order = require("../models/order");
 const User = require("../models/user");
 const ensureAuthenticated = require('../helpers/auth');
-const uuid = require('uuid/v4');
 const axios = require('axios');
 const queryString = require("querystring");
 const CreditCard = require("../models/creditcard");

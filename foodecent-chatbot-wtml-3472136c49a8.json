@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "foodecent-chatbot-wtml",
+  "private_key_id": "3472136c49a86280ec275dcbee55751d63ad8875",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDc6zTsnTZrloBu\nP5HjzuiA1DlPRyzLO4bg5okPD0l1k1kAxMmPZJ+c0XRq2boKuaVlYfeL0WTz4T1c\n197OSwJnBT8qT/N5s9BBexCXb2elZHPxF8tYpeifd6Shw60RjqAFJaDu7JTvCKD5\n/GTBrQ+sr7qfUpEmp5NI1tyHt+JygtOzfXogdXY9S3eMdUZZG/+Z4BA0jmrRsLCV\nRaMKen4GJ1wIqj+31KU7TJhHH03LHXeYNMgH2fKgz2EA0jfve69RxyEM+IOb838d\nAXwu0Crlc/fVQJFpRWyQtS/qYeZdnWHMqWE6u+0omu2DDYFEaTBY3q2bJr4/Smk6\nDq0utPNnAgMBAAECggEABzSOrdb00u5+MtpU7kqtz6HcWqcWIWzIGea6+qhDe5e6\nM+m3LzuXbxxvwRpn1Hi4mcVntwI12jRy9We/BxhwNB76L+2aodIJDVGvuVizVzQf\nCfJ+Od5zZ1wWHQaOSv/NXU2cYZ6Kvv8XjP+744s68yVqH08ol8uoZJxJZg3Lz3NA\nYnJdwSG7B6cKv+KfRwrlQ0dlckaozr7GuLeuSBJN0baxD71V17J1SbhnWi323DHj\nIUoRBarWaauF2HUIbCQOmaCtI0xeklfYNIaN3Tn2wKxIBbHxo8mdfciE19N3Bor+\n5WcY1BEYscwKFpzcLG2XIV5N3BEY8WHv4ZHG9FBoAQKBgQD0t1mLgFtIDp8lpiz3\nfOqxaC6BTQz6YfjbokJ+m+T26K8IbE5RSfZyFX2Fe/qvhFB1ON6uT5eZXvlpmszV\n60PvQbJBdlBuDdIgnfK42blNEU+wspTN54n3aoiENWZ5SApUfXUh8tV6rYEfdSmh\n99egyxqwPhILZSn6fPFH/2fbZwKBgQDnGvM5HsG2uspz6/yYrRqSvUMMCgujpdei\nOqTi8xhTUG3fvs3hAvDTQOm2caPOGqMsB6Tehv4DNE9Y80y3zt1MSWqYF1gn6fDq\n/1sgiWNHoCi+54K0JiP64U7J92pY5xpGczHS/iIeiZ/WPXGFcKV+q/RZD1uZWCKO\niS1hlLMoAQKBgQCgIDUcngGctcyXMxQrYPak3RnJC6TZVTAkbxj5hYKduYWGim/4\nqt/yqHM42/Yd0QNgoLS89GGrPsUOv/cWZtpN/Pvp78QTL0H2i8OeBwFEF3bAlSnf\nTYkuduwbLmH+LBBuVqVFcIMVweBCuERksirLEPtGpWbjQ+/i8sxioxHPMwKBgEZL\nPjvbjRRlkHreBsDxtil4A9K/o3atVP91Uv3s7zM4PZNW2Axe9p1rGytxOV/RXlxg\nHtfIu66B1Li7mFQ4SbuQgSmtwBSz5aG09iTZZSc+IeafSHQ/PaZrralk5iYQdT+E\nfl0tC3e6aLGjksoBz3TOHM6SC0yDME+mjfUmY7ABAoGBAMCudaoV5fIVck2EIUVh\nwCnm6FQLvKjbk9lpU9zwfT7UIFkyhJ0nDPgY761t6j+QyPy4OpF9cgsbmmwXM5Ug\nbfvNeKaZrM+eR0LG5TSV+U3pfXEhYDMMUprQt7/UGXnhvjDT0WqAuj22jyfW3eHu\n/TgOVDPeUzpctN3Xp9yEokLt\n-----END PRIVATE KEY-----\n",
+  "client_email": "foodecent-chatbot@foodecent-chatbot-wtml.iam.gserviceaccount.com",
+  "client_id": "117711002241020375350",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/foodecent-chatbot%40foodecent-chatbot-wtml.iam.gserviceaccount.com"
+}

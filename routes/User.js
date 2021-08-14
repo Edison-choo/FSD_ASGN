@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Restaurant = require("../models/restaurants");
 const Promotion = require("../models/promotions");
 const CreditCard = require("../models/creditcard");
+const ChatBot = require("../models/chatbot");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { response } = require('express');
@@ -17,6 +18,9 @@ const upload = require('../helpers/imageUpload');
 var valid = require("card-validator");
 const { Sequelize } = require('sequelize');
 const op = Sequelize.Op;
+const sgMail = require("@sendgrid/mail");
+const API_Key = "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";
+sgMail.setApiKey(API_Key);
 
 router.get('/login', (req, res) => {
 	res.render('user/login');
@@ -167,6 +171,8 @@ router.post('/loginUser', urlencodedParser, (req, res, next) => {
 });
 
 router.get('/logout', (req, res) => {
+	ChatBot.destroy({where: {userid: req.user.id}})
+
 	req.logout();
 
 	req.flash("success_msg", "You are logged out");
@@ -181,45 +187,52 @@ router.get('/forget_password', (req, res) => {
 router.post('/changePassword', urlencodedParser, (req, res) => {
 	let errors = [];
 	let success_msg = '';
-	let {email, password, cpassword} = req.body;
+	let {email} = req.body;
 
 	emailValidate = validator.validate(email);
 	if(!emailValidate){
 		errors.push({"text": "Email is not valid"});
 	}
-
-	if(password != cpassword){
-        errors.push({"text": "Password do not match"});
-    }
-
-    if(password.length < 8){
-        errors.push({"text": "Password must be at least 8 characters"});
-    }
-
-    if(errors.length == 0){
-		bcrypt.genSalt(10, function(err, salt) {
-			bcrypt.hash(password, salt, function(err, hash) {
-        User.update({
-			password: hash
-		},
-		{where:{email: req.body.email}}
-		)
+	
+	if(errors.length == 0){
+		User.findOne({where: {email:req.body.email}})
 		.then(user => {
-			if (user > 0) {
-			console.log(user, req.body.email, user.email, errors.length);
-			// If user is found, email has already been registered
-				success_msg = "Password has been resetted";
-				res.render('user/login', {success_msg:success_msg});
-			
+			if(user){
+				var new_password = '';
+				var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+				var charactersLength = characters.length;
+				for ( var i = 0; i < 8; i++ ) {
+					new_password += characters.charAt(Math.floor(Math.random() * charactersLength));
+				}
+				bcrypt.genSalt(10, function(err, salt) {
+					bcrypt.hash(new_password, salt, function(err, hash) {
+					User.update({
+						password: hash
+					},
+					{where:{email: req.body.email}}
+					)
+				})})
+				const message = {
+					to: req.body.email,
+					from: 'foodecent.donotreply@gmail.com',
+					subject: 'New password',
+					text: "New Password",
+					html: `Your new password is <b>${new_password}</b>`
+				}
+				sgMail.send(message)
+				.then((response) => console.log("Email sent..."))
+				.catch((error) => console.log(error.message));
+		
+				success_msg = "Email has been sent to " + req.body.email;
+				res.render("user/login", {success_msg:success_msg});
 			}else{
-				errors.push({"text": "User not found"});
-				res.render('user/forgetpassword', {errors, email, passport, cpassword});
-			} 
+				res.render("user/forgetpassword", {error: req.body.email + ' not found'})
+			}
 		})
-	})})
-    }else{
-        res.render('user/forgetpassword', {errors, email, password, cpassword})
-    }
+	}else{
+		res.render("user/forgetpassword", {errors:errors});
+	}
+	
 
 });
 

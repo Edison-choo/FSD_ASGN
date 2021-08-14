@@ -50,6 +50,7 @@
   rel="stylesheet"
 />
 <link href="/css/style3.css" rel="stylesheet">
+<link href="/css/chatbot.css" rel="stylesheet">
 
 
   <!-- =======================================================
@@ -67,7 +68,6 @@
   {{> _navbar}}
   {{> _success}}
 
-
   <main id="main">
     <div style="margin: 100px;"></div>
     <section class="inner-page">
@@ -76,6 +76,28 @@
         {{> _msg}}
         {{> _errors}}
         {{{body}}}
+        {{#ifEquals user.cust_type "customer"}}
+        <div id="chatbotdiv">
+          <button id="chatbtn" onclick="displayChatBot()"><i class="fas fa-robot"></i></button>
+          <iframe src="/chatbot/chatbotlayout" id="chatbotiframe"></iframe>
+        </div>
+        <script>
+          let chatbotframe = document.getElementById("chatbotiframe");
+
+          chatbotframe.style.display = "none";
+          let chatbtn = document.getElementById("chatbtn");
+
+          function displayChatBot(){
+            chatbotframe.style.display = "block";
+            chatbtn.style.display = "none";
+          }
+          
+          function closeBotChat(){
+            chatbotframe.style.display = "none";
+            chatbtn.style.display = "block";
+          }
+        </script>
+        {{/ifEquals}}
       </div>
     </section>
   </main><!-- End #main -->

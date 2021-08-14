@@ -31,6 +31,7 @@ const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
 const bookingStaffRoute = require("./routes/bookingStaff");
 const userReviewsRoute = require("./routes/userReviews");
+const chatbotRoute = require("./routes/chatBot");
 // Bring in database connection
 const { formatDate } = require("./helpers/hbs");
 // Bring in database connection
@@ -151,6 +152,7 @@ app.use("/createPromotions", createPromotions);
 app.use("/bookingInterface", bookingInterfaceRoute);
 app.use("/bookingStaff", bookingStaffRoute);
 app.use("/userReviews", userReviewsRoute);
+app.use("/chatbot", chatbotRoute);
 
 app.use(express.json());
 
@@ -315,4 +317,24 @@ Handlebars.registerHelper("priceFormat", function (price) {
   }
   return formatPrice;
 });
+
+Handlebars.registerHelper("dateDiff", function (a, options) {
+  var a_Date = new Date(a);
+  var today = new Date();
+  const dateInPast = function (firstDate) {
+    if (firstDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  if (dateInPast(a_Date)) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+
+
 
