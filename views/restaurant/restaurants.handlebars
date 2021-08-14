@@ -38,8 +38,9 @@
 </style>
 <div class="row mt-2">
     <div class="col-2">
-        <select class="form-select">
+        <select class="form-select" id="sort">
             <option selected disabled>Sort By</option>
+            <option value="">None</option>
             <option value="res_name">Alphabetical</option>
             <option value="price">Price</option>
             <option value="avgReview">Reviews</option>
@@ -66,6 +67,12 @@
 <script>
     $(function () {
         $search = ""
+        $sort = ""
+        $("#sort").change(function () {
+            $sort = $("#sort").val();
+            console.log($sort)
+            getRes();
+        });
         $("#search").keyup(function () {
             $search = $("#search").val();
             getRes();
@@ -85,15 +92,33 @@
                             return r
                         }
                     })
-                    let matches = data.filter(r => {
+                    var matches = data.filter(r => {
                         return r.res_name.toLowerCase().includes($search.toLowerCase()) || r.address.toLowerCase().includes($search.toLowerCase()) || r.cuisine.toLowerCase().includes($search.toLowerCase())
                     });
-
-                    if ($search.length == 0) {
-                        matches = data;
+                    if ($sort == "res_name") {
+                        matches = matches.sort(function (a, b) {
+                            return (a.res_name > b.res_name) ? 1 : ((a.res_name < b.res_name) ? -1 : 0);
+                        })
+                    } else if ($sort == "price") {
+                        matches = matches.sort(function (a, b) {
+                            return (a.price > b.price) ? 1 : ((a.price < b.price) ? -1 : 0);
+                        })
+                    } else if ($sort == "avgReview") {
+                        matches = matches.sort(function (a, b) {
+                            return (b.avgReview > a.avgReview) ? 1 : ((b.avgReview < a.avgReview) ? -1 : 0);
+                        })
+                    } else if ($sort == "reviewCount") {
+                        matches = matches.sort(function (a, b) {
+                            return (b.reviewCount > a.reviewCount) ? 1 : ((b.reviewCount < a.reviewCount) ? -1 : 0);
+                        })
+                    } else if ($sort == "queue") {
+                        matches = matches.sort(function (a, b) {
+                            return (a.queue > b.queue) ? 1 : ((a.queue < b.queue) ? -1 : 0);
+                        })
                     }
-                    if (matches.length > 0) {
-                        const html = matches.map(match => `
+
+
+                    const html = matches.map(match => `
                         <a href="restaurant/restaurant_1/${match.res_name}">
         <div class="card defaultSize" style="width: 225px; height:300px;">
             <img src="${match.image}" alt="..." class="card-img-top " style="width: 225px; height:225px;" />
@@ -105,20 +130,19 @@
                 <p class="card-text">${match.cuisine} | ${match.halal ? "Halal" : "Not Halal"} | $${match.price}</p>
                 <p class="card-text"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                         class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                    <c style="float: right;">No
+                    <c style="float: right;">${match.reviewCount}
                         Reviews
                     </c>
                 </p>
             </div>
             <div class="card-img-overlay">
-                <i class="fas fa-circle" title="${match.queue > 0 && match.queue <= 10 ? "Short" : "Long"} Queue" style="color:${match.queue > 0 && match.queue <= 10 ? "green" : "red"}"></i>
+                <i class="fas fa-circle" title="${match.queue >= 0 && match.queue <= 10 ? "Short" : "Long"} Queue" style="color:${match.queue >= 0 && match.queue <= 10 ? "green" : "red"}"></i>
             </div>
         </div>
     </a>
                         `).join("");
-                        $("#matchList").html(html);
-                        console.log(matches)
-                    }
+                    $("#matchList").html(html);
+                    console.log(matches)
                 }
             })
         }

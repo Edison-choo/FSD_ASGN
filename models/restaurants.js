@@ -69,9 +69,11 @@ const Restaurants = db.define("restaurants", {
   },
   reviewCount: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
   avgReview: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
 });
 
