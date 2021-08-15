@@ -43,14 +43,15 @@ router.get('/showLogin', (req, res) => {
 });
 
 router.post('/getcounter/:res_name/:id', (req, res) =>{
-	let counters = parseInt(req.body.counter) + 1
+	if (req.user){
+		let counters = parseInt(req.body.counter) + 1
 	console.log(req.params.id)
 	Promotions.update({
 		counter: counters
 	},
 		{where:{id: req.params.id}}
 	)
-	res.redirect(`/bookingInterface/bookForm/${req.params.res_name}`)
+	}res.redirect(`/bookingInterface/bookForm/${req.params.res_name}`)
 });
 
 
