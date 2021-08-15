@@ -16,6 +16,7 @@ const Order = require("../models/order");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 const { data } = require("jquery");
+const { EINPROGRESS } = require("constants");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -366,34 +367,47 @@ router.get("/delete/:id", ensureAuthenticated, (req, res) => {
 
 // ajax update food 
 router.post("/update/:id", urlencodedParser, ensureAuthenticated, (req, res) => {
+  let errors = [];
   let id = req.params.id;
-  let { menuImage, foodId, foodName, foodType, foodPrice, specifications } = req.body;
+  let { menuImage, foodName, foodType, foodPrice, specifications } = req.body;
   specifications = specifications === undefined ? "" : specifications.toString();
   menuImage = menuImage === undefined ? '' : menuImage;
-
-  Menu.update(
-    {
-      foodNo: foodId,
-      name: foodName,
-      price: foodPrice,
-      type: foodType,
-      specifications: specifications,
-      image: menuImage,
-    },
-    { where: { id: id } }
-  )
-    .then((n) => {
-      if (n > 0) {
-        console.log(`${n} has been updated`);
-      } else {
-        console.log(`Unsuccessful update of data...`);
-      }
-      Menu.findOne({where: {id: id}})
-        .then((menu) => {
-          res.json({menu, success:`${menu.name} successfully updated!`})
-        }).catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
+  if (foodPrice < 0) {
+    errors.push({ text: "Please do not enter negative value for price!" });
+  }
+  Menu.findAll({
+    where: {userId: req.user.id}
+  }).then((menus) => {
+    if ((menus.map(m => m.name)).includes(foodName)) {
+      errors.push({ text: "Please do not enter used name!" });
+    }
+    if (errors.length > 0) {
+      res.json({errors})
+    } else {
+      Menu.update(
+        {
+          name: foodName,
+          price: foodPrice,
+          type: foodType,
+          specifications: specifications,
+          image: menuImage,
+        },
+        { where: { id: id } }
+      )
+        .then((n) => {
+          if (n > 0) {
+            console.log(`${n} has been updated`);
+          } else {
+            console.log(`Unsuccessful update of data...`);
+          }
+          Menu.findOne({where: {id: id}})
+            .then((menu) => {
+              res.json({menu, success:`${menu.name} successfully updated!`})
+            }).catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    }
+  })
 });
 
 // ajax get new specifications
@@ -428,6 +442,7 @@ router.get("/getNewSpec/:name", (req, res) => {
 
 // ajax add specifications
 router.post("/addSpec", urlencodedParser, (req, res) => {
+  let errors = [];
   let name = req.body.name;
   let optionList = [];
   for (i in req.body) {
@@ -440,35 +455,45 @@ router.post("/addSpec", urlencodedParser, (req, res) => {
       ].concat([req.body[i]]);
     }
   }
+  for (i = 0; i < optionList.length; i++) {
+    if (optionList[i][1] < 0) {
+      errors.push({ text: "Please do not enter negative value for price!" })
+    }
+  }
   console.log(optionList);
-  MenuSpec.findOne({ 
-    where: { 
-      [Op.and]: [
-        { name: name },
-        { userId: req.user.id }
-      ]} })
-    .then((spec) => {
-      if (spec) {
-        res.json({error:"Specification name is already registered!"});
-      } else {
-        for (i = 0; i < optionList.length; i++) {
-          let option = optionList[i][0];
-          let addPrice = optionList[i][1];
-          MenuSpec.create({
-            name: name,
-            option: option,
-            addPrice: addPrice,
-            userId: req.user.id,
-          })
-            .then((specOption) => {
-              console.log(`Successfuly added ${option} to ${name}`);
+  if (errors.length > 0) {
+    res.json({
+      errors,
+    });
+  } else { 
+    MenuSpec.findOne({ 
+      where: { 
+        [Op.and]: [
+          { name: name },
+          { userId: req.user.id }
+        ]} })
+      .then((spec) => {
+        if (spec) {
+          res.json({error:"Specification name is already registered!"});
+        } else {
+          for (i = 0; i < optionList.length; i++) {
+            let option = optionList[i][0];
+            let addPrice = optionList[i][1];
+            MenuSpec.create({
+              name: name,
+              option: option,
+              addPrice: addPrice,
+              userId: req.user.id,
             })
-            .catch((err) => console.log(err));
+              .then((specOption) => {
+                console.log(`Successfuly added ${option} to ${name}`);
+              })
+              .catch((err) => console.log(err));
+          }
+        res.json({success:`new spec is successfully added!`, optionList:optionList.map(m=>m[0])});
         }
-      res.json({success:`new spec is successfully added!`, optionList:optionList.map(m=>m[0])});
-      }
-    }).catch((err) => console.log(err));
-  
+      }).catch((err) => console.log(err));
+  }
 });
 
 // ajax delete specifications
@@ -526,17 +551,20 @@ router.get('/getStatData', (req, res) => {
               order.food = JSON.parse(order.food);
             })
             const labels = menus.map(f => f.name);
-            const orderList = orders.map(f => f.food.map(o => o.id));
-            const newList = [];
-            for (i=0; i<orderList.length;i++) {
-                for (j=0; j<orderList[i].length;j++) {
-                    newList.push(orderList[i].pop())
-                }
-            }
+            const orderList = [];
+            for (i=0; i<orders.length;i++) {
+              for (j=0; j<orders[i].food.length;j++) {
+                  for (k=0; k<orders[i].food[j].orders.length;k++) {
+                      for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
+                          orderList.push(orders[i].food[j].id);
+                      }
+                  }
+              }
+          }
             const dataList = []
             menus.forEach((menu, i) => {
-                if (newList.indexOf(menu.id.toString()) >= 0) {
-                    dataList.push([labels[i], newList.map(n => n == menu.id).length])
+                if (orderList.indexOf(menu.id.toString()) >= 0) {
+                    dataList.push([labels[i], orderList.filter(n => n == menu.id).length])
                 } else {
                     dataList.push([labels[i], 0]);
                 }

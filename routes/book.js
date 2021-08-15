@@ -70,24 +70,27 @@ router.get("/menuBook/:resName", ensureAuthenticated, (req, res) => {
                                     order.food = JSON.parse(order.food);
                                 })
                                 const labels = menus.map(f => f.name);
-                                const orderList = orders.map(f => f.food.map(o => o.id));
-                                const newList = [];
-                                for (i=0; i<orderList.length;i++) {
-                                    for (j=0; j<orderList[i].length;j++) {
-                                        newList.push(orderList[i].pop())
+                                const orderList = [];
+                                for (i=0; i<orders.length;i++) {
+                                    for (j=0; j<orders[i].food.length;j++) {
+                                        for (k=0; k<orders[i].food[j].orders.length;k++) {
+                                            for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
+                                                orderList.push(orders[i].food[j].id);
+                                            }
+                                        }
                                     }
                                 }
                                 const dataList = []
                                 menus.forEach((menu, i) => {
                                     if (newList.indexOf(menu.id.toString()) >= 0) {
-                                        dataList.push([labels[i], newList.map(n => n == menu.id).length])
+                                        dataList.push([labels[i], newList.filter(n => n == menu.id).length])
                                     } else {
                                         dataList.push([labels[i], 0]);
                                     }
                                 })
                                 dataList.sort((first, second) => second[1] - first[1])
                                 const newList2 = [];
-                                dataList.slice(0, 5).forEach((menu) => {
+                                dataList.slice(0, 4).forEach((menu) => {
                                     newList2.push({name:menu[0], count:menu[1]})
                                 })
                                 console.log(newList2)

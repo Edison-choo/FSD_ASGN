@@ -1,7 +1,6 @@
 const mySQLDB = require("./DBConfig");
 const menu = require("../models/Menu");
 const menuSpec = require("../models/menuSpec");
-const restaurantMenu = require("../models/RestaurantMenu");
 const restaurants = require("../models/restaurants");
 const reviews = require("../models/reviews");
 const promotions = require("../models/promotions");

@@ -26,7 +26,7 @@
               {{#each topMenu}}
               {{#each ../menus}}
               {{#ifEquals this.name ../name}}
-                <div id="{{id}}" class="menuItem" {{#each ../../session.cart}}
+                <div id="{{id}}" class="menuItem {{id}}" {{#each ../../session.cart}}
                     {{#ifEquals this.id ../this.id}}
                     style="margin-bottom: 40px;"
                     {{/ifEquals}}
@@ -73,7 +73,7 @@
           <div class="menuCat">
               {{#each ../menus}}
               {{#ifEquals this.type ../this}}
-                <div id="{{id}}" class="menuItem" {{#each ../../session.cart}}
+                <div id="{{id}}" class="menuItem {{id}}" {{#each ../../session.cart}}
                     {{#ifEquals this.id ../this.id}}
                     style="margin-bottom: 40px;"
                     {{/ifEquals}}
