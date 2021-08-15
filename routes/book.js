@@ -17,6 +17,9 @@ const CreditCard = require("../models/creditcard");
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
+const sgMail = require('@sendgrid/mail');
+const API_Key = "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";
+sgMail.setApiKey(API_Key);
 
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -296,6 +299,17 @@ router.post('/createOrder', (req, res) => {
         }).then((order) => {
             sess.cart = sess.cart.filter((f) => f.userId !== userId);
             sess.total = sess.total.filter((f) => f.userId !== userId);
+
+            // const message = {
+            //     to: 'edisonchoo234@gmail.com',
+            //     from: 'foodecent.donotreply@gmail.com',
+            //     subject: 'Booking receipt',
+            //     text: "Booking receipt",
+            //     html: `Your new password is`
+            // }
+            // sgMail.send(message)
+            // .then((response) => console.log("Email sent..."))
+            // .catch((error) => console.log(error.message));
             res.send({orderId:order.id});
         }).catch((err) => console.log(err));
     } else {
