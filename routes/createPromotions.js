@@ -115,5 +115,17 @@ router.post('/upload/:id', ensureAuthenticated, (req, res) => {
         }
     }
     });
-})
+});
+
+router.get('/createPromotions/promoStats', (req, res) => {
+    Promotions.findAll( {where: {staffid: req.user.id}}
+    ).then((promotions) => {
+        console.log(promotions)
+        Restaurant.findOne({where: {staffid: req.user.id}}
+            ).then((restaurants) => {
+                console.log(restaurants.image)
+                res.json({restaurants, promotions});
+            })
+    }).catch(err => console.log(err));
+});
 module.exports = router;

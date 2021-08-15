@@ -1,3 +1,6 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal"
   style="background-color: #ffb03b; font-size: 20px;">
   Create A Promotion
@@ -174,5 +177,56 @@
     margin-top: 2%;
   }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  var myChart;
+  $(function() {
+        fetch('/createPromotions/createPromotions/promoStats', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => {
+            console.log(response);
+            return response.json();
+        })
+        .then(data => {
+          console.log(data)
+          const labels = data.promotions.map(p => p.name);
+          const count = data.promotions.map(p => p.counter);
+          const dataset = {
+            labels: labels,
+            datasets: [
+              {
+                label: "Clicks",
+                data: count,
+                borderColor: "#ffb03b",
+                backgroundColor:"#ffb03b",
+              }]
+          };
+
+          const config = {
+            type: 'bar',
+            data: dataset,
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: 'Number of bookings created'
+                }
+              }
+            },
+          };
+
+            myChart = new Chart(
+              document.getElementById('myChart'),
+              config
+            );
+        })
+  });
+</script>
+
