@@ -87,15 +87,24 @@
           chatbotframe.style.display = "none";
           let chatbtn = document.getElementById("chatbtn");
 
+          function sleep(delay) {
+            var start = new Date().getTime();
+            while (new Date().getTime() < start + delay);
+          }
+
           function displayChatBot(){
-            chatbotframe.style.display = "block";
             chatbtn.style.display = "none";
+            chatbotframe.src = "/chatbot/chatbotlayout";
+            sleep(800);
+            chatbotframe.style.display = "block";
           }
           
           function closeBotChat(){
             chatbotframe.style.display = "none";
             chatbtn.style.display = "block";
           }
+        
+          
           
         </script>
         {{/ifEquals}}
