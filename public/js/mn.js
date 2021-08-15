@@ -276,7 +276,6 @@ function editMenu(id) {
       $("#edit .popUpImage input").first().attr({"id":'menuImageUpload'+id, "onchange":"uploadImg("+id+")"});
       $("#edit .popUpImage input").last().attr({"id":'menuImage'+id, "value":image});
       $("#edit .popUpImage div:last-child").attr({"id":'menuImageErr'+id});
-      $("#edit .popUpContent #foodNo").attr("value",menu.foodNo);
       $("#edit .popUpContent #foodName").attr("value",menu.name);
       $("#edit .popUpContent #foodType").attr("value",menu.type);
       $("#edit .popUpContent #foodPrice").attr("value",menu.price.toFixed(2));
@@ -307,10 +306,13 @@ $(function() {
         data: formdata,
         dataType: 'json',
         success: (data) => {
-          if ('menu' in data) {
+          if ('errors' in data) {
+            $("#edit #errorEdit").text(data.errors[0].text);
+            $("#edit #errorEdit").css('display', 'flex');
+          } else if ('menu' in data) {
             let updatedID;
             $(".foodRow tr").each((i,item)=>{
-              if ($(".foodRow tr").eq(i).find('td').eq(2).text() == foodNo) {
+              if ($(".foodRow tr").eq(i).find('td').eq(2).text() == data.menu.foodNo) {
                 updatedID = i;
               }
             });
@@ -323,6 +325,7 @@ $(function() {
             $(".successNoti").css('display', 'flex');
             $("#edit #closeEditMenu").trigger("click");
             $("#error").hide();
+            $("#edit #errorEdit").hide();
           }
         }
     });
@@ -348,7 +351,10 @@ $(function() {
         dataType: 'json',
         success: (data) => {
           console.log(data, name);
-          if ('success' in data) {
+          if ('errors' in data) {
+            $("#addSpecification1 #errorAddSpec").text(data.errors[0].text);
+            $("#addSpecification1 #errorAddSpec").css('display', 'flex');
+          } else if ('success' in data) {
             console.log(data.optionList);
             console.log(name+" is successfully added");
             let last = $(".specRow tr").last().find('td').eq(1).text() != '' ? parseInt($(".specRow tr").last().find('td').eq(1).text()) : 0;
@@ -382,6 +388,7 @@ $(function() {
             $("#addSpecification1 #closeSpec").trigger("click");
             $("#addSpecification1 #error").hide();
             cleanInput();
+            $("#addSpecification1 #errorAddSpec").hide();
           } else {
             $("#addSpecification1 #error").hide();
             $("#addSpecification1 #error").text(data.error);
@@ -515,13 +522,18 @@ $(function() {
         dataType: 'json',
         success: (data) => {
           if ('success' in data) {
-            if ($(`#${id} .menuOrdered`).length) {
+            if ($(`.${id} .menuOrdered`).length) {
               // pass
             } else {
-              $(`#${id} .menuOrderedHidden`).show();
-              $(`#${id} .menuOrderedHidden button`).attr('onclick', `editAll(${id})`);
+              $(`.${id}`).each((i) => {
+                console.log(i)
+                $(`.${id}`).eq(i).find('.menuOrderedHidden').show();
+                $(`.${id}`).eq(i).find('.menuOrderedHidden').attr('onclick', `editAll(${id})`);
+              })
+              $(`.${id} .menuOrderedHidden`).show();
+              $(`.${id} .menuOrderedHidden button`).attr('onclick', `editAll(${id})`);
             }
-            $(`#${id}`).css('margin-bottom', '60px');
+            $(`.${id}`).css('margin-bottom', '60px');
             $("#food #closeFood").trigger("click");
             $("#error").hide();
             $(".successNoti span").text(data.success);

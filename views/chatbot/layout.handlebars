@@ -1,5 +1,4 @@
 
-
 <style>
     #chatbotiframe{
         display: none;
@@ -39,18 +38,6 @@ body {
   overflow: hidden;
 }
 
-.bg {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  /* background: url("https://images.unsplash.com/photo-1451186859696-371d9477be93?crop=entropy&fit=crop&fm=jpg&h=975&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=1925") no-repeat 0 0; */
-  -webkit-filter: blur(80px);
-          filter: blur(80px);
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
-}
 
 /*--------------------
 Chat
@@ -80,7 +67,7 @@ Chat Title
   flex: 0 1 45px;
   position: relative;
   z-index: 2;
-  background: grey;
+  background: #35322d;
   color: #fff;
   text-transform: uppercase;
   text-align: left;
@@ -110,14 +97,11 @@ Chat Title
   padding: 0;
   border: 2px solid rgba(255, 255, 255, 0.24);
 }
-.chat-title .avatar i {
+.chat-title .avatar img {
   width: 100%;
   height: auto;
 }
 
-.avatar i{
-  width: 30px !important;
-}
 
 /*--------------------
 Messages
@@ -279,7 +263,7 @@ Message Box
 .message-box {
   flex: 0 1 40px;
   width: 100%;
-  background-color: black;
+  background-color: #35322d;
   padding: 10px;
   position: relative;
 }
@@ -294,6 +278,7 @@ Message Box
   margin: 0;
   padding-right: 20px;
   width: 80%;
+  background-color: #35322d;
 }
 .message-box textarea:focus:-webkit-placeholder {
   color: transparent;
@@ -305,7 +290,7 @@ Message Box
   right: 10px;
   color: black;
   border: none;
-  background-color: white;
+  background-color: #ffb03b;
   font-size: 10px;
   text-transform: uppercase;
   line-height: 1;
@@ -530,17 +515,27 @@ ul li{
   width: 45%;
   background-color: gainsboro;
 }
+
+
 .closechatbtn{
   float:right;
   top: 0;
   right: 0;
   position: absolute;
-  margin-top: 2px;
+  margin-top: 0.8%;
+  margin-right: 0.5%;
+  background-color: #ffb03b;
+}
+
+.closechatbtn:hover{
+  background-color: #ffb03b !important;
 }
 
 #MSG{
   background-color: black;
 }
+
+
 </style>
 
 
@@ -566,15 +561,19 @@ ul li{
     <div style="width: 90%; float: left;">
     <h1>Smart BOt</h1>
     <h2>i am customer support chat bot</h2>
+    {{#if chatbotmsg}}
+    <h1 style="font-family: 'Open Sans', sans-serif; text-decoration: underline;"><a style="color:white;" href="/chatbot/endchat" onclick="parent.closeBotChat()">End Chat</a></h1>
+    {{/if}}
 
       <button type="button" class="closechatbtn btn btn-primary btn-floating" onclick="parent.closeBotChat()"><i class="fas fa-times"></i></button>
     </div>
      
     <figure class="avatar">
-     <i class="fas fa-robot"></i></figure>
+     <img src="https://w1.pngwing.com/pngs/278/853/png-transparent-line-art-nose-chatbot-internet-bot-artificial-intelligence-snout-head-smile-black-and-white.png"/></figure>
   </div>
   <div class="messages">
     <div class="messages-content" id="messagecont">
+      <p class="botText">Hi, I am foodecent support chat bot. How can I help you today?</p>
       {{#if chatbotmsg}}
       {{#each chatbotmsg}}
       {{#ifEquals botMsg undefined}}
@@ -588,7 +587,7 @@ ul li{
     </div>
   </div>
   <form class="message-box" id="mymsg" method="POST" action="/chatbot/sendChatBotMsg">
-    <input type="text" id="MSG" name="MSG" class="message-input" placeholder="Type message..." autocomplete="off"> 
+    <input type="text" id="MSG" name="MSG" class="message-input" style="background-color: #35322d !important;" placeholder="Type message..." autocomplete="off"> 
     <button class="message-submit">Send</button>
   </form>
 
@@ -601,6 +600,9 @@ ul li{
 
 
 <script>
+  $(document).ready(function(){
+      $('#messagecont').scrollTop($('#messagecont')[0].scrollHeight);
+})
 </script>
   
     

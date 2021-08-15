@@ -1,6 +1,21 @@
 <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+    datalist {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+    }
+
+    input:focus {
+        width: 50%;
+        background-color:black;
+        
+    }
+
+</style>
+
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
@@ -59,8 +74,8 @@
             </div>
             <div class="col-md-4">
                 <div class="FDefaultTab menuSubGraph">
-                    <div id="graphSubTitle">Year Picker</div>
-                    <div class="form-group">
+                    <div id="graphSubTitle">Month Picker</div>
+                    {{!-- <div class="form-group">
                         <div class="form-check">
                         <input class="form-check-input" onclick="graph2('')" type="radio" name="flexRadioDefault2" id="flexRadioDefault1" checked>
                         <label class="form-check-label" for="flexRadioDefault1">
@@ -85,8 +100,24 @@
                             2023
                         </label>
                     </div>
-                    </div>
-                    
+                    </div> --}}
+                    <input type="range" list="tickmarks"  step="10" style="width: 100%; color:black;">
+
+                    <datalist id="tickmarks"  style="width: 105%;">
+                        <option value="0" label="Jan"></option>
+                        <option value="10"></option>
+                        <option value="20"></option>
+                        <option value="30"></option>
+                        <option value="40" label="May"></option>
+                        <option value="50"></option>
+                        <option value="60"></option>
+                        <option value="70"></option>
+                        <option value="80"  label="Aug"></option>
+                        <option value="90"></option>
+                        <option value="100"></option>
+                        <option value="110" label="Dec"></option>
+                        <option value="120"></option>
+                    </datalist>
                 </div>
                 <div class="FDefaultTab menuSubGraph">
                     <div class="form-group">
@@ -169,6 +200,7 @@
                         </label>
                     </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -191,32 +223,53 @@
         .then(data => {
             console.log(data);
             const labels = data.menus.map(f => f.name);
-            const orderList = data.orders.map(f => f.food.map(o => o.id));
-            const newList = [];
-            for (i=0; i<orderList.length;i++) {
-                for (j=0; j<orderList[i].length;j++) {
-                    newList.push(orderList[i].pop())
+            const orderList = [];
+            for (i=0; i<data.orders.length;i++) {
+                for (j=0; j<data.orders[i].food.length;j++) {
+                    for (k=0; k<data.orders[i].food[j].orders.length;k++) {
+                        for (l=0; l<parseInt(data.orders[i].food[j].orders[k].quantity);l++) {
+                            orderList.push(data.orders[i].food[j].id);
+                        }
+                    }
                 }
             }
             const dataList = []
             data.menus.forEach((menu) => {
-                if (newList.indexOf(menu.id.toString()) >= 0) {
-                    dataList.push(newList.map(n => n == menu.id).length);
+                if (orderList.indexOf(menu.id.toString()) >= 0) {
+                    dataList.push(orderList.filter(n => n == menu.id).length);
                 } else {
                     dataList.push(0)
                 }
             })
+            console.log(dataList)
             const dataStat = {
                 labels: labels,
                 datasets: [{
                     label: 'Orders',
-                    backgroundColor: '#ffb03b',
-                    borderColor: '#ffb03b',
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1,
                     data: dataList,
                 }]
             };
             const config = {
-                type: 'line',
+                type: 'bar',
                 data:dataStat,
                 options: {
                     plugins: {
@@ -243,7 +296,6 @@
                     return x + y.total
                 },0));
             }
-            console.log(dataList2)
             const dataStat2 = {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
@@ -264,6 +316,11 @@
                             text: 'Money earned montly'
                         }
                     },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             };
             myChart2 = new Chart(
@@ -289,32 +346,55 @@
         })
         .then(data => {
             const labels = type == '' ? data.menus.map(f => f.name) : data.menus.filter(d => d.type == type).map(f => f.name);
-            const orderList = data.orders.map(f => f.food.map(o => o.id));
-            const newList = [];
-            for (i=0; i<orderList.length;i++) {
-                for (j=0; j<orderList[i].length;j++) {
-                    newList.push(orderList[i].pop())
+            const orderList = [];
+            for (i=0; i<data.orders.length;i++) {
+                for (j=0; j<data.orders[i].food.length;j++) {
+                    for (k=0; k<data.orders[i].food[j].orders.length;k++) {
+                        for (l=0; l<parseInt(data.orders[i].food[j].orders[k].quantity);l++) {
+                            orderList.push(data.orders[i].food[j].id);
+                        }
+                    }
                 }
             }
             const dataList = []
             data.menus.forEach((menu) => {
-                if (newList.indexOf(menu.id.toString()) >= 0) {
-                    dataList.push(newList.map(n => n == menu.id).length);
-                } else {
-                    dataList.push(0)
+                if (menu.type == type) {
+                    if (orderList.indexOf(menu.id.toString()) >= 0) {
+                        dataList.push(orderList.filter(n => n == menu.id).length);
+                    } else {
+                        dataList.push(0)
+                    }
                 }
+                
             })
             const dataStat = {
                 labels: labels,
                 datasets: [{
                     label: 'Orders',
-                    backgroundColor: '#ffb03b',
-                    borderColor: '#ffb03b',
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1,
                     data: dataList,
                 }]
             };
             const config = {
-                type: 'line',
+                type: 'bar',
                 data:dataStat,
                 options: {
                     plugins: {
@@ -441,6 +521,11 @@
                             font: { weigth: 'bold', size: 20 },
                             text: 'Money earned montly'
                         }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
             };
@@ -451,4 +536,5 @@
         })
         .catch(err => console.error(err));
     }
+
 </script>

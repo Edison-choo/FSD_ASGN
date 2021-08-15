@@ -75,4 +75,11 @@ router.post("/sendChatBotMsg", (req, res) => {
     
 })
 
+router.get("/endchat", (req, res) => {
+    ChatBot.destroy({where: {userid: req.user.id}})
+    .then(chatbot => {
+        res.redirect("/chatbot/chatbotlayout");
+    })
+})
+
 module.exports = router;
