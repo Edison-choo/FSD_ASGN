@@ -45,21 +45,93 @@
           {{else}}
           <li><a class="nav-link scrollto " href="/bookingInterface/bookingDetailsList/{{user.email}}">Notifications</a></li>
           {{/ifEquals}}
+
+          {{!-- <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li> --}}
           {{/if}}
 
-          {{#if user}}
-          <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li>
-          {{/if}}
           
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
     {{#if user}}
-          <a href="/user/profile" class="book-a-table-btn scrollto">{{user.fname}}</a>
+          {{!-- <a href="/user/profile" class="book-a-table-btn scrollto">{{user.fname}}</a> --}}
+          <!-- Avatar -->
+      <a
+        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+        href="#"
+        id="navbarDropdownMenuLink"
+        role="button"
+        data-mdb-toggle="dropdown"
+        aria-expanded="false"
+        style="margin-left: 2%;"
+      >
+      {{#if user.profilepic}}
+        <img
+          src="{{user.profilepic}}"
+          class="rounded-circle"
+          height="30"
+          width="30"
+          alt=""
+          loading="lazy"
+        />
+
+      {{else}}
+        <img
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+          class="rounded-circle"
+          height="30"
+          alt=""
+          loading="lazy"
+        />
+      {{/if}}
+      </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="navbarDropdownMenuLink"
+      >
+        <li>
+          <a class="dropdown-item" href="/user/profile">My profile</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/user/logout">Logout</a>
+        </li>
+      </ul>
           
           
     {{else}}
-      <a href="/user/login" class="book-a-table-btn scrollto">Login</a>
+      {{!-- <a href="/user/login" class="book-a-table-btn scrollto">Login</a> --}}
+         <!-- Avatar -->
+      <a
+        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+        href="#"
+        id="navbarDropdownMenuLink"
+        role="button"
+        data-mdb-toggle="dropdown"
+        aria-expanded="false"
+        style="margin-left: 2%;"
+      >
+        <img
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+          class="rounded-circle"
+          height="30"
+          alt=""
+          loading="lazy"
+        />
+      </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="navbarDropdownMenuLink"
+      >
+        <li>
+          <a class="dropdown-item" href="/user/login">Login</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/user/register">Sign up (Customer)</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/user/registerOwner">Sign up (Restaurant Owner)</a>
+        </li>
+      </ul>
     {{/if}}
     </div>
   </header><!-- End Header -->

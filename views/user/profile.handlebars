@@ -130,7 +130,11 @@
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="profileimg" alt=""/>
           {{/if}}
             <div class="file filestyle btn btn-lg btn-primary" style="background-color: #35322d; color: #ffb03b">
+              {{#if user.profilepic}}
                 Change Photo
+              {{else}}
+                Add Photo
+              {{/if}}
                 <input type="file" id="userimg" name="userfile" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <input type="hidden" id="profileImg">
             </div>
