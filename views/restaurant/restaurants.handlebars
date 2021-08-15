@@ -79,7 +79,6 @@
         });
         var cuisines = document.getElementsByName("cuisine");
         console.log(cuisines)
-
         getRes()
         function getRes() {
             $.ajax({
@@ -136,7 +135,7 @@
                 </p>
             </div>
             <div class="card-img-overlay">
-                <i class="fas fa-circle" title="${match.queue >= 0 && match.queue <= 10 ? "Short" : "Long"} Queue" style="color:${match.queue >= 0 && match.queue <= 10 ? "green" : "red"}"></i>
+                <i class="fas fa-info-circle" title="Restaurant has a ${match.queue >= 0 && match.queue <= 10 ? "short" : "long"} queue currently" style="color:${match.queue >= 0 && match.queue <= 10 ? "green" : "red"}; text-shadow: 0 0 3px #FF0000;"></i>
             </div>
         </div>
     </a>

@@ -1,10 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-    .checked {
-        color: orange;
-    }
-
     .seat {
         height: 25px;
         width: 25px;
@@ -34,14 +30,9 @@
     }
 
     .centerText {
-        font-size: 25px;
-        text-align: center;
+        font-size: 20px;
         color: #bbb;
         cursor: pointer;
-    }
-
-    .centerText:hover {
-        color: #555;
     }
 
     .tableLayout {
@@ -49,7 +40,7 @@
     }
 
     .tableLayout td {
-        border: 1px dotted black;
+        border: 1px dashed black;
         padding: 0;
         margin: 0;
     }
@@ -73,27 +64,7 @@
 
     .color {
         border: 3px solid #ccc;
-    }
-
-    .color input {
-        position: absolute;
-        top: 60px;
-        left: 20px;
-        width: 14px;
-        height: 14px;
-        border: 0;
-    }
-
-    .colorpicker :hover {
-        border: 3px solid black;
-    }
-
-    .colorpicker_submit {
-        color: white;
-    }
-
-    .colorpicker {
-        z-index: 20;
+        background-color: white;
     }
 
     .selected {
@@ -101,22 +72,16 @@
         color: black;
     }
 
+    .selected i{
+        color: black;
+    }
+
     .legendBorder {
         padding: 20px;
     }
 
-    .legendBorder legend {
-        display: block;
-        padding-inline-start: 2px;
-        padding-inline-end: 2px;
-    }
-
     .tableTab {
         padding: 50px;
-    }
-
-    .tableTab>table {
-        margin: auto;
     }
 </style>
 
@@ -143,7 +108,8 @@
                             id="table-1">1</button>
                     </span>
                     <span id="add-button">
-                        <button title="Click to add a table" id="add-table" type="button">+</button>
+                        <button class="btn btn-floating" title="Click to add a table" id="add-table" type="button"><i
+                                class="fas fa-plus"></i></button>
                     </span>
                 </fieldset>
             </div>
@@ -155,17 +121,22 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div title="Table" class="color red selected col-4 btn" data-class="square">
-                            <div class="square center"></div><input type="text">
+                        <div class="col-4">
+                            <div title="Table" class="color selected btn" data-class="square">
+                                <i class="fas fa-square centerText"></i>
+                            </div>
                         </div>
-                        <div title="Seat" class="color green col-4 btn" data-class="seat">
-                            <div class="seat center"></div><input type="text">
+                        <div class="col-4">
+                            <div title="Seat" class="color btn" data-class="seat">
+                                <i class="fas fa-circle centerText"></i>
+                            </div>
                         </div>
-                        <div title="Eraser" class="color eraser col-4 btn" data-class="eraser">
-                            <div class="fas fa-eraser center centerText"></div>
+                        <div class="col-4">
+                            <div title="Eraser" class="color btn" data-class="eraser">
+                                <i class="fas fa-eraser centerText"></i>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <br>
@@ -173,7 +144,6 @@
                 <!-- Button trigger modal -->
                 <button class="btn btn-danger btn-block" type="button" data-mdb-toggle="modal"
                     data-mdb-target="#clearAllModal">Clear All<i class="fas fa-trash-alt"></i></button>
-
                 <!-- Modal -->
                 <div class="modal fade" id="clearAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
