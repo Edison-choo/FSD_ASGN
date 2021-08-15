@@ -16,6 +16,17 @@ const ensureAuthenticated = require('../helpers/auth');
 
 router.get('/viewBookings/:res_name', ensureAuthenticated, (req, res) => {
     res_name_id = req.params.res_name;
+    Booking.destroy({
+        where: {
+            [Op.and]: [{ confirm: 0 },
+                {
+                    date: {
+                        [Op.lt]: Date()
+                    }
+                }
+            ]
+        }
+    })
     Booking.findAll({
             where: { res_name: res_name_id }
         }).then(booking => {

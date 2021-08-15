@@ -15,6 +15,7 @@ const { username } = require('../config/db');
 const Order = require("../models/order");
 const Menu = require("../models/menu");
 
+
 router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
     res_name = req.params.res_name;
     Restaurant.findOne({ where: { res_name: res_name } });
@@ -59,6 +60,18 @@ router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
 
 router.get('/bookingDetailsList/:email', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
+
+    Booking.destroy({
+        where: {
+            [Op.and]: [{ confirm: 0 },
+                {
+                    date: {
+                        [Op.lt]: Date()
+                    }
+                }
+            ]
+        }
+    })
     Booking.findAll({
             where: { email: email_id }
         }).then(booking => {
@@ -205,7 +218,7 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
                 }
             })
             .then((booking) => {
-                if (booking) {
+                if (booking && booking.confirm == 0) {
                     res.render("bookingInterface/bookForm", {
                         error: booking.email + "has already booked a slot at " + booking.res_name,
                         date,
