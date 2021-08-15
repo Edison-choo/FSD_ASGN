@@ -1,6 +1,9 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link href="/vendor/jqueryui/jquery-ui.css" rel="stylesheet">
+<link href="/vendor/jqueryui/jquery-ui.structure.css" rel="stylesheet">
+<link href="/vendor/jqueryui/jquery-ui.theme.css" rel="stylesheet">
 <style>
     .backTheme {
         background-color: #35322d;
@@ -53,10 +56,32 @@
         <br>
         <table class="table table-dark table-hover tblTheme">
             <tr>
-                <th>Location:</th>
+                <th>Name:</th>
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="name" class="form-control rounded" name="name" value="{{name}}"
+                            placeholder="Restaurant Name" required />
+                        <button type="button" class="btn btn-outline-primary" onclick="getLogo()">Get Restaurant
+                            Info <i class="fas fa-info-circle"></i></button>
+                    </div>
+                    <p id="resError" style="display: none; color:red;"><i class="fas fa-exclamation-circle"></i> Did not
+                        find your
+                        restaurant!</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Address:</th>
                 <td>
                     <div class="form-group">
-                        <input type="text" name="address" class="form-control" value="{{restaurant.address}}">
+                        <input type="text" name="address" id="address" class="form-control" value="{{restaurant.address}}" required>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Unit Number:</th>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="unit" id="unit" class="form-control" value="{{restaurant.unit}}" required>
                     </div>
                 </td>
             </tr>
@@ -65,7 +90,7 @@
                 <td>
                     <div class="form_group">
                         <input type='time' name="open_time" class="form-control" id="open_time"
-                            value="{{restaurant.open_time}}" />
+                            value="{{restaurant.open_time}}" required />
                     </div>
                 </td>
             </tr>
@@ -74,14 +99,14 @@
                 <td>
                     <div class="form-group">
                         <input type='time' name="close_time" class="form-control" id="close_time"
-                            value="{{restaurant.close_time}}" />
+                            value="{{restaurant.close_time}}" required />
                     </div>
                 </td>
             </tr>
             <tr>
                 <th>Cuisine:</th>
                 <td>
-                    <select class="form-select" id="cuisine" name="cuisine">
+                    <select class="form-select" id="cuisine" name="cuisine" required>
                         <option value="Western" {{restaurant.western}}>Western</option>
                         <option value="Mexican" {{restaurant.mexican}}>Mexican</option>
                         <option value="Thai" {{restaurant.thai}}>Thai</option>
@@ -102,8 +127,8 @@
                     <div class="row">
                         <div class="col-1">Less than</div>
                         <div class="range col-10">
-                            <input type="range" class="form-range" min="10" max="100" step="10" id="price"
-                                name="price" value="{{restaurant.price}}"/>
+                            <input type="range" class="form-range" min="10" max="100" step="10" id="price" name="price"
+                                value="{{restaurant.price}}" required />
                         </div>
                         <div class="col-1" style="text-align: right;">More than</div>
                     </div>
@@ -120,10 +145,11 @@
                 </td>
             </tr>
             <tr>
-                <th>Email:</th>
+                <th>Website:</th>
                 <td>
                     <div class="form-group">
-                        <input type="email" class="form-control" name="comp_email" value="{{restaurant.comp_email}}">
+                        <input type="url" class="form-control" name="website" value="{{restaurant.website}}"
+                            id="website">
                     </div>
                 </td>
             </tr>
@@ -131,7 +157,7 @@
                 <th>Phone:</th>
                 <td>
                     <div class="form-group">
-                        <input type="number" class="form-control" name="phone" value="{{restaurant.phone}}">
+                        <input type="number" class="form-control" name="phone" value="{{restaurant.phone}}" required>
                     </div>
                 </td>
             </tr>
@@ -166,8 +192,28 @@
 </div>
 
 
-
+<script src="/vendor/jqueryui/jquery-ui.js"></script>
 <script>
+    function getLogo() {
+        const name = document.getElementById("name").value;
+        const imageURL = document.getElementById("iconURL");
+        const image = document.getElementById("icon");
+        const website = document.getElementById("website")
+        fetch("https://autocomplete.clearbit.com/v1/companies/suggest?query=:" + name)
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data.length == 0) {
+                    console.log("No logo found!")
+                    $("#resError").css("display", "inline")
+                } else {
+                    imageURL.value = data[0].logo;
+                    image.src = data[0].logo;
+                    website.value = "https://" + data[0].domain;
+                }
+            }
+            )
+    }
     $(function () {
         $("#halalCheckBox").on("change", function () {
             if (document.getElementById("halalCheckBox").checked) {
@@ -200,4 +246,26 @@
             },
         });
     });
+    $("#address").keyup(function () {
+        let address = $("#address").val()
+
+        let addresses = fetch("https://developers.onemap.sg/commonapi/search?searchVal=" + address + "&returnGeom=N&getAddrDetails=Y&pageNum=1")
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data.found == 0) {
+                    console.log("No address found!")
+                } else {
+
+                    return data.results.map(a => a.ADDRESS)
+                }
+            }
+            )
+        addresses.then((addr) => {
+            $("#address").autocomplete({
+                source: addr
+            }, {});
+        })
+
+    })
 </script>

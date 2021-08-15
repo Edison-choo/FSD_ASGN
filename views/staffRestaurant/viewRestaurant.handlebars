@@ -22,7 +22,8 @@
     th {
         color: #ffb03b;
     }
-    td{
+
+    td {
         text-align: right;
     }
 
@@ -66,8 +67,16 @@
 
     <table class="table table-dark table-hover tblTheme">
         <tr>
-            <th>Location:</th>
+            <th>Name:</th>
+            <td>{{restaurant.name}}</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
             <td>{{restaurant.address}}</td>
+        </tr>
+        <tr>
+            <th>Unit Number:</th>
+            <td>{{restaurant.unit}}</td>
         </tr>
         <tr>
             <th>Opening Time:</th>
@@ -88,8 +97,9 @@
             </td>
         </tr>
         <tr>
-            <th>Email:</th>
-            <td>{{restaurant.comp_email}}</td>
+            <th>Website:</th>
+            <td>{{#if restaurant.website}}<a class="linkTheme"
+                    href="{{restaurant.website}}">{{restaurant.website}}</a>{{else}}None{{/if}}</td>
         </tr>
         <tr>
             <th>Phone:</th>
@@ -114,7 +124,7 @@
             <td>{{#if restaurant.instagram}}<a class="linkTheme"
                     href="{{restaurant.instagram}}">{{restaurant.instagram}}</a>{{else}}None{{/if}}</td>
         </tr>
-        
+
     </table>
     <a href="/staffRestaurant/editRestaurant" class="btn FDefaultButton btn-rounded center">Edit Restaurant</a>
 </div>

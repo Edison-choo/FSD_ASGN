@@ -61,7 +61,9 @@ router.post(
     // Retrieves fields from register page from request body
     let {
       address,
-      comp_email,
+      unit,
+      name,
+      website,
       phone,
       cuisine,
       open_time,
@@ -74,14 +76,14 @@ router.post(
       iconURL,
     } = req.body;
 
-    //Email validation
-    if (!emailValidator.validate(comp_email)) {
-      errors.push({ text: "Email is invalid!" });
-    }
-
     //Phone validation
     if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
       errors.push({ text: "Phone is invalid!" });
+    }
+
+    //Unit number validation
+    if(!unit.match(/([-#0-9])/)){
+      errors.push({ text: "Unit Number is invalid!" });
     }
 
     //Facebook url validation
@@ -103,7 +105,9 @@ router.post(
       res.render("staffRestaurant/createRestaurant", {
         errors,
         address,
-        comp_email,
+        unit,
+        name,
+        website,
         phone,
         cuisine,
         open_time,
@@ -116,54 +120,32 @@ router.post(
         iconURL,
       });
     } else {
-      //Check if address is already used
-      Restaurant.findOne({
-        where: { address: address },
-      })
+      Restaurant.update(
+        {
+          staffid: req.user.id,
+          name: name,
+          website: website,
+          address: address,
+          unit: unit,
+          phone: phone,
+          cuisine: cuisine,
+          open_time: open_time,
+          close_time: close_time,
+          price: price,
+          halal: halal,
+          facebook: facebook,
+          twitter: twitter,
+          instagram: instagram,
+          image: iconURL,
+        },
+        {
+          where: {
+            res_name: res_name,
+          },
+        }
+      )
         .then((restaurant) => {
-          if (restaurant) {
-            res.render("staffRestaurant/createRestaurant", {
-              error: address + " is already in use...",
-              comp_email,
-              phone,
-              cuisine,
-              open_time,
-              close_time,
-              price,
-              halal,
-              facebook,
-              twitter,
-              instagram,
-              iconURL,
-            });
-          } else {
-            Restaurant.update(
-              {
-                comp_email: comp_email,
-                staffid: req.user.id,
-                address: address,
-                phone: phone,
-                cuisine: cuisine,
-                open_time: open_time,
-                close_time: close_time,
-                price: price,
-                halal: halal,
-                facebook: facebook,
-                twitter: twitter,
-                instagram: instagram,
-                image: iconURL,
-              },
-              {
-                where: {
-                  res_name: res_name,
-                },
-              }
-            )
-              .then((restaurant) => {
-                res.redirect("/staffRestaurant");
-              })
-              .catch((err) => console.log(err));
-          }
+          res.redirect("/staffRestaurant");
         })
         .catch((err) => console.log(err));
     }
@@ -200,24 +182,30 @@ router.post(
     let errors = [];
     let res_name = req.user.fname;
     let {
-      comp_name,
       address,
+      unit,
+      name,
+      website,
+      phone,
+      cuisine,
       open_time,
       close_time,
-      cuisine,
       price,
       halal,
-      comp_email,
-      phone,
       facebook,
       twitter,
       instagram,
       iconURL,
     } = req.body;
 
-    //Email validator
-    if (!emailValidator.validate(comp_email)) {
-      errors.push({ text: "Email is invalid!" });
+    //Website url validation
+    if (!urlValidator.isUri(website) && website !== "") {
+      errors.push({ text: "Website url is formatted incorrectly!" });
+    }
+    
+    //Unit number validation
+    if(!unit.match(/([-#0-9])/)){
+      errors.push({ text: "Unit Number is invalid!" });
     }
 
     //Phone validation
@@ -241,15 +229,16 @@ router.post(
     }
     if (errors.length > 0) {
       restaurant = {
-        comp_name: comp_name,
+        name: name,
+        website: website,
         address: address,
+        unit: unit,
+        phone: phone,
+        cuisine: cuisine,
         open_time: open_time,
         close_time: close_time,
-        cuisine: cuisine,
         price: price,
         halal: halal,
-        comp_email: comp_email,
-        phone: phone,
         facebook: facebook,
         twitter: twitter,
         instagram: instagram,
@@ -262,15 +251,16 @@ router.post(
     } else {
       Restaurant.update(
         {
-          comp_name: comp_name,
+          name: name,
+          website: website,
           address: address,
+          unit: unit,
+          phone: phone,
+          cuisine: cuisine,
           open_time: open_time,
           close_time: close_time,
-          cuisine: cuisine,
-          halal: halal,
           price: price,
-          comp_email: comp_email,
-          phone: phone,
+          halal: halal,
           facebook: facebook,
           twitter: twitter,
           instagram: instagram,
@@ -374,7 +364,7 @@ router.post(
         }
       )
         .then((restaurant) => {
-          res.json({restaurant});
+          res.json({ restaurant });
         })
         .catch((err) => console.log(err));
     }

@@ -1,3 +1,6 @@
+<link href="/vendor/jqueryui/jquery-ui.css" rel="stylesheet">
+<link href="/vendor/jqueryui/jquery-ui.structure.css" rel="stylesheet">
+<link href="/vendor/jqueryui/jquery-ui.theme.css" rel="stylesheet">
 <style>
     h1,
     h2,
@@ -39,41 +42,82 @@
     <ul class="nav">
         <li>
             <a class="nav-link" href="#step-1">
-                Enter Restaurant Details
+                Restaurant Display Information
             </a>
         </li>
         <li>
             <a class="nav-link" href="#step-2">
-                Enter Links For Socials
+                Restaurant Details
             </a>
         </li>
         <li>
             <a class="nav-link" href="#step-3">
-                Add Icon For Restaurant
+                Links For Socials
             </a>
         </li>
     </ul>
     <form action="/staffRestaurant/createRestaurant" method="post" id="createRestaurant">
         <div class="tab-content formTab">
-
             <div id="step-1" class="tab-pane" role="tabpanel">
+                <div>
+                    <div class="input-group">
+                        <input type="text" id="name" class="form-control rounded" name="name" value="{{name}}"
+                            placeholder="Restaurant Name" />
+                        <button type="button" class="btn btn-outline-primary" onclick="getLogo()">Get Restaurant
+                            Information <i class="fas fa-info-circle"></i></button>
+                    </div>
+                    <p id="resError" style="display: none; color:red;"><i class="fas fa-exclamation-circle"></i> Did not
+                        find your
+                        restaurant!</p>
+                    <br>
+                    <div class="form-outline">
+                        <input type="url" id="website" class="form-control" name="website" value="{{website}}" />
+                        <label class="form-label" for="website">Website <i class="fas fa-desktop"></i></label>
+                    </div>
+                    <p>*Leave blank if not applicable</p>
+                    <br>
+                    <input type="file" id="restaurantIcon" name="restaurantIcon"
+                        accept="image/png,image/jpeg,image/jpg,image/gif" style="display: none;">
+                    <input id="iconURL" type="hidden" name="iconURL" required>
+                    <label for="restaurantIcon" class="FDefaultTab imageUpload">
+                        <div>
+                            <img id="icon" src="/img/UploadFile.png" alt="" style="width: 300px;">
+                            <div class="instr">Select a file or drag here</div>
+                            <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
+                            <br>
+                            <span class="instr btn btn-primary">Select a file</span>
+                            <div class="fileName" style="display: none;"></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div id="step-2" class="tab-pane" role="tabpanel">
                 <!-- Company Phone -->
                 <div class="form-outline mb-4">
                     <input type="tel" id="phone" name="phone" class="form-control"
                         pattern="/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g" value="{{phone}}" required />
-                    <label class="form-label" for="phone">Public Company Phone Number</label>
-                </div>
-                <!-- Company Email -->
-                <div class="form-outline mb-4">
-                    <input type="email" id="comp_email" name="comp_email" class="form-control" value="{{comp_email}}"
-                        required />
-                    <label class="form-label" for="comp_email">Public Company Email</label>
+                    <label class="form-label" for="phone">Public Company Phone Number <i
+                            class="fas fa-phone"></i></label>
                 </div>
                 <!-- Address -->
-                <div class="form-outline mb-4">
-                    <input type="text" id="address" name="address" class="form-control" value="{{address}}" required />
-                    <label class="form-label" for="phone">Address</label>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-outline mb-4">
+                            <input type="text" id="address" name="address" class="form-control" autocomplete="off"
+                                value="{{address}}" required />
+                            <label class="form-label" for="address">Address <i
+                                    class="fas fa-map-marker-alt"></i></label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-outline mb-4">
+                            <input type="text" id="unit" name="unit" class="form-control" value="{{address}}"
+                                required />
+                            <label class="form-label" for="unit">Unit <i class="fas fa-hashtag"></i></label>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- Cuisine -->
                 <select class="form-select" id="cuisine" name="cuisine" required>
                     <option value="" disabled selected>Cuisine</option>
@@ -92,12 +136,12 @@
                 <!-- Opening and Closing Hours -->
                 <div class="form_group">
                     <label for="open_time">Opening Hours:</label>
-                    <input type='time' name="open_time" class="form-control" value="{{open_time}}" />
+                    <input type='time' name="open_time" class="form-control" value="{{open_time}}" required />
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="close_time">Closing Hours:</label>
-                    <input type='time' name="close_time" class="form-control" value="{{close_time}}" />
+                    <input type='time' name="close_time" class="form-control" value="{{close_time}}" required />
                 </div>
                 <br>
                 <!-- Price -->
@@ -105,7 +149,7 @@
                 <div class="row">
                     <div class="col-1">Less than</div>
                     <div class="range col-10">
-                        <input type="range" class="form-range" min="10" max="100" step="10" id="price" name="price" />
+                        <input required type="range" class="form-range" min="10" max="100" step="10" id="price" name="price" />
                     </div>
                     <div class="col-1" style="text-align: right;">More than</div>
                 </div>
@@ -118,7 +162,7 @@
                     </label>
                 </div>
             </div>
-            <div id="step-2" class="tab-pane" role="tabpanel">
+            <div id="step-3" class="tab-pane" role="tabpanel">
                 <!-- Facebook Link -->
                 <div class="form-outline mb-4">
                     <input type="url" id="facebook" name="facebook" class="form-control" value="{{facebook}}" />
@@ -134,27 +178,11 @@
                 </div>
                 <p>*Leave blank if not applicable</p>
             </div>
-            <div id="step-3" class="tab-pane" role="tabpanel">
-                <div>
-                    <input type="file" id="restaurantIcon" name="restaurantIcon"
-                        accept="image/png,image/jpeg,image/jpg,image/gif" style="display: none;">
-                    <input id="iconURL" type="hidden" name="iconURL" required>
-                    <label for="restaurantIcon" class="FDefaultTab imageUpload">
-                        <div>
-                            <img id="icon" src="/img/UploadFile.png" alt="" style="width: 300px;">
-                            <div class="instr">Select a file or drag here</div>
-                            <div class="font-weight-bold text-danger small" id="iconErr" style="display:none"></div>
-                            <br>
-                            <span class="instr btn btn-primary">Select a file</span>
-                            <div class="fileName" style="display: none;"></div>
-                        </div>
-                    </label>
-                </div>
-            </div>
         </div>
     </form>
 </div>
 
+<script src=""></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
@@ -163,7 +191,7 @@
     type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"
     type="text/javascript"></script>
-
+<script src="/vendor/jqueryui/jquery-ui.js"></script>
 <script>
     $("#restaurantIcon").on("change", function () {
         $(".instr").css("display", "none")
@@ -198,6 +226,52 @@
             },
         });
     });
+
+    function getLogo() {
+        const name = document.getElementById("name").value;
+        const imageURL = document.getElementById("iconURL");
+        const image = document.getElementById("icon");
+        const website = document.getElementById("website")
+        fetch("https://autocomplete.clearbit.com/v1/companies/suggest?query=:" + name)
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data.length == 0) {
+                    console.log("No logo found!")
+                    $("#resError").css("display", "inline")
+                } else {
+                    $("#resError").css("display", "none")
+                    imageURL.value = data[0].logo;
+                    image.src = data[0].logo;
+                    website.value = "https://" + data[0].domain;
+                }
+            }
+            )
+    }
+    $("#address").keyup(function () {
+        let address = $("#address").val()
+
+        let addresses = fetch("https://developers.onemap.sg/commonapi/search?searchVal=" + address + "&returnGeom=N&getAddrDetails=Y&pageNum=1")
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data.found == 0) {
+                    console.log("No address found!")
+                } else {
+
+                    return data.results.map(a => a.ADDRESS)
+                }
+            }
+            )
+        addresses.then((addr) => {
+            $("#address").autocomplete({
+            source: addr
+        }, {});
+        })
+        
+    })
+
+
 
     $(function () {
         $('#smartwizard').smartWizard({
