@@ -14,6 +14,11 @@ const ensureAuthenticated = require('../helpers/auth');
 const { username } = require('../config/db');
 const Order = require("../models/order");
 const Menu = require("../models/menu");
+const sgMail = require('@sendgrid/mail');
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
@@ -238,6 +243,7 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
                             date: date,
                             pax: pax
                         }).then(booking => {
+                            
                             req.session.booking = booking
                             res.redirect('/bookingInterface/bookingDetails/' + email + '/' + res_name);
                         })
@@ -249,5 +255,59 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
     }
 
 });
+
+router.get('/sendEmail', (req, res) => {
+    var msg = `
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <div class="col-md-2"></div>
+  <div class="col-md-8" style='width:60%; margin:0px auto; border:1px solid grey;'>
+      <div class="receipt" style="margin: 20px 0 30px;box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;padding: 10px 20px;padding: 30px 30px 50px;">
+          <img src="https://images.freeimages.com/images/large-previews/99f/green-tick-in-circle-1147519.jpg" alt="" style="height: 150px;
+          width: 150px;
+          margin: 10px auto 40px;
+          display: block;">
+          <div>
+              <div class="receiptTitle" style="text-align: center;font-size: 1.4em;font-weight: bold;margin-bottom: 40px;">Payment is successful</div>
+              <div style="text-align: center;">
+                  Thanks for your purchase. See you there
+              </div>
+          </div>
+          <div>
+              <div class="receiptSubTitle" style="text-align: center;padding-bottom: 3px;border-bottom: #35322d solid 2px;font-weight: 600;margin: 30px auto 20px;">Booking details</div>
+              <table class="bookTable bookTable1" style="border-collapse: collapse !important;width: 95%; margin: 10px auto;">
+                  <tr>
+                      <td style='font-weight: bold;'>Restaurant:</td>
+                      <td style='text-align: right;'>${req.session.booking.res_name}</td>
+                  </tr>
+                  <tr>
+                      <td style='font-weight: bold;'>Booking Date:</td>
+                      <td style='text-align: right;'>${req.session.booking.date}</td>
+                  </tr>
+                  <tr>
+                      <td style='font-weight: bold;'>Booking Time:</td>
+                      <td style='text-align: right;'>${req.session.booking.timing}</td>
+                  </tr>
+                  <tr>
+                      <td style='font-weight: bold;'>Pax:</td>
+                      <td style='text-align: right;'>${req.session.booking.pax}</td>
+                  </tr>
+              </table>
+              </div>
+              </div>
+              <div class="col-md-2">
+              </div>
+              </div>`;
+    const message = {
+    to: req.session.booking.email,
+    from: 'donotreply.foodecent@gmail.com',
+    subject: 'Booking receipt',
+    text: "Booking receipt",
+    html: `${msg}`
+    }
+    sgMail.send(message)
+    .then((response) => console.log("Email sent..."))
+    .catch((error) => console.log(error.message));
+    res.redirect('/');
+}) 
 
 module.exports = router;

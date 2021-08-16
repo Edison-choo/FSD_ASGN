@@ -652,28 +652,28 @@ $(function() {
 });
 
 // delete food from cart
-$(function() {
-  $("#deleteFood").on('click', function(e) {
-    e.preventDefault();
-    console.log("deleting food to cart...");
-    let paraId = $("#deleteFood").attr("href").substring(13);
-    id = paraId.replace('/', '-');
-    console.log(paraId);
-    $.ajax({
-        url: '/book/delete/'+paraId,
-        type: "GET",
-        dataType: 'json',
-        success: (data) => {
-          if ('success' in data) {
-            $(`#${id}`).remove();
-            $("#error").hide();
-            $(".successNoti span").text(data.success);
-            $(".successNoti").css('display', 'flex');
-          }
-        }
-    });
-  })
-});
+// $(function() {
+//   $("#deleteFood").on('click', function(e) {
+//     e.preventDefault();
+//     console.log("deleting food to cart...");
+//     let paraId = $("#deleteFood").attr("href").substring(13);
+//     id = paraId.replace('/', '-');
+//     console.log(paraId);
+//     $.ajax({
+//         url: '/book/delete/'+paraId,
+//         type: "GET",
+//         dataType: 'json',
+//         success: (data) => {
+//           if ('success' in data) {
+//             $(`#${id}`).remove();
+//             $("#error").hide();
+//             $(".successNoti span").text(data.success);
+//             $(".successNoti").css('display', 'flex');
+//           }
+//         }
+//     });
+//   })
+// });
 
 
 // create data table for menu

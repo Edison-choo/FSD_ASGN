@@ -13,14 +13,18 @@ const Restaurant = require("../models/restaurants");
 const Order = require("../models/order");
 const axios = require('axios');
 
+
 // Required for file upload
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
 const { data } = require("jquery");
 const { EINPROGRESS } = require("constants");
 const sgMail = require('@sendgrid/mail');
-const API_Key = "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";
-sgMail.setApiKey(API_Key);
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -74,9 +78,9 @@ router.get("/addMenu", (req, res) => {
 
 router.post('/test', (req, res) => {
   var msg = `
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><div class="row">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <div class="col-md-2"></div>
-  <div class="col-md-8" style='width:50%; margin:0px auto; border:1px solid black;'>
+  <div class="col-md-8" style='width:60%; margin:0px auto; border:1px solid grey;'>
       <div class="receipt" style="margin: 20px 0 30px;box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;padding: 10px 20px;padding: 30px 30px 50px;">
           <img src="https://images.freeimages.com/images/large-previews/99f/green-tick-in-circle-1147519.jpg" alt="" style="height: 150px;
           width: 150px;
@@ -127,7 +131,7 @@ router.post('/test', (req, res) => {
               </thead>
               <tbody>`;
   // let cart = order.food.map((c) => parseInt(c.id));
-  Order.findOne({ where: { id: 1 } })
+  Order.findOne({ where: { id: 6 } })
         .then((order) => {
             if (order) {
                 order.food = JSON.parse(order.food);
@@ -174,27 +178,28 @@ router.post('/test', (req, res) => {
                 vertical-align:text-top;
                 padding-bottom: 10px;">${(menus[k].price + order.food[i].orders[j].additional) * order.food[i].orders[j].quantity}</td>
                 </tr>
-                </tbody>
-              </table>
-              <div style="margin-left:10px; font-size:0.95em;">Total: ${order.total}</div>
-              <div style="margin-left:10px; font-size:0.95em;">Remarks: ${order.remark}</div>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-2">
-  </div>
-</div>
                 `
               }
             }
           }
         }
+        msg += `</tbody>
+        </table>
+        <div style="margin-left:10px; font-size:0.95em;">Total: ${order.total}</div>
+        <div style="margin-left:10px; font-size:0.95em;">Remarks: ${order.remarks}</div>
+    </div>
+</div>
+</div>
+<div class="col-md-2">
+</div>
+</div>`;
+        // console.log(msg);
   const message = {
     to: 'edisonchoo234@gmail.com',
-    from: 'foodecent.donotreply@gmail.com',
-    subject: 'Booking receipt',
-    text: "Booking receipt",
-    html: msg
+    from: 'donotreply.foodecent@gmail.com',
+    subject: 'New password',
+    text: "New Password",
+    html: `${msg}`
   }
   sgMail.send(message)
   .then((response) => console.log("Email sent..."))
