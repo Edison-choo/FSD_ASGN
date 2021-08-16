@@ -106,7 +106,6 @@
         return array
     }
     function buildGrid(cols, rows) {
-
         var tableMarkup = "";
         vert = 'abcdefghijklmnopqr'
         for (x = 0; x < rows; x++) {
@@ -116,9 +115,7 @@
             }
             tableMarkup += "</tr>";
         }
-
         $("#drawing-table").html(tableMarkup)
-
     };
     $(function () {
         // Variable Setup

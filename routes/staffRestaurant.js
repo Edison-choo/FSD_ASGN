@@ -4,7 +4,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const alertMessage = require("../helpers/messenger");
 const Restaurant = require("../models/restaurants");
-const emailValidator = require("email-validator");
+const TableLayout = require("../models/tableStatus");
 const urlValidator = require("valid-url");
 const fs = require("fs");
 const upload = require("../helpers/imageUpload");
@@ -13,11 +13,6 @@ const moment = require("moment");
 const { queue } = require("jquery");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-//Page if restaurant page not created
-router.get("/", ensureAuthenticated, (req, res) => {
-  res.render("staffRestaurant/start");
-});
 
 //Create Restaurant Page
 router.get("/createRestaurant", ensureAuthenticated, (req, res) => {
@@ -57,7 +52,6 @@ router.post(
   (req, res) => {
     let res_name = req.user.fname;
     let errors = [];
-
     // Retrieves fields from register page from request body
     let {
       address,
@@ -76,14 +70,29 @@ router.post(
       iconURL,
     } = req.body;
 
+    //Address validation
+    if (!address.match(/(\d{1,3}.)?.+\s(\d{6})$/)) {
+      errors.push({ text: "Phone is invalid!" });
+    }
+
+    //Unit number validation
+    if (!unit.match(/([-#0-9])/)) {
+      errors.push({ text: "Unit Number is invalid!" });
+    }
+
     //Phone validation
     if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
       errors.push({ text: "Phone is invalid!" });
     }
 
-    //Unit number validation
-    if(!unit.match(/([-#0-9])/)){
-      errors.push({ text: "Unit Number is invalid!" });
+    //Website url validation
+    if (!urlValidator.isUri(website) && website !== "") {
+      errors.push({ text: "Website url is formatted incorrectly!" });
+    }
+
+    //Price validation
+    if (!(10 <= price <= 100)) {
+      errors.push({ text: "Price is entered incorrectly!" });
     }
 
     //Facebook url validation
@@ -145,13 +154,14 @@ router.post(
         }
       )
         .then((restaurant) => {
-          res.redirect("/staffRestaurant");
+          res.redirect("/");
         })
         .catch((err) => console.log(err));
     }
   }
 );
 
+// Cuisine select value pass in
 function checkOptions(restaurant) {
   restaurant.western =
     restaurant.cuisine.search("Western") >= 0 ? "selected" : "";
@@ -173,7 +183,7 @@ function checkOptions(restaurant) {
   restaurant.local = restaurant.cuisine.search("Local") >= 0 ? "selected" : "";
 }
 
-//Put for edit restaurant
+//Post for edit restaurant
 router.post(
   "/editRestaurant",
   urlencodedParser,
@@ -198,19 +208,29 @@ router.post(
       iconURL,
     } = req.body;
 
-    //Website url validation
-    if (!urlValidator.isUri(website) && website !== "") {
-      errors.push({ text: "Website url is formatted incorrectly!" });
+    //Address validation
+    if (!address.match(/(\d{1,3}.)?.+\s(\d{6})$/)) {
+      errors.push({ text: "Phone is invalid!" });
     }
-    
+
     //Unit number validation
-    if(!unit.match(/([-#0-9])/)){
+    if (!unit.match(/([-#0-9])/)) {
       errors.push({ text: "Unit Number is invalid!" });
     }
 
     //Phone validation
     if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
       errors.push({ text: "Phone is invalid!" });
+    }
+
+    //Website url validation
+    if (!urlValidator.isUri(website) && website !== "") {
+      errors.push({ text: "Website url is formatted incorrectly!" });
+    }
+
+    //Price validation
+    if (!(10 <= price <= 100)) {
+      errors.push({ text: "Price is entered incorrectly!" });
     }
 
     //Facebook url validation
@@ -227,6 +247,7 @@ router.post(
     if (!urlValidator.isUri(instagram) && instagram !== "") {
       errors.push({ text: "Instagram url is formatted incorrectly!" });
     }
+
     if (errors.length > 0) {
       restaurant = {
         name: name,
@@ -285,6 +306,7 @@ router.get("/createLayout", (req, res) => {
   res.render("staffRestaurant/createLayout");
 });
 
+//Post for create layout page
 router.post(
   "/createLayout",
   urlencodedParser,
@@ -300,6 +322,7 @@ router.post(
     if (square.length == 0) {
       errors.push({ text: "No Tables!" });
     }
+
     if (errors.length > 0) {
       res.render("staffRestaurant/createLayout", {
         errors,
@@ -329,6 +352,7 @@ router.post(
   }
 );
 
+//Get for seat manager page
 router.get("/seatManager", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
@@ -336,6 +360,7 @@ router.get("/seatManager", ensureAuthenticated, (req, res) => {
   });
 });
 
+//Async post for seat manager page
 router.post(
   "/seatManager",
   urlencodedParser,
@@ -363,14 +388,25 @@ router.post(
           },
         }
       )
-        .then((restaurant) => {
-          res.json({ restaurant });
-        })
+        .then(
+          TableLayout.create(
+            {
+
+            },
+            {
+              where:{
+                res_name: res_name,
+              },
+            }).then((restaurant) => {
+            res.json({ restaurant });
+          })
+        )
         .catch((err) => console.log(err));
     }
   }
 );
 
+//Async image upload for restaurant logo
 router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   // Creates user id directory for upload if not exist
   if (!fs.existsSync("./public/uploads/resIcon/" + req.user.id)) {
@@ -391,6 +427,7 @@ router.post("/upload", urlencodedParser, ensureAuthenticated, (req, res) => {
   });
 });
 
+//Get for view layout page
 router.get("/viewLayout", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
@@ -398,6 +435,7 @@ router.get("/viewLayout", ensureAuthenticated, (req, res) => {
   });
 });
 
+//Get for edit layout page
 router.get("/editLayout", ensureAuthenticated, (req, res) => {
   let res_name = req.user.fname;
   Restaurant.findOne({ where: { res_name: res_name } }).then((layouts) => {
@@ -405,6 +443,7 @@ router.get("/editLayout", ensureAuthenticated, (req, res) => {
   });
 });
 
+//Post for edit layout page
 router.post(
   "/editLayout",
   urlencodedParser,

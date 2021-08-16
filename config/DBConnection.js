@@ -8,6 +8,7 @@ const users = require("../models/user");
 const order = require("../models/order");
 const creditcard = require("../models/creditcard")
 const ChatBot = require("../models/chatbot")
+const tableStatus = require("../models/tableStatus");
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
