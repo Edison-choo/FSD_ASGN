@@ -688,7 +688,6 @@ $(function() {
       $(".foodRow tr").eq(i).css('display', 'none');
     }
   })
-  console.log(count);
     for (i=0;i<count/5;i++) {
       if (i == 0){
         addingHtml += `
