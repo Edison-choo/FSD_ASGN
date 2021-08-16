@@ -1,6 +1,10 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+</script>
+
 <div class="FDefaultTab regForm">
     <h5>Register (Customer)</h5>
-  <form method="POST" action="/user/registerUser">
+  <form id="formRegister" method="POST" action="/user/registerUser"> 
     <!-- 2 column grid layout with text inputs for the first and last names -->
     <div class="row mb-4">
       <div class="col">
@@ -42,8 +46,13 @@
       <label class="form-label" for="cpassword">Confirm Password</label>
     </div>
 
+    {{!-- Recaptcha --}}
+    {{!-- <div class="g-recaptcha" data-sitekey="6LfctQMcAAAAALyf_NdKIuVd7nAaFy3_XtXbJ_hS"></div> --}}
+
+    <br>
+
     <!-- Submit button -->
-    <button type="submit" class="FDefaultButton regBtn btn btn-primary btn-lg btn-block">Sign Up</button>
+    <input type="submit" class="FDefaultButton regBtn btn btn-primary btn-lg btn-block" value="Sign Up">
 
     <!-- Register buttons -->
     <div class="text-center">
@@ -55,3 +64,34 @@
     </div>
   </form>
 </div>
+
+<script>
+  /*
+  document.getElementById("formRegister").addEventListener("submit", submitForm);
+
+  function submitForm(e){
+    e.preventDefault()
+    
+    const fname = document.querySelector("#fname").value;
+    const lname = document.querySelector("#lname").value;
+    const email = document.querySelector("#email").value;
+    const phone = document.querySelector("#phone").value;
+    const password = document.querySelector("#password").value;
+    const cpassword = document.querySelector("#cpassword").value;
+    const captcha = document.querySelector("#g-recaptcha-response").value;
+  
+    fetch("/user/registerUser", {
+      method: "POST",
+      headers:{
+        "Accept": "application/json, text/plain, *//*",
+        "Content-type": "application/json"
+      },
+       body: JSON.stringify({fname: fname, lname: lname, email: email, phone: phone, password: password, cpassword: cpassword, captcha: captcha})
+     })
+     .then((res) => res.json())
+     .then((data) => {
+       console.log(data)
+     });
+  }
+*/
+</script>

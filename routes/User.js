@@ -19,8 +19,11 @@ var valid = require("card-validator");
 const { Sequelize } = require('sequelize');
 const op = Sequelize.Op;
 const sgMail = require("@sendgrid/mail");
-const API_Key = "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";
-sgMail.setApiKey(API_Key);
+const { request } = require('http');
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+  }
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.get('/login', (req, res) => {
 	res.render('user/login');
@@ -56,6 +59,30 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 
 	// prints date & time in YYYY-MM-DD format
 	let fulldate = year + "-" + month + "-" + date;
+
+	// if(
+	// 	req.body.captcha === undefined ||
+	// 	req.body.captcha === '' ||
+	// 	req.body.captcha === null
+	// ){
+	// 	errors.push({"text": "Please select captcha"});
+	// }
+
+	// const secretKey = "6LfctQMcAAAAAAlOxRt19QFw61ZtcdEkCpx5za4k";
+
+	// const verifyURL = `httpxs://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
+
+	// newBody = JSON.stringify({captcha: req.body.captcha});
+
+	// request(verifyURL, (err, response, body) => {
+	// 	body = JSON.parse(body);
+
+	// 	if(body.success !== undefined && !body.success){
+	// 		errors.push({"text": "Failed captcha verification"});
+	// 	}
+
+		
+	// })
 
     if(password != cpassword){
         errors.push({"text": "Password do not match"});
@@ -214,7 +241,7 @@ router.post('/changePassword', urlencodedParser, (req, res) => {
 				})})
 				const message = {
 					to: req.body.email,
-					from: 'foodecent.donotreply@gmail.com',
+					from: 'donotreply.foodecent@gmail.com',
 					subject: 'New password',
 					text: "New Password",
 					html: `Your new password is <b>${new_password}</b>`

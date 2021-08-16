@@ -39,6 +39,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "querystring": "^0.2.1",
+    "request": "^2.88.2",
     "sequelize": "^4.44.4",
     "smartwizard": "^5.1.1",
     "stripe": "^8.163.0",
