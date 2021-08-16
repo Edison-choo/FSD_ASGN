@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Promotions = require('../models/promotions');
 const Restaurant = require('../models/restaurants')
 const ensureAuthenticated = require('../helpers/auth');
+const Menu = require("../models/menu");
 
 //Home page
 router.get('/', (req, res) => {
@@ -54,6 +55,25 @@ router.post('/getcounter/:res_name/:id', (req, res) =>{
 	}res.redirect(`/bookingInterface/bookForm/${req.params.res_name}`)
 });
 
-
+router.get('/statistics', (req, res) => {
+	var types = [];
+	Menu.findAll({
+		where: { userId: req.user.id},
+	})
+		.then((menus) => {
+		if (menus) {
+			// menus.specifications = JSON.parse(menus.specifications);
+			menus.forEach((menu) => {
+			if (types.includes(menu.type) === false) {
+				types.push(menu.type);
+			}
+			});
+			types.sort();
+			res.render('statistics', {types})
+		}
+		})
+		.catch((err) => console.log(err));
+	
+});
 
 module.exports = router;
