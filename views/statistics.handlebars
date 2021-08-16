@@ -133,53 +133,16 @@
                 <div class="FDefaultTab menuSubGraph">
                     <div id="graphSubTitle" style="text-align: center; margin-bottom:0px;">Total Earnings</div>
                     <div id="totalEarnings" style="font-weight:600; font-size:3.0em; text-align:center;"></div>
-                    {{!-- <div class="form-group">
-                        <div class="form-check">
-                        <input class="form-check-input" onclick="graph2('')" type="radio" name="flexRadioDefault2" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            All time
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph2('2021')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            2021
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph2('2022')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            2022
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph2('2023')" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            2023
-                        </label>
-                    </div>
-                    </div> --}}
-                    {{!-- <input type="range" list="tickmarks"  step="10" style="width: 100%; color:black;">
-
-                    <datalist id="tickmarks"  style="width: 105%;">
-                        <option value="0" label="Jan"></option>
-                        <option value="10"></option>
-                        <option value="20"></option>
-                        <option value="30"></option>
-                        <option value="40" label="May"></option>
-                        <option value="50"></option>
-                        <option value="60"></option>
-                        <option value="70"></option>
-                        <option value="80"  label="Aug"></option>
-                        <option value="90"></option>
-                        <option value="100"></option>
-                        <option value="110" label="Dec"></option>
-                        <option value="120"></option>
-                    </datalist> --}}
                 </div>
                 <div class="FDefaultTab menuSubGraph">
-                    <div id="graphSubTitle">Month Picker</div>
-                    <select class="form-select monthPicker" aria-label="Default select example">
+                    <div id="graphSubTitle">Year & Month Picker</div>
+                    <select class="form-select yearPicker" aria-label="Default select example">
+                        <option value="">All Year</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                    </select>
+                    <select style="margin-top:20px;" class="form-select monthPicker" aria-label="Default select example">
                         <option value="">Whole Year</option>
                         <option value="Jan">January</option>
                         <option value="Feb">February</option>
@@ -532,7 +495,7 @@
         .catch(err => console.error(err));
     }
 
-    function graph3(month) {
+    function graph3(year, month) {
         incomeChart.destroy();
         fetch('/menu/getStatData', {
             headers: {
@@ -547,19 +510,37 @@
             const monthdays = {'Jan':31, 'Feb':28, "Mar":31, 'Apr':30, 'May':31, 'Jun':30, 'Jul':31, 'Aug':31, 'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31}
             var days = []
             if (month != '') {
-                for (i=1;i<monthdays[month]+1;i++) {
-                
-                    days.push(i)
-                    dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == '2021' && parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
-                        return x + y.total
-                    },0));
+                if (year != '') {
+                    for (i=1;i<monthdays[month]+1;i++) {
+                        days.push(i)
+                        dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == year && parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
+                            return x + y.total
+                        },0));
+                    }
+                } else {
+                    for (i=1;i<monthdays[month]+1;i++) {
+                        days.push(i)
+                        dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
+                            return x + y.total
+                        },0));
+                    }
                 }
+                
             } else {
-                days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                for (i=1;i<13;i++) {
-                    dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
-                        return x + y.total
-                    },0));
+                if (year != '') {
+                    days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    for (i=1;i<13;i++) {
+                        dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == year && parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                            return x + y.total
+                        },0));
+                    }
+                } else {
+                    days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    for (i=1;i<13;i++) {
+                        dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                            return x + y.total
+                        },0));
+                    }
                 }
             }
             const dataStat2 = {
@@ -571,6 +552,7 @@
                     data: dataList2,
                 }]
             };
+            year = year == '' ? 'all year' : year
             const config2 = {
                 type: 'line',
                 data: dataStat2,
@@ -579,7 +561,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: days.length === 12 ? 'Money earned monthly in 2021' : `Money earned in ${month}`
+                            text: days.length === 12 ? `Money earned monthly in ${year}` : `Money earned during ${month} in ${year}`
                         }
                     },
                     scales: {
@@ -602,7 +584,11 @@
     });
 
     $('.monthPicker').on('change', () => {
-        graph3($('.monthPicker').val())
+        graph3($('.yearPicker').val(), $('.monthPicker').val())
+    });
+
+    $('.yearPicker').on('change', () => {
+        graph3($('.yearPicker').val(), $('.monthPicker').val())
     });
 
     
