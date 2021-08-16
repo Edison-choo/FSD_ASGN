@@ -44,28 +44,19 @@
                 </div>
                 <div class="FDefaultTab menuSubGraph">
                     <div id="graphSubTitle">Type Picker</div>
-                    <div class="form-group">
-                        <div class="form-check">
-                        <input class="form-check-input" onclick="graph1('')" type="radio" name="flexRadioDefault1" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            All type
-                        </label>
-                    </div>
-                    {{#each types}}
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph1('{{this}}')" type="radio" name="flexRadioDefault1" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            {{this}}
-                        </label>
-                    </div>
-                    {{/each}}
+                    <select class="form-select typePicker" aria-label="Default select example">
+                        <option value="">All Types</option>
+                        {{#each types}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
                 </div>
             </div>
         </div>
         <hr style="margin-top: 50px;">
         
         
-    </div>
+    
     <div class="row" style="margin-top: 25px;">
             <div class="col-md-8">
                 <div class="FDefaultTab menuGraph">
@@ -74,7 +65,8 @@
             </div>
             <div class="col-md-4">
                 <div class="FDefaultTab menuSubGraph">
-                    <div id="graphSubTitle">Month Picker</div>
+                    <div id="graphSubTitle" style="text-align: center; margin-bottom:0px;">Total Earnings</div>
+                    <div id="totalEarnings" style="font-weight:600; font-size:3.0em; text-align:center;"></div>
                     {{!-- <div class="form-group">
                         <div class="form-check">
                         <input class="form-check-input" onclick="graph2('')" type="radio" name="flexRadioDefault2" id="flexRadioDefault1" checked>
@@ -101,7 +93,7 @@
                         </label>
                     </div>
                     </div> --}}
-                    <input type="range" list="tickmarks"  step="10" style="width: 100%; color:black;">
+                    {{!-- <input type="range" list="tickmarks"  step="10" style="width: 100%; color:black;">
 
                     <datalist id="tickmarks"  style="width: 105%;">
                         <option value="0" label="Jan"></option>
@@ -117,93 +109,29 @@
                         <option value="100"></option>
                         <option value="110" label="Dec"></option>
                         <option value="120"></option>
-                    </datalist>
+                    </datalist> --}}
                 </div>
                 <div class="FDefaultTab menuSubGraph">
-                    <div class="form-group">
-                        <div class="form-check">
-                        <input class="form-check-input" onclick="graph3('')" type="radio" name="flexRadioDefault3" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Whole year
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Jan')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Jan
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Feb')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Feb
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Mar')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Mar
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Apr')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Apr
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('May')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            May
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Jun')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Jun
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Jul')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Jul
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Aug')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Aug
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Sep')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Sep
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Oct')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Oct
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Nov')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Nov
-                        </label>
-                    </div>
-                    <div class="form-check" style="margin-top: 8px;">
-                        <input class="form-check-input" onclick="graph3('Dec')" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Dec
-                        </label>
-                    </div>
-                    </div>
-                    
+                    <div id="graphSubTitle">Month Picker</div>
+                    <select class="form-select monthPicker" aria-label="Default select example">
+                        <option value="">Whole Year</option>
+                        <option value="Jan">January</option>
+                        <option value="Feb">February</option>
+                        <option value="Mar">March</option>
+                        <option value="Apr">April</option>
+                        <option value="May">May</option>
+                        <option value="Jun">June</option>
+                        <option value="Jul">July</option>
+                        <option value="Aug">August</option>
+                        <option value="Sep">September</option>
+                        <option value="Oct">October</option>
+                        <option value="Nov">November</option>
+                        <option value="Dec">December</option>
+                    </select>
                 </div>
             </div>
         </div>
+    </div>
     <div class="col-md-1">
     </div>
 </div>
@@ -276,7 +204,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Amount of orders for each food'
+                            text: 'Number of orders for each food in all types'
                         }
                     },
                     scale: {
@@ -292,7 +220,7 @@
             );
             const dataList2 = []
             for (i=1;i<13;i++) {
-                dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
+                dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == '2021' && parseInt(f.date.substr(5, 2)) == i )).reduce((x, y) => {
                     return x + y.total
                 },0));
             }
@@ -313,7 +241,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Money earned montly'
+                            text: 'Money earned montly in 2021'
                         }
                     },
                     scales: {
@@ -330,6 +258,7 @@
             data.topMenu.forEach((food, i) => {
                 $('.menuSubGraph .list-group .list-group-item').eq(i).text(`${food.name} ---> ${food.count} sold`);
             });
+            $("#totalEarnings").text(`$${data.total}`);
         })
         .catch(err => console.error(err));
     })
@@ -356,17 +285,26 @@
                     }
                 }
             }
+            console.log(orderList)
             const dataList = []
             data.menus.forEach((menu) => {
-                if (menu.type == type) {
+                if (type != '') {
+                    if (menu.type == type) {
+                        if (orderList.indexOf(menu.id.toString()) >= 0) {
+                            dataList.push(orderList.filter(n => n == menu.id).length);
+                        } else {
+                            dataList.push(0)
+                        }
+                    }
+                } else {
                     if (orderList.indexOf(menu.id.toString()) >= 0) {
                         dataList.push(orderList.filter(n => n == menu.id).length);
                     } else {
                         dataList.push(0)
                     }
                 }
-                
             })
+            console.log(dataList)
             const dataStat = {
                 labels: labels,
                 datasets: [{
@@ -393,6 +331,7 @@
                     data: dataList,
                 }]
             };
+            type = type === '' ? 'all types' : `${type} type`;
             const config = {
                 type: 'bar',
                 data:dataStat,
@@ -401,7 +340,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Amount of orders for each food'
+                            text: `Amount of orders for food in ${type}`
                         }
                     },
                     scale: {
@@ -459,7 +398,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Money earned montly'
+                            text: 'Money earned monthly'
                         }
                     }
                 }
@@ -490,7 +429,7 @@
                 for (i=1;i<monthdays[month]+1;i++) {
                 
                     days.push(i)
-                    dataList2.push((data.orders.filter(f => parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
+                    dataList2.push((data.orders.filter(f => f.date.substr(0, 4) == '2021' && parseInt(f.date.substr(5,2)) == Object.keys(monthdays).indexOf(month)+1 && parseInt(f.date.substr(8, 2)) == i )).reduce((x, y) => {
                         return x + y.total
                     },0));
                 }
@@ -519,7 +458,7 @@
                         title: {
                             display: true,
                             font: { weigth: 'bold', size: 20 },
-                            text: 'Money earned montly'
+                            text: days.length === 12 ? 'Money earned monthly in 2021' : `Money earned in ${month}`
                         }
                     },
                     scales: {
@@ -537,4 +476,13 @@
         .catch(err => console.error(err));
     }
 
+    $('.typePicker').on('change', () => {
+        graph1($('.typePicker').val())
+    });
+
+    $('.monthPicker').on('change', () => {
+        graph3($('.monthPicker').val())
+    });
+
+    
 </script>

@@ -267,7 +267,7 @@ router.get('/sendEmail', (req, res) => {
           margin: 10px auto 40px;
           display: block;">
           <div>
-              <div class="receiptTitle" style="text-align: center;font-size: 1.4em;font-weight: bold;margin-bottom: 40px;">Payment is successful</div>
+              <div class="receiptTitle" style="text-align: center;font-size: 1.4em;font-weight: bold;margin-bottom: 40px;">Booking is successful</div>
               <div style="text-align: center;">
                   Thanks for your purchase. See you there
               </div>

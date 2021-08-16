@@ -72,144 +72,6 @@ router.get("/", ensureAuthenticated, (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/addMenu", (req, res) => {
-  res.render("menu/addMenu");
-});
-
-router.post('/test', (req, res) => {
-  var msg = `
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-  <div class="col-md-2"></div>
-  <div class="col-md-8" style='width:60%; margin:0px auto; border:1px solid grey;'>
-      <div class="receipt" style="margin: 20px 0 30px;box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;padding: 10px 20px;padding: 30px 30px 50px;">
-          <img src="https://images.freeimages.com/images/large-previews/99f/green-tick-in-circle-1147519.jpg" alt="" style="height: 150px;
-          width: 150px;
-          margin: 10px auto 40px;
-          display: block;">
-          <div>
-              <div class="receiptTitle" style="text-align: center;font-size: 1.4em;font-weight: bold;margin-bottom: 40px;">Payment is successful</div>
-              <div style="text-align: center;">
-                  Thanks for your purchase. We will start preparing your food 15 minutes in advance of your booked timeslot. See you there
-              </div>
-          </div>
-          <div>
-              <div class="receiptSubTitle" style="text-align: center;padding-bottom: 3px;border-bottom: #35322d solid 2px;font-weight: 600;margin: 30px auto 20px;">Booking details</div>
-              <table class="bookTable bookTable1" style="border-collapse: collapse !important;width: 95%; margin: 10px auto;">
-                  <tr>
-                      <td style='font-weight: bold;'>Restaurant:</td>
-                      <td style='text-align: right;'>test</td>
-                  </tr>
-                  <tr>
-                      <td style='font-weight: bold;'>Booking Date:</td>
-                      <td style='text-align: right;'></td>
-                  </tr>
-                  <tr>
-                      <td style='font-weight: bold;'>Booking Time:</td>
-                      <td style='text-align: right;'></td>
-                  </tr>
-                  <tr>
-                      <td style='font-weight: bold;'>Pax:</td>
-                      <td style='text-align: right;'></td>
-                  </tr>
-              </table>
-              </div>
-              <div>
-                  <div class="receiptSubTitle" style="text-align: center;padding-bottom: 3px;border-bottom: #35322d solid 2px;font-weight: 600; margin: 30px auto 20px;">Order details</div>
-                  <table class="bookTable bookTable2" style="border-collapse: collapse !important;width: 95%; margin: 10px auto;">
-              <thead>
-                  <tr style="height: 40px;border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
-                  vertical-align: center; text-align:left;">
-                  <th style="height: 40px;border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
-                  vertical-align: center; text-align:left;" scope="col">#</th>
-                  <th style="height: 40px;border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
-                  vertical-align: center; text-align:left;" scope="col">Food</th>
-                  <th style="height: 40px;border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
-                  vertical-align: center; text-align:left;" scope="col">Quantity</th>
-                  <th style="height: 40px;border-bottom: rgba(54, 54, 54, 0.479) solid 2px;
-                  vertical-align: center; text-align:left;" scope="col">Price</th>
-                  </tr>
-              </thead>
-              <tbody>`;
-  // let cart = order.food.map((c) => parseInt(c.id));
-  Order.findOne({ where: { id: 6 } })
-        .then((order) => {
-            if (order) {
-                order.food = JSON.parse(order.food);
-                if (order.food) {
-                    let cart = order.food.map((c) => parseInt(c.id));
-  Menu.findAll({
-    where: {
-        id: {
-            [Op.in]: cart
-        }
-    },
-  })
-  .then((menus) => {
-      if (menus) {
-        for (let i = 0; i < order.food.length; i++) {
-          for (let j = 0; j < order.food[i].orders.length; j++) {
-            for (let k = 0; k < menus.length; k++) {
-              if (menus[k].id == order.food[i].id) {
-                msg += `<tr style="padding-bottom: 10px">
-                <td style="height: 40px;font-weight: 300;
-                font-size: 0.9em;
-                vertical-align:text-top;
-                padding-bottom: 10px;">${1}</td>
-                <td style="height: 40px;font-weight: 300;
-                font-size: 0.9em;
-                vertical-align:text-top;
-                padding-bottom: 10px;">${menus[k].name}`
-                if (order.food[i].orders[j].specifications != '') {
-                  msg += `
-                  <br><span style="font-size: 0.8em;">Spec: ${order.food[i].orders[j].specifications}</span>
-                  `
-                }
-                if (order.food[i].orders[j].remark) {
-                  msg += `<br><span style="font-size: 0.8em;">Remark: ${order.food[i].orders[j].remark}</span></td>`
-                  
-                }
-                msg+= `
-                <td style="height: 40px;font-weight: 300;
-                font-size: 0.9em;
-                vertical-align:text-top;
-                padding-bottom: 10px;">${order.food[i].orders[j].quantity}</td>
-                <td style="height: 40px;font-weight: 300;
-                font-size: 0.9em;
-                vertical-align:text-top;
-                padding-bottom: 10px;">${(menus[k].price + order.food[i].orders[j].additional) * order.food[i].orders[j].quantity}</td>
-                </tr>
-                `
-              }
-            }
-          }
-        }
-        msg += `</tbody>
-        </table>
-        <div style="margin-left:10px; font-size:0.95em;">Total: ${order.total}</div>
-        <div style="margin-left:10px; font-size:0.95em;">Remarks: ${order.remarks}</div>
-    </div>
-</div>
-</div>
-<div class="col-md-2">
-</div>
-</div>`;
-        // console.log(msg);
-  const message = {
-    to: 'edisonchoo234@gmail.com',
-    from: 'donotreply.foodecent@gmail.com',
-    subject: 'New password',
-    text: "New Password",
-    html: `${msg}`
-  }
-  sgMail.send(message)
-  .then((response) => console.log("Email sent..."))
-  .catch((error) => console.log(error.message));
-      }
-  })
-  .catch((err) => console.log(err))
-}}})
-});
-
 // view menu in user side
 router.get("/view/:resName", (req, res) => {
   var types = [];
@@ -686,39 +548,45 @@ router.get('/getStatData', (req, res) => {
         Restaurant.findOne({
           where: { staffId: req.user.id }
         }).then(restaurant => {
-          Order.findAll({ 
-            where: { res_name: restaurant.res_name},
-          }).then((orders) => {
-            orders.forEach((order) => {
-              order.food = JSON.parse(order.food);
-            })
-            const labels = menus.map(f => f.name);
-            const orderList = [];
-            for (i=0; i<orders.length;i++) {
-              for (j=0; j<orders[i].food.length;j++) {
-                  for (k=0; k<orders[i].food[j].orders.length;k++) {
-                      for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
-                          orderList.push(orders[i].food[j].id);
-                      }
-                  }
-              }
-          }
-            const dataList = []
-            menus.forEach((menu, i) => {
-                if (orderList.indexOf(menu.id.toString()) >= 0) {
-                    dataList.push([labels[i], orderList.filter(n => n == menu.id).length])
-                } else {
-                    dataList.push([labels[i], 0]);
+          if (restaurant) {
+            Order.findAll({ 
+              where: { res_name: restaurant.res_name},
+            }).then((orders) => {
+              orders.forEach((order) => {
+                order.food = JSON.parse(order.food);
+              })
+              const labels = menus.map(f => f.name);
+              const orderList = [];
+              for (i=0; i<orders.length;i++) {
+                for (j=0; j<orders[i].food.length;j++) {
+                    for (k=0; k<orders[i].food[j].orders.length;k++) {
+                        for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
+                            orderList.push(orders[i].food[j].id);
+                        }
+                    }
                 }
-            })
-            dataList.sort((first, second) => second[1] - first[1])
-            const newList2 = [];
-            dataList.slice(0, 5).forEach((menu) => {
-              newList2.push({name:menu[0], count:menu[1]})
-            })
-            console.log(newList2)
-            res.json({menus, menuSpec, orders, topMenu:newList2});
-          });
+            }
+              const dataList = []
+              menus.forEach((menu, i) => {
+                  if (orderList.indexOf(menu.id.toString()) >= 0) {
+                      dataList.push([labels[i], orderList.filter(n => n == menu.id).length])
+                  } else {
+                      dataList.push([labels[i], 0]);
+                  }
+              })
+              dataList.sort((first, second) => second[1] - first[1])
+              const newList2 = [];
+              dataList.slice(0, 5).forEach((menu) => {
+                newList2.push({name:menu[0], count:menu[1]})
+              })
+              console.log(newList2)
+              const total = orders.map(m=>parseInt(m.total)).reduce((x, y) => {
+                return x+y
+              })
+              res.json({menus, menuSpec, orders, topMenu:newList2, total});
+            });
+          }
+          
         });
       });
     }
