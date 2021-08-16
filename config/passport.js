@@ -21,7 +21,7 @@ function localStrategy(passport){
 					if(isMatch) {
 						return done(null, user);
 					} else {
-						return done(null, false, {message: 'Password Incorrect'});
+						return done(null, false, {message: 'Username or Password Incorrect'});
 					}
 				})
 			})

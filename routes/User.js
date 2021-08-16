@@ -60,30 +60,6 @@ router.post('/registerUser', urlencodedParser, (req, res) => {
 	// prints date & time in YYYY-MM-DD format
 	let fulldate = year + "-" + month + "-" + date;
 
-	// if(
-	// 	req.body.captcha === undefined ||
-	// 	req.body.captcha === '' ||
-	// 	req.body.captcha === null
-	// ){
-	// 	errors.push({"text": "Please select captcha"});
-	// }
-
-	// const secretKey = "6LfctQMcAAAAAAlOxRt19QFw61ZtcdEkCpx5za4k";
-
-	// const verifyURL = `httpxs://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
-
-	// newBody = JSON.stringify({captcha: req.body.captcha});
-
-	// request(verifyURL, (err, response, body) => {
-	// 	body = JSON.parse(body);
-
-	// 	if(body.success !== undefined && !body.success){
-	// 		errors.push({"text": "Failed captcha verification"});
-	// 	}
-
-		
-	// })
-
     if(password != cpassword){
         errors.push({"text": "Password do not match"});
     }
@@ -144,6 +120,11 @@ router.post('/registeringOwner', urlencodedParser, (req, res) => {
 
 	// prints date & time in YYYY-MM-DD format
 	let fulldate = year + "-" + month + "-" + date;
+
+	if (!/[^a-zA-Z]/.test(req.body.res_chain)){
+	}else{
+		errors.push({"text": "Restaurant Name should only contains alphabet"})
+	}
 
     if(req.body.password != req.body.cpassword){
         errors.push({"text": "Password do not match"});
@@ -324,6 +305,10 @@ router.post('/updateProfile/:id', urlencodedParser, (req, res) => {
 	let {fname, lname, email, phone, passport, cpassword, address, res_chain, res_tag} = req.body;
 
 	if(req.user.cust_type == "staff"){
+		if (!/[^a-zA-Z]/.test(req.body.res_chain)){
+		}else{
+			errors.push({"text": "Restaurant Name should only contains alphabet"})
+		}
 		let res_name = req.body.res_chain + "@" + req.body.res_tag;
 	}
 
