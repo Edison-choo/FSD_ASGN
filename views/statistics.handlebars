@@ -46,6 +46,15 @@
         aria-controls="Income"
         aria-selected="false"
       >Earnings</a>
+        <a
+        class="nav-link"
+        id="v-tabs-messages-tab"
+        data-mdb-toggle="tab"
+        href="#promotionsline"
+        role="tab"
+        aria-controls="promotionsline"
+        aria-selected="false"
+      >Promotions Overtime</a>
     </div>
     <!-- Tab navs -->
   </div>
@@ -160,6 +169,16 @@
                 </div>
             </div>
         </div>
+      </div>
+    <div
+        class="tab-pane fade"
+        id="promotionsline"
+        role="tabpanel"
+        aria-labelledby="promotionsline"
+      >
+      <div class="row">
+        <canvas id="promolineChart"></canvas>
+      </div>
       </div>
     </div>
     <!-- Tab content -->
@@ -294,7 +313,7 @@
         .catch(err => console.error(err));
 
     // xuan wei
-    var promoChart;
+    var promoChart, promolineChart;
     fetch('/createPromotions/createPromotions/promoStats', {
     headers: {
         "Content-Type": "application/json"
@@ -340,6 +359,36 @@
             }
         },
         };
+
+        const datasetline = {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [
+            {
+              label: "Clicks",
+              data: count,
+              borderColor: "#ffb03b",
+              backgroundColor: "#ffb03b",
+            }]
+        };
+
+        const configline = {
+          type: 'line',
+          data: datasetline,
+          options:
+          {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Popularity over time'
+              }
+            }
+          }
+        };
+
+        promolineChart = new Chart(
+          document.getElementById('promolineChart'),
+          configline
+        );
 
         promoChart = new Chart(
         document.getElementById('promoChart'),
