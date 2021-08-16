@@ -11,9 +11,6 @@ const tableStatus = db.define('tableStatus', {
     occupiedCount: {
         type: Sequelize.INTEGER,
     },
-    vacantCount: {
-        type: Sequelize.INTEGER,
-    },
     dateTime: {
         type: Sequelize.DATE,
     }

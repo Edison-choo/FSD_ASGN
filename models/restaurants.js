@@ -67,12 +67,6 @@ const Restaurants = db.define("restaurants", {
     type: Sequelize.INTEGER,
     defaultValue: 0,
   },
-  tablesCount: {
-    type: Sequelize.INTEGER,
-  },
-  occupiedCount: {
-    type: Sequelize.INTEGER,
-  },
   reviewCount: {
     type: Sequelize.INTEGER,
     defaultValue: 0,

@@ -345,7 +345,7 @@ router.post(
         }
       )
         .then((layout) => {
-          res.redirect("/staffRestaurant");
+          res.redirect("/");
         })
         .catch((err) => console.log(err));
     }
@@ -391,12 +391,10 @@ router.post(
         .then(
           TableLayout.create(
             {
-
-            },
-            {
-              where:{
-                res_name: res_name,
-              },
+              res_name: res_name,
+              queue: queue,
+              occupiedCount: occupied.length,
+              dateTime: moment().format()
             }).then((restaurant) => {
             res.json({ restaurant });
           })
