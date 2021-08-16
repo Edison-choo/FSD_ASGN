@@ -436,7 +436,6 @@
     #data-container li {
         margin-bottom: 5px;
         padding: 5px 10px;
-        background: #eee;
         color: #666;
         list-style: none;
     }
@@ -570,6 +569,8 @@
                 here to
                 see all the reviews!</a> --}}
             <div class="inner-left preview">
+                <div style="font-size: 30px;">Restaurant Reviews</div>
+                <hr>
                 <div id="data-container"></div>
                 <div id="pagination-container"></div>
             </div>
@@ -652,7 +653,7 @@
                 function simpleTemplating(data) {
                     var html = '<ul>';
                     $.each(data, function (index, item) {
-                        html += '<li>' + item + '</li>';
+                        html += '<li>' + item + '</li>' + '<hr>';
                     });
                     html += '</ul>';
                     return html;
@@ -660,7 +661,7 @@
 
                 $("#pagination-container").pagination({
                     dataSource: data.reviews.map(r => `<div>
-                <p>Overall: ${r.average} <span class="fa fa-star checked"></span> | Food: ${r.food}<span class="fa fa-star checked"></span> | Service: ${r.service} <span class="fa fa-star checked"></span> | Environment: ${r.environment} <span class="fa fa-star checked"></span></p>
+                <p style="margin-top: 5px">Overall: ${r.average} <span class="fa fa-star checked"></span> | Food: ${r.food}<span class="fa fa-star checked"></span> | Service: ${r.service} <span class="fa fa-star checked"></span> | Environment: ${r.environment} <span class="fa fa-star checked"></span></p>
                 <p>${r.comments}</p>
                 </div>`),
                     pageSize: 3,
