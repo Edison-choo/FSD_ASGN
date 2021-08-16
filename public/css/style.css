@@ -308,29 +308,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-mobile .mobile-nav-toggle {
-  position: absolute;
+  /* position: absolute; */
   top: 15px;
   right: 15px;
 }
 
 .navbar-mobile ul {
   display: block;
-  position: absolute;
-  top: 55px;
-  right: 15px;
+  position: fixed;
+  top: 70px;
+  right: 0px;
   bottom: 15px;
-  left: 15px;
   padding: 10px 0;
-  border-radius: 8px;
-  background-color: #fff;
+  background-color: #3C3A39;
   overflow-y: auto;
   transition: 0.3s;
+  z-index: 999;
+  height: 100%;
+  
+}
+
+@media only screen and (min-width: 991px) {
+  .navbar ul {
+    display: flex;
+  }
+  
+  .mobile-nav-toggle {
+    display: none;
+  }
 }
 
 .navbar-mobile a {
   padding: 10px 20px;
   font-size: 15px;
-  color: #433f39;
+  color: white;
+  display: block;
+  text-align: left;
 }
 
 .navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a {
