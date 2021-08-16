@@ -393,7 +393,7 @@ router.post(
             {
               res_name: res_name,
               queue: queue,
-              occupiedCount: occupied.length,
+              occupiedCount: occupied.split(",").length - 1,
               dateTime: moment().format()
             }).then((restaurant) => {
             res.json({ restaurant });
@@ -485,4 +485,14 @@ router.post(
     }
   }
 );
+
+//Get queue & occupancy data
+router.get("/getTblData", (req, res) => {
+  let res_name = req.user.fname;
+  TableStatus.findAll({
+    where: {res_name: res_name}
+  }).then((status) => {
+    res.json(status);
+  });
+})
 module.exports = router;
