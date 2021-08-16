@@ -34,6 +34,10 @@
        .rating > label:hover ~ input:checked ~ label, 
        .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
+  .ratingfont{
+    font-size: 20px;
+    margin-bottom: 0px;
+  }
 </style>
 
 <h2>Leave a Review</h2>
@@ -42,7 +46,7 @@
 
 <form method="POST" action="/createReviews/reviews/createReviews/{{restaurant}}" id="ratingForm">
   <div class="container" id='food' style="margin-bottom: 20px;">
-    <h4>How would you rate the food?</h4>
+    <p class="ratingfont">How would you rate the food?</p>
     <fieldset class="rating">
     <input type="radio" id="star5_food" name="FoodOption" value=5 /><label class = "full" for="star5_food" title="Awesome - 5 stars"></label>
     <input type="radio" id="star4_food" name="FoodOption" value=4 /><label class = "full" for="star4_food" title="Pretty good - 4 stars"></label>
@@ -54,7 +58,7 @@
     <br>
   </div>
     <div class="container" id='service' style="margin-bottom: 20px;">
-      <h4>How was the customer service?</h4>
+      <p class="ratingfont">How was the customer service?</p>
       <fieldset class="rating">
       <input type="radio" id="star5_cust" name="CustOption" value=5 /><label class = "full" for="star5_cust" title="Awesome - 5 stars"></label>
       <input type="radio" id="star4_cust" name="CustOption" value=4 /><label class = "full" for="star4_cust" title="Pretty good - 4 stars"></label>
@@ -67,7 +71,7 @@
   </div>
 
     <div class="container" id='environment' style="margin-bottom: 20px;">
-    <h4>Is the environment clean?</h4>
+    <p class="ratingfont">Is the environment clean?</p>
     <fieldset class="rating">
       <input type="radio" id="star5_env" name="EnvOption" value=5 /><label class = "full" for="star5_env" title="Awesome - 5 stars"></label>
       <input type="radio" id="star4_env" name="EnvOption" value=4 /><label class = "full" for="star4_env" title="Pretty good - 4 stars"></label>
@@ -87,13 +91,13 @@
     id="form4Example3"
     class="form-control"
     data-mdb-showcounter="true"
-    maxlength="200"
+    maxlength="150"
   />
   <label class="form-label" for="form4Example3">Comments</label>
   <div class="form-helper"></div>
 </div>
   {{!-- <div class="form-outline mb-4">
-    <textarea class="form-control" name="comments" id="form4Example3" rows="4"></textarea>
+    <textarea class="form-control" name="comments" id="form4Example3" rows="4" data-mdb-showcounter="true" maxlength="200"></textarea>
     <label class="form-label" for="form4Example3">Comments</label>
   </div> --}}
 

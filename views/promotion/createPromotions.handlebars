@@ -56,7 +56,9 @@
       <div class="modal-header">
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body"><h2 style="text-align: center; font-size: 30px;">Are you sure you want to delete?</h2></div>
+      <div class="modal-body">
+        <h2 style="text-align: center; font-size: 30px;">Are you sure you want to delete?</h2>
+      </div>
       <div class="modal-footer">
         <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;"
           href="/createPromotions/{{id}}" role="button">Delete</a>
@@ -83,7 +85,8 @@
           {{/if}}
         </div>
         <div class="card-body" style="padding-left: 5%; padding-right: 5%;">
-          <h4 class="card-title" style="color: #ffb03b;">{{name}} <c style="float: right; color: #ffb03b; font-size: 50px;">
+          <h4 class="card-title" style="color: #ffb03b;">{{name}} <c
+              style="float: right; color: #ffb03b; font-size: 50px;">
               {{discount}}%</c>
           </h4>
           <p class="card-text" style="color: white;">Start Date: {{formatDate startdate 'DD/MM/YYYY'}}</p>
@@ -97,7 +100,8 @@
               <input type="hidden" id="bannerhidden">
             </div>
             <div class="action_btn">
-              <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#confirmDelete{{id}}"
+              <button type="button" class="btn btn-primary" data-mdb-toggle="modal"
+                data-mdb-target="#confirmDelete{{id}}"
                 style="background-color: #BB4450; float: right; margin-left: 5px;">Delete</button>
               {{!-- <a class="btn btn-primary" style="background-color: #BB4450; float: right; margin-left: 5px;"
                 href="/createPromotions/{{id}}" role="button">Delete</a> --}}
@@ -107,8 +111,8 @@
           </div>
         </div>
       </div>
-    {{/each}}
-    {{/if}}
+      {{/each}}
+      {{/if}}
     </div>
     <div class="col-md-4">
       <div class="row">
@@ -116,14 +120,14 @@
       </div>
       <div class="row" style="margin-top: 10px;">
         <div class="FDefaultTab promolist">
-        <div style="margin-top: 10px;">Popular Promotions</div>
-        <ol class="list-group list-group-flush list-group-numbered">
-          <li class="list-group-item"></li>
-          <li class="list-group-item"></li>
-          <li class="list-group-item"></li>
-          <li class="list-group-item"></li>
-          <li class="list-group-item"></li>
-        </ol>
+          <div style="margin-top: 10px;">Popular Promotions</div>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+          </ol>
         </div>
       </div>
     </div>
@@ -192,56 +196,57 @@
 
 <script>
   var myChart;
-  $(function() {
-        fetch('/createPromotions/createPromotions/promoStats', {
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        .then(response => {
-            console.log(response);
-            return response.json();
-        })
-        .then(data => {
-          console.log(data)
-          const labels = data.promotions.map(p => p.name);
-          const count = data.promotions.map(p => p.counter);
-          const dataset = {
-            labels: labels,
-            datasets: [
-              {
-                label: "Clicks",
-                data: count,
-                borderColor: "#ffb03b",
-                backgroundColor:"#ffb03b",
-              }]
-          };
-
-          const config = {
-            type: 'bar',
-            data: dataset,
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top',
-                },
-                title: {
-                  display: true,
-                  text: 'Number of bookings created'
-                }
+  $(function () {
+    fetch('/createPromotions/createPromotions/promoStats', {
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      })
+      .then(data => {
+        console.log(data)
+        const labels = data.promotions.map(p => p.name);
+        const count = data.promotions.map(p => p.counter);
+        const dataset = {
+          labels: labels,
+          datasets: [
+            {
+              label: "Clicks",
+              data: count,
+              borderColor: "#ffb03b",
+              backgroundColor: "#ffb03b",
+            }]
+        };
+        
+        const config = {
+          type: 'bar',
+          data: dataset,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Number of bookings created'
               }
-            },
-          };
+            }
+          },
+        };
 
-            myChart = new Chart(
-              document.getElementById('myChart'),
-              config
-            );
-            data.promotions.forEach((promotions, i) => {
-                $('.promolist .list-group .list-group-item').eq(i).text(`${promotions.name} - ${promotions.counter} Bookings`);
-            });
-        })
+        myChart = new Chart(
+          document.getElementById('myChart'),
+          config
+        );
+
+        data.promotions.sort((first, second) => second.counter - first.counter)
+        data.promotions.forEach((promotions, i) => {
+          $('.promolist .list-group .list-group-item').eq(i).text(`${promotions.name} - ${promotions.counter} Bookings`);
+        });
+      })
   });
 </script>
-

@@ -32,12 +32,42 @@
     {{#if reviews}}
     {{#each reviews}}
     <h2 style="color: #ffa012;">{{restaurant}}</h2>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <p class="card-text">Overall: {{average}} <span class="fa fa-star checked"></span> | Food: {{food}}<span class="fa fa-star checked"></span> | Environment: {{environment}}<span class="fa fa-star checked"></span></p>
+    {{#ifEquals "1" average }}
+      <i class="fa fa-star checked"  ></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star" ></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    {{/ifEquals}}
+    {{#ifEquals "2" average}}
+      <i class="fa fa-star checked"  ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star" ></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    {{/ifEquals}}
+    {{#ifEquals "3" average}}
+      <i class="fa fa-star checked"  ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star checked" ></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    {{/ifEquals}}
+        {{#ifEquals "4" average}}
+      <i class="fa fa-star checked"  ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star checked" ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star"></i>
+    {{/ifEquals}}
+        {{#ifEquals "5" average}}
+      <i class="fa fa-star checked"  ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star checked" ></i>
+      <i class="fa fa-star checked"></i>
+      <i class="fa fa-star checked"></i>
+    {{/ifEquals}}
+    <p class="card-text">Overall: {{average}} <span class="fa fa-star checked"></span> | Food: {{food}}<span class="fa fa-star checked"></span> | Service: {{service}}<span class="fa fa-star checked"></span> | Environment: {{environment}}<span class="fa fa-star checked"></span></p>
     <p class="card-text"> {{comments}}</p>
     <div class="buttons">
       <div class="action_btn">
@@ -63,6 +93,5 @@
 <style>
     .checked {
         color: orange;
-        text-align: :;
     }
 </style>
