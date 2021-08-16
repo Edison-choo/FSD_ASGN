@@ -466,11 +466,11 @@
             </h1>
             <div>
                 {{totalaverage}}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
+                <i class="fa fa-star star1" id="star1"></i>
+                <i class="fa fa-star star2" id="star2"></i>
+                <i class="fa fa-star star3" id="star3"></i>
+                <i class="fa fa-star star4" id="star4"></i>
+                <i class="fa fa-star star5" id="star5"></i>
                 | {{reviews.length}} Reviews
                 | <i class="fas fa-money-bill"></i> ${{priceFormat restaurant.price}} | {{restaurant.queue}} Queueing...
 
@@ -478,10 +478,9 @@
             <hr>
             <table class="table table-borderless table-hover">
                 <tr>
-                    <td><i class="fas fa-map-marker-alt icon_padding"></i><span
-                            id="address">{{restaurant.address}}, {{restaurant.unit}}<span /><span style="float: right;"><a title="Copy"
-                                    role="button" onclick="copyToClipboard('#address')"> <i
-                                        class="far fa-clone"></i></a></span>
+                    <td><i class="fas fa-map-marker-alt icon_padding"></i><span id="address">{{restaurant.address}},
+                            {{restaurant.unit}}<span /><span style="float: right;"><a title="Copy" role="button"
+                                    onclick="copyToClipboard('#address')"> <i class="far fa-clone"></i></a></span>
                         </span></td>
                 </tr>
                 <tr>
@@ -510,7 +509,8 @@
                 <tr>
                     <td><i class="fas fa-desktop icon_padding"></i><span id="website"><a
                                 href="{{restaurant.website}}">{{restaurant.website}}</a><span /><span
-                                style="float: right;"><a title="Copy" role="button" onclick="copyToClipboard('#website')">
+                                style="float: right;"><a title="Copy" role="button"
+                                    onclick="copyToClipboard('#website')">
                                     <i class="far fa-clone"></i></a></span></td>
                 </tr>
             </table>
@@ -557,12 +557,12 @@
             <div style="font-size: 30px;">
                 {{totalaverage}} out of 5
             </div>
-            <div>
-                <span class="fa fa-star checked" style="font-size: 20px;"></span>
-                <span class="fa fa-star checked" style="font-size: 20px;"></span>
-                <span class="fa fa-star checked" style="font-size: 20px;"></span>
-                <span class="fa fa-star checked" style="font-size: 20px;"></span>
-                <span class="fa fa-star checked" style="font-size: 20px;"></span>
+            <div style="font-size:20px;">
+                <i class="fa fa-star star1" id="star1" ></i>
+                <i class="fa fa-star star2" id="star2" ></i>
+                <i class="fa fa-star star3" id="star3" ></i>
+                <i class="fa fa-star star4" id="star4" ></i>
+                <i class="fa fa-star star5" id="star5" ></i>
             </div>
         </div>
         <div class="col-10">
@@ -671,6 +671,15 @@
                     }
                 })
             })
+    })
+
+    $(function () {
+        var average = parseFloat({{ totalaverage }});
+    var star = Math.round(average);
+    console.log(star, "testing");
+    for (var i = 0; i <= star; i++) {
+        $(".star" + i).addClass("checked");
+    }
     })
 
 </script>

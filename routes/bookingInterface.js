@@ -16,7 +16,7 @@ const Order = require("../models/order");
 const Menu = require("../models/menu");
 const sgMail = require('@sendgrid/mail');
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+    require("dotenv").config();
 }
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -160,11 +160,11 @@ router.get('/bookingDetailsListPage/:email/:res_name', ensureAuthenticated, (req
     })
 });
 
-router.get('/deleteBooking/:email/:res_name', (req, res) => {
+router.get('/deleteBooking/:id', (req, res) => {
 
     Booking.destroy({
         where: {
-            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+            id: req.params.id
         }
     }).then(() =>
         res.redirect('/bookingInterface/bookingDetailsList/' + req.user.email)
@@ -243,7 +243,7 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
                             date: date,
                             pax: pax
                         }).then(booking => {
-                            
+
                             req.session.booking = booking
                             res.redirect('/bookingInterface/bookingDetails/' + email + '/' + res_name);
                         })
@@ -298,16 +298,16 @@ router.get('/sendEmail', (req, res) => {
               </div>
               </div>`;
     const message = {
-    to: req.session.booking.email,
-    from: 'donotreply.foodecent@gmail.com',
-    subject: 'Booking receipt',
-    text: "Booking receipt",
-    html: `${msg}`
+        to: req.session.booking.email,
+        from: 'donotreply.foodecent@gmail.com',
+        subject: 'Booking receipt',
+        text: "Booking receipt",
+        html: `${msg}`
     }
     sgMail.send(message)
-    .then((response) => console.log("Email sent..."))
-    .catch((error) => console.log(error.message));
+        .then((response) => console.log("Email sent..."))
+        .catch((error) => console.log(error.message));
     res.redirect('/');
-}) 
+})
 
 module.exports = router;

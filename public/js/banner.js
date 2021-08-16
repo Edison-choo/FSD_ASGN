@@ -45,5 +45,3 @@ function bannerUpload(id) {
 //         }
 //     });
 // });
-
-console.log("tst")

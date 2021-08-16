@@ -37,14 +37,14 @@ router.get('/viewBookings/:res_name', ensureAuthenticated, (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.get('/acceptBooking/:email/:res_name', ensureAuthenticated, (req, res) => {
+router.get('/acceptBooking/:id', ensureAuthenticated, (req, res) => {
     res_name_id = req.params.res_name
     email_id = req.params.email
     Booking.update({
         confirm: 1
     }, {
         where: {
-            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+            id: req.params.id
         }
     }).then(() => {
         res.redirect('/bookingStaff/viewBookings/' + res_name_id)
@@ -55,7 +55,7 @@ router.get('/deleteBooking/:email/:res_name', ensureAuthenticated, (req, res) =>
     res_name_id = req.params.res_name
     Booking.destroy({
         where: {
-            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+            id: req.params.id
         }
     }).then(() =>
         res.redirect('/bookingStaff/viewBookings/' + res_name_id)

@@ -46,7 +46,7 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
         .then(promotions => {
             if(promotions){
                 res.render('promotion/createPromotions', {
-                    error: promotions.name + 'already exist',
+                    error: promotions.name + ' already exist',
                     name,
                     startdate,
                     enddate,
