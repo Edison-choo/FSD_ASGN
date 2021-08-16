@@ -6,7 +6,6 @@ const User = require("../models/user");
 const Restaurant = require("../models/restaurants");
 const Promotion = require("../models/promotions");
 const CreditCard = require("../models/creditcard");
-const ChatBot = require("../models/chatbot");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { response } = require('express');
@@ -179,8 +178,6 @@ router.post('/loginUser', urlencodedParser, (req, res, next) => {
 });
 
 router.get('/logout', (req, res) => {
-	ChatBot.destroy({where: {userid: req.user.id}})
-
 	req.logout();
 
 	req.flash("success_msg", "You are logged out");
