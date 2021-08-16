@@ -10,6 +10,7 @@ $('#userimg').on('change', function(){
         processData: false,
         success:(data) => {
             $('#profileimg').attr('src', data.file);
+            $('#navprofileimg').attr('src', data.file);
             $('#profileImg').attr('value', data.file);// sets posterURL hidden field
             if(data.err){
                 $('#errorMsg').show();
