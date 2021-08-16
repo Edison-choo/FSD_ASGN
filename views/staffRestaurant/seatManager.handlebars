@@ -84,7 +84,7 @@
                 <button class="btn btn-danger btn-block" type="button" id="allRed">Occupied All</button>
             </div>
         </div>
-        <input type="hidden" name="occupied" id="occupied">
+        <input type="hidden" name="occupied" id="occupiedList">
     </div>
 </form>
 {{else}}
@@ -165,39 +165,41 @@
                 })
             }
         }
-    })
-    $("#allGreen").click(function () {
-        for (const [key, value] of Object.entries(tblDic)) {
-            if ($("." + key).hasClass("taken")) {
-                $("." + key).removeClass("taken")
-                occupied = remove(occupied, key)
+        $("#allGreen").click(function () {
+            for (const [key, value] of Object.entries(tblDic)) {
+                if ($("." + key).hasClass("taken")) {
+                    $("." + key).removeClass("taken")
+                    occupied = remove(occupied, key)
+                }
             }
-        }
-        updateSeat()
-    })
-    $("#allRed").click(function () {
-        for (const [key, value] of Object.entries(tblDic)) {
-            if (!($("." + key).hasClass("taken"))) {
-                $("." + key).addClass("taken")
-                occupied.push(key)
-            }
-        }
-        updateSeat()
-    })
-    $("#queue").change(function () {
-        updateSeat()
-    })
-    function updateSeat() {
-        $("#occupied").val(occupied)
-        let formData = $("#seatManager").serializeArray();
-        $.ajax({
-            url: 'seatManager',
-            method: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: (data) => {
-                console.log(data)
-            }
+            updateSeat()
         })
-    };
+        $("#allRed").click(function () {
+            for (const [key, value] of Object.entries(tblDic)) {
+                if (!($("." + key).hasClass("taken"))) {
+                    $("." + key).addClass("taken")
+                    occupied.push(key)
+                }
+            }
+            updateSeat()
+        })
+        $("#queue").change(function () {
+            updateSeat()
+        })
+        function updateSeat() {
+            console.log(occupied)
+            $("#occupiedList").val(occupied);
+            let formData = $("#seatManager").serializeArray();
+            $.ajax({
+                url: 'seatManager',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: (data) => {
+                    console.log(data)
+                }
+            })
+        };
+    })
+
 </script>

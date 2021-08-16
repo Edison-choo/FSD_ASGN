@@ -7,6 +7,13 @@
         background-color: #bbb;
         border-radius: 50%;
         cursor: pointer;
+        text-align: center;
+        color: white;
+        text-shadow:
+            0.07em 0 black,
+            0 0.07em black,
+            -0.07em 0 black,
+            0 -0.07em black;
     }
 
     .seat:hover {
@@ -18,6 +25,13 @@
         width: 25px;
         background-color: #bbb;
         cursor: pointer;
+        text-align: center;
+        color: white;
+        text-shadow:
+            0.07em 0 black,
+            0 0.07em black,
+            -0.07em 0 black,
+            0 -0.07em black;
     }
 
     .square:hover {
@@ -59,7 +73,12 @@
     .tblClass {
         border: 3px solid white;
         margin: 1px;
-        text-shadow: white 0px 0px 10px;
+        color: white;
+        text-shadow:
+            0.07em 0 black,
+            0 0.07em black,
+            -0.07em 0 black,
+            0 -0.07em black;
     }
 
     .color {
@@ -69,10 +88,9 @@
 
     .selected {
         border: 3px solid black;
-        color: black;
     }
 
-    .selected i{
+    .selected i {
         color: black;
     }
 
@@ -178,7 +196,6 @@
 </form>
 <script>
     var colors = [
-        "#f5f5dc",
         "#000000",
         "#0000ff",
         "#a52a2a",
@@ -214,7 +231,8 @@
         "#800080",
         "#800080",
         "#ff0000",
-        "#c0c0c0"
+        "#c0c0c0",
+        "#f5f5dc",
     ];
     function remove(array, n) {
         const index = array.indexOf(n)
@@ -224,7 +242,6 @@
         return array
     }
     function buildGrid(cols, rows) {
-
         var tableMarkup = "";
         vert = 'abcdefghijklmnopqr'
         for (x = 0; x < rows; x++) {
@@ -234,32 +251,24 @@
             }
             tableMarkup += "</tr>";
         }
-
         $("#drawing-table").html(tableMarkup)
-
     };
-
     $(function () {
-
         // Variable Setup
         var cols = 32,
             rows = 18,
             curFur = "square",
-            mouseDownState = false,
             eraseState = false,
-            tracingMode = false,
-            prevColor = "",
             seatList = [],
             squareList = [],
             curTbl = "table-1",
             curColor = "#00ffff",
+            curNum = 1,
             tblDic = { "table-1": [] },
             $el;
-
-        // Inital Build of Table  
+        // Initial Build of Table  
         buildGrid(cols, rows);
         $("#drawing-table").delegate("td", "click", function () {
-            mouseDownState = true;
             $el = $(this).children();
             seatID = $el.attr("id")
             seatList = remove(seatList, seatID)
@@ -271,11 +280,13 @@
                 $el.removeClass();
                 $el.css("background-color", "white");
                 $el.addClass("checkTD");
+                $el.empty()
             } else {
                 $el.removeClass();
                 $el.addClass(curFur);
-                $el.css("background-color", curColor)
-                tblDic[curTbl].push(seatID)
+                $el.css("background-color", curColor);
+                $el.html(curNum);
+                tblDic[curTbl].push(seatID);
                 if (curFur == "square") {
                     squareList.push(seatID)
                 }
@@ -285,17 +296,14 @@
             }
         });
         $("#color-selector").delegate(".color", "click", function () {
-
             $el = $(this);
             var pulledVal = $el.attr("data-class");
-
             if (pulledVal == 'eraser') {
                 eraseState = true;
             } else {
                 eraseState = false;
                 curFur = pulledVal;
             }
-
             $(".color").removeClass("selected");
             $(this).addClass("selected");
         });
@@ -317,6 +325,7 @@
         $("#table-selector").delegate(".tblClass", "click", function () {
             $el = $(this);
             curTbl = $el.attr("id");
+            curNum = $el.text()
             curColor = $el.css("background-color");
             $(".tblClass").removeClass("selected");
             $(this).addClass("selected");
