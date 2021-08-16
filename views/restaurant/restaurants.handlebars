@@ -115,8 +115,6 @@
                             return (a.queue > b.queue) ? 1 : ((a.queue < b.queue) ? -1 : 0);
                         })
                     }
-
-
                     const html = matches.map(match => `
                         <a href="restaurant/restaurant_1/${match.res_name}">
         <div class="card defaultSize" style="width: 225px; height:300px;">
@@ -127,8 +125,7 @@
                     ${match.res_name}
                 <p>
                 <p class="card-text">${match.cuisine} | ${match.halal ? "Halal" : "Not Halal"} | $${match.price}</p>
-                <p class="card-text"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                        class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                <p class="card-text">${match.avgReview} <i class="fa fa-star"></i>
                     <c style="float: right;">${match.reviewCount}
                         Reviews
                     </c>
