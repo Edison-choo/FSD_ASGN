@@ -4,7 +4,16 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <div class="logo me-auto">
+        {{#if user}}
+        {{#ifEquals user.cust_type "customer"}}
         <h1><a href="/">Foodecent</a></h1>
+        {{/ifEquals}}
+        {{#ifEquals user.cust_type "staff"}}
+        <h1><a href="/statistics">Foodecent</a></h1>
+        {{/ifEquals}}
+        {{else}}
+        <h1><a href="/">Foodecent</a></h1>
+        {{/if}}
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
