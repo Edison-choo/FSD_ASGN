@@ -45,8 +45,6 @@
           {{else}}
           <li><a class="nav-link scrollto " href="/bookingInterface/bookingDetailsList/{{user.email}}">Notifications</a></li>
           {{/ifEquals}}
-
-          {{!-- <li><a class="nav-link scrollto" href="/user/logout">Logout</a></li> --}}
           {{/if}}
 
           
@@ -54,9 +52,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
     {{#if user}}
-          {{!-- <a href="/user/profile" class="book-a-table-btn scrollto">{{user.fname}}</a> --}}
-          <!-- Avatar -->
-      <a
+      <a 
         class="dropdown-toggle d-flex align-items-center hidden-arrow"
         href="#"
         id="navbarDropdownMenuLink"
