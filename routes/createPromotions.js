@@ -31,20 +31,25 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
     let{name, startdate, enddate, discount, details, banner, staffid} = req.body;
 
-    if(!( 0 <= discount <= 100 )){
-        errors.push({text: "Invalid amount!"})
+    if(discount < 1 || discount > 100){
+        errors.push({"text": "Invalid amount!"});
     }
 
     if(errors.length > 0){
-        res.render('promotion/createPromotions', {
-            errors,
-            name,
-            startdate,
-            enddate,
-            discount,
-            details,
-            banner
-        });
+        Promotions.findAll({where : {staffid : req.user.id}}).then(
+            promotions => {
+                res.render('promotion/createPromotions', {
+                    errors,
+                    name,
+                    startdate,
+                    enddate,
+                    discount,
+                    details,
+                    banner,
+                    promotions
+                });
+            }
+        )
     } else{
         Promotions.findOne({ where: {name:req.body.name} })
         .then(promotions => {

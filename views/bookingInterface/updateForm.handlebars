@@ -18,7 +18,7 @@
             <br>
             
             <div class="form-group">
-                <label for="bookingTime">Select Time:</label>
+                <label for="bookingTime">Select Time: (Between {{restaurant.open_time}} - {{restaurant.close_time}})</label>
                 <input type='time' name="bookingTime" class="form-control" id="bookingTime" step="3600" required
                     value="{{booking.timing}}" />
             </div>
