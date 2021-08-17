@@ -175,7 +175,7 @@ router.post(
         }
       )
         .then((restaurant) => {
-          res.redirect("/");
+          res.render("statistics", {success_msg: "Restaurant tab successfully created"});
         })
         .catch((err) => console.log(err));
     }
@@ -346,7 +346,7 @@ router.post(
         }
       )
         .then(() => {
-          res.redirect("/staffRestaurant/viewRestaurant");
+          res.redirect("viewRestaurant");
         })
         .catch((err) => console.log(err));
     }
@@ -402,7 +402,7 @@ router.post(
         }
       )
         .then((layout) => {
-          res.redirect("/");
+          res.render("statistics", {success_msg: "Restaurant layout successfully created!"});
         })
         .catch((err) => console.log(err));
     }
@@ -540,7 +540,7 @@ router.post(
         }
       )
         .then((layout) => {
-          res.redirect("/staffRestaurant/viewLayout");
+          res.redirect("viewLayout");
         })
         .catch((err) => console.log(err));
     }
