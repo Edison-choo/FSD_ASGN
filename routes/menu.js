@@ -382,8 +382,12 @@ router.post("/update/:id", urlencodedParser, ensureAuthenticated, (req, res) => 
   Menu.findAll({
     where: {userId: req.user.id}
   }).then((menus) => {
-    if ((menus.map(m => m.name)).includes(foodName)) {
-      errors.push({ text: "Please do not enter used name!" });
+    if ((menus.filter(m => m.id == id))[0].name == foodName) {
+      
+    } else {
+      if ((menus.map(m => m.name)).includes(foodName)) {
+        errors.push({ text: "Please do not enter used name!" });
+      }
     }
     if (errors.length > 0) {
       res.json({errors})
