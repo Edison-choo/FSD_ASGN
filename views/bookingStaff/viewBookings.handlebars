@@ -54,7 +54,7 @@
                 href="/bookingStaff/acceptBooking/{{this.id}}/{{this.res_name}}" role="button"><i
                   class="fas fa-check"></i></a></td>
             <td><a class="btn btn-primary" style="background-color: #894242;"
-                href="/bookingStaff/deleteBooking/{{this.id}}" role="button"
+                href="/bookingStaff/deleteBooking/{{this.id}}/{{this.res_name}}" role="button"
                 data-toggle="confirmation" data-title="Confirm delete?" onclick="return confirm('Are you sure you want to delete this booking?')"><i class="fas fa-ban"></i></a></td>
           </tr>
           {{/ifEquals}}
