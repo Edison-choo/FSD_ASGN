@@ -168,7 +168,7 @@ $(function() {
               <td>${data.menu.foodNo }</td>
               <td>${data.menu.name}</td>
               <td>${data.menu.type}</td>
-              <td>${"$"+parseInt(data.menu.price).toFixed(2)}</td>
+              <td>${"$"+parseFloat(data.menu.price).toFixed(2)}</td>
               <td>${data.menu.specifications}</td>
               <td><button class="buttonIcon" onclick="editMenu(${data.menu.id})" data-bs-toggle="modal" data-bs-target="#edit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -319,7 +319,7 @@ $(function() {
             $(".foodRow tr").eq(updatedID).find('td').eq(2).text(data.menu.foodNo);
             $(".foodRow tr").eq(updatedID).find('td').eq(3).text(data.menu.name);
             $(".foodRow tr").eq(updatedID).find('td').eq(4).text(data.menu.type);
-            $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+parseInt(data.menu.price).toFixed(2));
+            $(".foodRow tr").eq(updatedID).find('td').eq(5).text("$"+parseFloat(data.menu.price).toFixed(2));
             $(".foodRow tr").eq(updatedID).find('td').eq(6).text(data.menu.specifications);
             $(".successNoti span").text(data.success);
             $(".successNoti").css('display', 'flex');
