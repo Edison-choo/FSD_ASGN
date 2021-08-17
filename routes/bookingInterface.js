@@ -87,12 +87,12 @@ router.get('/bookingDetailsList/:email', ensureAuthenticated, (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.get('/bookingConfirmed/:email/:res_name', ensureAuthenticated, (req, res) => {
+router.get('/bookingConfirmed/:email/:res_name/:id', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name
     Booking.findOne({
         where: {
-            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+            [Op.and]: [{ email: email_id }, { res_name: res_name_id }, { id: req.params.id }]
         }
     }).then(booking => {
         Order.findOne({ where: { bookingId: booking.id } })
@@ -122,12 +122,12 @@ router.get('/bookingConfirmed/:email/:res_name', ensureAuthenticated, (req, res)
     })
 });
 
-router.get('/bookingDetailsListPage/:email/:res_name', ensureAuthenticated, (req, res) => {
+router.get('/bookingDetailsListPage/:email/:res_name/:id', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name
     Booking.findOne({
         where: {
-            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+            [Op.and]: [{ email: email_id }, { res_name: res_name_id }, { id: req.params.id }]
         }
     }).then(booking => {
         Order.findOne({ where: { bookingId: booking.id } })
