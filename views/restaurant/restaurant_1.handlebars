@@ -505,6 +505,7 @@
                                 style="float: right;"><a title="Copy" role="button" onclick="copyToClipboard('#phone')">
                                     <i class="far fa-clone"></i></a></span></td>
                 </tr>
+                {{#if restaurant.website}}
                 <tr>
                     <td><i class="fas fa-desktop icon_padding"></i><span id="website"><a
                                 href="{{restaurant.website}}">{{restaurant.website}}</a><span /><span
@@ -512,6 +513,7 @@
                                     onclick="copyToClipboard('#website')">
                                     <i class="far fa-clone"></i></a></span></td>
                 </tr>
+                {{/if}}
             </table>
             <div class="row">
                 <div class="col-6">
