@@ -28,7 +28,7 @@ router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.get('/updateForm/:email/:res_name', ensureAuthenticated, (req, res) => {
+router.get('/updateForm/:email/:res_name/:id', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name;
     Restaurant.findOne({ where: { res_name: res_name_id } }).then((restaurant) => {
@@ -44,11 +44,12 @@ router.get('/updateForm/:email/:res_name', ensureAuthenticated, (req, res) => {
 
 })
 
-router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
+router.post('/updateForm/:email/:res_name/:id', urlencodedParser, (req, res) => {
     let email = req.params.email;
     let date = req.body.bookingDate;
     let timing = req.body.bookingTime;
     let pax = req.body.bookingPax;
+    let id = req.params.id;
     let confirm = req.body.bookingConfirm
 
     console.log(date, timing, email, pax)
@@ -57,13 +58,12 @@ router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
         timing: timing,
         date: date,
         pax: pax,
-        confirm: confirm
     }, {
         where: {
-            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }]
+            [Op.and]: [{ email: req.params.email }, { res_name: req.params.res_name }, { id: id }]
         }
     }).then(booking => {
-        res.redirect('/bookingInterface/bookingDetailsListPage/' + email + '/' + req.params.res_name);
+        res.redirect('/bookingInterface/bookingDetailsListPage/' + email + '/' + req.params.res_name + '/' + id);
     })
 });
 
@@ -225,11 +225,11 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
     } else {
         Booking.findOne({
                 where: {
-                    [Op.and]: [{ email: req.body.email }, { res_name: res_name }, { confirm: 1 }]
+                    [Op.and]: [{ email: req.body.email }, { res_name: res_name }]
                 }
             })
             .then((booking) => {
-                if (booking && booking.date < Date()) {
+                if (booking && booking.confirm == 0) {
                     res.render("bookingInterface/bookForm", {
                         error: booking.email + " has already booked a slot at " + booking.res_name,
                         date,
