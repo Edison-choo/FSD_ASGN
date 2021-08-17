@@ -333,6 +333,7 @@
         $("#clear").click(function () {
             $el = $(".tableLayout td").children();
             $el.removeClass()
+            $el.empty()
             $el.css("background-color", "white");
             $el.addClass("checkTD")
             seatList = []

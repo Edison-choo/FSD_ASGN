@@ -72,7 +72,7 @@ router.post(
 
     //Address validation
     if (!address.match(/(\d{1,3}.)?.+\s(\d{6})$/)) {
-      errors.push({ text: "Phone is invalid!" });
+      errors.push({ text: "Address is invalid!" });
     }
 
     //Unit number validation
@@ -110,6 +110,12 @@ router.post(
       errors.push({ text: "Instagram url is formatted incorrectly!" });
     }
 
+    //Image validation
+    if (!iconURL) {
+      errors.push({ text: "Logo required!" });
+    }
+
+    //Push errors
     if (errors.length > 0) {
       res.render("staffRestaurant/createRestaurant", {
         errors,
@@ -246,6 +252,11 @@ router.post(
     //Instagram url validation
     if (!urlValidator.isUri(instagram) && instagram !== "") {
       errors.push({ text: "Instagram url is formatted incorrectly!" });
+    }
+
+    //Image validation
+    if (!iconURL) {
+      errors.push({ text: "Logo required!" });
     }
 
     if (errors.length > 0) {
