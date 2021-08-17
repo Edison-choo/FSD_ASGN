@@ -49,15 +49,19 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
         Promotions.findOne({ where: {name:req.body.name} })
         .then(promotions => {
             if(promotions){
-                res.render('promotion/createPromotions', {
-                    error: promotions.name + ' already exist',
-                    name,
-                    startdate,
-                    enddate,
-                    discount,
-                    details,
-                    banner
-                });
+                Promotions.findAll()
+                .then(promotions => {
+                    res.render('promotion/createPromotions', {
+                        error: 'Promotion already exist',
+                        name,
+                        startdate,
+                        enddate,
+                        discount,
+                        details,
+                        banner,
+                        promotions
+                    });
+                })
             } else {
                 Promotions.create({
                     name: name,
