@@ -67,7 +67,7 @@
         id="restaurantActivity"
         role="tabpanel"
         aria-labelledby="restaurantActivity"
-      >
+      ><canvas id="myChart"></canvas>
       </div>
       <div
         class="tab-pane fade"
@@ -403,49 +403,81 @@
     .catch(err => console.error(err));
 
     // wye keong
-    fetch("/restaurant/restaurant_1/getTblData/{{restaurant.res_name}}")
+    fetch("/staffRestaurant/getTblData")
     .then((res) => {
         return res.json();
     })
     .then((data) => {
-        let oAvg = {}
-        let qAvg = {}
-        for (i = 0; i < data.length; i++) {
-            let date = new Date(data[i].dateTime);
-            hour = date.getHours();
-            if (hour in oAvg) {
-                oAvg[hour].push(data[i].queue)
-            } else {
-                oAvg[hour] = [data[i].queue]
+        let queueData = [];
+        let occupyData = [];
+        console.log(data)
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        for (i = 1; i <= 12; i++) {
+            avgQueue = data.filter(a => parseInt(a.dateTime.slice(5, 7)) == i).reduce((a, b) => (a + b.queue), 0);
+            avgOccupancy = data.filter(a => parseInt(a.dateTime.slice(5, 7)) == i).reduce((a, b) => (a + b.occupiedCount), 0);
+            if (avgQueue != 0) {
+                avgQueue = avgQueue / data.filter(a => parseInt(a.dateTime.slice(5, 7)) == i).length
             }
-            if (hour in qAvg) {
-                qAvg[hour].push(data[i].occupiedCount)
-            } else {
-                qAvg[hour] = [data[i].occupiedCount]
+            if (avgOccupancy != 0) {
+                avgOccupancy = avgOccupancy / data.filter(a => parseInt(a.dateTime.slice(5, 7)) == i).length
             }
+            queueData.push(avgQueue);
+            occupyData.push(avgOccupancy);
         }
-    })
-    let myChart = document.getElementById("myChart").getContext("2d");
-    let popChart = new Chart(myChart, {
-        type: "line",
-        data: {
-            labels: ["1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p", "12a"],
-            datasets: [
-                {
-                    label: "People in restaurant",
-                    data: occLi,
-                    borderColor: "green",
-                    backgroundColor: "green",
+            let myChart = document.getElementById("myChart").getContext("2d");
+            let popChart = new Chart(myChart, {
+                type: "line",
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: "Avg Table Occupancy Per Day",
+                            data: occupyData,
+                            borderColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)'
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 205, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(201, 203, 207, 0.2)'
+                            ],
+                        },
+                        {
+                            label: "Avg Queue Per Day",
+                            data: queueData,
+                            borderColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)'
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 205, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(201, 203, 207, 0.2)'
+                            ],
+                        }
+                    ]
                 },
-                {
-                    label: "Queue",
-                    data: queueLi,
-                    borderColor: "blue",
-                    backgroundColor: "blue",
-                }
-            ]
-        },
-        options: {}
+                options: {}
+        })
     })
     })
     
