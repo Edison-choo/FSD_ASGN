@@ -31,7 +31,6 @@ const createPromotions = require("./routes/createPromotions");
 const bookingInterfaceRoute = require("./routes/bookingInterface");
 const bookingStaffRoute = require("./routes/bookingStaff");
 const userReviewsRoute = require("./routes/userReviews");
-const chatbotRoute = require("./routes/chatBot");
 // Bring in database connection
 const { formatDate } = require("./helpers/hbs");
 // Bring in database connection
@@ -152,7 +151,6 @@ app.use("/createPromotions", createPromotions);
 app.use("/bookingInterface", bookingInterfaceRoute);
 app.use("/bookingStaff", bookingStaffRoute);
 app.use("/userReviews", userReviewsRoute);
-app.use("/chatbot", chatbotRoute);
 
 app.use(express.json());
 

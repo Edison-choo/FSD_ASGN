@@ -55,7 +55,7 @@ router.post('/getcounter/:res_name/:id', (req, res) =>{
 	}res.redirect(`/bookingInterface/bookForm/${req.params.res_name}`)
 });
 
-router.get('/statistics', (req, res) => {
+router.get('/statistics',ensureAuthenticated, (req, res) => {
 	var types = [];
 	Menu.findAll({
 		where: { userId: req.user.id},

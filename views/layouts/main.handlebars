@@ -78,35 +78,15 @@
         {{{body}}}
         {{#ifEquals user.cust_type "customer"}}
         <div id="chatbotdiv">
-          <button id="chatbtn" onclick="displayChatBot()"><i class="fas fa-robot"></i></button>
-          <iframe src="/chatbot/chatbotlayout" id="chatbotiframe"></iframe>
+          <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+          <df-messenger
+            chat-icon="https:&#x2F;&#x2F;img.icons8.com&#x2F;ultraviolet&#x2F;452&#x2F;chatbot.png"
+            intent="WELCOME"
+            chat-title="Foodecent Support Bot"
+            agent-id="4aa0c8b0-3b5d-47ac-bf1f-be6b5853c48f"
+            language-code="en"
+          ></df-messenger>
         </div>
-        <script>
-          let chatbotframe = document.getElementById("chatbotiframe");
-
-          chatbotframe.style.display = "none";
-          let chatbtn = document.getElementById("chatbtn");
-
-          function sleep(delay) {
-            var start = new Date().getTime();
-            while (new Date().getTime() < start + delay);
-          }
-
-          function displayChatBot(){
-            chatbtn.style.display = "none";
-            chatbotframe.src = "/chatbot/chatbotlayout";
-            sleep(800);
-            chatbotframe.style.display = "block";
-          }
-          
-          function closeBotChat(){
-            chatbotframe.style.display = "none";
-            chatbtn.style.display = "block";
-          }
-        
-          
-          
-        </script>
         {{/ifEquals}}
       </div>
     </section>

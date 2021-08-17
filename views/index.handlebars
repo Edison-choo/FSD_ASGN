@@ -211,6 +211,7 @@
   <div class="col-md-4">
     <h3 style="margin-left: 25px; color: #ffb03b;">Newly Added Restaurants</h3>
     {{#each new_res}}
+    {{#if image}}
     <div class="card" style="margin-left: 20px; margin-bottom: 10px; border: 1px solid #DCDED9">
       <div class="card-body">
         <img src="{{image}}" alt="" style="float: left; max-width: 50; max-height: 50px; margin-right: 10px;">
@@ -220,6 +221,7 @@
         <p><i class="far fa-clock icon_padding"></i> {{timeFormat open_time}} - {{timeFormat close_time}}  <a href="/bookingInterface/bookForm/{{res_name}}" class="btn btn-primary" style="background-color: rgba(26, 24, 22, 0.8); float: right;">Book!</a></p>
       </div>
   </div>
+      {{/if}}
       {{/each}}
   </div>
   </div>

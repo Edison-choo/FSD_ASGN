@@ -15,14 +15,14 @@
 
         <hr>
         <div class="form-outline mb-4">
-            <input type="date" id="datefield" name="date" class="form-control" value="2021-07-01" required />
+            <input type="date" id="datefield" name="date" class="form-control" value="2021-08-01" required />
             <label class="form-label" for="datefield">Select Date:</label>
         </div>
         <br>
 
         <div class="form-group">
             <label class="form-label" for="timing">Opening Hours:</label>
-            <input type="time" name="timing" class="form-control timepicker" id="timing" step="3600" required>
+            <input type="time" name="timing" class="form-control timepicker" id="timing" step="3600" min="{{restaurant.open_time}}" max="{{restaurant.close_time}}" required>
         </div>
 
         <br>
