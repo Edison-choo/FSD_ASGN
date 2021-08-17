@@ -58,6 +58,7 @@
 <h1>{{layouts.res_name}} Seat Manager</h1>
 <hr>
 {{#if layouts.square}}
+
 <form action="/staffRestaurant/seatManager" method="post" id="seatManager">
     <div class="row">
         <div id="table-wrap" class="col-9 FDefaultTab standardPad" style="overflow-x:auto;">
@@ -74,6 +75,7 @@
                         min="0" />
                     <label class="form-label" for="typeNumber">Queue Count</label>
                 </div>
+                <p style="color: red; display:none;" id="inputError">Please do not enter negative values!</p>
             </div>
             <br>
             <div class="FDefaultTab standardPad">

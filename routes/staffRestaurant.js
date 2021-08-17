@@ -378,7 +378,7 @@ router.post(
       errors.push({ text: "No Tables!" });
     }
 
-    
+    //Table validation
     if (Object.keys(tables).length == 0) {
       errors.push({ text: "Incorrect format!" });
     } 
@@ -506,13 +506,18 @@ router.post(
     let res_name = req.user.fname;
     let errors = [];
     let { seat, square, tables } = req.body;
-
+    //Seat validation
     if (seat.length == 0) {
       errors.push({ text: "No Seat!" });
     }
+    //Square validation
     if (square.length == 0) {
       errors.push({ text: "No Tables!" });
     }
+    //Table validation
+    if (Object.keys(tables).length == 0) {
+      errors.push({ text: "Incorrect format!" });
+    } 
     if (errors.length > 0) {
       res.render("staffRestaurant/createLayout", {
         errors,

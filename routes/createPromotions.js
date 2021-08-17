@@ -49,7 +49,7 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
         Promotions.findOne({ where: {name:req.body.name} })
         .then(promotions => {
             if(promotions){
-                Promotions.findAll()
+                Promotions.findAll({where: {staffid : req.user.id}})
                 .then(promotions => {
                     res.render('promotion/createPromotions', {
                         error: 'Promotion already exist',

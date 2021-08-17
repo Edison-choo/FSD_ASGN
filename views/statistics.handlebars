@@ -2,23 +2,30 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+    .left {
+        text-align: left;
+    }
+</style>
+
 <div class="row">
-    <div class="col-3">
+    <div class="col-2">
         <!-- Tab navs -->
         <div class="nav flex-column nav-tabs text-center" id="v-tabs-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-tabs-home-tab" data-mdb-toggle="tab" href="#restaurantActivity" role="tab"
-                aria-controls="restaurantActivity" aria-selected="true">Restaurant Activity</a>
-            <a class="nav-link" id="v-tabs-profile-tab" data-mdb-toggle="tab" href="#promotions" role="tab"
-                aria-controls="promotions" aria-selected="false">Promotions</a>
-            <a class="nav-link" id="v-tabs-profile-tab" data-mdb-toggle="tab" href="#orders" role="tab"
-                aria-controls="orders" aria-selected="false">Orders Per Food</a>
-            <a class="nav-link" id="v-tabs-messages-tab" data-mdb-toggle="tab" href="#Income" role="tab"
-                aria-controls="Income" aria-selected="false">Earnings</a>
+            <a class="nav-link active left" id="v-tabs-home-tab" data-mdb-toggle="tab" href="#restaurantActivity"
+                role="tab" aria-controls="restaurantActivity" aria-selected="true">Restaurant Activity <i
+                    class="fas fa-chart-line"></i></a>
+            <a class="nav-link left" id="v-tabs-profile-tab" data-mdb-toggle="tab" href="#promotions" role="tab"
+                aria-controls="promotions" aria-selected="false">Promotions <i class="fas fa-percentage"></i></a>
+            <a class="nav-link left" id="v-tabs-profile-tab" data-mdb-toggle="tab" href="#orders" role="tab"
+                aria-controls="orders" aria-selected="false">Orders Per Food <i class="fas fa-hamburger"></i></a>
+            <a class="nav-link left" id="v-tabs-messages-tab" data-mdb-toggle="tab" href="#Income" role="tab"
+                aria-controls="Income" aria-selected="false">Earnings <i class="fas fa-dollar-sign"></i></a>
         </div>
         <!-- Tab navs -->
     </div>
 
-    <div class="col-9">
+    <div class="col-10">
         <!-- Tab content -->
         <div class="tab-content" id="v-tabs-tabContent">
             <div class="tab-pane fade show active" id="restaurantActivity" role="tabpanel"
