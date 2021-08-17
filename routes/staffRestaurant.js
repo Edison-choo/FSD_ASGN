@@ -70,6 +70,11 @@ router.post(
       iconURL,
     } = req.body;
 
+    //Name validation
+    if (!name) {
+      errors.push({ text: "Name required!" });
+    }
+
     //Address validation
     if (!address.match(/(\d{1,3}.)?.+\s(\d{6})$/)) {
       errors.push({ text: "Address is invalid!" });
@@ -78,6 +83,11 @@ router.post(
     //Unit number validation
     if (!unit.match(/([-#0-9])/)) {
       errors.push({ text: "Unit Number is invalid!" });
+    }
+
+    //Cuisine number validation
+    if (!cuisine) {
+      errors.push({ text: "Cuisine required!" });
     }
 
     //Phone validation
@@ -92,6 +102,11 @@ router.post(
 
     //Price validation
     if (!(10 <= price <= 100)) {
+      errors.push({ text: "Price is entered incorrectly!" });
+    }
+
+    //Halal validation
+    if (typeof halal == "boolean") {
       errors.push({ text: "Price is entered incorrectly!" });
     }
 
@@ -214,14 +229,24 @@ router.post(
       iconURL,
     } = req.body;
 
+    //Name validation
+    if (!name) {
+      errors.push({ text: "Name required!" });
+    }
+
     //Address validation
     if (!address.match(/(\d{1,3}.)?.+\s(\d{6})$/)) {
-      errors.push({ text: "Phone is invalid!" });
+      errors.push({ text: "Address is invalid!" });
     }
 
     //Unit number validation
     if (!unit.match(/([-#0-9])/)) {
       errors.push({ text: "Unit Number is invalid!" });
+    }
+
+    //Cuisine validation
+    if (!cuisine) {
+      errors.push({ text: "Cuisine required!" });
     }
 
     //Phone validation
@@ -234,8 +259,23 @@ router.post(
       errors.push({ text: "Website url is formatted incorrectly!" });
     }
 
+    //Open time validation
+    if (!open_time.match(/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/)) {
+      errors.push({ text: "Opening time is formatted incorrectly!" });
+    }
+
+    //Close time validation
+    if (!close_time.match(/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/)) {
+      errors.push({ text: "Closing time is formatted incorrectly!" });
+    }
+
     //Price validation
     if (!(10 <= price <= 100)) {
+      errors.push({ text: "Price is entered incorrectly!" });
+    }
+
+    //Halal validation
+    if (typeof halal == "boolean") {
       errors.push({ text: "Price is entered incorrectly!" });
     }
 
@@ -261,6 +301,7 @@ router.post(
 
     if (errors.length > 0) {
       restaurant = {
+        res_name: res_name,
         name: name,
         website: website,
         address: address,
@@ -327,19 +368,24 @@ router.post(
     let errors = [];
     let { seat, square, tables } = req.body;
 
+    //Seat validation
     if (seat.length == 0) {
-      errors.push({ text: "No Seat!" });
+      errors.push({ text: "No Seats!" });
     }
+
+    //Square validation
     if (square.length == 0) {
       errors.push({ text: "No Tables!" });
     }
 
+    
+    if (Object.keys(tables).length == 0) {
+      errors.push({ text: "Incorrect format!" });
+    } 
+
     if (errors.length > 0) {
       res.render("staffRestaurant/createLayout", {
         errors,
-        seat,
-        square,
-        tables,
       });
     } else {
       Restaurant.update(
@@ -400,13 +446,12 @@ router.post(
         }
       )
         .then(
-          TableStatus.create(
-            {
-              res_name: res_name,
-              queue: queue,
-              occupiedCount: occupied.split(",").length - 1,
-              dateTime: moment().format()
-            }).then((restaurant) => {
+          TableStatus.create({
+            res_name: res_name,
+            queue: queue,
+            occupiedCount: occupied.split(",").length - 1,
+            dateTime: moment().format(),
+          }).then((restaurant) => {
             res.json({ restaurant });
           })
         )
@@ -501,9 +546,9 @@ router.post(
 router.get("/getTblData", (req, res) => {
   let res_name = req.user.fname;
   TableStatus.findAll({
-    where: {res_name: res_name}
+    where: { res_name: res_name },
   }).then((status) => {
     res.json(status);
   });
-})
+});
 module.exports = router;
