@@ -31,6 +31,10 @@ router.post('/createPromotions', urlencodedParser,(req, res) => {
     let errors = [];
     let{name, startdate, enddate, discount, details, banner, staffid} = req.body;
 
+    if(!( 0 <= discount <= 100 )){
+        errors.push({text: "Invalid amount!"})
+    }
+
     if(errors.length > 0){
         res.render('promotion/createPromotions', {
             errors,

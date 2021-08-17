@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -9,14 +9,18 @@
     height: 15px;
     width: 15px;
   }
+  .table{
+    width:90%;
+  }
+
 </style>
 
 
 
-<div class="container" style="margin-block: 50mm;">
+<div class="container" style="margin-bottom: 10%;">
   <h1 style="text-align: center;">Notifications</h1>
 
-  <div class="FDefaultTab" style="padding: 15px;;">
+  <div class="FDefaultTab" style="padding: 15px; width: 90%; margin: 0 auto;">
     <table style="margin-left: auto; margin-right: auto;">
       <tr>
         <td>
@@ -38,7 +42,7 @@
 
   </div>
   <br>
-  <table id="tableforstuffs" class="table table-bordered" cellspacing="0" width="100%">
+  <table id="tableforstuffs" class="table table-bordered" cellspacing="0" style="margin: 0 auto;">
     <thead>
       <tr>
         <th class="th-sm">Date
@@ -87,7 +91,7 @@
         <td>{{this.pax}}</td>
         <td>{{this.email}}</td>
         <td><a class="btn btn-primary" style="background-color: #3b5998;"
-            href="/bookingInterface/bookingConfirmed/{{this.id}}" role="button"><i
+            href="/bookingInterface/bookingConfirmed/{{this.email}}/{{this.res_name}}/{{this.id}}" role="button"><i
               class="fas fa-edit"></i></a>
         </td>
         <td><a class="btn btn-primary" style="background-color: #894242;"
@@ -105,7 +109,7 @@
         <td>{{this.pax}}</td>
         <td>{{this.email}}</td>
         <td><a class="btn btn-primary" style="background-color: #3b5998;"
-            href="/bookingInterface/bookingDetailsListPage/{{this.id}}" role="button"><i
+            href="/bookingInterface/bookingDetailsListPage/{{this.email}}/{{this.res_name}}/{{this.id}}" role="button"><i
               class="fas fa-edit"></i></a>
         </td>
         <td><a class="btn btn-primary" style="background-color: #894242;"
