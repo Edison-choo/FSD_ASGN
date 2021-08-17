@@ -125,7 +125,7 @@
                     ${match.res_name}
                 <p>
                 <p class="card-text">${match.cuisine} | ${match.halal ? "Halal" : "Not Halal"} | $${match.price}</p>
-                <p class="card-text">${match.avgReview} <i class="fa fa-star"></i>
+                <p class="card-text">${Math.round(match.avgReview * 10)/10} <i class="fa fa-star"></i>
                     <c style="float: right;">${match.reviewCount}
                         Reviews
                     </c>
