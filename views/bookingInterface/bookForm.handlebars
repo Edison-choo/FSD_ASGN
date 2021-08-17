@@ -21,7 +21,7 @@
         <br>
 
         <div class="form-group">
-            <label class="form-label" for="timing">Select timing:</label>
+            <label class="form-label" for="timing">Select timing: (Between {{restaurant.open_time}} - {{restaurant.close_time}})</label>
             <input type="time" name="timing" class="form-control timepicker" id="timing" step="3600" min="{{restaurant.open_time}}" max="{{restaurant.close_time}}" required>
         </div>
 

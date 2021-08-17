@@ -23,21 +23,25 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.get('/bookForm/:res_name', ensureAuthenticated, (req, res) => {
     res_name = req.params.res_name;
-    Restaurant.findOne({ where: { res_name: res_name } });
-    res.render('bookingInterface/bookForm', { res_name });
+    Restaurant.findOne({ where: { res_name: res_name } }).then((restaurant) => {
+        res.render("bookingInterface/bookForm", { restaurant });
+    });
 });
 
 router.get('/updateForm/:email/:res_name', ensureAuthenticated, (req, res) => {
     email_id = req.params.email;
     res_name_id = req.params.res_name;
-    Booking.findOne({
-        where: {
-            [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
-        }
-    }).then(booking => {
-        console.log(booking);
-        res.render('bookingInterface/updateForm', { booking });
-    })
+    Restaurant.findOne({ where: { res_name: res_name_id } }).then((restaurant) => {
+        Booking.findOne({
+            where: {
+                [Op.and]: [{ email: email_id }, { res_name: res_name_id }]
+            }
+        }).then(booking => {
+            console.log(booking);
+            res.render('bookingInterface/updateForm', { booking, restaurant });
+        });
+    });
+
 })
 
 router.post('/updateForm/:email/:res_name', urlencodedParser, (req, res) => {
