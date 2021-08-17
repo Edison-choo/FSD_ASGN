@@ -51,7 +51,7 @@ router.get('/acceptBooking/:id/:res_name', ensureAuthenticated, (req, res) => {
     })
 })
 
-router.get('/deleteBooking/:email/:res_name', ensureAuthenticated, (req, res) => {
+router.get('/deleteBooking/:id', ensureAuthenticated, (req, res) => {
     res_name_id = req.params.res_name
     Booking.destroy({
         where: {
