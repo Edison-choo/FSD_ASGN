@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
 --
 -- Host: localhost    Database: foodecent
 -- ------------------------------------------------------
--- Server version	8.0.24
+-- Server version	8.0.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `users` (
   `uen` varchar(255) DEFAULT NULL,
   `date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Edison','Choo',87544649,'edisonchoo234@gmail.com',NULL,'$2a$10$ficPPvIi6ganMYgKX5aiKeghfq/7N49JVZU4B.OBjC0dD4xJQzLvO','customer',NULL,NULL,'2021-7-7'),(2,'Wye Keong','Wee',94499314,'notweewyekeong@gmail.com',NULL,'$2a$10$gMKrLRAuL2hi2Fie/cNt3OREB8fjWs6QJ.zIjr7aDKYDecRGEL1o6','customer',NULL,NULL,'2021-7-7'),(3,'Xuan Wei','Lim',97224136,'joshualim2122@gmail.com',NULL,'$2a$10$9l7/qzwLILGEn33q8MGYtOzwzHC8.CSujPyGdCzLL9Xk.tm/Gk92q','customer',NULL,NULL,'2021-7-7'),(4,'Yu Zheng','Lim',93399558,'yuzhenglim2510@gmai.com',NULL,'$2a$10$GFqhbe5mWDNFMAdWenloTOYX.sWXZ6vUnJUpOhvAaRBUyqHRuYlnK','customer',NULL,NULL,'2021-7-7'),(5,'Sakon Thai@Northpoint',NULL,NULL,'sakonthai@gmail.com',NULL,'$2a$10$xPotzGTMn.WcI/EAlfw44eJPbhHgpalTVdV8Z1aXhPa9GisWnSOGi','staff',NULL,'T01LL0001B','2021-7-7'),(6,'Subway@Northpoint',NULL,NULL,'subway@gmail.com',NULL,'$2a$10$s9nbia4NGMZYmfwAFMcTouP19tiqK6JaEmY.W.mNgVfR9E.CUW6zy','staff',NULL,'T01LL0001B','2021-7-7'),(7,'Saizeriya@SSC',NULL,NULL,'saizeriya@gmail.com',NULL,'$2a$10$vNP7YKpC8TWJfte4UzrY7.f/TCldCt8EAYnEz1dy40DO1eulct5QK','staff',NULL,'T01LL0001B','2021-7-7'),(8,'Popeyes@Northpoint',NULL,NULL,'popeyes@gmail.com',NULL,'$2a$10$6CbahUJktgWLHt8LPPiAbOXMdrgwF5Smow/IHFs4h6RVMQL/NOVhy','staff',NULL,'T01LL0001B','2021-7-7');
+INSERT INTO `users` VALUES (1,'Edison','Choo',87544649,'edisonchoo234@gmail.com',NULL,'$2a$10$ficPPvIi6ganMYgKX5aiKeghfq/7N49JVZU4B.OBjC0dD4xJQzLvO','customer','/uploads/userProfileImg/1/1-1629176271284.jpg',NULL,'2021-7-7'),(2,'Wye Keong','Wee',94499314,'notweewyekeong@gmail.com',NULL,'$2a$10$gMKrLRAuL2hi2Fie/cNt3OREB8fjWs6QJ.zIjr7aDKYDecRGEL1o6','customer',NULL,NULL,'2021-7-7'),(3,'Xuan Wei','Lim',97224136,'joshualim2122@gmail.com',NULL,'$2a$10$9l7/qzwLILGEn33q8MGYtOzwzHC8.CSujPyGdCzLL9Xk.tm/Gk92q','customer',NULL,NULL,'2021-7-7'),(4,'Yu Zheng','Lim',93399558,'yuzhenglim2510@gmai.com',NULL,'$2a$10$GFqhbe5mWDNFMAdWenloTOYX.sWXZ6vUnJUpOhvAaRBUyqHRuYlnK','customer',NULL,NULL,'2021-7-7'),(5,'SakonThai@Northpoint',NULL,NULL,'sakonthai@gmail.com',NULL,'$2a$10$6rR2s2/h30saHFsvQyfj7emqx1n.IX0a2SMp0.9u65MqScYT.sBMO','staff',NULL,'T09LL0001B','2021-8-17'),(6,'Subway@Northpoint',NULL,NULL,'subway@gmail.com',NULL,'$2a$10$ectXpDKgfpMV67.y1mOZZuCONEnwzChGrlLx29UPP1.k2YaT/AGKC','staff',NULL,'T09LL0001B','2021-8-17'),(7,'Saizeriya@SSC',NULL,NULL,'saizeriya@gmail.com',NULL,'$2a$10$pMalPITJy1dFqOHdYWOP2OTec7/rSBmoPwgtaBTCykqQGeqX6DxWO','staff',NULL,'T09LL0001B','2021-8-17'),(8,'Popeyes@Northpoint',NULL,NULL,'popeyes@gmail.com',NULL,'$2a$10$PU7ciyVQx/wfT7BCvBCuUe7af3ckHhvMEO2NalBt42M2pT51DvYi6','staff',NULL,'T09LL0001B','2021-8-17'),(9,'Swensen@Sunplaza',NULL,NULL,'swensen@gmail.com',NULL,'$2a$10$PU7ciyVQx/wfT7BCvBCuUe7af3ckHhvMEO2NalBt42M2pT51DvYi6','staff',NULL,'T09LL0001B','2021-8-17');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-08  0:10:46
+-- Dump completed on 2021-08-17 13:10:25
