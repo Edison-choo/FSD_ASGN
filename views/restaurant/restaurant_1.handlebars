@@ -464,6 +464,7 @@
                 {{else}}{{/if}}
             </h1>
             <div>
+                {{#if reviews}}
                 {{totalaverage}}
                 <i class="fa fa-star star1" id="star1"></i>
                 <i class="fa fa-star star2" id="star2"></i>
@@ -472,7 +473,10 @@
                 <i class="fa fa-star star5" id="star5"></i>
                 | {{reviews.length}} Reviews
                 | <i class="fas fa-money-bill"></i> ${{priceFormat restaurant.price}} | {{restaurant.queue}} Queueing...
-
+                {{else}}
+                {{reviews.length}} Reviews
+                | <i class="fas fa-money-bill"></i> ${{priceFormat restaurant.price}} | {{restaurant.queue}} Queueing...
+                {{/if}}
             </div>
             <hr>
             <table class="table table-borderless table-hover">
