@@ -162,21 +162,19 @@
                 <button class="btn btn-danger btn-block" type="button" data-mdb-toggle="modal"
                     data-mdb-target="#clearAllModal">Clear All<i class="fas fa-trash-alt"></i></button>
                 <!-- Modal -->
+                <!-- Modal -->
                 <div class="modal fade" id="clearAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Clear All</h5>
-                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">Are you sure?</div>
+                            <div class="modal-body" style="font-size: larger; font-weight:bold">Do you really want to
+                                clear all?</div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
                                     Close
                                 </button>
-                                <button type="button" class="btn btn-danger" id="clear">Clear All</button>
+                                <button type="button" class="btn btn-danger" id="clear" data-mdb-dismiss="modal">Clear
+                                    All</button>
                             </div>
                         </div>
                     </div>
@@ -375,9 +373,10 @@
         });
         $("#clear").click(function () {
             $el = $(".tableLayout td").children();
-            $el.removeClass()
+            $el.removeClass();
             $el.css("background-color", "white");
-            $el.addClass("checkTD")
+            $el.addClass("checkTD");
+            $el.empty();
             seatList = []
             squareList = []
             for (i in tblDic) {

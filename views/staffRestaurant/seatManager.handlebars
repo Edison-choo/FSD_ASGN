@@ -19,14 +19,6 @@
         cursor: pointer;
     }
 
-    .seat:hover {
-        border: 2px solid orange;
-    }
-
-    .square:hover {
-        border: 2px solid orange;
-    }
-
     .center {
         margin-left: auto;
         margin-right: auto;
@@ -50,9 +42,12 @@
     .taken {
         background-color: red;
     }
-
     .standardPad {
         padding: 10px;
+    }
+    .tableHover{
+        filter: brightness(0.85);
+        transition: 200ms;
     }
 </style>
 <h1>{{layouts.res_name}} Seat Manager</h1>
@@ -147,6 +142,11 @@
             }
         }
         for (const [key, value] of Object.entries(tblDic)) {
+            $("." + key).hover(function () {
+                $("." + key).addClass("tableHover", "shadow-3")
+            }, function () {
+                $("." + key).removeClass("tableHover", "shadow-3")
+            })
             for (i in value) {
                 $("#" + value[i]).click(function () {
                     if ($("." + key).hasClass("taken")) {
