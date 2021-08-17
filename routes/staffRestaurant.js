@@ -400,7 +400,7 @@ router.post(
         }
       )
         .then(
-          TableLayout.create(
+          TableStatus.create(
             {
               res_name: res_name,
               queue: queue,
