@@ -173,7 +173,13 @@ router.get('/deleteBooking/:id', (req, res) => {
             id: req.params.id
         }
     }).then(() =>
-        res.redirect('/bookingInterface/bookingDetailsList/' + req.user.email)
+        Order.destroy({
+            where: {
+                bookingId: req.params.id
+            }
+        }).then(() => {
+            res.redirect('/bookingInterface/bookingDetailsList/' + req.user.email)
+        })
     ).catch(err => console.log(err));
 
 });

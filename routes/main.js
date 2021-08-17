@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 	const title = "FooDecent Home";
 	//Login 
 	req.session.booking = undefined;
-	
+
 	Promotions.findAll(
 		).then((promotions) => {
 			console.log(promotions)
@@ -26,7 +26,15 @@ router.get('/', (req, res) => {
 						}
 					}
 					console.log(new_res)
-					res.render('index', {restaurants: restaurants, promotions: promotions, title : title, new_res: new_res});
+					if (req.user) {
+						if (req.user.cust_type == 'staff') {
+							res.redirect('/statistics');
+						} else {
+							res.render('index', {restaurants: restaurants, promotions: promotions, title : title, new_res: new_res})
+						}
+					} else {
+						res.render('index', {restaurants: restaurants, promotions: promotions, title : title, new_res: new_res});
+					}
 				})
 		}).catch(err => console.log(err));
 	

@@ -11,6 +11,7 @@ const alertMessage = require('../helpers/messenger');
 const Restaurant = require('../models/restaurants')
 const { Op } = require("sequelize");
 const ensureAuthenticated = require('../helpers/auth');
+const Order = require("../models/order");
 
 
 
@@ -58,7 +59,13 @@ router.get('/deleteBooking/:id/:res_name', ensureAuthenticated, (req, res) => {
             id: req.params.id
         }
     }).then(() =>
-        res.redirect('/bookingStaff/viewBookings/' + res_name_id)
+        Order.destroy({
+            where: {
+                bookingId: req.params.id
+            }
+        }).then(() => {
+            res.redirect('/bookingStaff/viewBookings/' + res_name_id)
+        })
     ).catch(err => console.log(err));
 
 });
