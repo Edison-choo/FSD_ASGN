@@ -92,7 +92,7 @@ router.get('/bookingDetailsList/:email', ensureAuthenticated, (req, res) => {
 });
 
 router.get('/bookingConfirmed/:email/:res_name/:id', ensureAuthenticated, (req, res) => {
-    email_id = req.params.email;
+    email_id = req.params.email
     res_name_id = req.params.res_name
     Booking.findOne({
         where: {
@@ -120,6 +120,8 @@ router.get('/bookingConfirmed/:email/:res_name/:id', ensureAuthenticated, (req, 
                             })
                             .catch((err) => console.log(err))
                     }
+                } else {
+                    res.render('bookingInterface/bookingConfirmed', { booking })
                 }
                 console.log(booking);
             })

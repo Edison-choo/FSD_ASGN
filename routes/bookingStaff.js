@@ -37,7 +37,7 @@ router.get('/viewBookings/:res_name', ensureAuthenticated, (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.get('/acceptBooking/:id', ensureAuthenticated, (req, res) => {
+router.get('/acceptBooking/:id/:res_name', ensureAuthenticated, (req, res) => {
     res_name_id = req.params.res_name
     email_id = req.params.email
     Booking.update({
