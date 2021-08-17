@@ -195,10 +195,92 @@
             },
         })
         .then(response => {
-            console.log(response);
             return response.json();
         })
         .then(data => {
+            console.log(data)
+            if (data.empty) {
+                const labels = data.menus.map(f => f.name);
+                const dataStat = {
+                labels: labels,
+                datasets: [{
+                    label: 'Orders',
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1,
+                    data: [],
+                }]
+            };
+                const config = {
+                    type: 'bar',
+                    data:dataStat,
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                font: { weigth: 'bold', size: 20 },
+                                text: 'Number of orders for each food in all types'
+                            }
+                        },
+                        scale: {
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                };
+                orderChart = new Chart(
+                    document.getElementById('orderChart'),
+                    config
+                );
+                const dataStat2 = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Earnings',
+                    backgroundColor: '#ffb03b',
+                    borderColor: '#ffb03b',
+                    data: [],
+                }]
+            };
+                const config2 = {
+                type: 'line',
+                data: dataStat2,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: { weigth: 'bold', size: 20 },
+                            text: 'Money earned montly in 2021'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+                incomeChart = new Chart(
+                    document.getElementById('incomeChart'),
+                    config2
+                );
+            } else {
             console.log(data);
             const labels = data.menus.map(f => f.name);
             const orderList = [];
@@ -309,6 +391,7 @@
                 $('.menuSubGraph .list-group .list-group-item').eq(i).text(`${food.name} ---> ${food.count} sold`);
             });
             $("#totalEarnings").text(`$${data.total}`);
+            }
         })
         .catch(err => console.error(err));
 

@@ -530,7 +530,6 @@ router.get('/getStatData', (req, res) => {
   Menu.findAll({
     where: {userId: req.user.id}
   }).then((menus) => {
-    if (menus) {
       menus.forEach((menu) => {
         if (types.includes(menu.type) === false) {
           types.push(menu.type);
@@ -556,44 +555,48 @@ router.get('/getStatData', (req, res) => {
             Order.findAll({ 
               where: { res_name: restaurant.res_name},
             }).then((orders) => {
-              orders.forEach((order) => {
-                order.food = JSON.parse(order.food);
-              })
-              const labels = menus.map(f => f.name);
-              const orderList = [];
-              for (i=0; i<orders.length;i++) {
-                for (j=0; j<orders[i].food.length;j++) {
-                    for (k=0; k<orders[i].food[j].orders.length;k++) {
-                        for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
-                            orderList.push(orders[i].food[j].id);
-                        }
-                    }
-                }
-            }
-              const dataList = []
-              menus.forEach((menu, i) => {
-                  if (orderList.indexOf(menu.id.toString()) >= 0) {
-                      dataList.push([labels[i], orderList.filter(n => n == menu.id).length])
-                  } else {
-                      dataList.push([labels[i], 0]);
+              if (orders.length > 0) {
+                orders.forEach((order) => {
+                  order.food = JSON.parse(order.food);
+                })
+                const labels = menus.map(f => f.name);
+                const orderList = [];
+                for (i=0; i<orders.length;i++) {
+                  for (j=0; j<orders[i].food.length;j++) {
+                      for (k=0; k<orders[i].food[j].orders.length;k++) {
+                          for (l=0; l<parseInt(orders[i].food[j].orders[k].quantity);l++) {
+                              orderList.push(orders[i].food[j].id);
+                          }
+                      }
                   }
-              })
-              dataList.sort((first, second) => second[1] - first[1])
-              const newList2 = [];
-              dataList.slice(0, 5).forEach((menu) => {
-                newList2.push({name:menu[0], count:menu[1]})
-              })
-              console.log(newList2)
-              const total = orders.map(m=>parseInt(m.total)).reduce((x, y) => {
-                return x+y
-              })
-              res.json({menus, menuSpec, orders, topMenu:newList2, total});
+              }
+                const dataList = []
+                menus.forEach((menu, i) => {
+                    if (orderList.indexOf(menu.id.toString()) >= 0) {
+                        dataList.push([labels[i], orderList.filter(n => n == menu.id).length])
+                    } else {
+                        dataList.push([labels[i], 0]);
+                    }
+                })
+                dataList.sort((first, second) => second[1] - first[1])
+                const newList2 = [];
+                dataList.slice(0, 5).forEach((menu) => {
+                  newList2.push({name:menu[0], count:menu[1]})
+                })
+                console.log(newList2)
+                const total = orders.map(m=>parseInt(m.total)).reduce((x, y) => {
+                  return x+y
+                })
+                res.json({menus, menuSpec, orders, topMenu:newList2, total});
+              } else {
+                res.json({empty:true, menus});
+              }
+              
             });
           }
-          
         });
       });
-    }
+    
   });
 });
 

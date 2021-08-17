@@ -109,7 +109,7 @@ router.get("/menuBook/:resName", ensureAuthenticated, (req, res) => {
                   });
                   dataList.sort((first, second) => second[1] - first[1]);
                   const newList2 = [];
-                  dataList.slice(0, 4).forEach((menu) => {
+                  dataList.slice(0, 2).forEach((menu) => {
                     newList2.push({ name: menu[0], count: menu[1] });
                   });
                   console.log(newList2);
