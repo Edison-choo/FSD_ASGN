@@ -225,11 +225,11 @@ router.post('/bookForm/:res_name', urlencodedParser, (req, res) => {
     } else {
         Booking.findOne({
                 where: {
-                    [Op.and]: [{ email: req.body.email }, { res_name: res_name }, { confirm: 1 }]
+                    [Op.and]: [{ email: req.body.email }, { res_name: res_name }]
                 }
             })
             .then((booking) => {
-                if (booking && booking.date < Date()) {
+                if (booking && booking.confirm == 0) {
                     res.render("bookingInterface/bookForm", {
                         error: booking.email + " has already booked a slot at " + booking.res_name,
                         date,
