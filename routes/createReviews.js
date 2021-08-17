@@ -33,6 +33,19 @@ router.post(
         let res_name = req.params.restaurant;
         console.log(FoodOption);
         console.log(CustOption);
+
+        if(!FoodOption){
+            errors.push({"text" : "Please rate the food"});
+        }
+
+        if(!CustOption){
+            errors.push({"text" : "Please rate the Service"});
+        }
+
+        if(!EnvOption){
+            errors.push({"text" : "Please rate the Environment"});
+        }
+
         if (errors.length > 0) {
             res.render("reviews/createReviews", {
                 errors,
