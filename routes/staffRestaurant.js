@@ -91,7 +91,7 @@ router.post(
     }
 
     //Phone validation
-    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
+    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/)) {
       errors.push({ text: "Phone is invalid!" });
     }
 
@@ -250,7 +250,7 @@ router.post(
     }
 
     //Phone validation
-    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g)) {
+    if (!phone.match(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/)) {
       errors.push({ text: "Phone is invalid!" });
     }
 
